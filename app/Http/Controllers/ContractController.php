@@ -113,7 +113,7 @@ class ContractController extends Controller
         }
         $contract->description = $request->input('description');
         $contract->stage = 1;
-        $contract->status = 'published';
+        $contract->status = 'created';
         $contract->created_by = Auth::user()->id;
         $contract->updated_by = Auth::user()->id;
         $contract->last_action_by = Auth::user()->id;
@@ -146,7 +146,7 @@ class ContractController extends Controller
             'contract_id' => $just_saved_contract_id,
             'stage_id' => 1,
             'draft_file' => $contract_file,
-            'status' => 'published',
+            'status' => 'created',
             'crf_file' => $contract_crf,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,
@@ -213,7 +213,7 @@ class ContractController extends Controller
         }
         $contract->description = $request->input('description');
         $contract->stage = 1;
-        $contract->status = 'published';
+        $contract->status = 'created';
         //$contract->created_by=Auth::user()->id;
         $contract->updated_by = Auth::user()->id;
         $contract->last_action_by = Auth::user()->id;
@@ -246,7 +246,7 @@ class ContractController extends Controller
             'contract_id' => $just_saved_contract_id,
             'stage_id' => 1,
             'draft_file' => $contract_file,
-            'status' => 'published',
+            'status' => 'created',
             'crf_file' => $contract_crf,
             //'created_by'=>Auth::user()->id,
             'updated_by' => Auth::user()->id,
@@ -265,7 +265,7 @@ class ContractController extends Controller
     **/
     public function submit(request $request)
     {
-        $status = 'review';
+        $status = 'published';
         $published_contract_id = $request->contract_id;
         DB::table('contracts')->where('contract_id', $published_contract_id)->update(['status' => $status]);
         return redirect('contract')->with('success', 'Contract Successfully Sent to the Legal Team for review');

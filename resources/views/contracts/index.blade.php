@@ -15,7 +15,7 @@
   </style>
             <div class="box">
                 <div class="box-body">
-                <table class="table table-striped table-bordered records">
+                <table id="example1" class="table table-striped table-bordered records">
                 	<thead>
                     	<tr>
                         	<th>#</th>
@@ -61,6 +61,10 @@
 @section('js')
 
 <script src="/js/bootstrap-datepicker.min.js"></script>
- <script></script>
+ <script>
+      $(function () {
+      $('#example1').DataTable()
+    })
+ </script>
 
 @stop
