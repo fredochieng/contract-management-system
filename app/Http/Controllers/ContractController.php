@@ -29,8 +29,8 @@ class ContractController extends Controller
     public function index()
     {
 
-        $user = Auth::user();~
-        $user_role = $user->getRoleNames()->first();
+        $user = Auth::user();
+        ~$user_role = $user->getRoleNames()->first();
 
         if ($user_role == "Admin") {
             $compare_field = "contracts.contract_id";
@@ -56,18 +56,20 @@ class ContractController extends Controller
                 DB::raw('draft_stages.*')
             )
 
-            ->join('parties', 'contracts.party_name_id', '=', 'parties.party_id')
-            ->join('users', 'contracts.last_action_by', '=', 'users.id')
-            ->join('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
-            ->join('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
-            ->join('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
-            ->join('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
             ->where($compare_field, $compare_operator, $compare_value)
             ->get();
 
         // echo "<pre>";
         // var_dump($contracts);exit;
+
+
 
         return view('contracts.index')->with([
             'contracts' => $contracts,
@@ -163,14 +165,6 @@ class ContractController extends Controller
      * @param  \App\contract  $contract
      * @return \Illuminate\Http\Response
      */
-    // public function view(contract $contract)
-    // {
-    //      $contract->party_name=DB::table('parties')->where(array('party_id'=>$contract->party_name_id))->first()->party_name;
-
-    // 	 return view('contracts.view')->with([
-    // 	 	'contract'=>$contract
-    // 	 ]);
-    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -265,10 +259,12 @@ class ContractController extends Controller
         //
     }
 
-    //Submit the Contract Information to the Legal Team and change the statis of the contract
+    /**
+     * Submit the Contract Information to the Legal Team and change the status of the contract
+    * from published to
+    **/
     public function submit(request $request)
     {
-
         $status = 'review';
         $published_contract_id = $request->contract_id;
         DB::table('contracts')->where('contract_id', $published_contract_id)->update(['status' => $status]);
@@ -291,28 +287,34 @@ class ContractController extends Controller
     {
 
 
-        // $contract->party_name = DB::table('parties')->where(array('party_id' => $contract->party_name_id))->first()->party_name;
-        $data['contract'] = DB::table('contracts as c')->where('contract_id', '=', $contract_id)
-            ->leftjoin('parties', 'party_id', "=", 'c.party_name_id')
-            ->select('c.*', 'parties.*')
+
+        $contract = DB::table('contracts')
+            ->select(
+                DB::raw('contracts.*'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('contracts.created_at AS created_date'),
+                DB::raw('users_organizations.*'),
+                DB::raw('contract_drafts.*'),
+                DB::raw('draft_stages.*')
+            )
+
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+            ->orderBy('contracts.contract_id', 'desc')
+            ->where('contracts.contract_id', '=', $contract_id)
             ->first();
 
-        $output =   json_decode(json_encode($data, true));
-        $draft_id = $output->contract->contract_id;
 
-        $data['contract_drafts'] = DB::table('contract_drafts')->where('contract_draft_id', '=', $draft_id)->first();
-        // echo "<pre>";
-        // print_r($data);
-        // exit;
-
-
-        return view('contracts.view')->with(['contract' => $data['contract'], 'contract_drafts' => $data['contract_drafts']]);
+        return view('contracts.view')->with(['contract' => $contract]);
     }
 
-
-    /*public function parties(Request $request)
-{
-
-
-	}*/
+    public function viewContractHistory()
+    { }
 }

@@ -26,6 +26,4 @@ Route::group(['middleware' => 'auth'], function () {
     Route::any('submit', 'ContractController@submit');
     Route::resource('party', 'PartyController');
     Route::any('contract/{id}/view', 'ContractController@viewcontract');
-
-    // Route::patch('submit/contract/{contract_id}', 'ContractController@submit');
 });
