@@ -253,10 +253,8 @@ class ContractController extends Controller
         );
 
         $last_draft_id = DB::table('contract_drafts')->where('contract_draft_id', $contract->last_draft_id)->update($contract_draft_data);
-        //DB::table('contracts')->where('contract_id',$just_saved_contract_id)->update(array('last_draft_id'=>$last_draft_id));
 
         return redirect('contract')->with('success', 'Contract Successfully Updated!');
-        //
     }
 
     /**
@@ -265,9 +263,55 @@ class ContractController extends Controller
     **/
     public function submit(request $request)
     {
+
+        $contract = DB::table('contracts')
+            ->select(
+                DB::raw('contracts.*'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('contracts.created_at AS created_date'),
+                DB::raw('users_organizations.*'),
+                DB::raw('contract_drafts.*'),
+                DB::raw('draft_stages.*')
+            )
+
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+            ->orderBy('contracts.contract_id', 'desc')
+            ->where('contracts.contract_id', '=', $request->contract_id)
+            ->first();
+
+                    // echo "<pre>";
+                    // print_r($contract);
+                    // exit;
+
+
         $status = 'published';
         $published_contract_id = $request->contract_id;
+        $published_contract_draft = $contract->draft_file;
+        $published_crf_file = $contract->crf_file;
+        $published_contract_created_by = $contract->created_by;
         DB::table('contracts')->where('contract_id', $published_contract_id)->update(['status' => $status]);
+
+         $contract_draft_data = array(
+            'contract_id' => $published_contract_id,
+            'stage_id' => 3,
+            'draft_file' => $published_contract_draft,
+            'crf_file' => $published_crf_file,
+            'status' => 'draft_review',
+            'created_by' => $published_contract_created_by,
+            'updated_by' => Auth::user()->id,
+
+        );
+
+        $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
+
         return redirect('contract')->with('success', 'Contract Successfully Sent to the Legal Team for review');
     }
 
@@ -285,8 +329,6 @@ class ContractController extends Controller
 
     public function viewContract($contract_id = null)
     {
-
-
 
         $contract = DB::table('contracts')
             ->select(
@@ -311,10 +353,50 @@ class ContractController extends Controller
             ->where('contracts.contract_id', '=', $contract_id)
             ->first();
 
+        // echo "<pre>";
+        // print_r($contract);
+        // exit;
 
-        return view('contracts.view')->with(['contract' => $contract]);
-    }
 
-    public function viewContractHistory()
-    { }
+        $contract_drafts = DB::table('contract_drafts')
+            ->select(
+                DB::raw('contract_drafts.*'),
+                DB::raw('contract_drafts.created_at AS contract_drafts_created_at'),
+                DB::raw('contract_drafts.updated_at AS contract_drafts_update_at'),
+                DB::raw('contract_drafts.status AS contract_drafts_status'),
+                DB::raw('contracts.status AS contract_status'),
+                DB::raw('contracts.*'),
+                DB::raw('contracts.created_at AS contracts_created_at'),
+                DB::raw('contracts.updated_at AS contracts_update_at'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('users_organizations.*'),
+                DB::raw('draft_stages.*')
+            )
+            ->leftJoin('contracts', 'contracts.contract_id', '=', 'contract_drafts.contract_id')
+            ->leftJoin('parties', 'parties.party_id', '=', 'contracts.party_name_id')
+            ->leftJoin('users', 'users.id', '=', 'contracts.created_by')
+            ->leftJoin('users_details', 'users_details.user_id', '=', 'contracts.created_by')
+            ->leftJoin('users_organizations', 'users_organizations.organization_id', '=', 'users_details.organization_id')
+
+            ->leftJoin('draft_stages', 'draft_stages.draft_stage_id', '=', 'contract_drafts.stage_id')
+            ->orderBy('contract_drafts.contract_draft_id', 'desc')
+            ->where('contract_drafts.contract_id', '=', $contract_id)
+            ->get();
+
+        // echo "<pre>";
+        // print_r( $contract_drafts);
+        // exit;
+
+
+
+        return view('contracts.view')->with([
+            'contract' => $contract, 'contract_drafts' => $contract_drafts
+        ]);
+
+
+
+   }
 }
