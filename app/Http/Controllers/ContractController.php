@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use App\party;
-
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -46,6 +45,7 @@ class ContractController extends Controller
         $contracts = DB::table('contracts')
             ->select(
                 DB::raw('contracts.*'),
+                DB::raw('contracts.status AS contract_status'),
                 DB::raw('parties.*'),
                 DB::raw('users.name'),
                 DB::raw('users.id'),
@@ -155,8 +155,8 @@ class ContractController extends Controller
 
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
         DB::table('contracts')->where('contract_id', $just_saved_contract_id)->update(array('last_draft_id' => $last_draft_id));
-
         return redirect('contract')->with('success', 'Contract Successfull Saved!');
+
     }
 
     /**
@@ -292,11 +292,10 @@ class ContractController extends Controller
                     // exit;
 
 
-        $status = 'published';
+        $status = 'draft_review';
         $published_contract_id = $request->contract_id;
         $published_contract_draft = $contract->draft_file;
         $published_crf_file = $contract->crf_file;
-        $published_contract_created_by = $contract->created_by;
         DB::table('contracts')->where('contract_id', $published_contract_id)->update(['status' => $status]);
 
          $contract_draft_data = array(
@@ -305,10 +304,12 @@ class ContractController extends Controller
             'draft_file' => $published_contract_draft,
             'crf_file' => $published_crf_file,
             'status' => 'draft_review',
-            'created_by' => $published_contract_created_by,
+            'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,
 
         );
+
+
 
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
 
@@ -324,6 +325,7 @@ class ContractController extends Controller
     public function destroy(contract $contract)
     {
         $contract->delete();
+
         return redirect('contract')->with('success', 'Contract Successfully Deleted');
     }
 
@@ -338,6 +340,7 @@ class ContractController extends Controller
                 DB::raw('users.id'),
                 DB::raw('users_details.*'),
                 DB::raw('contracts.created_at AS created_date'),
+                DB::raw('contracts.status AS contract_status'),
                 DB::raw('users_organizations.*'),
                 DB::raw('contract_drafts.*'),
                 DB::raw('draft_stages.*')
@@ -363,6 +366,7 @@ class ContractController extends Controller
                 DB::raw('contract_drafts.*'),
                 DB::raw('contract_drafts.created_at AS contract_drafts_created_at'),
                 DB::raw('contract_drafts.updated_at AS contract_drafts_update_at'),
+                DB::raw('contract_drafts.created_by AS contract_drafts_created_by'),
                 DB::raw('contract_drafts.status AS contract_drafts_status'),
                 DB::raw('contracts.status AS contract_status'),
                 DB::raw('contracts.*'),
@@ -377,7 +381,8 @@ class ContractController extends Controller
             )
             ->leftJoin('contracts', 'contracts.contract_id', '=', 'contract_drafts.contract_id')
             ->leftJoin('parties', 'parties.party_id', '=', 'contracts.party_name_id')
-            ->leftJoin('users', 'users.id', '=', 'contracts.created_by')
+            // ->leftJoin('users', 'users.id', '=', 'contracts.created_by')
+            ->leftJoin('users', 'users.id', '=', 'contract_drafts.created_by')
             ->leftJoin('users_details', 'users_details.user_id', '=', 'contracts.created_by')
             ->leftJoin('users_organizations', 'users_organizations.organization_id', '=', 'users_details.organization_id')
 
@@ -398,5 +403,7 @@ class ContractController extends Controller
 
 
 
-   }
+
+
+  }
 }

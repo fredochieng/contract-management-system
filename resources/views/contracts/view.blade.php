@@ -1,3 +1,4 @@
+
 @extends('adminlte::page')
 @section('title', 'Contract Details')
 @section('content_header')
@@ -73,10 +74,13 @@
             </div>
             <div class="row no-print">
                 <div class="col-xs-12">
-                    <a href=""></a>
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Publish Contract</button>
+                  @if( $contract->contract_status =='created')
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i>Publish Contract</button>
+                    @else
+                    <button type="submit" disabled="disabled" class="btn btn-success"><i class="fa fa-check"></i>Published Already</button>
+                    @endif
                     <a href="/{{$contract->draft_file}}" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> CRF Document</a>
-                    <a href="/{{$contract->draft_file}}" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> Contract Document</a>                    {!! Form::close() !!}
+                    <a href="/{{$contract->crf_file}}" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> Contract Document</a>                    {!! Form::close() !!}
                 </div>
             </div>
     </section>
@@ -98,7 +102,8 @@
                             <th>Date Created</th>
                             <th>Contract Draft</th>
                             <th>CRF</th>
-                            <th>Status</th>
+                            <th><center>Status</center></th>
+                            <th>Comments</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,7 +113,7 @@
                             <td>{{ $key + 1}}</td>
                             <td>{{ $contracts->name }}</td>
                             <td>{{ $contracts->job_title }}</td>
-                            <td>{{ $contracts->created_at }}</td>
+                            <td>{{ $contracts->contract_drafts_created_at }}</td>
                             <td style="width:120px"> <a href="/{{$contracts->draft_file}}" class="btn btn-primary" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
                             <td style="width:120px"> <button type="button" class="btn btn-primary">
                      <i class="fa fa-download"></i> Download
@@ -119,6 +124,7 @@
                                     <p class="text-light-blue">{{ $contracts->contract_drafts_status }}</p>
                                 </center>
                             </td>
+                            <td>{{ $contracts->comments }}</td>
                         </tr>
                         @endforeach
                     </tbody>

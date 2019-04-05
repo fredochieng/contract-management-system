@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -7,7 +6,18 @@
 
 require('./bootstrap');
 
+import swal from 'sweetalert2'
+window.swal = swal;
+window.toast = swal;
 window.Vue = require('vue');
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+
 
 /**
  * The following block of code may be used to automatically register your

@@ -76,10 +76,13 @@
             </div>
             <div class="row no-print">
                 <div class="col-xs-12">
-                    <a href=""></a>
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Publish Contract</button>
+                  <?php if( $contract->contract_status =='created'): ?>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i>Publish Contract</button>
+                    <?php else: ?>
+                    <button type="submit" disabled="disabled" class="btn btn-success"><i class="fa fa-check"></i>Published Already</button>
+                    <?php endif; ?>
                     <a href="/<?php echo e($contract->draft_file); ?>" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> CRF Document</a>
-                    <a href="/<?php echo e($contract->draft_file); ?>" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> Contract Document</a>                    <?php echo Form::close(); ?>
+                    <a href="/<?php echo e($contract->crf_file); ?>" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> Contract Document</a>                    <?php echo Form::close(); ?>
 
                 </div>
             </div>
@@ -102,7 +105,8 @@
                             <th>Date Created</th>
                             <th>Contract Draft</th>
                             <th>CRF</th>
-                            <th>Status</th>
+                            <th><center>Status</center></th>
+                            <th>Comments</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -112,7 +116,7 @@
                             <td><?php echo e($key + 1); ?></td>
                             <td><?php echo e($contracts->name); ?></td>
                             <td><?php echo e($contracts->job_title); ?></td>
-                            <td><?php echo e($contracts->created_at); ?></td>
+                            <td><?php echo e($contracts->contract_drafts_created_at); ?></td>
                             <td style="width:120px"> <a href="/<?php echo e($contracts->draft_file); ?>" class="btn btn-primary" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
                             <td style="width:120px"> <button type="button" class="btn btn-primary">
                      <i class="fa fa-download"></i> Download
@@ -123,6 +127,7 @@
                                     <p class="text-light-blue"><?php echo e($contracts->contract_drafts_status); ?></p>
                                 </center>
                             </td>
+                            <td><?php echo e($contracts->comments); ?></td>
                         </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>

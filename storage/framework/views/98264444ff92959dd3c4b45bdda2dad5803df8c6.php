@@ -1,7 +1,7 @@
-<?php $__env->startSection('title', 'New Contract'); ?>
+<?php $__env->startSection('title', 'Edit Contract'); ?>
 
 <?php $__env->startSection('content_header'); ?>
-<h1>New Contract</h1>
+<h1>Edit Contract</h1>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>

@@ -5,13 +5,9 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
-
-
   <style>
   	.description{height:90px !important}
   </style>
-
-
             <div class="box">
 
                 <div class="box-body">
@@ -27,33 +23,24 @@
 
                          <div class="form-group">
 
-                            <select id="party_name"  class="form-control" name="party_name"> </select>
-
+                            <select id="party_name"  class="form-control" required name="party_name"> </select>
 
                         </div>
-
                         <p>If you are not able to find the Contract Party Name/Supplier.
                          <a href="/party?new=true" target="_blank"><strong>Click here to capture the details</strong></a></p>
                         <br>
             	   </div>
-
-
-
-
-
                <div class="col-md-12">
 
                     	<?php echo e(Form::label('title', 'Contract Title* ')); ?>
 
                          <div class="form-group">
 
-                             <?php echo e(Form::text('title', '',['class'=>'form-control','placeholder'=>'The contract Title'])); ?>
-
+                             <?php echo e(Form::text('title', '',['class'=>'form-control', 'required','placeholder'=>'The Contract Title'])); ?>
 
 
                         </div>
             	   </div>
-
 
                      <div class="col-md-6">
 
@@ -61,13 +48,11 @@
 
                          <div class="form-group">
 
-                             <?php echo e(Form::text('effective_date', '',['class'=>'form-control issued_date','placeholder'=>'Effective date','autocomplete'=>'off'])); ?>
-
+                             <?php echo e(Form::text('effective_date', '',['class'=>'form-control issued_date','placeholder'=>'Effective Date','autocomplete'=>'off'])); ?>
 
 
                         </div>
             	   </div>
-
 
                      <div class="col-md-6">
 
@@ -77,29 +62,21 @@
 
                              <?php echo e(Form::text('expiry_date', '',['class'=>'form-control issued_date','placeholder'=>'Expiry Date', 'autocomplete'=>'off'])); ?>
 
-
-
                         </div>
             	   </div>
 
                     <div class="col-md-6">
 
-
                			  <?php echo e(Form::label('contract_document', 'Upload Contract Document *')); ?>
 
 
                          <div class="form-group">
-                             <?php echo e(Form::file('contract_document',['class'=>'form-control'])); ?>
+                             <?php echo e(Form::file('contract_document',['class'=>'form-control', 'required'])); ?>
 
                         </div>
-
-
-
                   </div>
 
                    <div class="col-md-6">
-
-
                			  <?php echo e(Form::label('contract_crf', 'Upload Contract CRF (optional)')); ?>
 
 
@@ -107,32 +84,19 @@
                              <?php echo e(Form::file('contract_crf',['class'=>'form-control'])); ?>
 
                         </div>
-
-
-
                   </div>
 
                    <div class="col-md-12">
-
-
                			  <?php echo e(Form::label('description', 'Description')); ?>
-
-
 
                          <div class="form-group">
                              <?php echo e(Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Fully Describe your contract here for clarifications'])); ?>
 
                         </div>
-
-
-
                   </div>
-
-
-
              <div class="col-md-12">
 
-             <button type="submit" class="btn btn-primary btn-flat" name="update_status">SUBMIT </button>
+             <button type="submit" class="btn btn-primary btn-flat" name="update_status">CREATE NEW CONTRACT </button>
              </div>
               <?php echo Form::close(); ?>
 
@@ -148,9 +112,6 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>
-
-
-
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
  <script>
@@ -173,7 +134,6 @@
     },
     processResults: function (data, params) {
 
-
       params.page = params.page || 1;
 	   var retVal = [];
       $.each(data, function(index, element) {
@@ -183,7 +143,6 @@
 			}
         retVal.push(lineObj);
 		});
-
 
       return {
         results: retVal,
@@ -214,13 +173,6 @@ function formatRepo (repo) {
 function formatRepoSelection (repo) {
   return repo.text ;
 }
-
-
-
-
-
-
-
 	 $('.issued_date').datepicker( {
 	 	format: 'dd-mm-yyyy',
 		orientation: "bottom",
@@ -228,14 +180,7 @@ function formatRepoSelection (repo) {
 		 showDropdowns: true,
 
 	 })
-
-
-
  })
-
-
-
-
 	 </script>
 
 <?php $__env->stopSection(); ?>

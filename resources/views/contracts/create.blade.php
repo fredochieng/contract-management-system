@@ -1,4 +1,3 @@
-
 @extends('adminlte::page')
 
 @section('title', 'New Contract')
@@ -8,13 +7,9 @@
 @stop
 
 @section('content')
-
-
   <style>
   	.description{height:90px !important}
   </style>
-
-
             <div class="box">
 
                 <div class="box-body">
@@ -28,43 +23,32 @@
                     	{{Form::label('party_name', 'Party Name* ')}}
                          <div class="form-group">
 
-                            <select id="party_name"  class="form-control" name="party_name"> </select>
-
+                            <select id="party_name"  class="form-control" required name="party_name"> </select>
 
                         </div>
-
                         <p>If you are not able to find the Contract Party Name/Supplier.
                          <a href="/party?new=true" target="_blank"><strong>Click here to capture the details</strong></a></p>
                         <br>
             	   </div>
-
-
-
-
-
                <div class="col-md-12">
 
                     	{{Form::label('title', 'Contract Title* ')}}
                          <div class="form-group">
 
-                             {{Form::text('title', '',['class'=>'form-control','placeholder'=>'The contract Title'])}}
-
+                             {{Form::text('title', '',['class'=>'form-control', 'required','placeholder'=>'The Contract Title'])}}
 
                         </div>
             	   </div>
-
 
                      <div class="col-md-6">
 
                     	{{Form::label('effective_date', 'Effective Date* ')}}
                          <div class="form-group">
 
-                             {{Form::text('effective_date', '',['class'=>'form-control issued_date','placeholder'=>'Effective date','autocomplete'=>'off'])}}
-
+                             {{Form::text('effective_date', '',['class'=>'form-control issued_date','placeholder'=>'Effective Date','autocomplete'=>'off'])}}
 
                         </div>
             	   </div>
-
 
                      <div class="col-md-6">
 
@@ -72,56 +56,35 @@
                          <div class="form-group">
 
                              {{Form::text('expiry_date', '',['class'=>'form-control issued_date','placeholder'=>'Expiry Date', 'autocomplete'=>'off'])}}
-
-
                         </div>
             	   </div>
 
                     <div class="col-md-6">
 
-
                			  {{Form::label('contract_document', 'Upload Contract Document *')}}
 
                          <div class="form-group">
-                             {{Form::file('contract_document',['class'=>'form-control'])}}
+                             {{Form::file('contract_document',['class'=>'form-control', 'required'])}}
                         </div>
-
-
-
                   </div>
 
                    <div class="col-md-6">
-
-
                			  {{Form::label('contract_crf', 'Upload Contract CRF (optional)')}}
 
                          <div class="form-group">
                              {{Form::file('contract_crf',['class'=>'form-control'])}}
                         </div>
-
-
-
                   </div>
 
                    <div class="col-md-12">
-
-
                			  {{Form::label('description', 'Description')}}
-
-
                          <div class="form-group">
                              {{Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Fully Describe your contract here for clarifications'])}}
                         </div>
-
-
-
                   </div>
-
-
-
              <div class="col-md-12">
 
-             <button type="submit" class="btn btn-primary btn-flat" name="update_status">SUBMIT </button>
+             <button type="submit" class="btn btn-primary btn-flat" name="update_status">CREATE NEW CONTRACT </button>
              </div>
               {!! Form::close() !!}
             </div>
@@ -136,9 +99,6 @@
 @stop
 
 @section('js')
-
-
-
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
  <script>
@@ -161,7 +121,6 @@
     },
     processResults: function (data, params) {
 
-
       params.page = params.page || 1;
 	   var retVal = [];
       $.each(data, function(index, element) {
@@ -171,7 +130,6 @@
 			}
         retVal.push(lineObj);
 		});
-
 
       return {
         results: retVal,
@@ -202,13 +160,6 @@ function formatRepo (repo) {
 function formatRepoSelection (repo) {
   return repo.text ;
 }
-
-
-
-
-
-
-
 	 $('.issued_date').datepicker( {
 	 	format: 'dd-mm-yyyy',
 		orientation: "bottom",
@@ -216,14 +167,7 @@ function formatRepoSelection (repo) {
 		 showDropdowns: true,
 
 	 })
-
-
-
  })
-
-
-
-
 	 </script>
 
 @stop
