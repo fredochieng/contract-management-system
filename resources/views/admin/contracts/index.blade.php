@@ -5,7 +5,7 @@
 @section('content_header')
   <h1>
   	Contracts
-  	<a  href="/contract/create" class="btn btn-xs btn-info pull-right btn-flat" >NEW CONTRACT</a>
+  	<a  href="/admin/contract/create" class="btn btn-xs btn-info pull-right btn-flat" >NEW CONTRACT</a>
   </h1>
 @stop
 
@@ -41,7 +41,7 @@
                         <td>{{date("d-m-Y",strtotime($contract->expiry_date))}}</td>
                         <td>{{ $contract->contract_status}}</td>
                         @if($contract->contract_status == 'created')
-                            <td><a href="/contract/{{$contract->contract_id}}/edit" id="editBtn" class="label bg-primary">Edit</a>
+                            <td><a href="/admin/contract/{{$contract->contract_id}}/edit" id="editBtn" class="label bg-primary">Edit</a>
 
                         @else
                             <td><a href="/contract/{{$contract->contract_id}}/view" id="editBtn" class="label bg-green">Published</a>

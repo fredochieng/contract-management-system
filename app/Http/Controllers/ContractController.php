@@ -71,7 +71,7 @@ class ContractController extends Controller
 
 
 
-        return view('contracts.index')->with([
+        return view('admin/contracts.index')->with([
             'contracts' => $contracts,
         ]);
     }
@@ -83,7 +83,7 @@ class ContractController extends Controller
      */
     public function create()
     {
-        return view('contracts.create');
+        return view('admin/contracts.create');
 
         //->with([ ]);
     }
@@ -155,7 +155,7 @@ class ContractController extends Controller
 
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
         DB::table('contracts')->where('contract_id', $just_saved_contract_id)->update(array('last_draft_id' => $last_draft_id));
-        return redirect('contract')->with('success', 'Contract Successfull Saved!');
+        return redirect('admin/contract')->with('success', 'Contract Successfull Saved!');
 
     }
 
@@ -181,7 +181,7 @@ class ContractController extends Controller
 
         // print_r($contract);
         // exit;
-        return view('contracts.edit')->with([
+        return view('admin/contracts.edit')->with([
             'contract' => $contract
         ]);
     }
@@ -254,7 +254,7 @@ class ContractController extends Controller
 
         $last_draft_id = DB::table('contract_drafts')->where('contract_draft_id', $contract->last_draft_id)->update($contract_draft_data);
 
-        return redirect('contract')->with('success', 'Contract Successfully Updated!');
+        return redirect('admin/contract')->with('success', 'Contract Successfully Updated!');
     }
 
     /**
@@ -313,7 +313,7 @@ class ContractController extends Controller
 
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
 
-        return redirect('contract')->with('success', 'Contract Successfully Sent to the Legal Team for review');
+        return redirect('admin/contract')->with('success', 'Contract Successfully Sent to the Legal Team for review');
     }
 
     /**
@@ -326,7 +326,7 @@ class ContractController extends Controller
     {
         $contract->delete();
 
-        return redirect('contract')->with('success', 'Contract Successfully Deleted');
+        return redirect('admin/contract')->with('success', 'Contract Successfully Deleted');
     }
 
     public function viewContract($contract_id = null)
@@ -397,13 +397,8 @@ class ContractController extends Controller
 
 
 
-        return view('contracts.view')->with([
+        return view('admin/contracts.view')->with([
             'contract' => $contract, 'contract_drafts' => $contract_drafts
         ]);
-
-
-
-
-
   }
 }

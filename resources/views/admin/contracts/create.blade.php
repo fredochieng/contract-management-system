@@ -27,7 +27,7 @@
 
                         </div>
                         <p>If you are not able to find the Contract Party Name/Supplier.
-                         <a href="/party?new=true" target="_blank"><strong>Click here to capture the details</strong></a></p>
+                         <a href="/admin/party?new=true" target="_blank"><strong>Click here to capture the details</strong></a></p>
                         <br>
             	   </div>
                <div class="col-md-12">

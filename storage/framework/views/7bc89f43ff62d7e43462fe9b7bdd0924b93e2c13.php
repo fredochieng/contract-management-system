@@ -3,7 +3,7 @@
 <?php $__env->startSection('content_header'); ?>
   <h1>
   	Contracts
-  	<a  href="/contract/create" class="btn btn-xs btn-info pull-right btn-flat" >NEW CONTRACT</a>
+  	<a  href="/admin/contract/create" class="btn btn-xs btn-info pull-right btn-flat" >NEW CONTRACT</a>
   </h1>
 <?php $__env->stopSection(); ?>
 
@@ -39,7 +39,7 @@
                         <td><?php echo e(date("d-m-Y",strtotime($contract->expiry_date))); ?></td>
                         <td><?php echo e($contract->contract_status); ?></td>
                         <?php if($contract->contract_status == 'created'): ?>
-                            <td><a href="/contract/<?php echo e($contract->contract_id); ?>/edit" id="editBtn" class="label bg-primary">Edit</a>
+                            <td><a href="/admin/contract/<?php echo e($contract->contract_id); ?>/edit" id="editBtn" class="label bg-primary">Edit</a>
 
                         <?php else: ?>
                             <td><a href="/contract/<?php echo e($contract->contract_id); ?>/view" id="editBtn" class="label bg-green">Published</a>

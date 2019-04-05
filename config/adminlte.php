@@ -33,7 +33,7 @@ return [
 
     'logo' => '<img src="'.$logo_url.'"> CMS',
 
-    'logo_mini' => '<img src="'.$logo_url.'">', 
+    'logo_mini' => '<img src="'.$logo_url.'">',
 
     /*
     |--------------------------------------------------------------------------
@@ -86,7 +86,7 @@ return [
     |
     */
 
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'admin/home',
 
     'logout_url' => 'logout',
 
@@ -110,34 +110,34 @@ return [
 
     'menu' => [
         'MAIN NAVIGATION',
-		
+
 		[
             'text' => 'Dashboard',
-            'url'  => '/home',
+            'url'  => 'admin/home',
 			'icon'        => 'home',
            // 'can'  => '',
         ],
         [
             'text' => 'Manage Contracts',
-            'url'  => 'contract',
+            'url'  => 'admin/contract',
 			//'icon'        => 'file',
            // 'can'  => '',
         ],
-		
+
 		[
             'text' => 'Create Contract',
-            'url'  => 'contract/create',
+            'url'  => 'admin/contract/create',
            // 'can'  => '',
         ],
-       
+
         'ACCOUNT SETTINGS',
         [
             'text' => 'Profile',
             'url'  => 'admin/settings',
             'icon' => 'user',
         ],
-        
-       
+
+
     ],
 
     /*
