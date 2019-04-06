@@ -172,21 +172,13 @@
 
                   <div class="col-md-6">
 
-
                     	<?php echo e(Form::label('contact_person', 'Contact Person')); ?><br>
                          <div class="form-group">
                              <?php echo e(Form::text('contact_person', '',['class'=>'form-control', 'placeholder'=>''])); ?>
 
-
             	   </div>
                 </div>
-
-
-
-
                    <div class="col-md-4">
-
-
                     	<?php echo e(Form::label('telephone', 'Telephone')); ?><br>
                          <div class="form-group">
                              <?php echo e(Form::text('telephone', '',['class'=>'form-control', 'placeholder'=>''])); ?>
@@ -196,20 +188,13 @@
                 </div>
 
                   <div class="col-md-4">
-
-
                     	<?php echo e(Form::label('email', 'Email')); ?><br>
                          <div class="form-group">
                              <?php echo e(Form::text('email', '',['class'=>'form-control', 'placeholder'=>''])); ?>
 
-
             	   </div>
                 </div>
-
-
                 <div class="col-md-4">
-
-
                     	<?php echo e(Form::label('address', 'Address')); ?><br>
                          <div class="form-group">
                              <?php echo e(Form::text('address', '',['class'=>'form-control', 'placeholder'=>''])); ?>
@@ -217,14 +202,7 @@
 
             	   </div>
                 </div>
-
-
-
-
-                </div>
-
-
-
+            </div>
               </div>
               <div class="modal-footer">
 

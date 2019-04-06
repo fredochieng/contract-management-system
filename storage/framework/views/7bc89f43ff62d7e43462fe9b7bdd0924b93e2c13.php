@@ -32,13 +32,25 @@
                         <td><?php echo e($key+1); ?></td>
                         <td><a href="/contract/<?php echo e($contract->contract_id); ?>/view"><?php echo e($contract->contract_title); ?></a></td>
                         <td><?php echo e($contract->party_name); ?></td>
-              <td><a href="/<?php echo e($contract->draft_file); ?>" class="btn btn-xs btn-default" target="_blank"><i class="fa fa-fw fa-download"></i> CONTRACT</a> |
-                        <a href="/<?php echo e($contract->draft_file); ?>" class="btn btn-xs btn-default" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
+              <td><a href="/<?php echo e($contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a> |
+                        <a href="/<?php echo e($contract->draft_file); ?>"  target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
                         </td>
                         <td><?php echo e(date("d-m-Y",strtotime($contract->effective_date))); ?></td>
                         <td><?php echo e(date("d-m-Y",strtotime($contract->expiry_date))); ?></td>
-                        <td><?php echo e($contract->contract_status); ?></td>
+                        <td><span class="pull-right-container">
                         <?php if($contract->contract_status == 'created'): ?>
+                        <small class="label pull-center btn-default"><?php echo e($contract->contract_status); ?></small></span>
+                        <?php elseif($contract->contract_status == 'approved'): ?>
+                        <small class="label pull-center btn-info"><?php echo e($contract->contract_status); ?></small></span>
+                        <?php elseif($contract->contract_status== 'archived'): ?>
+                        <small class="label pull-center btn-success"><?php echo e($contract->contract_status); ?></small></span></td>
+                        <?php elseif($contract->contract_status== 'rejected'): ?>
+                        <small class="label pull-center btn-danger"><?php echo e($contract->contract_status); ?></small></span>
+                        </td>
+                        <?php endif; ?>
+                        </td>
+                        <?php if($contract->contract_status == 'created' && $contract->contract_stage ==1 ||
+                        $contract->contract_status == 'rejected' && $contract->contract_stage ==3 ): ?>
                             <td><a href="/admin/contract/<?php echo e($contract->contract_id); ?>/edit" id="editBtn" class="label bg-primary">Edit</a>
 
                         <?php else: ?>
@@ -74,16 +86,8 @@
       $(function () {
       $('#example1').DataTable()
     })
-    /**  function deleteContract($contract->contract-id)
-    swal({ title: "Are you sure you want to delete this user?",
-        text: "You won't be able to revert this!", type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete user!"
-    })  **/
  </script>
-
+<?php echo $__env->make('sweet::alert', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('adminlte::page', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -34,13 +34,25 @@
                         <td>{{ $key+1}}</td>
                         <td><a href="/contract/{{$contract->contract_id}}/view">{{$contract->contract_title}}</a></td>
                         <td>{{$contract->party_name}}</td>
-              <td><a href="/{{$contract->draft_file}}" class="btn btn-xs btn-default" target="_blank"><i class="fa fa-fw fa-download"></i> CONTRACT</a> |
-                        <a href="/{{$contract->draft_file}}" class="btn btn-xs btn-default" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
+              <td><a href="/{{$contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a> |
+                        <a href="/{{$contract->draft_file}}"  target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
                         </td>
                         <td>{{date("d-m-Y",strtotime($contract->effective_date))}}</td>
                         <td>{{date("d-m-Y",strtotime($contract->expiry_date))}}</td>
-                        <td>{{ $contract->contract_status}}</td>
+                        <td><span class="pull-right-container">
                         @if($contract->contract_status == 'created')
+                        <small class="label pull-center btn-default">{{$contract->contract_status}}</small></span>
+                        @elseif($contract->contract_status == 'approved')
+                        <small class="label pull-center btn-info">{{$contract->contract_status}}</small></span>
+                        @elseif($contract->contract_status== 'archived')
+                        <small class="label pull-center btn-success">{{$contract->contract_status}}</small></span></td>
+                        @elseif($contract->contract_status== 'rejected')
+                        <small class="label pull-center btn-danger">{{$contract->contract_status}}</small></span>
+                        </td>
+                        @endif
+                        </td>
+                        @if($contract->contract_status == 'created' && $contract->contract_stage ==1 ||
+                        $contract->contract_status == 'rejected' && $contract->contract_stage ==3 )
                             <td><a href="/admin/contract/{{$contract->contract_id}}/edit" id="editBtn" class="label bg-primary">Edit</a>
 
                         @else
@@ -73,14 +85,6 @@
       $(function () {
       $('#example1').DataTable()
     })
-    /**  function deleteContract($contract->contract-id)
-    swal({ title: "Are you sure you want to delete this user?",
-        text: "You won't be able to revert this!", type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete user!"
-    })  **/
  </script>
-
+@include('sweet::alert')
 @stop

@@ -108,7 +108,7 @@
 
 	$("#party_name").select2({
   ajax: {
-    url: "/party/get_party",
+    url: "/admin/party/get_party",
 	type:'GET',
     dataType: 'json',
     delay: 250,
