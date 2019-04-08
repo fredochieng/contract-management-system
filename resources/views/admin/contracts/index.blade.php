@@ -42,17 +42,21 @@
                         @if($contract->contract_status == 'created')
                         <small class="label pull-center btn-warning">{{$contract->contract_status}}</small></span>
                         @elseif($contract->contract_status == 'published')
-                        <small class="label pull-center btn-info">{{$contract->contract_status}}</small></span>
+                        <small class="label pull-center btn-info">{{ $contract->contract_status}}</small></span>
+                        @elseif($contract->contract_status== 'submitted')
+                        <small class="label label-success">{{$contract->contract_status}}</small></span>
+                        @elseif($contract->contract_status== 'ammended')
+                        <small class="label pull-center btn-danger">{{$contract->contract_status}}</small></span>
                         @elseif($contract->contract_status== 'approved')
-                        <small class="label label-success">{{$contract->contract_status}}</small></span></td>
-                        @elseif($contract->contract_status== 'rejected')
+                        <small class="label pull-center btn-success">{{$contract->contract_status}}</small></span>
+                        @elseif($contract->contract_status== 'terminated')
                         <small class="label pull-center btn-danger">{{$contract->contract_status}}</small></span>
                         </td>
                         @endif
                         </td>
                         <td>
                             @if($contract->contract_status == 'created' && $contract->contract_stage ==1 ||
-                                $contract->contract_status == 'rejected' && $contract->contract_stage ==3 )
+                                $contract->contract_status == 'ammended' && $contract->contract_stage ==3 )
                                     {{-- <a href="/admin/contract/{{$contract->contract_id}}/edit" id="editBtn" class="label bg-primary">Edit</a> --}}
                                      <a href="/admin/contract/{{$contract->contract_id}}/edit">
                                 <span class = "fa fa-pencil bigger"></span></center></a>
@@ -65,8 +69,9 @@
            {{Form::hidden('_method','DELETE')}}
 
             {{-- <button type="submit" class="btn btn-danger btn-xs btn-flat" onClick="return confirm('Are you sure you want to delete this contract?');">   <strong>  <i class="fa fa-close"></i></strong></button> --}}
-            <a class="delete" data-id="{{ $contract->contract_id }}"  href="javascript:void(0)">
-                                <span style="color:red;" class = "fa fa-trash bigger"></span></a></td>
+           <a class="delete" data-id="{{ $contract->contract_id }}"  href="javascript:void(0)">
+                                <span style="color:red;" class = "fa fa-trash bigger"></span></a>
+                            </td>
             {!! Form::close() !!}
                       </tr>
                         @endforeach
@@ -86,6 +91,7 @@
 
 <script src="/js/bootstrap-datepicker.min.js"></script>
  <script src="/js/bootbox.min.js"></script>
+
   <script>
      $(function () {
          $('#example1').DataTable()

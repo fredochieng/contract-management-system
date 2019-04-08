@@ -24,8 +24,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::any('admin/party/get_party', 'PartyController@get_party');
     Route::resource('admin/contract', 'ContractController');
     Route::any('contract/{id}/publish', 'ContractController@publish');
+    Route::any('submit', 'ContractController@submit');
+    Route::any('ammend', 'ContractController@ammend');
+    Route::any('terminate', 'ContractController@terminate');
     Route::any('approve', 'ContractController@approve');
-    Route::any('reject', 'ContractController@reject');
     Route::resource('admin/party', 'PartyController');
     Route::any('contract/{id}/view', 'ContractController@viewcontract');
 

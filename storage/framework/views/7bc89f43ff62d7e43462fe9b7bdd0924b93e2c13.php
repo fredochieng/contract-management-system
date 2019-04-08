@@ -42,16 +42,20 @@
                         <small class="label pull-center btn-warning"><?php echo e($contract->contract_status); ?></small></span>
                         <?php elseif($contract->contract_status == 'published'): ?>
                         <small class="label pull-center btn-info"><?php echo e($contract->contract_status); ?></small></span>
+                        <?php elseif($contract->contract_status== 'submitted'): ?>
+                        <small class="label label-success"><?php echo e($contract->contract_status); ?></small></span>
+                        <?php elseif($contract->contract_status== 'ammended'): ?>
+                        <small class="label pull-center btn-danger"><?php echo e($contract->contract_status); ?></small></span>
                         <?php elseif($contract->contract_status== 'approved'): ?>
-                        <small class="label label-success"><?php echo e($contract->contract_status); ?></small></span></td>
-                        <?php elseif($contract->contract_status== 'rejected'): ?>
+                        <small class="label pull-center btn-success"><?php echo e($contract->contract_status); ?></small></span>
+                        <?php elseif($contract->contract_status== 'terminated'): ?>
                         <small class="label pull-center btn-danger"><?php echo e($contract->contract_status); ?></small></span>
                         </td>
                         <?php endif; ?>
                         </td>
                         <td>
                             <?php if($contract->contract_status == 'created' && $contract->contract_stage ==1 ||
-                                $contract->contract_status == 'rejected' && $contract->contract_stage ==3 ): ?>
+                                $contract->contract_status == 'ammended' && $contract->contract_stage ==3 ): ?>
                                     
                                      <a href="/admin/contract/<?php echo e($contract->contract_id); ?>/edit">
                                 <span class = "fa fa-pencil bigger"></span></center></a>
@@ -66,8 +70,9 @@
 
 
             
-            <a class="delete" data-id="<?php echo e($contract->contract_id); ?>"  href="javascript:void(0)">
-                                <span style="color:red;" class = "fa fa-trash bigger"></span></a></td>
+           <a class="delete" data-id="<?php echo e($contract->contract_id); ?>"  href="javascript:void(0)">
+                                <span style="color:red;" class = "fa fa-trash bigger"></span></a>
+                            </td>
             <?php echo Form::close(); ?>
 
                       </tr>
@@ -88,6 +93,7 @@
 
 <script src="/js/bootstrap-datepicker.min.js"></script>
  <script src="/js/bootbox.min.js"></script>
+
   <script>
      $(function () {
          $('#example1').DataTable()

@@ -109,11 +109,10 @@
 <?php $__env->startSection('css'); ?>
     <link rel="stylesheet" href="/css/admin_custom.css">
     <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+  
 <?php $__env->stopSection(); ?>
-
 <?php $__env->startSection('js'); ?>
 <script src="/js/bootstrap-datepicker.min.js"></script>
-
  <script>
 
  $(function () {

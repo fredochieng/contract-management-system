@@ -37,6 +37,22 @@
                         </span>
                     <?php endif; ?>
                 </div>
+
+                <div class="form-group has-feedback <?php echo e($errors->has('organization') ? 'has-error' : ''); ?>">
+                    <select id="party_name"  class="form-control" required name="party_name"></select>
+                    <?php if($errors->has('party_name')): ?>
+                    <span class="help-block">
+                                            <strong><?php echo e($errors->first('party_name')); ?></strong>
+                                        </span> <?php endif; ?>
+                </div>
+
+                <div class="form-group has-feedback <?php echo e($errors->has('job_title') ? 'has-error' : ''); ?>">
+                            <input type="text" name="job_title" class="form-control" value="<?php echo e(old('job_title')); ?>" placeholder="<?php echo e(trans('adminlte::adminlte.job')); ?>">
+                            <span class="glyphicon glyphicon-user form-control-feedback"></span> <?php if($errors->has('job_title')): ?>
+                            <span class="help-block">
+                                                    <strong><?php echo e($errors->first('job_title')); ?></strong>
+                                                </span> <?php endif; ?>
+                        </div>
                 <div class="form-group has-feedback <?php echo e($errors->has('password') ? 'has-error' : ''); ?>">
                     <input type="password" name="password" class="form-control"
                            placeholder="<?php echo e(trans('adminlte::adminlte.password')); ?>">
@@ -72,6 +88,7 @@
 
 <?php $__env->startSection('adminlte_js'); ?>
     <?php echo $__env->yieldContent('js'); ?>
+    
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('adminlte::master', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

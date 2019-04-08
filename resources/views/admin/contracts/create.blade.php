@@ -1,5 +1,4 @@
 @extends('adminlte::page')
-
 @section('title', 'New Contract')
 
 @section('content_header')
@@ -96,11 +95,10 @@
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
     <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+  
 @stop
-
 @section('js')
 <script src="/js/bootstrap-datepicker.min.js"></script>
-
  <script>
 
  $(function () {
