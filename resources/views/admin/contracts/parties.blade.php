@@ -31,7 +31,6 @@
 
                         @foreach($parties as $party)
                             <tr>
-
                                 <td>{{$party->party_name}}</td>
                                 <td>{{$party->address}}</td>
                                 <td>{{$party->telephone}}</td>
@@ -39,7 +38,7 @@
                                 <td><a href="#modal_edit_party_{{$party->party_id}}" data-toggle="modal" data-target="#modal_edit_party_{{$party->party_id}}" class="btn btn-info btn-xs btn-flat" >Edit</a>
                                  {!! Form::open(['action'=>['PartyController@destroy',$party->party_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']) !!}
            {{Form::hidden('_method','DELETE')}}
-            <button type="submit" class="btn btn-danger btn-xs btn-flat" onClick="return confirm('Are you sure you want to delete this Vehicle?');">   <strong>  <i class="fa fa-close"></i></strong></button>
+            <button type="submit" class="btn btn-danger btn-xs btn-flat" onClick="return confirm('Are you sure you want to delete this contract party?');">   <strong>  <i class="fa fa-close"></i></strong></button>
             {!! Form::close() !!}
                                 </td>
                                 <div class="modal fade" id="modal_edit_party_{{$party->party_id}}">
@@ -183,10 +182,6 @@
 
 	 })
  })
-
-
-
-
 	 </script>
 
 @stop

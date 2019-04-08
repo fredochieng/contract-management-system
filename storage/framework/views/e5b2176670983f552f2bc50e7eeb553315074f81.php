@@ -171,7 +171,7 @@ $(function() {
 
     $("#party_name").select2({
         ajax: {
-            url: "/party/get_party",
+            url: "/admin/party/get_party",
             type: 'GET',
             dataType: 'json',
             delay: 250,
@@ -183,8 +183,6 @@ $(function() {
                 };
             },
             processResults: function(data, params) {
-
-
                 params.page = params.page || 1;
                 var retVal = [];
                 $.each(data, function(index, element) {
@@ -194,7 +192,6 @@ $(function() {
                     }
                     retVal.push(lineObj);
                 });
-
 
                 return {
                     results: retVal,
@@ -227,13 +224,6 @@ $(function() {
     function formatRepoSelection(repo) {
         return repo.text;
     }
-
-
-
-
-
-
-
     $('.issued_date').datepicker({
         format: 'dd-mm-yyyy',
         orientation: "bottom",
@@ -241,12 +231,8 @@ $(function() {
         showDropdowns: true,
 
     })
-
-
-
 })
 </script>
-
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('adminlte::page', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

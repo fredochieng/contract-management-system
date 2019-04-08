@@ -23,7 +23,7 @@ Route::get('admin/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => 'auth'], function () {
     Route::any('admin/party/get_party', 'PartyController@get_party');
     Route::resource('admin/contract', 'ContractController');
-    Route::any('contract/{id}/submit', 'ContractController@submit');
+    Route::any('contract/{id}/publish', 'ContractController@publish');
     Route::any('approve', 'ContractController@approve');
     Route::any('reject', 'ContractController@reject');
     Route::resource('admin/party', 'PartyController');
