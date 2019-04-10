@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use App\party;
-
-use App\contract;
+use App\Admin;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -44,6 +44,18 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    //  public function index()
+    // {
+    //     $organizations=DB::table('users_organizations')->pluck('organization_name','organization_id')->all();
+    //     return view('contracts.users')->with([
+    //         'organizations' => $organizations,
+    //     ]);
+
+    //     print_r($organizations);
+    //     exit;
+
+    // }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -55,7 +67,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'organization' => ['required', 'string', 'max:255'],
+            'organization_id' => ['required', 'string', 'max:255'],
             'job_title' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
@@ -67,12 +79,19 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    public function create(array $data)
     {
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        $user_id = Auth::user()->id;
+        $user_details = array(
+            'user_id' => $user_id,
+            'job_title' => $data['job_title'],
+
+        );
+        $user_data = DB::table('user_details')->insertGetId($user_details);
     }
 }

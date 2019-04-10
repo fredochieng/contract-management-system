@@ -18,7 +18,7 @@ class PartyController extends Controller
     {
 		$parties=party::all();
 
-		return view('admin/contracts.parties')->with([
+		return view('contracts.parties')->with([
 			'parties'=>$parties
 		]);
 
@@ -58,7 +58,7 @@ class PartyController extends Controller
 
 		$party->save();
 
-		return redirect('admin/party')->with('success','Record Successfully saved!');
+		return redirect('party')->with('success','Record Successfully saved!');
 
     }
 
@@ -107,7 +107,7 @@ class PartyController extends Controller
 
 		$party->save();
 
-		return redirect('admin/party')->with('success','Record Successfully saved');
+		return redirect('party')->with('success','Record Successfully saved');
     }
 
     /**
@@ -119,7 +119,7 @@ class PartyController extends Controller
     public function destroy(party $party)
     {
         $party->delete();
-		return redirect('admin/party')->with('success','Record Successfully Deleted');
+		return redirect('party')->with('success','Record Successfully Deleted');
     }
 
 

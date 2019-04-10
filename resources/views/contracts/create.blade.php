@@ -1,9 +1,10 @@
-<?php $__env->startSection('title', 'New Contract'); ?>
-<?php $__env->startSection('content_header'); ?>
+@extends('adminlte::page')
+@section('title', 'New Contract')
+@section('content_header')
 <h1>New Contract</h1>
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('content'); ?>
+@stop
+@section('content')
 <style>
     .description {
         height: 90px !important
@@ -14,14 +15,13 @@
     <div class="box-body">
         <div class="col-md-8">
 
-            <?php echo Form::open(['action'=>'ContractController@store','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data']); ?>
-
+            {!! Form::open(['action'=>'ContractController@store','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
+            !!}
             <div class="row">
 
                 <div class="col-md-12">
 
-                    <?php echo e(Form::label('party_name', 'Party Name* ')); ?>
-
+                    {{Form::label('party_name', 'Party Name* ')}}
                     <div class="form-group">
 
                         <select id="party_name" class="form-control" required name="party_name"> </select>
@@ -33,86 +33,73 @@
                 </div>
                 <div class="col-md-12">
 
-                    <?php echo e(Form::label('title', 'Contract Title* ')); ?>
-
+                    {{Form::label('title', 'Contract Title* ')}}
                     <div class="form-group">
 
-                        <?php echo e(Form::text('title', '',['class'=>'form-control', 'required','placeholder'=>'The Contract Title'])); ?>
-
+                        {{Form::text('title', '',['class'=>'form-control', 'required','placeholder'=>'The Contract Title'])}}
 
                     </div>
                 </div>
 
                 <div class="col-md-6">
 
-                    <?php echo e(Form::label('effective_date', 'Effective Date* ')); ?>
-
+                    {{Form::label('effective_date', 'Effective Date* ')}}
                     <div class="form-group">
 
-                        <?php echo e(Form::text('effective_date', '',['class'=>'form-control issued_date','placeholder'=>'Effective Date','autocomplete'=>'off'])); ?>
-
+                        {{Form::text('effective_date', '',['class'=>'form-control issued_date','placeholder'=>'Effective Date','autocomplete'=>'off'])}}
 
                     </div>
                 </div>
 
                 <div class="col-md-6">
 
-                    <?php echo e(Form::label('expiry_date', 'Expiry Date ')); ?>
-
+                    {{Form::label('expiry_date', 'Expiry Date ')}}
                     <div class="form-group">
 
-                        <?php echo e(Form::text('expiry_date', '',['class'=>'form-control issued_date','placeholder'=>'Expiry Date', 'autocomplete'=>'off'])); ?>
-
+                        {{Form::text('expiry_date', '',['class'=>'form-control issued_date','placeholder'=>'Expiry Date', 'autocomplete'=>'off'])}}
                     </div>
                 </div>
 
                 <div class="col-md-6">
 
-                    <?php echo e(Form::label('contract_document', 'Upload Contract Document *')); ?>
-
+                    {{Form::label('contract_document', 'Upload Contract Document *')}}
 
                     <div class="form-group">
-                        <?php echo e(Form::file('contract_document',['class'=>'form-control', 'required'])); ?>
-
+                        {{Form::file('contract_document',['class'=>'form-control', 'required'])}}
                     </div>
                 </div>
 
                 <div class="col-md-6">
-                    <?php echo e(Form::label('contract_crf', 'Upload Contract CRF (optional)')); ?>
-
+                    {{Form::label('contract_crf', 'Upload Contract CRF (optional)')}}
 
                     <div class="form-group">
-                        <?php echo e(Form::file('contract_crf',['class'=>'form-control'])); ?>
-
+                        {{Form::file('contract_crf',['class'=>'form-control'])}}
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    <?php echo e(Form::label('description', 'Description')); ?>
-
+                    {{Form::label('description', 'Description')}}
                     <div class="form-group">
-                        <?php echo e(Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Fully Describe your contract here
-                        for clarifications'])); ?>
-
+                        {{Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Fully Describe your contract here
+                        for clarifications'])}}
                     </div>
                 </div>
                 <div class="col-md-12">
 
                     <button type="submit" class="btn btn-primary btn-flat" name="update_status">CREATE NEW CONTRACT </button>
                 </div>
-                <?php echo Form::close(); ?>
-
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
 </div>
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('css'); ?>
+@stop
+@section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
 <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('js'); ?>
+@stop
+@section('js')
 <script src="/js/bootstrap-datepicker.min.js"></script>
 <script>
     $(function () {
@@ -183,6 +170,4 @@ function formatRepoSelection (repo) {
 </script>
 
 
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('adminlte::page', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+@stop

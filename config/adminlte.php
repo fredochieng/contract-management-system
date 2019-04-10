@@ -87,7 +87,7 @@ return [
     |
     */
 
-    'dashboard_url' => 'admin/home',
+    'dashboard_url' => 'home',
 
     'logout_url' => 'logout',
 
@@ -114,27 +114,31 @@ return [
 
 		[
             'text' => 'Dashboard',
-            'url'  => 'admin/home',
+            'url'  => '/home',
 			'icon'        => 'home',
            // 'can'  => '',
         ],
         [
             'text' => 'Manage Contracts',
-            'url'  => 'admin/contract',
+            'url'  => 'contract',
 			//'icon'        => 'file',
            // 'can'  => '',
         ],
 
 		[
             'text' => 'Create Contract',
-            'url'  => 'admin/contract/create',
+            'url'  => 'contract/create',
            // 'can'  => '',
+        ],[
+            'text' => 'Manage Users',
+            'url'  => '/user',
+            // 'can'  => '',
         ],
 
         'ACCOUNT SETTINGS',
         [
             'text' => 'Profile',
-            'url'  => 'admin/settings',
+            'url'  => '/settings',
             'icon' => 'user',
         ],
 

@@ -4,7 +4,7 @@
 @section('content_header')
   <h1>
   	Contracts
-  	<a  href="/admin/contract/create" class="btn btn-xs btn-info pull-right btn-flat" >NEW CONTRACT</a>
+  	<a  href="/contract/create" class="btn btn-xs btn-info pull-right btn-flat" >NEW CONTRACT</a>
   </h1>
 @stop
 
@@ -57,8 +57,8 @@
                         <td>
                             @if($contract->contract_status == 'created' && $contract->contract_stage ==1 ||
                                 $contract->contract_status == 'ammended' && $contract->contract_stage ==3 )
-                                    {{-- <a href="/admin/contract/{{$contract->contract_id}}/edit" id="editBtn" class="label bg-primary">Edit</a> --}}
-                                     <a href="/admin/contract/{{$contract->contract_id}}/edit">
+                                    {{-- <a href="/contract/{{$contract->contract_id}}/edit" id="editBtn" class="label bg-primary">Edit</a> --}}
+                                     <a href="/contract/{{$contract->contract_id}}/edit">
                                 <span class = "fa fa-pencil bigger"></span></center></a>
                                 @else
                                     {{-- <a href="/contract/{{$contract->contract_id}}/view" id="editBtn" class="label bg-green">Published</a> --}}

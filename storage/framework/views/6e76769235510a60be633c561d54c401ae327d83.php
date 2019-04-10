@@ -11,10 +11,7 @@
   <style>
   	.description{height:90px !important}
   </style>
-
-
             <div class="box">
-
                 <div class="box-body">
                 <table class="table table-striped table-bordered records">
                 	<thead>
@@ -32,27 +29,19 @@
 
                         <?php $__currentLoopData = $parties; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $party): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
-
                                 <td><?php echo e($party->party_name); ?></td>
                                 <td><?php echo e($party->address); ?></td>
                                 <td><?php echo e($party->telephone); ?></td>
                                 <td><?php echo e($party->email); ?></td>
                                 <td><a href="#modal_edit_party_<?php echo e($party->party_id); ?>" data-toggle="modal" data-target="#modal_edit_party_<?php echo e($party->party_id); ?>" class="btn btn-info btn-xs btn-flat" >Edit</a>
-
-
                                  <?php echo Form::open(['action'=>['PartyController@destroy',$party->party_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?>
-
-
 
            <?php echo e(Form::hidden('_method','DELETE')); ?>
 
-
-            <button type="submit" class="btn btn-danger btn-xs btn-flat" onClick="return confirm('Are you sure you want to delete this Vehicle?');">   <strong>  <i class="fa fa-close"></i></strong></button>
+            <button type="submit" class="btn btn-danger btn-xs btn-flat" onClick="return confirm('Are you sure you want to delete this contract party?');">   <strong>  <i class="fa fa-close"></i></strong></button>
             <?php echo Form::close(); ?>
 
-
                                 </td>
-
                                 <div class="modal fade" id="modal_edit_party_<?php echo e($party->party_id); ?>">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -66,20 +55,13 @@
               <div class="modal-body">
               	<div class="row">
                 	   <div class="col-md-12">
-
-
                     	<?php echo e(Form::label('party_name', 'Party Name')); ?><br>
                          <div class="form-group">
                              <?php echo e(Form::text('party_name', $party->party_name,['class'=>'form-control', 'placeholder'=>''])); ?>
 
-
             	   </div>
                 </div>
-
-
                  <div class="col-md-4">
-
-
                     	<?php echo e(Form::label('address', 'Address')); ?><br>
                          <div class="form-group">
                              <?php echo e(Form::text('address', $party->address,['class'=>'form-control', 'placeholder'=>''])); ?>
@@ -87,11 +69,7 @@
 
             	   </div>
                 </div>
-
-
                   <div class="col-md-4">
-
-
                     	<?php echo e(Form::label('email', 'Email')); ?><br>
                          <div class="form-group">
                              <?php echo e(Form::text('email', $party->email,['class'=>'form-control', 'placeholder'=>''])); ?>
@@ -99,29 +77,16 @@
 
             	   </div>
                 </div>
-
-
-
                  <div class="col-md-4">
-
-
                     	<?php echo e(Form::label('telephone', 'Telephone')); ?><br>
                          <div class="form-group">
                              <?php echo e(Form::text('telephone', $party->telephone,['class'=>'form-control', 'placeholder'=>''])); ?>
 
-
             	   </div>
                 </div>
-
-
                 </div>
-
-
-
               </div>
               <div class="modal-footer">
-
-
                 <button type="submit" class="btn btn-primary pull-left btn-flat" name="save_party">UPDATE</button>
               </div>
                <?php echo e(Form::hidden('_method','PUT')); ?>
@@ -134,19 +99,12 @@
           <!-- /.modal-dialog -->
         </div>
                             </tr>
-
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
                     </tbody>
-
                 </table>
-
-
            		 </div>
         </div>
    </div>
-
-
     <div class="modal fade" id="modal_new_party">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -160,33 +118,21 @@
               <div class="modal-body">
               	<div class="row">
                 	   <div class="col-md-6">
-
-
                     	<?php echo e(Form::label('party_name', 'Party Name')); ?><br>
                          <div class="form-group">
                              <?php echo e(Form::text('party_name', '',['class'=>'form-control', 'placeholder'=>''])); ?>
 
-
             	   </div>
                 </div>
-
                   <div class="col-md-6">
-
 
                     	<?php echo e(Form::label('contact_person', 'Contact Person')); ?><br>
                          <div class="form-group">
                              <?php echo e(Form::text('contact_person', '',['class'=>'form-control', 'placeholder'=>''])); ?>
 
-
             	   </div>
                 </div>
-
-
-
-
                    <div class="col-md-4">
-
-
                     	<?php echo e(Form::label('telephone', 'Telephone')); ?><br>
                          <div class="form-group">
                              <?php echo e(Form::text('telephone', '',['class'=>'form-control', 'placeholder'=>''])); ?>
@@ -194,41 +140,23 @@
 
             	   </div>
                 </div>
-
                   <div class="col-md-4">
-
-
                     	<?php echo e(Form::label('email', 'Email')); ?><br>
                          <div class="form-group">
                              <?php echo e(Form::text('email', '',['class'=>'form-control', 'placeholder'=>''])); ?>
 
-
             	   </div>
                 </div>
-
-
                 <div class="col-md-4">
-
-
                     	<?php echo e(Form::label('address', 'Address')); ?><br>
                          <div class="form-group">
                              <?php echo e(Form::text('address', '',['class'=>'form-control', 'placeholder'=>''])); ?>
 
-
             	   </div>
                 </div>
-
-
-
-
-                </div>
-
-
-
+            </div>
               </div>
               <div class="modal-footer">
-
-
                 <button type="submit" class="btn btn-primary pull-left btn-flat" name="save_party">SUBMIT</button>
               </div>
 
@@ -239,9 +167,6 @@
           </div>
           <!-- /.modal-dialog -->
         </div>
-
-
-
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('css'); ?>
@@ -272,10 +197,6 @@
 
 	 })
  })
-
-
-
-
 	 </script>
 
 <?php $__env->stopSection(); ?>

@@ -159,7 +159,7 @@ $(function() {
 
     $("#party_name").select2({
         ajax: {
-            url: "/admin/party/get_party",
+            url: "/party/get_party",
             type: 'GET',
             dataType: 'json',
             delay: 250,
