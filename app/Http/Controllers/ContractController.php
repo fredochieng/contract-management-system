@@ -289,11 +289,7 @@ class ContractController extends Controller
             ->orderBy('contracts.contract_id', 'desc')
             ->where(['contracts.contract_id' => $contract_id, 'contract_drafts.contract_draft_id' => $latest->contract_draft_id])
             ->first();
-
-        // echo "<pre>";
-        // print_r($last_draft_contract_section);
-        // exit;
-
+            
         $contract_drafts = DB::table('contract_drafts')
             ->select(
                 DB::raw('contract_drafts.*'),
@@ -700,6 +696,8 @@ class ContractController extends Controller
             $file_name = str_random(30) . '.' . $file->getClientOriginalExtension();
             $file->move('uploads/contract_documents', $file_name);
             $ammended_contract_file = 'uploads/contract_documents/' . $file_name;
+        }else{
+            $ammended_contract_file = $ammended_contract->draft_file;
         }
 
         if ($request->hasFile('ammended_contract_crf') && $request->file('ammended_contract_crf')->isValid()) {
@@ -707,6 +705,8 @@ class ContractController extends Controller
             $file_name = str_random(30) . '.' . $file->getClientOriginalExtension();
             $file1->move('uploads/contract_documents', $file_name);
             $ammended_contract_crf = 'uploads/contract_documents/' . $file_name;
+        }else{
+            $ammended_contract_crf =$ammended_contract->crf_file;
         }
 
         $latest = contract_drafts::where('contract_draft_id', $ammended_contract->last_draft_id)

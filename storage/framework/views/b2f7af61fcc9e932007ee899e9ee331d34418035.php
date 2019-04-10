@@ -14,10 +14,10 @@
 </style>
 <div class="box">
     <div class="box-body">
-        <table class="table table-striped table-bordered records">
+        <table id="example1" class="table table-striped table-bordered records">
             <thead>
                 <tr>
-
+                    <th>S/N</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th></th>
@@ -26,8 +26,9 @@
 
             <tbody>
 
-                <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $count => $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
+                    <td><?php echo e($count + 1); ?></td>
                     <td><?php echo e($user->name); ?></td>
                     <td><?php echo e($user->email); ?></td>
                     <td><a href="#modal_edit_user_<?php echo e($user->id); ?>" data-toggle="modal" data-target="#modal_edit_user_<?php echo e($user->id); ?>"
@@ -164,10 +165,11 @@
 <?php $__env->startSection('js'); ?>
 
 <script src="/js/bootstrap-datepicker.min.js"></script>
-
-
-
-
+<script>
+    $(function () {
+         $('#example1').DataTable()
+    });
+</script>
 
 <?php $__env->stopSection(); ?>
 

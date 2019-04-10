@@ -437,8 +437,8 @@
                                 <div class="col-md-12">
                                     {{Form::label('comments', 'Comments *')}}<br>
                                     <div class="form-group">
-                                        {{Form::text('contract_id',$contract->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])}}
-                                        <p>{{ $contracts->comments }}</p>
+                                        {{Form::text('contract_id',$contracts->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])}}
+                                        <p>{{$contracts->comments}}</p>
                                     </div>
                                 </div>
                             </div>

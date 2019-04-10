@@ -31,5 +31,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/party', 'PartyController');
     Route::any('contract/{id}/view', 'ContractController@viewcontract');
     Route::resource('/user', 'AdminController');
-    Route::resource('/user', 'RegisterController');
+
 });

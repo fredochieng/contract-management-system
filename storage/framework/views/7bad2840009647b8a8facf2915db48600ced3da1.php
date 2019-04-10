@@ -477,7 +477,7 @@
                                 <div class="col-md-12">
                                     <?php echo e(Form::label('comments', 'Comments *')); ?><br>
                                     <div class="form-group">
-                                        <?php echo e(Form::text('contract_id',$contract->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])); ?>
+                                        <?php echo e(Form::text('contract_id',$contracts->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])); ?>
 
                                         <p><?php echo e($contracts->comments); ?></p>
                                     </div>
