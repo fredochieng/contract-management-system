@@ -65,13 +65,18 @@ class AdminController extends Controller
 
         $user_data = array(
             'user_id' => $saved_user_id,
-            'organization_id' => $request->input( 'organization_id'),
-            'job_title' => $request->input('job_title'),
-            'role_id' =>  $request->input('role_id')
+            'organization_id' => $request->input('organization_id'),
+            'job_title' => $request->input('job_title')
+        );
+
+        $user_role_data = array(
+            'model_id' => $saved_user_id,
+            'role_id' => $request->input('role_id'),
+            'model_type' => 'App\User',
         );
 
         $save_users_details = DB::table('users_details')->insertGetId($user_data);
-
+        $save_role_details = DB::table('model_has_roles')->insertGetId( $user_role_data);
         return redirect('user')->with('success', 'User Successfully saved!');
     }
 
@@ -134,7 +139,4 @@ class AdminController extends Controller
         $user->delete();
         return redirect('user')->with('success', 'Record Successfully Deleted');
     }
-
-
-
 }

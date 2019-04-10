@@ -413,42 +413,41 @@
                                     @endif
                                 </center>
                             </td>
-                            <td><a href="#modal_approve_comments" data-toggle="modal" data-target="#modal_approve_comments_{{ $contracts->contract_draft_id  }}"><strong>Comments</strong></a></p>
+                            <td><a href="#modal_approve_comments" data-toggle="modal" data-target="#modal_approve_comments"><strong>Comments</strong></a></p>
                             </td>
-                        </tr>
-                        <!-- Modal to show comments for an approved contract -->
-                        <div class="modal fade" id="modal_approve_comments_{{ $contracts->contract_draft_id }}">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    {!! Form::open(['class'=>'form']) !!}
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                                                    <span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title">Comments</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                {{Form::label('comments', 'Comments *')}}<br>
-                                                <div class="form-group">
-                                                    {{Form::text('contract_id',$contracts->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])}}
-                                                    <p>{{$contracts->comments}}</p>
+                            <!-- Modal to show comments for an approved contract -->
+                            <div class="modal fade" id="modal_approve_comments">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        {!! Form::open(['class'=>'form']) !!}
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                <span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title">Comments</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    {{Form::label('comments', 'Comments *')}}<br>
+                                                    <div class="form-group">
+                                                        {{Form::text('contract_id',$contracts->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])}}
+                                                        <p>{{$contracts->comments}}</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                        {!! Form::close() !!}
                                     </div>
-                                    <div class="modal-footer">
-                                    </div>
-                                    {!! Form::close() !!}
+                                    <!-- /.modal-content -->
                                 </div>
-                                <!-- /.modal-content -->
+                                <!-- /.modal-dialog -->
                             </div>
-                            <!-- /.modal-dialog -->
-                        </div>
-                        <!-- End modal show comments for an approved contract -->
+                            <!-- End modal show comments for an approved contract -->
+                            </section>
+                        </tr>
                         @endforeach
-
-                        </section>
                     </tbody>
                 </table>
             </div>
