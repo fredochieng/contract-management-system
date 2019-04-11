@@ -56,7 +56,7 @@
                         </td>
                         <td>
                             @if($contract->contract_status == 'created' && $contract->contract_stage ==1 ||
-                                $contract->contract_status == 'ammended' && $contract->contract_stage ==3 )
+                                $contract->contract_status == 'ammended' && $contract->contract_stage ==4 )
                                     {{-- <a href="/contract/{{$contract->contract_id}}/edit" id="editBtn" class="label bg-primary">Edit</a> --}}
                                      <a href="/contract/{{$contract->contract_id}}/edit">
                                 <span class = "fa fa-pencil bigger"></span></center></a>

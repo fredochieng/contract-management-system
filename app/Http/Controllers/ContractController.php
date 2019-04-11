@@ -289,7 +289,7 @@ class ContractController extends Controller
             ->orderBy('contracts.contract_id', 'desc')
             ->where(['contracts.contract_id' => $contract_id, 'contract_drafts.contract_draft_id' => $latest->contract_draft_id])
             ->first();
-            
+
         $contract_drafts = DB::table('contract_drafts')
             ->select(
                 DB::raw('contract_drafts.*'),
@@ -578,11 +578,17 @@ class ContractController extends Controller
         $status = 'submitted';
         $stage = 3;
         $submitted_contract->comments = $request->input('comments');
+        $submitted_contract->contract_type = $request->input('contract_type');
+        $contract_type = $submitted_contract->contract_type;
         $submit_comments = $submitted_contract->comments;
         $submitted_contract_id = $request->contract_id;
         $submitted_contract_draft = $submitted_contract->draft_file;
         $submitted_crf_file = $submitted_contract->crf_file;
-        DB::table('contracts')->where('contract_id', $submitted_contract_id)->update(['status' => $status, 'stage' => $stage]);
+
+        // echo "<pre>";
+        // print_r($contract_type);
+        // exit;
+        DB::table('contracts')->where('contract_id', $submitted_contract_id)->update(['status' => $status, 'stage' => $stage, 'contract_type' => $contract_type]);
 
         $contract_draft_data = array(
             'contract_id' => $submitted_contract_id,
@@ -597,9 +603,7 @@ class ContractController extends Controller
         );
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
         DB::table('contracts')->where('contract_id', $submitted_contract_id)->update(array('last_draft_id' => $last_draft_id));
-        // echo "<pre>";
-        // print_r($approved_contract);
-        // exit;
+
         return view('contracts.view')->with([
             'contract' => $contract,
             'contract_drafts' => $contract_drafts,
@@ -696,7 +700,7 @@ class ContractController extends Controller
             $file_name = str_random(30) . '.' . $file->getClientOriginalExtension();
             $file->move('uploads/contract_documents', $file_name);
             $ammended_contract_file = 'uploads/contract_documents/' . $file_name;
-        }else{
+        } else {
             $ammended_contract_file = $ammended_contract->draft_file;
         }
 
@@ -705,8 +709,8 @@ class ContractController extends Controller
             $file_name = str_random(30) . '.' . $file->getClientOriginalExtension();
             $file1->move('uploads/contract_documents', $file_name);
             $ammended_contract_crf = 'uploads/contract_documents/' . $file_name;
-        }else{
-            $ammended_contract_crf =$ammended_contract->crf_file;
+        } else {
+            $ammended_contract_crf = $ammended_contract->crf_file;
         }
 
         $latest = contract_drafts::where('contract_draft_id', $ammended_contract->last_draft_id)

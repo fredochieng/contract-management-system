@@ -2,6 +2,9 @@
 <?php $__env->startSection('content_header'); ?>
 <h1>View Contract Details</h1>
 
+
+
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <style>
@@ -103,14 +106,17 @@
                     =='published' && $contract->contract_stage ==2): ?>
                     <a href="#modal_submit_contract" data-toggle="modal" data-target="#modal_submit_contract" class="btn btn-success"><i class="fa fa-check"></i> SUBMIT CONTRACT</a>
                     <a href="#modal_ammend_contract" data-toggle="modal" data-target="#modal_ammend_contract" class="btn btn-info"><i class="fa fa-refresh"></i> AMMEND CONTRACT</a>
-                    <a href="#modal_terminate_contract" data-toggle="modal" data-target="#modal_terminate_contract" class="btn btn-danger"><i class="fa fa-close"></i> TERMINATE CONTRACT</a>
-                    <?php elseif($contract->contract_status =='submitted' && $contract->contract_stage ==3): ?>
-                    
+                    <a href="#modal_terminate_contract" data-toggle="modal" data-target="#modal_terminate_contract" class="btn btn-danger"><i class="fa fa-close"></i> TERMINATE CONTRACT</a>                    <?php elseif($contract->contract_status =='submitted' && $contract->contract_stage ==3): ?> 
                     <a href="#modal_approve_contract" data-toggle="modal" data-target="#modal_approve_contract" class="btn btn-success"><i class="fa fa-check"></i> APPROVE CONTRACT</a>
                     <a href="#modal_admin_ammend_contract" data-toggle="modal" data-target="#modal_admin_ammend_contract" class="btn btn-info"><i class="fa fa-refresh"></i> AMMEND CONTRACT</a>
-                    <a href="#modal_admin_terminate_contract" data-toggle="modal" data-target="#modal_admin_terminate_contract" class="btn btn-danger"><i class="fa fa-close"></i> TERMINATE CONTRACT</a>
-                     <?php elseif($contract->contract_status =='terminated'): ?>
-                    <p class="text-red">This contract has been terminated and the initiator has been notified</p>
+                    <a href="#modal_admin_terminate_contract" data-toggle="modal" data-target="#modal_admin_terminate_contract" class="btn btn-danger"><i class="fa fa-close"></i> TERMINATE CONTRACT</a>                    <?php elseif($contract->contract_status =='terminated'): ?>
+                    <p class="col-md-6 text-red well well-sm no-shadow" style="margin-top: 10px;">
+                        his contract has been terminated and the initiator has been notified
+                    </p>
+                    <?php elseif($contract->contract_status =='ammended'): ?>
+                    <p class="col-md-6 text-red well well-sm no-shadow" style="margin-top: 10px;">
+                        This contract has been ammended waiting for the action by the contract party
+                    </p>
                     <?php endif; ?>
 
                     <a href="/<?php echo e($last_draft_contract_section->crf_file); ?>" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> Latest CRF Document</a>
@@ -136,6 +142,11 @@
                         <div class="col-md-12">
                             <?php echo e(Form::text('contract_id',$contract->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])); ?>
 
+                            <div class="form-group">
+                                <h>Classify the contract</h><br/><br/>
+                                <label><input type="radio" name="contract_type" value="1" class="flat-red" checked >&nbsp;&nbsp; Standard</label>&nbsp;&nbsp;
+                                <label><input type="radio" name="contract_type" value="2" class="flat-red">&nbsp;&nbsp; Non Standard</label>
+                            </div>
                             <?php echo e(Form::label('comments', 'Comments (optional)')); ?><br>
                             <div class="form-group">
                                 <?php echo e(Form::textarea('comments', '',['class'=>'form-control', 'placeholder'=>'Comments are optional'])); ?>
@@ -443,37 +454,34 @@
                             <?php endif; ?>
                             <td>
                                 <center>
-                                    <?php if($contracts->contract_drafts_status== 'archived'): ?>
-                                    <p class="text-light-primary">archived</p>
-                                    <?php elseif($contracts->contract_drafts_status== 'rejected'): ?>
-                                    <p class="text-light-primary">oh hold</p>
-                                    <?php else: ?>
                                     <p class="text-light-primary"><?php echo e($contracts->task); ?></p>
-                                    <?php endif; ?>
                                 </center>
                             </td>
-                            <td><a href="#modal_approve_comments" data-toggle="modal" data-target="#modal_approve_comments_<?php echo e($contracts->contract_draft_id); ?>"><strong>Comments</strong></a></p>
+                            <td><a href="#modal_show_action_comments" data-toggle="modal" data-target="#modal_show_action_comments_<?php echo e($contracts->contract_draft_id); ?>"><strong>Comments</strong></a></p>
                             </td>
                         </tr>
                         <!-- Modal to show comments for an approved contract -->
-                        <div class="modal fade" id="modal_approve_comments_<?php echo e($contracts->contract_draft_id); ?>">
+                        <div class="modal fade" id="modal_show_action_comments_<?php echo e($contracts->contract_draft_id); ?>">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <?php echo Form::open(['class'=>'form']); ?>
 
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                                                    <span aria-hidden="true">&times;</span></button>
+                                        <span aria-hidden="true">&times;</span></button>
                                         <h4 class="modal-title">Comments</h4>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <?php echo e(Form::label('comments', 'Comments *')); ?><br>
                                                 <div class="form-group">
                                                     <?php echo e(Form::text('contract_id',$contracts->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])); ?>
 
+                                                    <?php if($contracts->comments == ''): ?>
+                                                    <p>No comments left for this action...</p>
+                                                    <?php else: ?>
                                                     <p><?php echo e($contracts->comments); ?></p>
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -490,22 +498,29 @@
                         <!-- End modal show comments for an approved contract -->
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                        </section>
-                    </tbody>
-                </table>
-            </div>
+        </section>
+        </tbody>
+        </table>
+        </div>
     </div>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>
     <link rel="stylesheet" href="/css/admin_custom.css">
     <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="/iCheck/all.css">
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('js'); ?>
     <script src="/js/bootstrap-datepicker.min.js"></script>
+    <script src="/iCheck/icheck.min.js"></script>
     <script>
         $(function () {
                     $('#example1').DataTable()
+            //iCheck for checkbox and radio inputs
+            $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass   : 'iradio_flat-green'
+            })
                     })
     </script>
 

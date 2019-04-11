@@ -5,6 +5,7 @@
 
 @stop
 @section('content')
+@include('adminlte::partials.messages')
 <style>
     .description {
         height: 90px !important
@@ -80,8 +81,7 @@
                 <div class="col-md-12">
                     {{Form::label('description', 'Description')}}
                     <div class="form-group">
-                        {{Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Fully Describe your contract here
-                        for clarifications'])}}
+                        {{Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Fully describe your contract information here for clarifications'])}}
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -163,7 +163,11 @@ function formatRepoSelection (repo) {
 	 	format: 'dd-mm-yyyy',
 		orientation: "bottom",
 		autoclose: true,
-		 showDropdowns: true,
+         showDropdowns: true,
+         todayHighlight: true,
+         toggleActive: true,
+         startDate: new Date(),
+         clearBtn: true,
 
 	 })
  })

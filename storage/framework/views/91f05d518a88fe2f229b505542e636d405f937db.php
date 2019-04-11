@@ -55,7 +55,7 @@
                         </td>
                         <td>
                             <?php if($contract->contract_status == 'created' && $contract->contract_stage ==1 ||
-                                $contract->contract_status == 'ammended' && $contract->contract_stage ==3 ): ?>
+                                $contract->contract_status == 'ammended' && $contract->contract_stage ==4 ): ?>
                                     
                                      <a href="/contract/<?php echo e($contract->contract_id); ?>/edit">
                                 <span class = "fa fa-pencil bigger"></span></center></a>

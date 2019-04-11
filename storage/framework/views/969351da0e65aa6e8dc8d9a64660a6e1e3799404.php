@@ -4,6 +4,7 @@
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
+<?php echo $__env->make('adminlte::partials.messages', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <style>
     .description {
         height: 90px !important
@@ -91,8 +92,7 @@
                     <?php echo e(Form::label('description', 'Description')); ?>
 
                     <div class="form-group">
-                        <?php echo e(Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Fully Describe your contract here
-                        for clarifications'])); ?>
+                        <?php echo e(Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Fully describe your contract information here for clarifications'])); ?>
 
                     </div>
                 </div>
@@ -176,7 +176,11 @@ function formatRepoSelection (repo) {
 	 	format: 'dd-mm-yyyy',
 		orientation: "bottom",
 		autoclose: true,
-		 showDropdowns: true,
+         showDropdowns: true,
+         todayHighlight: true,
+         toggleActive: true,
+         startDate: new Date(),
+         clearBtn: true,
 
 	 })
  })

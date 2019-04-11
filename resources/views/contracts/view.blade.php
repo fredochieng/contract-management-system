@@ -3,6 +3,9 @@
 @section('content_header')
 <h1>View Contract Details</h1>
 
+
+
+
 @stop
 @section('content')
 <style>
@@ -95,14 +98,18 @@
                     =='published' && $contract->contract_stage ==2)
                     <a href="#modal_submit_contract" data-toggle="modal" data-target="#modal_submit_contract" class="btn btn-success"><i class="fa fa-check"></i> SUBMIT CONTRACT</a>
                     <a href="#modal_ammend_contract" data-toggle="modal" data-target="#modal_ammend_contract" class="btn btn-info"><i class="fa fa-refresh"></i> AMMEND CONTRACT</a>
-                    <a href="#modal_terminate_contract" data-toggle="modal" data-target="#modal_terminate_contract" class="btn btn-danger"><i class="fa fa-close"></i> TERMINATE CONTRACT</a>
-                    @elseif($contract->contract_status =='submitted' && $contract->contract_stage ==3)
-                    {{-- This actions are for the leag admin --}}
+                    <a href="#modal_terminate_contract" data-toggle="modal" data-target="#modal_terminate_contract" class="btn btn-danger"><i class="fa fa-close"></i> TERMINATE CONTRACT</a>                    @elseif($contract->contract_status =='submitted' && $contract->contract_stage ==3) {{-- This actions
+                    are for the leag admin --}}
                     <a href="#modal_approve_contract" data-toggle="modal" data-target="#modal_approve_contract" class="btn btn-success"><i class="fa fa-check"></i> APPROVE CONTRACT</a>
                     <a href="#modal_admin_ammend_contract" data-toggle="modal" data-target="#modal_admin_ammend_contract" class="btn btn-info"><i class="fa fa-refresh"></i> AMMEND CONTRACT</a>
-                    <a href="#modal_admin_terminate_contract" data-toggle="modal" data-target="#modal_admin_terminate_contract" class="btn btn-danger"><i class="fa fa-close"></i> TERMINATE CONTRACT</a>
-                     @elseif($contract->contract_status =='terminated')
-                    <p class="text-red">This contract has been terminated and the initiator has been notified</p>
+                    <a href="#modal_admin_terminate_contract" data-toggle="modal" data-target="#modal_admin_terminate_contract" class="btn btn-danger"><i class="fa fa-close"></i> TERMINATE CONTRACT</a>                    @elseif($contract->contract_status =='terminated')
+                    <p class="col-md-6 text-red well well-sm no-shadow" style="margin-top: 10px;">
+                        his contract has been terminated and the initiator has been notified
+                    </p>
+                    @elseif($contract->contract_status =='ammended')
+                    <p class="col-md-6 text-red well well-sm no-shadow" style="margin-top: 10px;">
+                        This contract has been ammended waiting for the action by the contract party
+                    </p>
                     @endif
 
                     <a href="/{{$last_draft_contract_section->crf_file}}" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> Latest CRF Document</a>
@@ -126,6 +133,11 @@
                     <div class="row">
                         <div class="col-md-12">
                             {{Form::text('contract_id',$contract->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])}}
+                            <div class="form-group">
+                                <h>Classify the contract</h><br/><br/>
+                                <label><input type="radio" name="contract_type" value="1" class="flat-red" checked >&nbsp;&nbsp; Standard</label>&nbsp;&nbsp;
+                                <label><input type="radio" name="contract_type" value="2" class="flat-red">&nbsp;&nbsp; Non Standard</label>
+                            </div>
                             {{Form::label('comments', 'Comments (optional)')}}<br>
                             <div class="form-group">
                                 {{Form::textarea('comments', '',['class'=>'form-control', 'placeholder'=>'Comments are optional'])}}
@@ -404,35 +416,32 @@
                             @endif
                             <td>
                                 <center>
-                                    @if($contracts->contract_drafts_status== 'archived')
-                                    <p class="text-light-primary">archived</p>
-                                    @elseif($contracts->contract_drafts_status== 'rejected')
-                                    <p class="text-light-primary">oh hold</p>
-                                    @else
                                     <p class="text-light-primary">{{ $contracts->task }}</p>
-                                    @endif
                                 </center>
                             </td>
-                            <td><a href="#modal_approve_comments" data-toggle="modal" data-target="#modal_approve_comments_{{ $contracts->contract_draft_id  }}"><strong>Comments</strong></a></p>
+                            <td><a href="#modal_show_action_comments" data-toggle="modal" data-target="#modal_show_action_comments_{{ $contracts->contract_draft_id  }}"><strong>Comments</strong></a></p>
                             </td>
                         </tr>
                         <!-- Modal to show comments for an approved contract -->
-                        <div class="modal fade" id="modal_approve_comments_{{ $contracts->contract_draft_id }}">
+                        <div class="modal fade" id="modal_show_action_comments_{{ $contracts->contract_draft_id }}">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     {!! Form::open(['class'=>'form']) !!}
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                                                    <span aria-hidden="true">&times;</span></button>
+                                        <span aria-hidden="true">&times;</span></button>
                                         <h4 class="modal-title">Comments</h4>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                {{Form::label('comments', 'Comments *')}}<br>
                                                 <div class="form-group">
                                                     {{Form::text('contract_id',$contracts->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])}}
+                                                    @if($contracts->comments == '')
+                                                    <p>No comments left for this action...</p>
+                                                    @else
                                                     <p>{{$contracts->comments}}</p>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -448,22 +457,29 @@
                         <!-- End modal show comments for an approved contract -->
                         @endforeach
 
-                        </section>
-                    </tbody>
-                </table>
-            </div>
+        </section>
+        </tbody>
+        </table>
+        </div>
     </div>
 
 @stop
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
     <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="/iCheck/all.css">
 @stop
 @section('js')
     <script src="/js/bootstrap-datepicker.min.js"></script>
+    <script src="/iCheck/icheck.min.js"></script>
     <script>
         $(function () {
                     $('#example1').DataTable()
+            //iCheck for checkbox and radio inputs
+            $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass   : 'iradio_flat-green'
+            })
                     })
     </script>
 
