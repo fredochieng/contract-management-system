@@ -20,6 +20,23 @@ class AdminController extends Controller
         $users = User::all();
         $organizations = DB::table('users_organizations')->pluck('organization_name', 'organization_id')->all();
         $roles = DB::table('roles')->pluck('name', 'id')->all();
+
+        $users = DB::table('users')
+            ->select(
+                DB::raw('users.*'),
+                DB::raw('users_details.*'),
+                DB::raw('users_organizations.*')
+                // DB::raw('model_has_roles.*'),
+                // DB::raw('roles.name AS role_name')
+                
+            )
+
+            ->leftJoin('users_details', 'users.id', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            // ->leftJoin('roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->orderBy('users.id', 'desc')
+            ->get();
         return view('contracts.users')->with([
             'users' => $users,
             'organizations' => $organizations,
@@ -76,7 +93,7 @@ class AdminController extends Controller
         );
 
         $save_users_details = DB::table('users_details')->insertGetId($user_data);
-        $save_role_details = DB::table('model_has_roles')->insertGetId( $user_role_data);
+        $save_role_details = DB::table('model_has_roles')->insertGetId($user_role_data);
         return redirect('user')->with('success', 'User Successfully saved!');
     }
 

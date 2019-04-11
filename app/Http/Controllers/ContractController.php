@@ -142,7 +142,10 @@ class ContractController extends Controller
 
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
         DB::table('contracts')->where('contract_id', $just_saved_contract_id)->update(array('last_draft_id' => $last_draft_id));
-        return redirect('contract')->with('success', 'Contract Successfully Created!');
+        // return redirect('contract')->with('success', 'Contract Successfully Saved!');
+        //  return redirect()->route('contract')
+        // ->with('success','You have no permission for this page!');
+        return back()->with('success', 'Contract created successfully!');
     }
 
     /**
@@ -221,7 +224,8 @@ class ContractController extends Controller
             'updated_by' => Auth::user()->id,
         );
         $last_draft_id = DB::table('contract_drafts')->where('contract_draft_id', $contract->last_draft_id)->update($contract_draft_data);
-        return redirect('contract')->with('success', 'Contract Successfully Updated!');
+        return back()->with('success', 'Contract Successfully Updated!');
+        //  return redirect('contract')->with('success', 'Contract Successfully Updated!');
     }
 
     /**
@@ -456,11 +460,20 @@ class ContractController extends Controller
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
         DB::table('contracts')->where('contract_id', $published_contract_id)->update(array('last_draft_id' => $last_draft_id));
 
-        return view('contracts.view')->with([
+        return back()->with([
             'contract' => $contract,
             'contract_drafts' => $contract_drafts,
-            'last_draft_contract_section' => $last_draft_contract_section
+            'last_draft_contract_section' => $last_draft_contract_section,
+            'success', 'Contract successfully published'
+
         ]);
+
+        //  return view('contracts.view')->with([
+        //     'success', 'Contract successfully published',
+        //     'contract' => $contract,
+        //     'contract_drafts' => $contract_drafts,
+        //     'last_draft_contract_section' => $last_draft_contract_section
+        // ]);
     }
     public function submit(request $request)
     {
@@ -604,12 +617,19 @@ class ContractController extends Controller
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
         DB::table('contracts')->where('contract_id', $submitted_contract_id)->update(array('last_draft_id' => $last_draft_id));
 
-        return view('contracts.view')->with([
+        return back()->with([
             'contract' => $contract,
             'contract_drafts' => $contract_drafts,
             'last_draft_contract_section' => $last_draft_contract_section,
-            'success', 'Contract Successfully Sent to the Legal Team for review'
+            'success', 'Contract successfully submitted to the Legal Admin for review'
         ]);
+
+        //        return view('contracts.view')->with([
+        //     'contract' => $contract,
+        //     'contract_drafts' => $contract_drafts,
+        //     'last_draft_contract_section' => $last_draft_contract_section,
+        //     'success', 'Contract Successfully Sent to the Legal Team for review'
+        // ]);
     }
     public function ammend(request $request)
     {
@@ -767,11 +787,19 @@ class ContractController extends Controller
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
         DB::table('contracts')->where('contract_id', $ammended_contract_id)->update(array('last_draft_id' => $last_draft_id));
 
-        return view('contracts.view')->with([
+        // return view('contracts.view')->with([
+        //     'contract' => $contract,
+        //     'contract_drafts' => $contract_drafts,
+        //     'last_draft_contract_section' => $last_draft_contract_section,
+        //     'success', 'Contract Successfully Sent to the Legal Team for review'
+
+        // ]);
+
+        return back()->with([
             'contract' => $contract,
             'contract_drafts' => $contract_drafts,
             'last_draft_contract_section' => $last_draft_contract_section,
-            'success', 'Contract Successfully Sent to the Legal Team for review'
+            'success', 'Contract successfully ammended and the contract owner has been notified'
 
         ]);
     }
@@ -914,16 +942,22 @@ class ContractController extends Controller
 
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
         DB::table('contracts')->where('contract_id', $terminated_contract_id)->update(array('last_draft_id' => $last_draft_id));
-        // echo "<pre>";
-        // print_r($terminated_contract);
-        // exit;
-        return view('contracts.view')->with([
+
+        return back()->with([
             'contract' => $contract,
             'contract_drafts' => $contract_drafts,
             'last_draft_contract_section' => $last_draft_contract_section,
-            'success', 'Contract Successfully Sent to the Legal Team for review'
+            'success', 'Contract successfully terminated and the contract owner has been notified'
 
         ]);
+
+        //  return view('contracts.view')->with([
+        //     'contract' => $contract,
+        //     'contract_drafts' => $contract_drafts,
+        //     'last_draft_contract_section' => $last_draft_contract_section,
+        //     'success', 'Contract Successfully Sent to the Legal Team for review'
+
+        // ]);
     }
 
     // Approve contract by admin
@@ -1063,12 +1097,21 @@ class ContractController extends Controller
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
         DB::table('contracts')->where('contract_id', $approved_contract_id)->update(array('last_draft_id' => $last_draft_id));
 
-        return view('contracts.view')->with([
+        return back()->with([
             'contract' => $contract,
             'contract_drafts' => $contract_drafts,
             'last_draft_contract_section' => $last_draft_contract_section,
-            'success', 'Contract Successfully Approved'
+            'success', 'Contract successfully approved and the contract owner has been notified'
+
         ]);
+
+
+        //    return view('contracts.view')->with([
+        //     'contract' => $contract,
+        //     'contract_drafts' => $contract_drafts,
+        //     'last_draft_contract_section' => $last_draft_contract_section,
+        //     'success', 'Contract Successfully Approved'
+        // ]);
     }
     // End approve contract by admin
 

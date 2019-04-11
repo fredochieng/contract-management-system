@@ -21,6 +21,9 @@
                     <th>S/N</th>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Organization</th>
+                    <th>Position</th>
+                    <th>Role</th>
                     <th></th>
                 </tr>
             </thead>
@@ -32,6 +35,9 @@
                     <td>{{ $count + 1 }}</td>
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
+                    <td>{{$user->organization_name}}</td>
+                    <td>{{$user->job_title}}</td>
+                    <td>{{$user->name}}</td>
                     <td><a href="#modal_edit_user_{{$user->id}}" data-toggle="modal" data-target="#modal_edit_user_{{$user->id}}"
                             class="btn btn-info btn-xs btn-flat">Edit</a> {!! Form::open(['action'=>['AdminController@destroy',$user->id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])
                         !!} {{Form::hidden('_method','DELETE')}}

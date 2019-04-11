@@ -1,18 +1,19 @@
-@extends('adminlte::page')
-@section('title', 'New Contract')
+@extends('adminlte::page') 
+@section('title', 'New Contract') 
 @section('content_header')
+    @include('adminlte::partials.messages')
 <h1>New Contract</h1>
 
-@stop
+
+
+@stop 
 @section('content')
-@include('adminlte::partials.messages')
 <style>
     .description {
         height: 90px !important
     }
 </style>
 <div class="box">
-
     <div class="box-body">
         <div class="col-md-8">
 
@@ -62,11 +63,9 @@
                 </div>
 
                 <div class="col-md-6">
-
                     {{Form::label('contract_document', 'Upload Contract Document *')}}
-
                     <div class="form-group">
-                        {{Form::file('contract_document',['class'=>'form-control', 'required'])}}
+                        {{Form::file('contract_document',['class'=>'form-control', 'required', 'accept'=>'.doc , .docx , .pdf'])}}           
                     </div>
                 </div>
 
@@ -74,19 +73,20 @@
                     {{Form::label('contract_crf', 'Upload Contract CRF (optional)')}}
 
                     <div class="form-group">
-                        {{Form::file('contract_crf',['class'=>'form-control'])}}
+                        {{Form::file('contract_crf',['class'=>'form-control', 'accept'=>'.doc , .docx , .pdf'])}}
                     </div>
                 </div>
 
                 <div class="col-md-12">
                     {{Form::label('description', 'Description')}}
                     <div class="form-group">
-                        {{Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Fully describe your contract information here for clarifications'])}}
+                        {{Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Fully describe your contract information
+                        here for clarifications'])}}
                     </div>
                 </div>
                 <div class="col-md-12">
 
-                    <button type="submit" class="btn btn-primary btn-flat" name="update_status">CREATE NEW CONTRACT </button>
+                    <button type="submit" class="btn btn-success" name="update_status">CREATE NEW CONTRACT </button>
                 </div>
                 {!! Form::close() !!}
             </div>
@@ -94,11 +94,14 @@
     </div>
 </div>
 
-@stop
+
+
+
+@stop 
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
-<link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
-@stop
+<link rel="stylesheet" href="/css/bootstrap-datepicker.min.css"> 
+@stop 
 @section('js')
 <script src="/js/bootstrap-datepicker.min.js"></script>
 <script>
@@ -171,7 +174,12 @@ function formatRepoSelection (repo) {
 
 	 })
  })
+
 </script>
+
+
+
+
 
 
 @stop

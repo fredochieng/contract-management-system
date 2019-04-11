@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2019 at 03:43 PM
+-- Generation Time: Apr 11, 2019 at 03:55 PM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -51,9 +51,26 @@ CREATE TABLE `contracts` (
 --
 
 INSERT INTO `contracts` (`contract_id`, `contract_title`, `party_name_id`, `effective_date`, `expiry_date`, `description`, `contract_type`, `stage`, `status`, `last_draft_id`, `created_by`, `updated_by`, `created_at`, `updated_at`, `last_action_by`) VALUES
-(1, 'Supply of PCs', 4, '2019-04-14', '2019-04-30', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book', NULL, 4, 'ammended', 17, 2, 2, '2019-04-10 05:24:32', '2019-04-10 11:07:08', 2),
-(2, 'Supply of monitors', 5, '2019-04-14', '2019-04-30', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book', NULL, 6, 'approved', 11, 2, 2, '2019-04-10 05:25:40', '2019-04-10 09:27:27', 2),
-(3, 'New Two', 4, '2019-04-07', '2019-04-30', 'sdvrgtrhtrhtrhtrh', NULL, 4, 'ammended', 20, 2, 2, '2019-04-10 10:10:29', '2019-04-10 13:11:50', 2);
+(1, 'Supply of PCs', 4, '2019-04-14', '2019-04-30', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book', 2, 4, 'ammended', 17, 2, 2, '2019-04-10 05:24:32', '2019-04-11 08:03:26', 2),
+(2, 'Supply of monitors', 5, '2019-04-14', '2019-04-30', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book', 1, 6, 'approved', 11, 2, 2, '2019-04-10 05:25:40', '2019-04-11 08:03:23', 2),
+(3, 'New Two', 4, '2019-04-07', '2019-04-30', 'sdvrgtrhtrhtrhtrh', 2, 4, 'ammended', 20, 2, 2, '2019-04-10 10:10:29', '2019-04-11 08:03:18', 2),
+(4, 'Supply of Android Boxes', 1, '2019-04-14', '2019-04-30', 'Dummy text is also used to demonstrate the appearance of different typefaces and layouts, and in general the content of dummy text is nonsensical. Due to its widespread use as filler text for layouts,', 1, 3, 'submitted', 23, 2, 2, '2019-04-11 03:24:23', '2019-04-11 08:03:35', 2),
+(5, 'Testing Notifications', 4, '2019-04-11', '2019-05-11', 'erererrerrr', NULL, 2, 'published', 25, 2, 2, '2019-04-11 06:06:48', '2019-04-11 09:11:39', 2),
+(6, 'Testing Notifications Part 2', 5, '2019-04-16', '2019-04-30', 'gttt rttttt', NULL, 1, 'created', 26, 2, 2, '2019-04-11 06:27:41', '2019-04-11 09:27:41', 2),
+(7, 'Testing Notifications Part 3', 1, '2019-04-11', '2019-04-30', 'jhhn', NULL, 1, 'created', 27, 2, 2, '2019-04-11 06:30:05', '2019-04-11 09:30:05', 2),
+(8, 'Testing Notifications Part 4', 4, '2019-04-12', '2019-05-01', 'jijji', NULL, 1, 'created', 28, 2, 2, '2019-04-11 06:31:18', '2019-04-11 09:31:18', 2),
+(9, 'Testing Notifications Part 5', 1, '2019-04-14', '2019-04-24', 'xcuh', NULL, 1, 'created', 29, 2, 2, '2019-04-11 06:37:48', '2019-04-11 09:37:48', 2),
+(10, 'Testing Notifications Part 6', 4, '1970-01-01', '1970-01-01', 'frfrrrggg fdfdff', NULL, 1, 'created', 30, 2, 2, '2019-04-11 06:41:37', '2019-04-11 09:16:20', 2),
+(11, 'Testing Notifications Part 7', 4, '2019-04-17', '2019-04-24', 'errr', NULL, 2, 'published', 46, 2, 2, '2019-04-11 06:46:08', '2019-04-11 11:31:51', 2),
+(12, 'Testing Notifications Part 8', 4, '2019-04-14', '2019-04-26', 'dwef', NULL, 5, 'terminated', 56, 2, 2, '2019-04-11 06:47:33', '2019-04-11 12:10:34', 2),
+(13, 'Testing Notifications Part 8', 4, '2019-04-21', '2019-04-22', 'rr4r4', 2, 6, 'approved', 55, 2, 2, '2019-04-11 06:53:00', '2019-04-11 12:05:58', 2),
+(14, 'Testing Notifications Part 9', 4, '2019-04-15', '2019-04-25', 'efrferer', NULL, 4, 'ammended', 53, 2, 2, '2019-04-11 07:42:11', '2019-04-11 12:04:10', 2),
+(15, 'Testing Notifications Part 9', 4, '2019-04-15', '2019-04-25', 'efrferer', NULL, 5, 'terminated', 52, 2, 2, '2019-04-11 07:42:32', '2019-04-11 11:44:12', 2),
+(16, 'Testing Notifications Part 9', 4, '2019-04-15', '2019-04-25', 'efrferer', NULL, 4, 'ammended', 51, 2, 2, '2019-04-11 07:44:33', '2019-04-11 11:43:42', 2),
+(17, 'Testing Notifications Part 10', 5, '2019-04-12', '2019-04-30', '3rgtggghyhyh', 2, 6, 'approved', 50, 2, 2, '2019-04-11 07:46:54', '2019-04-11 11:41:01', 2),
+(18, 'Testing Notifications Part 11', 4, '2019-04-14', '2019-04-25', 'fvrgvgv', 1, 6, 'approved', 48, 2, 2, '2019-04-11 07:50:49', '2019-04-11 11:39:46', 2),
+(19, 'Testing Notifications Part 13', 1, '2019-04-11', '2019-04-30', 'weftrtrhtt', NULL, 1, 'created', 57, 2, 2, '2019-04-11 09:16:51', '2019-04-11 12:16:51', 2),
+(20, 'Testing Notifications Part 15', 4, '2019-04-15', '2019-04-17', 'ghhhhhhhh', NULL, 1, 'created', 58, 2, 2, '2019-04-11 10:08:18', '2019-04-11 13:08:18', 2);
 
 -- --------------------------------------------------------
 
@@ -89,7 +106,45 @@ INSERT INTO `contract_drafts` (`contract_draft_id`, `contract_id`, `stage_id`, `
 (17, 1, 4, 'uploads/contract_documents/FqDiCqrZB2eRkdngEgqoEXuPsq3vWx.png', 'ammended', 'Ammende for further actions', 'uploads/contract_documents/XSmN23Wbtck10j5KjLm0nzvQ3jqFB4.png', 2, 2, '2019-04-10 11:07:08', '2019-04-10 11:07:08'),
 (18, 3, 1, 'uploads/contract_documents/p8Vgu2IA5K0U7Qvnl00NZsynYAs9f8.png', 'created', NULL, 'uploads/contract_documents/PEAltHAMtQZOp32WEWP8GDeiUSyX9K.png', 2, 2, '2019-04-10 13:10:29', '2019-04-10 13:10:29'),
 (19, 3, 2, 'uploads/contract_documents/p8Vgu2IA5K0U7Qvnl00NZsynYAs9f8.png', 'published', NULL, 'uploads/contract_documents/PEAltHAMtQZOp32WEWP8GDeiUSyX9K.png', 2, 2, '2019-04-10 13:10:47', '2019-04-10 13:10:47'),
-(20, 3, 4, 'uploads/contract_documents/RtrvLCbduJ9UTSOExTueZaT65RE9J9.png', 'ammended', 'weftrh3t44545y', 'uploads/contract_documents/IkAKNfK5dUiTTePzFxwMnzbOlATPiM.png', 2, 2, '2019-04-10 13:11:50', '2019-04-10 13:11:50');
+(20, 3, 4, 'uploads/contract_documents/RtrvLCbduJ9UTSOExTueZaT65RE9J9.png', 'ammended', 'weftrh3t44545y', 'uploads/contract_documents/IkAKNfK5dUiTTePzFxwMnzbOlATPiM.png', 2, 2, '2019-04-10 13:11:50', '2019-04-10 13:11:50'),
+(21, 4, 1, 'uploads/contract_documents/lsuSUCcsAAaextql5juTOh5n90N606.png', 'created', NULL, 'uploads/contract_documents/izQ7J0zQxX1Vvf8Y1Z3mkKisv9Y5rI.png', 2, 2, '2019-04-11 06:24:23', '2019-04-11 06:24:23'),
+(22, 4, 2, 'uploads/contract_documents/lsuSUCcsAAaextql5juTOh5n90N606.png', 'published', NULL, 'uploads/contract_documents/izQ7J0zQxX1Vvf8Y1Z3mkKisv9Y5rI.png', 2, 2, '2019-04-11 06:28:58', '2019-04-11 06:28:58'),
+(23, 4, 3, 'uploads/contract_documents/lsuSUCcsAAaextql5juTOh5n90N606.png', 'submitted', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'uploads/contract_documents/izQ7J0zQxX1Vvf8Y1Z3mkKisv9Y5rI.png', 2, 2, '2019-04-11 08:02:24', '2019-04-11 08:02:24'),
+(24, 5, 1, 'uploads/contract_documents/1KK23Yz8HafmF5CNvOTrElsVsEW5vH.png', 'created', NULL, 'uploads/contract_documents/Sw0t6UTXmM0ywo8oWg3bawnVYaOZ4r.png', 2, 2, '2019-04-11 09:06:48', '2019-04-11 09:06:48'),
+(25, 5, 2, 'uploads/contract_documents/1KK23Yz8HafmF5CNvOTrElsVsEW5vH.png', 'published', NULL, 'uploads/contract_documents/Sw0t6UTXmM0ywo8oWg3bawnVYaOZ4r.png', 2, 2, '2019-04-11 09:11:39', '2019-04-11 09:11:39'),
+(26, 6, 1, 'uploads/contract_documents/s1OEnxXKzsE6Rmd2WDhnRCK3qiYvdO.png', 'created', NULL, 'uploads/contract_documents/RpTqq9Zu6kzW1mU0HmrRmghaLbFzqM.png', 2, 2, '2019-04-11 09:27:41', '2019-04-11 09:27:41'),
+(27, 7, 1, 'uploads/contract_documents/mCLtmy14MctitE0sMp172KtTbe4Dsv.png', 'created', NULL, 'uploads/contract_documents/ob8e631s7yCq77yHf0ShvmjBrSEKXL.png', 2, 2, '2019-04-11 09:30:05', '2019-04-11 09:30:05'),
+(28, 8, 1, 'uploads/contract_documents/aMnKGT71olgaZmrZgimjwsdgoRZvYu.png', 'created', NULL, 'uploads/contract_documents/WRSYZUBADTR8cEsQ1e9wV1l3Ylr05s.png', 2, 2, '2019-04-11 09:31:18', '2019-04-11 09:31:18'),
+(29, 9, 1, 'uploads/contract_documents/1zNTaP9dbJmXh5sO3g2TK5fFdNrDdz.png', 'created', NULL, 'uploads/contract_documents/ZJIcx1ZVC9i4W6Cvpo6sSFK9hfStAS.png', 2, 2, '2019-04-11 09:37:48', '2019-04-11 09:37:48'),
+(30, 10, 1, '', 'created', NULL, '', 2, 2, '2019-04-11 09:41:38', '2019-04-11 12:15:00'),
+(31, 11, 1, 'uploads/contract_documents/6aHHNRAHFwozAFkjOJ4g23pSRatwWK.png', 'created', NULL, 'uploads/contract_documents/bjkTVj5sSGGGGJHxNv1q05V8Y4tm3l.png', 2, 2, '2019-04-11 09:46:08', '2019-04-11 09:46:08'),
+(32, 12, 1, 'uploads/contract_documents/cIV6IcSKgzWvrS2kw4zSKzyHIorarN.png', 'created', NULL, 'uploads/contract_documents/SX4ZvsFdjsNGZTDq4F1OVasPV7GjZ1.png', 2, 2, '2019-04-11 09:47:33', '2019-04-11 09:47:33'),
+(33, 13, 1, 'uploads/contract_documents/B0a5GUzhHvhypcdCiyLVz1UVKBTrdY.png', 'created', NULL, 'uploads/contract_documents/VmH6C5oyX315pByzXnTejeX7buj5NS.png', 2, 2, '2019-04-11 09:53:00', '2019-04-11 09:53:00'),
+(34, 14, 1, 'uploads/contract_documents/qiuTNCvWFqDqLrvACHgJbU0UUgyNDe.png', 'created', NULL, 'uploads/contract_documents/Zd5qmRkU31dYPx1YcGtLSAWps80vFx.png', 2, 2, '2019-04-11 10:42:11', '2019-04-11 10:42:11'),
+(35, 15, 1, 'uploads/contract_documents/DToMGiTeJN58Fb5qDPJoOooU0VyoJM.png', 'created', NULL, 'uploads/contract_documents/aql7y0HjMNUmtGdNChaVCEIGaGexjC.png', 2, 2, '2019-04-11 10:42:32', '2019-04-11 10:42:32'),
+(36, 16, 1, 'uploads/contract_documents/FRtOqvmd59kWxgVjWKvChlYZLi10Re.png', 'created', NULL, 'uploads/contract_documents/uF1TFjGp9yXtNkdsGYJkOyYneJJTBs.png', 2, 2, '2019-04-11 10:44:34', '2019-04-11 10:44:34'),
+(37, 17, 1, 'uploads/contract_documents/aL16tpyZZGGh9fpbMTShc96iilrleI.png', 'created', NULL, 'uploads/contract_documents/YprgHD8Ad1tyeHdOakgZgZ2CAcN0Ra.png', 2, 2, '2019-04-11 10:46:54', '2019-04-11 10:46:54'),
+(38, 18, 1, 'uploads/contract_documents/HRmEITIyLUDopyD6hUjjxObpuGwb8r.png', 'created', NULL, 'uploads/contract_documents/vNJzXFk0S8efBSfqB3ffd22mlfSYNB.png', 2, 2, '2019-04-11 10:50:49', '2019-04-11 10:50:49'),
+(39, 18, 2, 'uploads/contract_documents/HRmEITIyLUDopyD6hUjjxObpuGwb8r.png', 'published', NULL, 'uploads/contract_documents/vNJzXFk0S8efBSfqB3ffd22mlfSYNB.png', 2, 2, '2019-04-11 11:08:49', '2019-04-11 11:08:49'),
+(40, 17, 2, 'uploads/contract_documents/aL16tpyZZGGh9fpbMTShc96iilrleI.png', 'published', NULL, 'uploads/contract_documents/YprgHD8Ad1tyeHdOakgZgZ2CAcN0Ra.png', 2, 2, '2019-04-11 11:09:51', '2019-04-11 11:09:51'),
+(41, 16, 2, 'uploads/contract_documents/FRtOqvmd59kWxgVjWKvChlYZLi10Re.png', 'published', NULL, 'uploads/contract_documents/uF1TFjGp9yXtNkdsGYJkOyYneJJTBs.png', 2, 2, '2019-04-11 11:19:26', '2019-04-11 11:19:26'),
+(42, 15, 2, 'uploads/contract_documents/DToMGiTeJN58Fb5qDPJoOooU0VyoJM.png', 'published', NULL, 'uploads/contract_documents/aql7y0HjMNUmtGdNChaVCEIGaGexjC.png', 2, 2, '2019-04-11 11:24:34', '2019-04-11 11:24:34'),
+(43, 14, 2, 'uploads/contract_documents/qiuTNCvWFqDqLrvACHgJbU0UUgyNDe.png', 'published', NULL, 'uploads/contract_documents/Zd5qmRkU31dYPx1YcGtLSAWps80vFx.png', 2, 2, '2019-04-11 11:27:43', '2019-04-11 11:27:43'),
+(44, 13, 2, 'uploads/contract_documents/B0a5GUzhHvhypcdCiyLVz1UVKBTrdY.png', 'published', NULL, 'uploads/contract_documents/VmH6C5oyX315pByzXnTejeX7buj5NS.png', 2, 2, '2019-04-11 11:28:37', '2019-04-11 11:28:37'),
+(45, 12, 2, 'uploads/contract_documents/cIV6IcSKgzWvrS2kw4zSKzyHIorarN.png', 'published', NULL, 'uploads/contract_documents/SX4ZvsFdjsNGZTDq4F1OVasPV7GjZ1.png', 2, 2, '2019-04-11 11:31:09', '2019-04-11 11:31:09'),
+(46, 11, 2, 'uploads/contract_documents/6aHHNRAHFwozAFkjOJ4g23pSRatwWK.png', 'published', NULL, 'uploads/contract_documents/bjkTVj5sSGGGGJHxNv1q05V8Y4tm3l.png', 2, 2, '2019-04-11 11:31:51', '2019-04-11 11:31:51'),
+(47, 18, 3, 'uploads/contract_documents/HRmEITIyLUDopyD6hUjjxObpuGwb8r.png', 'submitted', 'the contract is good', 'uploads/contract_documents/vNJzXFk0S8efBSfqB3ffd22mlfSYNB.png', 2, 2, '2019-04-11 11:39:05', '2019-04-11 11:39:05'),
+(48, 18, 6, 'uploads/contract_documents/HRmEITIyLUDopyD6hUjjxObpuGwb8r.png', 'approved', 'approved for shelving', 'uploads/contract_documents/vNJzXFk0S8efBSfqB3ffd22mlfSYNB.png', 2, 2, '2019-04-11 11:39:46', '2019-04-11 11:39:46'),
+(49, 17, 3, 'uploads/contract_documents/aL16tpyZZGGh9fpbMTShc96iilrleI.png', 'submitted', 'rrrrt', 'uploads/contract_documents/YprgHD8Ad1tyeHdOakgZgZ2CAcN0Ra.png', 2, 2, '2019-04-11 11:40:52', '2019-04-11 11:40:52'),
+(50, 17, 6, 'uploads/contract_documents/aL16tpyZZGGh9fpbMTShc96iilrleI.png', 'approved', '4tty', 'uploads/contract_documents/YprgHD8Ad1tyeHdOakgZgZ2CAcN0Ra.png', 2, 2, '2019-04-11 11:41:01', '2019-04-11 11:41:01'),
+(51, 16, 4, 'uploads/contract_documents/mx7C6bwabXxFSxU4fdwNklrWhFDLVG.png', 'ammended', 'mj jjyh nymy', 'uploads/contract_documents/OoW0sJlGoYNp9IY0RyvljLz2ZBducf.png', 2, 2, '2019-04-11 11:43:42', '2019-04-11 11:43:42'),
+(52, 15, 5, 'uploads/contract_documents/DToMGiTeJN58Fb5qDPJoOooU0VyoJM.png', 'terminated', 'loioio', 'uploads/contract_documents/aql7y0HjMNUmtGdNChaVCEIGaGexjC.png', 2, 2, '2019-04-11 11:44:12', '2019-04-11 11:44:12'),
+(53, 14, 4, 'uploads/contract_documents/qiuTNCvWFqDqLrvACHgJbU0UUgyNDe.png', 'ammended', 'ammende by me', 'uploads/contract_documents/Zd5qmRkU31dYPx1YcGtLSAWps80vFx.png', 2, 2, '2019-04-11 12:04:10', '2019-04-11 12:04:10'),
+(54, 13, 3, 'uploads/contract_documents/B0a5GUzhHvhypcdCiyLVz1UVKBTrdY.png', 'submitted', 'submitted by meeeeeeee', 'uploads/contract_documents/VmH6C5oyX315pByzXnTejeX7buj5NS.png', 2, 2, '2019-04-11 12:05:52', '2019-04-11 12:05:52'),
+(55, 13, 6, 'uploads/contract_documents/B0a5GUzhHvhypcdCiyLVz1UVKBTrdY.png', 'approved', 'rfrfrfr', 'uploads/contract_documents/VmH6C5oyX315pByzXnTejeX7buj5NS.png', 2, 2, '2019-04-11 12:05:58', '2019-04-11 12:05:58'),
+(56, 12, 5, 'uploads/contract_documents/cIV6IcSKgzWvrS2kw4zSKzyHIorarN.png', 'terminated', 'f fff', 'uploads/contract_documents/SX4ZvsFdjsNGZTDq4F1OVasPV7GjZ1.png', 2, 2, '2019-04-11 12:10:34', '2019-04-11 12:10:34'),
+(57, 19, 1, 'uploads/contract_documents/S39DPxOcaIUochW7kd8Ge4dU7mgVyu.png', 'created', NULL, 'uploads/contract_documents/szT0TVYaODrzzXwvLwYF7PNgP3tchk.png', 2, 2, '2019-04-11 12:16:51', '2019-04-11 12:16:51'),
+(58, 20, 1, 'uploads/contract_documents/4A3JNBmpOtMCcFuGOBzr9JLJvif2ao.txt', 'created', NULL, 'uploads/contract_documents/r9yXvoOPFP4rNDOCEdNNrSK5gDQDWc.docx', 2, 2, '2019-04-11 13:08:18', '2019-04-11 13:08:18');
 
 -- --------------------------------------------------------
 
@@ -503,13 +558,13 @@ ALTER TABLE `users_organizations`
 -- AUTO_INCREMENT for table `contracts`
 --
 ALTER TABLE `contracts`
-  MODIFY `contract_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `contract_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `contract_drafts`
 --
 ALTER TABLE `contract_drafts`
-  MODIFY `contract_draft_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `contract_draft_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `contract_types`

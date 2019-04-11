@@ -412,19 +412,19 @@
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th style="width:40px">#</th>
+                            <th style="width:20px">S/N</th>
                             <th style="width:130px">User</th>
                             <th>Position</th>
-                            <th>Date Created</th>
-                            <th>Contract Draft</th>
-                            <th>CRF</th>
+                            <th>Date</th>
+                            <th style="width:50px">Contract Draft</th>
+                            <th>CRF Document</th>
                             <th>
                                 <center>Status</center>
                             </th>
                             <th>
                                 <center>Stage</center>
                             </th>
-                            <th>Comments</th>
+                            <th style="width:50px">Comments</th>
                         </tr>
                     </thead>
                     <tbody>

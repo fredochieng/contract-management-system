@@ -1,17 +1,19 @@
-<?php $__env->startSection('title', 'New Contract'); ?>
+ 
+<?php $__env->startSection('title', 'New Contract'); ?> 
 <?php $__env->startSection('content_header'); ?>
+    <?php echo $__env->make('adminlte::partials.messages', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <h1>New Contract</h1>
 
-<?php $__env->stopSection(); ?>
+
+
+<?php $__env->stopSection(); ?> 
 <?php $__env->startSection('content'); ?>
-<?php echo $__env->make('adminlte::partials.messages', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <style>
     .description {
         height: 90px !important
     }
 </style>
 <div class="box">
-
     <div class="box-body">
         <div class="col-md-8">
 
@@ -73,8 +75,9 @@
 
 
                     <div class="form-group">
-                        <?php echo e(Form::file('contract_document',['class'=>'form-control', 'required'])); ?>
+                        <?php echo e(Form::file('contract_document',['class'=>'form-control', 'required', 'contract_document' => 'mimes:pdf,doc,docx'])); ?>
 
+                       
                     </div>
                 </div>
 
@@ -83,7 +86,7 @@
 
 
                     <div class="form-group">
-                        <?php echo e(Form::file('contract_crf',['class'=>'form-control'])); ?>
+                        <?php echo e(Form::file('contract_crf',['class'=>'form-control', 'accept'=>'.doc , .docx , .pdf'])); ?>
 
                     </div>
                 </div>
@@ -92,13 +95,14 @@
                     <?php echo e(Form::label('description', 'Description')); ?>
 
                     <div class="form-group">
-                        <?php echo e(Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Fully describe your contract information here for clarifications'])); ?>
+                        <?php echo e(Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Fully describe your contract information
+                        here for clarifications'])); ?>
 
                     </div>
                 </div>
                 <div class="col-md-12">
 
-                    <button type="submit" class="btn btn-primary btn-flat" name="update_status">CREATE NEW CONTRACT </button>
+                    <button type="submit" class="btn btn-success" name="update_status">CREATE NEW CONTRACT </button>
                 </div>
                 <?php echo Form::close(); ?>
 
@@ -107,11 +111,14 @@
     </div>
 </div>
 
-<?php $__env->stopSection(); ?>
+
+
+
+<?php $__env->stopSection(); ?> 
 <?php $__env->startSection('css'); ?>
 <link rel="stylesheet" href="/css/admin_custom.css">
-<link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
-<?php $__env->stopSection(); ?>
+<link rel="stylesheet" href="/css/bootstrap-datepicker.min.css"> 
+<?php $__env->stopSection(); ?> 
 <?php $__env->startSection('js'); ?>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 <script>
@@ -184,9 +191,13 @@ function formatRepoSelection (repo) {
 
 	 })
  })
+
 </script>
 
 
-<?php $__env->stopSection(); ?>
 
+
+
+
+<?php $__env->stopSection(); ?>
 <?php echo $__env->make('adminlte::page', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
