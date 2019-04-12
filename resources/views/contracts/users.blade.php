@@ -37,7 +37,7 @@
                     <td>{{$user->email}}</td>
                     <td>{{$user->organization_name}}</td>
                     <td>{{$user->job_title}}</td>
-                    <td>{{$user->name}}</td>
+                    <td>{{$user->role_name}}</td>
                     <td><a href="#modal_edit_user_{{$user->id}}" data-toggle="modal" data-target="#modal_edit_user_{{$user->id}}"
                             class="btn btn-info btn-xs btn-flat">Edit</a> {!! Form::open(['action'=>['AdminController@destroy',$user->id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])
                         !!} {{Form::hidden('_method','DELETE')}}

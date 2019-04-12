@@ -1,6 +1,6 @@
 <?php
 
-$logo_url="/images/branding/logo.png";
+$logo_url = "/images/branding/logo.png";
 return [
 
     /*
@@ -32,9 +32,9 @@ return [
     |
     */
 
-    'logo' => '<img src="'.$logo_url.'"> CMS',
+    'logo' => '<img src="' . $logo_url . '"> CMS',
 
-    'logo_mini' => '<img src="'.$logo_url.'">',
+    'logo_mini' => '<img src="' . $logo_url . '">',
 
     /*
     |--------------------------------------------------------------------------
@@ -112,24 +112,24 @@ return [
     'menu' => [
         'MAIN NAVIGATION',
 
-		[
+        [
             'text' => 'Dashboard',
             'url'  => '/home',
-			'icon'        => 'home',
-           // 'can'  => '',
+            'icon'        => 'home',
+            // 'can'  => '',
         ],
         [
             'text' => 'Manage Contracts',
             'url'  => 'contract',
-			//'icon'        => 'file',
-           // 'can'  => '',
+            //'icon'        => 'file',
+            // 'can'  => 'Manage Contracts',
         ],
 
-		[
+        [
             'text' => 'Create Contract',
             'url'  => 'contract/create',
-           // 'can'  => '',
-        ],[
+            // 'can'  => '',
+        ], [
             'text' => 'Manage Users',
             'url'  => '/user',
             // 'can'  => '',

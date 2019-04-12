@@ -70,14 +70,10 @@
                 </div>
 
                 <div class="col-md-6">
-
                     <?php echo e(Form::label('contract_document', 'Upload Contract Document *')); ?>
 
-
                     <div class="form-group">
-                        <?php echo e(Form::file('contract_document',['class'=>'form-control', 'required', 'contract_document' => 'mimes:pdf,doc,docx'])); ?>
-
-                       
+                        <?php echo e(Form::file('contract_document',['class'=>'form-control', 'required', 'accept'=>'.doc , .docx , .pdf'])); ?>           
                     </div>
                 </div>
 

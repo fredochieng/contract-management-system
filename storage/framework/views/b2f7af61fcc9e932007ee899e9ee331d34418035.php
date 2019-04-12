@@ -36,7 +36,7 @@
                     <td><?php echo e($user->email); ?></td>
                     <td><?php echo e($user->organization_name); ?></td>
                     <td><?php echo e($user->job_title); ?></td>
-                    <td><?php echo e($user->name); ?></td>
+                    <td><?php echo e($user->role_name); ?></td>
                     <td><a href="#modal_edit_user_<?php echo e($user->id); ?>" data-toggle="modal" data-target="#modal_edit_user_<?php echo e($user->id); ?>"
                             class="btn btn-info btn-xs btn-flat">Edit</a> <?php echo Form::open(['action'=>['AdminController@destroy',$user->id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?> <?php echo e(Form::hidden('_method','DELETE')); ?>
 

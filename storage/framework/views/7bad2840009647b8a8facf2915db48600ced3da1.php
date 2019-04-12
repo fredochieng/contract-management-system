@@ -3,8 +3,6 @@
 <h1>View Contract Details</h1>
 
 
-
-
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <style>
@@ -101,26 +99,35 @@
             </div>
             <div class="row no-print">
                 <div class="col-xs-12">
+                    
                     <?php if( $contract->contract_status =='created' && $contract->contract_stage ==1): ?>
-                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> PUBLISH CONTRACT</button> <?php elseif($contract->contract_status
-                    =='published' && $contract->contract_stage ==2): ?>
-                    <a href="#modal_submit_contract" data-toggle="modal" data-target="#modal_submit_contract" class="btn btn-success"><i class="fa fa-check"></i> SUBMIT CONTRACT</a>
-                    <a href="#modal_ammend_contract" data-toggle="modal" data-target="#modal_ammend_contract" class="btn btn-info"><i class="fa fa-refresh"></i> AMMEND CONTRACT</a>
-                    <a href="#modal_terminate_contract" data-toggle="modal" data-target="#modal_terminate_contract" class="btn btn-danger"><i class="fa fa-close"></i> TERMINATE CONTRACT</a>                    <?php elseif($contract->contract_status =='submitted' && $contract->contract_stage ==3): ?> 
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> PUBLISH CONTRACT</button>
+                    <?php elseif($contract->contract_status=='published' && auth()->user()->isAdmin() || auth()->user()->isLegal() ): ?>
+                    <a href="#modal_submit_contract" data-toggle="modal" data-target="#modal_submit_contract" class="btn btn-success">
+                        <i class="fa fa-check"></i> SUBMIT CONTRACT</a>
+                    <a href="#modal_ammend_contract" data-toggle="modal" data-target="#modal_ammend_contract" class="btn btn-info">
+                        <i class="fa fa-refresh"></i> AMMEND CONTRACT</a>
+                    <a href="#modal_terminate_contract" data-toggle="modal" data-target="#modal_terminate_contract" class="btn btn-danger">
+                        <i class="fa fa-close"></i> TERMINATE CONTRACT</a>
+                        <?php elseif($contract->contract_status=='published' && auth()->user()->isUser()): ?>
+                       <p class="col-md-6 text-red well well-sm no-shadow" style="margin-top: 10px;">
+                            his contract has been terminated and the initiator has been notified
+                        </p>
+                    <?php elseif($contract->contract_status =='submitted' && $contract->contract_stage ==3): ?> 
                     <a href="#modal_approve_contract" data-toggle="modal" data-target="#modal_approve_contract" class="btn btn-success"><i class="fa fa-check"></i> APPROVE CONTRACT</a>
                     <a href="#modal_admin_ammend_contract" data-toggle="modal" data-target="#modal_admin_ammend_contract" class="btn btn-info"><i class="fa fa-refresh"></i> AMMEND CONTRACT</a>
-                    <a href="#modal_admin_terminate_contract" data-toggle="modal" data-target="#modal_admin_terminate_contract" class="btn btn-danger"><i class="fa fa-close"></i> TERMINATE CONTRACT</a>                    <?php elseif($contract->contract_status =='terminated'): ?>
-                    <p class="col-md-6 text-red well well-sm no-shadow" style="margin-top: 10px;">
-                        his contract has been terminated and the initiator has been notified
+                    <a href="#modal_admin_terminate_contract" data-toggle="modal" data-target="#modal_admin_terminate_contract" class="btn btn-danger"><i class="fa fa-close"></i> TERMINATE CONTRACT</a>
+                     <?php elseif($contract->contract_status =='terminated'): ?>
+                    <p class="col-md-6 text-blue well well-sm no-shadow" style="margin-top: 10px;">
+                        The contract has been published for the Leagl team to review
                     </p>
                     <?php elseif($contract->contract_status =='ammended'): ?>
                     <p class="col-md-6 text-red well well-sm no-shadow" style="margin-top: 10px;">
                         This contract has been ammended waiting for the action by the contract party
                     </p>
-                    <?php endif; ?>
-
-                    <a href="/<?php echo e($last_draft_contract_section->crf_file); ?>" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> Latest CRF Document</a>
-                    <a href="/<?php echo e($contract->draft_file); ?>" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> Latest Contract Document</a>                    <?php echo Form::close(); ?>
+                    <?php endif; ?> <?php if($last_draft_contract_section->crf_file ==''): ?> <?php else: ?>
+                    <a href="/<?php echo e($last_draft_contract_section->crf_file); ?>" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> Latest CRF Document</a>                    <?php endif; ?>
+                    <a href="/<?php echo e($last_draft_contract_section->draft_file); ?>" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> Latest Contract Document</a>                    <?php echo Form::close(); ?>
 
 
                 </div>
@@ -409,7 +416,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="example1" class="table no-margin">
                     <thead>
                         <tr>
                             <th style="width:20px">S/N</th>
@@ -435,11 +442,16 @@
                             <td><?php echo e($contracts->job_title); ?></td>
                             <td><?php echo e($contracts->contract_drafts_created_at); ?></td>
                             <td style="width:120px"> <a href="/<?php echo e($contracts->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
+                            <?php if($contracts->crf_file ==''): ?>
+                            <td style="width:120px"> <a href="#"> No CRF Document</a></td>
+                            <?php else: ?>
                             <td style="width:120px"> <a href="/<?php echo e($contracts->crf_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
+<?php endif; ?>
                             <td>
                                 <center><span class="pull-right-container">
                                     <?php if($contracts->contract_drafts_status == 'created'): ?>
-                                        <small class="label pull-center btn-default"><?php echo e($contracts->contract_drafts_status); ?></small></span>                                    <?php elseif($contracts->contract_drafts_status== 'published'): ?>
+                                    <small class="label pull-center btn-default"><?php echo e($contracts->contract_drafts_status); ?></small></span>
+                                    <?php elseif($contracts->contract_drafts_status== 'published'): ?>
                                     <small class="label pull-center btn-info"><?php echo e($contracts->contract_drafts_status); ?></small></span>
                                     <?php elseif($contracts->contract_drafts_status== 'submitted'): ?>
                                     <small class="label pull-center btn-success"><?php echo e($contracts->contract_drafts_status); ?></small></span>
@@ -504,6 +516,8 @@
         </div>
     </div>
 
+
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>
     <link rel="stylesheet" href="/css/admin_custom.css">
@@ -523,6 +537,8 @@
             })
                     })
     </script>
+
+
 
 <?php $__env->stopSection(); ?>
 

@@ -23,14 +23,14 @@
         <table id="example1" class="table table-striped table-bordered records">
             <thead>
                 <tr>
-                    <th style="width:25px;">#</th>
+                    <th style="width:25px;">S/N</th>
                     <th style="width:400px;">Contract Title</th>
                     <th style="width:160px;">Party Name</th>
                     <th style="width:145px;">Uploads</th>
                     <th style="width:90px;">Effective Date</th>
                     <th style="width:90px;">Expiry Date</th>
                     <th style="width:50px;">Status</th>
-                    <th style="width:50px;"></th>
+                    <th style="width:50px;">Action</th>
                 </tr>
             </thead>
             <tbody>

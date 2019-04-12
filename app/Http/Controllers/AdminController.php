@@ -25,16 +25,16 @@ class AdminController extends Controller
             ->select(
                 DB::raw('users.*'),
                 DB::raw('users_details.*'),
-                DB::raw('users_organizations.*')
-                // DB::raw('model_has_roles.*'),
-                // DB::raw('roles.name AS role_name')
-                
+                DB::raw('users_organizations.*'),
+                DB::raw('model_has_roles.*'),
+                DB::raw('roles.name AS role_name')
+
             )
 
             ->leftJoin('users_details', 'users.id', '=', 'users_details.user_id')
             ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
             ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            // ->leftJoin('roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->orderBy('users.id', 'desc')
             ->get();
         return view('contracts.users')->with([
