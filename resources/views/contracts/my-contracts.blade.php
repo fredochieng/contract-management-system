@@ -1,12 +1,10 @@
 @extends('adminlte::page')
-@section('title', 'Contracts')
+@section('title', 'My Contracts')
 @section('content_header')
 <h1>
-    Contracts
+    My Contracts
     <a href="/contract/create" class="btn btn-xs btn-info pull-right btn-flat">NEW CONTRACT</a>
 </h1>
-
-
 @stop
 @section('content')
 <style>
@@ -36,49 +34,46 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($contracts as $key=>$contract)
+                @foreach($my_contracts as $key=>$my_contract)
                 <tr>
                     <td>{{ $key+1}}</td>
-                    <td><a href="/contract/{{$contract->contract_id}}/view">{{$contract->contract_title}}</a></td>
-                    <td>{{$contract->party_name}}</td>
-                    <td><a href="/{{$contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>                        |
-                        <a href="/{{$contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
+                    <td><a href="/contract/{{$my_contract->contract_id}}/view">{{$my_contract->contract_title}}</a></td>
+                    <td>{{$my_contract->party_name}}</td>
+                    <td><a href="/{{$my_contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>                        |
+                        <a href="/{{$my_contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
                     </td>
-                    <td>{{date("d-m-Y",strtotime($contract->effective_date))}}</td>
-                    <td>{{date("d-m-Y",strtotime($contract->expiry_date))}}</td>
+                    <td>{{date("d-m-Y",strtotime($my_contract->effective_date))}}</td>
+                    <td>{{date("d-m-Y",strtotime($my_contract->expiry_date))}}</td>
                     <td><span class="pull-right-container">
-                        @if($contract->contract_status == 'created')
-                        <small class="label pull-center btn-warning">{{$contract->contract_status}}</small></span> @elseif($contract->contract_status
+                        @if($my_contract->contract_status == 'created')
+                        <small class="label pull-center btn-warning">{{$my_contract->contract_status}}</small></span>
+                        @elseif($my_contract->contract_status
                         == 'published')
-                        <small class="label pull-center btn-info">{{ $contract->contract_status}}</small></span>
-                        @elseif($contract->contract_status== 'submitted')
-                        <small class="label label-success">{{$contract->contract_status}}</small></span>
-                        @elseif($contract->contract_status== 'ammended')
-                        <small class="label pull-center btn-danger">{{$contract->contract_status}}</small></span>
-                        @elseif($contract->contract_status== 'approved')
-                        <small class="label pull-center btn-success">{{$contract->contract_status}}</small></span>
-                        @elseif($contract->contract_status== 'terminated')
-                        <small class="label pull-center btn-danger">{{$contract->contract_status}}</small></span>
+                        <small class="label pull-center btn-info">{{ $my_contract->contract_status}}</small></span>
+                        @elseif($my_contract->contract_status== 'submitted')
+                        <small class="label label-success">{{$my_contract->contract_status}}</small></span>
+                        @elseif($my_contract->contract_status== 'ammended')
+                        <small class="label pull-center btn-danger">{{$my_contract->contract_status}}</small></span>
+                        @elseif($my_contract->contract_status== 'approved')
+                        <small class="label pull-center btn-success">{{$my_contract->contract_status}}</small></span>
+                        @elseif($my_contract->contract_status== 'terminated')
+                        <small class="label pull-center btn-danger">{{$my_contract->contract_status}}</small></span>
                     </td>
                     @endif
                     </td>
                     <td>
-                        {{-- @if (auth()->check()) @if (auth()->user()->isAdmin()) --}}
-                        @if (auth()->check()) @if(auth()->user()->isUser() && ($contract->contract_status == 'created' || $contract->contract_status == 'ammended'))
-                        <a href="/contract/{{$contract->contract_id}}/edit">
-                                <span class = "fa fa-pencil bigger"></span></center></a>
-                                 @else
+                       @if (auth()->check()) @if(auth()->user()->isUser() && ($my_contract->contract_status
+                        == 'created' || $my_contract->contract_status == 'ammended'))
+                        <a href="/contract/{{$my_contract->contract_id}}/edit">
+                                <span class = "fa fa-pencil bigger"></span></center></a> @else
 
-                        <a href="/contract/{{$contract->contract_id}}/view">
+                        <a href="/contract/{{$my_contract->contract_id}}/view">
                                                                     <span class = "fa fa-eye bigger"></span></center></a>
-                        @endif
-                        @endif
-                                                                    {!! Form::open(['action'=>['ContractController@destroy',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])
-                        !!} {{Form::hidden('_method','DELETE')}}
-                        <button type="submit" class="btn btn-danger btn-xs btn-flat"
-                            onClick="return confirm('Are you sure you want to delete this contract?');">   <strong>  <i class="fa fa-close"></i></strong></button>
-                        {{--  <a class="delete" data-id="{{ $contract->contract_id }}" href="javascript:void(0)">
-                                <span style="color:red;" class = "fa fa-trash bigger"></span></a>  --}}
+                                                                    @endif @endif {!! Form::open(['action'=>['ContractController@destroy',$my_contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])
+                        !!} {{Form::hidden('_method','DELETE')}} {{-- <button type="submit" class="btn btn-danger btn-xs btn-flat"
+                            onClick="return confirm('Are you sure you want to delete this contract?');">   <strong>  <i class="fa fa-close"></i></strong></button>                        --}}
+                        <a class="delete" data-id="{{ $my_contract->contract_id }}" href="javascript:void(0)">
+                                <span style="color:red;" class = "fa fa-trash bigger"></span></a>
                     </td>
                     {!! Form::close() !!}
                 </tr>
@@ -87,6 +82,7 @@
         </table>
     </div>
 </div>
+
 
 
 
@@ -148,6 +144,4 @@
     });
 
 </script>
-
-
 @stop

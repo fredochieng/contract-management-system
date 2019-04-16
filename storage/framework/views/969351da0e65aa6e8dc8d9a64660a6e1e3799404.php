@@ -1,12 +1,11 @@
- 
-<?php $__env->startSection('title', 'New Contract'); ?> 
+<?php $__env->startSection('title', 'New Contract'); ?>
 <?php $__env->startSection('content_header'); ?>
     <?php echo $__env->make('adminlte::partials.messages', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <h1>New Contract</h1>
 
 
 
-<?php $__env->stopSection(); ?> 
+<?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <style>
     .description {
@@ -73,7 +72,8 @@
                     <?php echo e(Form::label('contract_document', 'Upload Contract Document *')); ?>
 
                     <div class="form-group">
-                        <?php echo e(Form::file('contract_document',['class'=>'form-control', 'required', 'accept'=>'.doc , .docx , .pdf'])); ?>           
+                        <?php echo e(Form::file('contract_document',['class'=>'form-control', 'required', 'accept'=>'.doc , .docx , .pdf'])); ?>
+
                     </div>
                 </div>
 
@@ -107,14 +107,11 @@
     </div>
 </div>
 
-
-
-
-<?php $__env->stopSection(); ?> 
+<?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>
 <link rel="stylesheet" href="/css/admin_custom.css">
-<link rel="stylesheet" href="/css/bootstrap-datepicker.min.css"> 
-<?php $__env->stopSection(); ?> 
+<link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+<?php $__env->stopSection(); ?>
 <?php $__env->startSection('js'); ?>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 <script>
@@ -196,4 +193,5 @@ function formatRepoSelection (repo) {
 
 
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('adminlte::page', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

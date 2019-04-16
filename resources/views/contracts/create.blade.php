@@ -1,12 +1,12 @@
-@extends('adminlte::page') 
-@section('title', 'New Contract') 
+@extends('adminlte::page')
+@section('title', 'New Contract')
 @section('content_header')
     @include('adminlte::partials.messages')
 <h1>New Contract</h1>
 
 
 
-@stop 
+@stop
 @section('content')
 <style>
     .description {
@@ -65,7 +65,7 @@
                 <div class="col-md-6">
                     {{Form::label('contract_document', 'Upload Contract Document *')}}
                     <div class="form-group">
-                        {{Form::file('contract_document',['class'=>'form-control', 'required', 'accept'=>'.doc , .docx , .pdf'])}}           
+                        {{Form::file('contract_document',['class'=>'form-control', 'required', 'accept'=>'.doc , .docx , .pdf'])}}
                     </div>
                 </div>
 
@@ -94,14 +94,11 @@
     </div>
 </div>
 
-
-
-
-@stop 
+@stop
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
-<link rel="stylesheet" href="/css/bootstrap-datepicker.min.css"> 
-@stop 
+<link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+@stop
 @section('js')
 <script src="/js/bootstrap-datepicker.min.js"></script>
 <script>

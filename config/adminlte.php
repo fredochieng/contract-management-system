@@ -124,15 +124,26 @@ return [
             //'icon'        => 'file',
             // 'can'  => 'Manage Contracts',
         ],
+        [
+            'text' => 'My Contracts',
+            'url'  => 'my-contracts',
+            //'icon'        => 'file',
+            // 'can'  => 'Manage Contracts',
+        ], [
+            'text' => 'Approved Contracts',
+            'url'  => 'approved-contracts',
+            //'icon'        => 'file',
+            // 'can'  => 'Manage Contracts',
+        ],
 
         [
-            'text' => 'Create Contract',
+            'text' => 'New Contract',
             'url'  => 'contract/create',
             // 'can'  => '',
         ], [
             'text' => 'Manage Users',
             'url'  => '/user',
-            // 'can'  => '',
+            'can'  => 'Manage Users',
         ],
 
         'ACCOUNT SETTINGS',

@@ -4,6 +4,8 @@
 <h1>View Contract Details</h1>
 
 
+
+
 @stop
 @section('content')
 <style>
@@ -92,31 +94,52 @@
             <div class="row no-print">
                 <div class="col-xs-12">
                     {{-- @if (auth()->check()) @if (auth()->user()->isAdmin()) --}}
-                    @if( $contract->contract_status =='created' && $contract->contract_stage ==1)
+                     @if( $contract->contract_status =='created' && $contract->created_by ==Auth::user()->id)
                     <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> PUBLISH CONTRACT</button>
-                    @elseif($contract->contract_status=='published' && auth()->user()->isAdmin() || auth()->user()->isLegal() )
+                    @endif
+                   @if (auth()->check()) @if( $contract->contract_status =='published' && auth()->user()->isUser())
+                   <p class="col-md-6 text-green well well-sm no-shadow" style="margin-top: 10px;">
+                        The contract has been published for review by the legal team
+                    </p>
+                       @endif @endif
+                     @if (auth()->check()) @if($contract->contract_status=='published' && (auth()->user()->isAdmin() || auth()->user()->isLegal()))
                     <a href="#modal_submit_contract" data-toggle="modal" data-target="#modal_submit_contract" class="btn btn-success">
                         <i class="fa fa-check"></i> SUBMIT CONTRACT</a>
                     <a href="#modal_ammend_contract" data-toggle="modal" data-target="#modal_ammend_contract" class="btn btn-info">
                         <i class="fa fa-refresh"></i> AMMEND CONTRACT</a>
                     <a href="#modal_terminate_contract" data-toggle="modal" data-target="#modal_terminate_contract" class="btn btn-danger">
                         <i class="fa fa-close"></i> TERMINATE CONTRACT</a>
-                        @elseif($contract->contract_status=='published' && auth()->user()->isUser())
-                       <p class="col-md-6 text-red well well-sm no-shadow" style="margin-top: 10px;">
-                            his contract has been terminated and the initiator has been notified
-                        </p>
-                    @elseif($contract->contract_status =='submitted' && $contract->contract_stage ==3) {{-- This actions
-                    are for the leag admin --}}
-                    <a href="#modal_approve_contract" data-toggle="modal" data-target="#modal_approve_contract" class="btn btn-success"><i class="fa fa-check"></i> APPROVE CONTRACT</a>
-                    <a href="#modal_admin_ammend_contract" data-toggle="modal" data-target="#modal_admin_ammend_contract" class="btn btn-info"><i class="fa fa-refresh"></i> AMMEND CONTRACT</a>
-                    <a href="#modal_admin_terminate_contract" data-toggle="modal" data-target="#modal_admin_terminate_contract" class="btn btn-danger"><i class="fa fa-close"></i> TERMINATE CONTRACT</a>
-                     @elseif($contract->contract_status =='terminated')
+                        @endif @endif @if (auth()->check())
+                    @if($contract->contract_status =='submitted' && auth()->user()->isAdmin())
+                    <a href="#modal_approve_contract" data-toggle="modal" data-target="#modal_approve_contract" class="btn btn-success">
+                        <i class="fa fa-check"></i> APPROVE CONTRACT</a>
+                    <a href="#modal_admin_ammend_contract" data-toggle="modal" data-target="#modal_admin_ammend_contract" class="btn btn-info">
+                        <i class="fa fa-refresh"></i> AMMEND CONTRACT</a>
+                    <a href="#modal_admin_terminate_contract" data-toggle="modal" data-target="#modal_admin_terminate_contract" class="btn btn-danger">
+                        <i class="fa fa-close"></i> TERMINATE CONTRACT</a> @endif @endif @if (auth()->check())
+                    @if($contract->contract_status =='submitted' && (auth()->user()->isLegal() || auth()->user()->isUser()))
                     <p class="col-md-6 text-blue well well-sm no-shadow" style="margin-top: 10px;">
-                        The contract has been published for the Leagl team to review
+                        The contract has been submitted for admin approval
                     </p>
-                    @elseif($contract->contract_status =='ammended')
+
+                    @endif @endif
+                    @if (auth()->check())
+                     @if($contract->contract_status =='ammended' && (auth()->user()->isLegal() || auth()->user()->isAdmin()))
                     <p class="col-md-6 text-red well well-sm no-shadow" style="margin-top: 10px;">
                         This contract has been ammended waiting for the action by the contract party
+                    </p>
+                    @endif @endif
+                    @if (auth()->check()) @if($contract->contract_status =='ammended' && (auth()->user()->isUser()))
+                   <a href="/contract/{{$contract->contract_id}}/edit" class="btn btn-success"><i class="fa fa-check"></i> ACCEPT CHANGES</a>
+                    @endif @endif
+                    @if($contract->contract_status =='approved')
+                    <p class="col-md-6 text-green well well-sm no-shadow" style="margin-top: 10px;">
+                        This contract has been approved by the legal admin awaiting shelving
+                    </p>
+                    @endif
+                    @if($contract->contract_status =='terminated')
+                    <p class="col-md-6 text-red well well-sm no-shadow" style="margin-top: 10px;">
+                        This contract has been terminated and the contract party has neen notified
                     </p>
                     @endif @if($last_draft_contract_section->crf_file =='') @else
                     <a href="/{{$last_draft_contract_section->crf_file}}" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> Latest CRF Document</a>                    @endif
@@ -408,12 +431,11 @@
                             <td style="width:120px"> <a href="#"> No CRF Document</a></td>
                             @else
                             <td style="width:120px"> <a href="/{{$contracts->crf_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
-@endif
+                            @endif
                             <td>
                                 <center><span class="pull-right-container">
                                     @if($contracts->contract_drafts_status == 'created')
-                                    <small class="label pull-center btn-default">{{$contracts->contract_drafts_status}}</small></span>
-                                    @elseif($contracts->contract_drafts_status== 'published')
+                                    <small class="label pull-center btn-default">{{$contracts->contract_drafts_status}}</small></span>                                    @elseif($contracts->contract_drafts_status== 'published')
                                     <small class="label pull-center btn-info">{{$contracts->contract_drafts_status}}</small></span>
                                     @elseif($contracts->contract_drafts_status== 'submitted')
                                     <small class="label pull-center btn-success">{{ $contracts->contract_drafts_status}}</small></span>
@@ -477,6 +499,8 @@
 
 
 
+
+
 @stop
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
@@ -496,6 +520,8 @@
             })
                     })
     </script>
+
+
 
 
 

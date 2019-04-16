@@ -23,6 +23,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => 'auth'], function () {
     Route::any('/party/get_party', 'PartyController@get_party');
     Route::resource('contract', 'ContractController');
+    Route::any('my-contracts', 'ContractController@mycontracts');
+    Route::any('approved-contracts', 'ContractController@approvedContracts');
     Route::any('contract/{id}/publish', 'ContractController@publish');
     Route::any('submit', 'ContractController@submit');
     Route::any('ammend', 'ContractController@ammend');
@@ -31,5 +33,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/party', 'PartyController');
     Route::any('contract/{id}/view', 'ContractController@viewcontract');
     Route::resource('/user', 'AdminController');
+
+
 
 });

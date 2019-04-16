@@ -6,6 +6,7 @@
 </h1>
 
 
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <style>
@@ -35,48 +36,42 @@
                 </tr>
             </thead>
             <tbody>
-                <?php $__currentLoopData = $contracts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$contract): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $__currentLoopData = $approved_contracts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$approved_contract): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
                     <td><?php echo e($key+1); ?></td>
-                    <td><a href="/contract/<?php echo e($contract->contract_id); ?>/view"><?php echo e($contract->contract_title); ?></a></td>
-                    <td><?php echo e($contract->party_name); ?></td>
-                    <td><a href="/<?php echo e($contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>                        |
-                        <a href="/<?php echo e($contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
+                    <td><a href="/contract/<?php echo e($approved_contract->contract_id); ?>/view"><?php echo e($approved_contract->contract_title); ?></a></td>
+                    <td><?php echo e($approved_contract->party_name); ?></td>
+                    <td><a href="/<?php echo e($approved_contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>                        |
+                        <a href="/<?php echo e($approved_contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
                     </td>
-                    <td><?php echo e(date("d-m-Y",strtotime($contract->effective_date))); ?></td>
-                    <td><?php echo e(date("d-m-Y",strtotime($contract->expiry_date))); ?></td>
+                    <td><?php echo e(date("d-m-Y",strtotime($approved_contract->effective_date))); ?></td>
+                    <td><?php echo e(date("d-m-Y",strtotime($approved_contract->expiry_date))); ?></td>
                     <td><span class="pull-right-container">
-                        <?php if($contract->contract_status == 'created'): ?>
-                        <small class="label pull-center btn-warning"><?php echo e($contract->contract_status); ?></small></span> <?php elseif($contract->contract_status
+                        <?php if($approved_contract->contract_status == 'created'): ?>
+                        <small class="label pull-center btn-warning"><?php echo e($approved_contract->contract_status); ?></small></span> <?php elseif($approved_contract->contract_status
                         == 'published'): ?>
-                        <small class="label pull-center btn-info"><?php echo e($contract->contract_status); ?></small></span>
-                        <?php elseif($contract->contract_status== 'submitted'): ?>
-                        <small class="label label-success"><?php echo e($contract->contract_status); ?></small></span>
-                        <?php elseif($contract->contract_status== 'ammended'): ?>
-                        <small class="label pull-center btn-danger"><?php echo e($contract->contract_status); ?></small></span>
-                        <?php elseif($contract->contract_status== 'approved'): ?>
-                        <small class="label pull-center btn-success"><?php echo e($contract->contract_status); ?></small></span>
-                        <?php elseif($contract->contract_status== 'terminated'): ?>
-                        <small class="label pull-center btn-danger"><?php echo e($contract->contract_status); ?></small></span>
+                        <small class="label pull-center btn-info"><?php echo e($approved_contract->contract_status); ?></small></span>
+                        <?php elseif($approved_contract->contract_status== 'submitted'): ?>
+                        <small class="label label-success"><?php echo e($approved_contract->contract_status); ?></small></span>
+                        <?php elseif($approved_contract->contract_status== 'ammended'): ?>
+                        <small class="label pull-center btn-danger"><?php echo e($approved_contract->contract_status); ?></small></span>
+                        <?php elseif($approved_contract->contract_status== 'approved'): ?>
+                        <small class="label pull-center btn-success"><?php echo e($approved_contract->contract_status); ?></small></span>
+                        <?php elseif($approved_contract->contract_status== 'terminated'): ?>
+                        <small class="label pull-center btn-danger"><?php echo e($approved_contract->contract_status); ?></small></span>
                     </td>
                     <?php endif; ?>
                     </td>
                     <td>
-                        
-                        <?php if(auth()->check()): ?> <?php if(auth()->user()->isUser() && ($contract->contract_status == 'created' || $contract->contract_status == 'ammended')): ?>
-                        <a href="/contract/<?php echo e($contract->contract_id); ?>/edit">
-                                <span class = "fa fa-pencil bigger"></span></center></a>
-                                 <?php else: ?>
+                         <?php if(auth()->check()): ?> <?php if(auth()->user()->isUser() && ($approved_contract->contract_status
+                        == 'created' || $approved_contract->contract_status == 'ammended')): ?>
+                        <a href="/contract/<?php echo e($approved_contract->contract_id); ?>/edit">
+                                <span class = "fa fa-pencil bigger"></span></center></a> <?php else: ?>
 
-                        <a href="/contract/<?php echo e($contract->contract_id); ?>/view">
-                                                                    <span class = "fa fa-eye bigger"></span></center></a>
-                        <?php endif; ?>
-                        <?php endif; ?>
-                                                                    <?php echo Form::open(['action'=>['ContractController@destroy',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?> <?php echo e(Form::hidden('_method','DELETE')); ?>
-
-                        <button type="submit" class="btn btn-danger btn-xs btn-flat"
-                            onClick="return confirm('Are you sure you want to delete this contract?');">   <strong>  <i class="fa fa-close"></i></strong></button>
-                        
+                        <a href="/contract/<?php echo e($approved_contract->contract_id); ?>/view">
+                                                                    <span class = "fa fa-eye bigger"></span></center></a>                        <?php endif; ?> <?php endif; ?> <?php echo Form::open(['action'=>['ContractController@destroy',$approved_contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?> <?php echo e(Form::hidden('_method','DELETE')); ?> 
+                        <a class="delete" data-id="<?php echo e($approved_contract->contract_id); ?>" href="javascript:void(0)">
+                                <span style="color:red;" class = "fa fa-trash bigger"></span></a>
                     </td>
                     <?php echo Form::close(); ?>
 
@@ -86,6 +81,7 @@
         </table>
     </div>
 </div>
+
 
 
 
@@ -147,6 +143,7 @@
     });
 
 </script>
+
 
 
 <?php $__env->stopSection(); ?>
