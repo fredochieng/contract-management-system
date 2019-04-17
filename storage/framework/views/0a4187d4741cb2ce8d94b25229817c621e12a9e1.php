@@ -4,22 +4,8 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="row">
-    <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin()): ?>
     <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-aqua">
-            <div class="inner">
-                <h3><?php echo e($submitted_contract_count); ?></h3>
-                <p>Submitted Contracts</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-person-add"></i>
-            </div>
-
-        </div>
-    </div>
-    <?php elseif(auth()->user()->isLegal()): ?>
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-purple">
+        <div class="small-box bg-yellow">
             <div class="inner">
                 <h3><?php echo e($published_contract_count); ?></h3>
                 <p>Pending Contracts</p>
@@ -27,12 +13,10 @@
             <div class="icon">
                 <i class="ion ion-person-add"></i>
             </div>
-
         </div>
     </div>
-    <?php elseif(auth()->user()->isUser()): ?>
     <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-yellow">
+        <div class="small-box bg-blue">
             <div class="inner">
                 <h3><?php echo e($ammended_contract_count); ?></h3>
                 <p>Ammended Contracts</p>
@@ -43,35 +27,6 @@
 
         </div>
     </div>
-    <?php endif; ?> <?php endif; ?>
-<?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isUser()): ?>
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-purple">
-            <div class="inner">
-                <h3><?php echo e($published_contract_count); ?></h3>
-                <p>Pending Contracts</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-bag"></i>
-            </div>
-
-        </div>
-    </div>
-    <?php elseif(auth()->user()->isLegal()): ?>
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-yellow">
-            <div class="inner">
-                <h3><?php echo e($ammended_contract_count); ?></h3>
-                <p>Ammended Contracts</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-person-add"></i>
-            </div>
-
-        </div>
-    </div>
-    <?php endif; ?> <?php endif; ?>
-  <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isUser()): ?>
     <div class="col-lg-3 col-xs-6">
         <div class="small-box bg-green">
             <div class="inner">
@@ -84,47 +39,6 @@
 
         </div>
     </div>
-    <?php elseif(auth()->user()->isLegal()): ?>
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-aqua">
-            <div class="inner">
-                <h3><?php echo e($submitted_contract_count); ?></h3>
-                <p>Submitted Contracts</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-person-add"></i>
-            </div>
-
-        </div>
-    </div>
-    <?php endif; ?> <?php endif; ?>
-    <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin()): ?>
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-yellow">
-            <div class="inner">
-                <h3><?php echo e($ammended_contract_count); ?></h3>
-                <p>Ammended Contracts</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-            </div>
-
-        </div>
-    </div>
-    <<?php elseif(auth()->user()->isLegal()): ?>
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-green">
-            <div class="inner">
-                <h3><?php echo e($approved_contract_count); ?></h3>
-                <p>Approved Contracts</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-person-add"></i>
-            </div>
-
-        </div>
-    </div>
-    <?php elseif(auth()->user()->isUser()): ?>
     <div class="col-lg-3 col-xs-6">
         <div class="small-box bg-red">
             <div class="inner">
@@ -137,17 +51,14 @@
 
         </div>
     </div>
-    <?php endif; ?> <?php endif; ?>
     <!-- ./col -->
 </div>
 <div class="row">
     <div class="col-md-6">
         <div class="box box-info">
             <div class="box-header with-border">
-                <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin()): ?>
-                <h3 class="box-title">Latest Submitted Contracts</h3>
-                <?php elseif(auth()->user()->isLegal()): ?>
-                <h3 class="box-title">Latest Published Contracts</h3>
+                <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isLegal()): ?>
+                <h3 class="box-title">Latest Pending Contracts</h3>
                 <?php elseif(auth()->user()->isUser()): ?>
                 <h3 class="box-title">Latest Approved Contracts</h3>
                 <?php endif; ?> <?php endif; ?>
@@ -183,17 +94,16 @@
                                 <td><?php echo e($contract->created_at); ?></td>
                                 
                                 <td><span class="pull-right-container">
-                                    <?php if($contract->contract_status == 'created'): ?>
-                                    <small class="label pull-center btn-warning"><?php echo e($contract->contract_status); ?></small></span>                                    <?php elseif($contract->contract_status == 'published'): ?>
-                                    <small class="label pull-center btn-info"><?php echo e($contract->contract_status); ?></small></span>
-                                    <?php elseif($contract->contract_status== 'submitted'): ?>
-                                    <small class="label label-success"><?php echo e($contract->contract_status); ?></small></span>
+                                                                    <?php if($contract->contract_status == 'created'): ?>
+                                                                    <small class="badge bg-purple"><?php echo e($contract->contract_status); ?></small></span> <?php elseif($contract->contract_status
+                                    == 'published'): ?>
+                                    <small class="badge bg-yellow"><?php echo e($contract->contract_status); ?></small></span>
                                     <?php elseif($contract->contract_status== 'ammended'): ?>
-                                    <small class="label pull-center btn-danger"><?php echo e($contract->contract_status); ?></small></span>
+                                    <small class="badge bg-blue"><?php echo e($contract->contract_status); ?></small></span>
                                     <?php elseif($contract->contract_status== 'approved'): ?>
-                                    <small class="label pull-center btn-success"><?php echo e($contract->contract_status); ?></small></span>
+                                    <small class="badge bg-green"><?php echo e($contract->contract_status); ?></small></span>
                                     <?php elseif($contract->contract_status== 'terminated'): ?>
-                                    <small class="label pull-center btn-danger"><?php echo e($contract->contract_status); ?></small></span>
+                                    <small class="badge bg-red"><?php echo e($contract->contract_status); ?></small></span>
                                 </td>
                                 <?php endif; ?>
                                 </td>
@@ -226,6 +136,15 @@
             <!-- /.box-header -->
             <div class="box-body" style="">
                 <div class="col-md-12">
+                    <!-- /.progress-group -->
+                    <div class="progress-group">
+                        <span class="progress-text">Pending Contracts</span>
+                        <span class="progress-number"><b><?php echo e($published_contract_count); ?></b>/<?php echo e($total_contracts_count); ?></span>
+
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-yellow" style="width: <?php echo e($published_percentage); ?>%"></div>
+                        </div>
+                    </div>
                     <div class="progress-group">
                         <span class="progress-text">Approved Contracts</span>
                         <span class="progress-number"><b><?php echo e($approved_contract_count); ?></b>/<?php echo e($total_contracts_count); ?></span>
@@ -236,30 +155,11 @@
                     </div>
                     <!-- /.progress-group -->
                     <div class="progress-group">
-                        <span class="progress-text">Submitted Contracts</span>
-                        <span class="progress-number"><b><?php echo e($submitted_contract_count); ?></b>/<?php echo e($total_contracts_count); ?></span>
-
-                        <div class="progress sm">
-                            <div class="progress-bar progress-bar-purple" style="width: <?php echo e($submitted_percentage); ?>%"></div>
-                        </div>
-                    </div>
-                    <!-- /.progress-group -->
-                    <!-- /.progress-group -->
-                    <div class="progress-group">
                         <span class="progress-text">Ammended Contracts</span>
                         <span class="progress-number"><b><?php echo e($ammended_contract_count); ?></b>/<?php echo e($total_contracts_count); ?></span>
 
                         <div class="progress sm">
-                            <div class="progress-bar progress-bar-aqua" style="width: <?php echo e($ammended_percentage); ?>%"></div>
-                        </div>
-                    </div>
-                    <!-- /.progress-group -->
-                    <div class="progress-group">
-                        <span class="progress-text">Published Contracts</span>
-                        <span class="progress-number"><b><?php echo e($published_contract_count); ?></b>/<?php echo e($total_contracts_count); ?></span>
-
-                        <div class="progress sm">
-                            <div class="progress-bar progress-bar-yellow" style="width: <?php echo e($published_percentage); ?>%"></div>
+                            <div class="progress-bar progress-bar-blue" style="width: <?php echo e($ammended_percentage); ?>%"></div>
                         </div>
                     </div>
                     <div class="progress-group">
@@ -283,9 +183,7 @@
     <div class="col-md-6">
         <div class="box box-info">
             <div class="box-header with-border">
-                <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin()): ?>
-                <h3 class="box-title">Latest Published Contracts</h3>
-                <?php elseif(auth()->user()->isLegal()): ?>
+                <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isLegal()): ?>
                 <h3 class="box-title">Latest Approved Contracts</h3>
                 <?php elseif(auth()->user()->isUser()): ?>
                 <h3 class="box-title">Latest Ammended Contracts</h3>
@@ -321,17 +219,15 @@
                                 
                                 <td><span class="pull-right-container">
                                     <?php if($contract1->contract_status == 'created'): ?>
-                                    <small class="label pull-center btn-warning"><?php echo e($contract1->contract_status); ?></small></span>
+                                    <small class="badge bg-purple"><?php echo e($contract1->contract_status); ?></small></span>
                                     <?php elseif($contract1->contract_status == 'published'): ?>
-                                    <small class="label pull-center btn-info"><?php echo e($contract1->contract_status); ?></small></span>
-                                    <?php elseif($contract1->contract_status== 'submitted'): ?>
-                                    <small class="label label-success"><?php echo e($contract1->contract_status); ?></small></span>
+                                    <small class="badge bg-yellow"><?php echo e($contract1->contract_status); ?></small></span>
                                     <?php elseif($contract1->contract_status== 'ammended'): ?>
-                                    <small class="label pull-center btn-danger"><?php echo e($contract1->contract_status); ?></small></span>
+                                    <small class="badge bg-blue"><?php echo e($contract1->contract_status); ?></small></span>
                                     <?php elseif($contract1->contract_status== 'approved'): ?>
-                                    <small class="label pull-center btn-success"><?php echo e($contract1->contract_status); ?></small></span>
+                                    <small class="badge bg-green"><?php echo e($contract1->contract_status); ?></small></span>
                                     <?php elseif($contract1->contract_status== 'terminated'): ?>
-                                    <small class="label pull-center btn-danger"><?php echo e($contract1->contract_status); ?></small></span>
+                                    <small class="badge bg-purple"><?php echo e($contract1->contract_status); ?></small></span>
                                 </td>
                                 <?php endif; ?>
                                 </td>
@@ -400,7 +296,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix" style="">
-               
+
             </div>
             <!-- /.box-footer -->
         </div>

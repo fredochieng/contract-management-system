@@ -117,30 +117,46 @@ return [
             'url'  => '/home',
             'icon'        => 'home',
             // 'can'  => '',
-        ],
-        [
-            'text' => 'Manage Contracts',
-            'url'  => 'contract',
-            //'icon'        => 'file',
-            // 'can'  => 'Manage Contracts',
-        ],
-        [
-            'text' => 'My Contracts',
-            'url'  => 'my-contracts',
-            //'icon'        => 'file',
-            // 'can'  => 'Manage Contracts',
-        ], [
-            'text' => 'Approved Contracts',
-            'url'  => 'approved-contracts',
-            //'icon'        => 'file',
-            // 'can'  => 'Manage Contracts',
+        ],[
+            'text'    => 'Manage Contracts',
+            'icon'    => 'paperclip',
+            'submenu' => [
+                [
+                    'text' => 'All Contracts',
+                    'url'  => 'contract',
+                    'can' => 'Manage Contracts',
+                ],[
+                    'text' => 'Ammended Contracts',
+                    'url'  => 'contract',
+                ],
+                [
+                    'text' => 'Approved Contracts',
+                    'url'  => 'approved-contracts',
+                ],[
+                    'text' => 'My Contracts',
+                    'url'  => 'my-contracts',
+                ],
+            ],
         ],
 
         [
             'text' => 'New Contract',
             'url'  => 'contract/create',
             // 'can'  => '',
-        ], [
+        ],
+        // [
+        //     'text'    => 'Manage Users',
+        //     'icon'    => 'users',
+        //     'can' => 'Manage Users',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'All Users',
+        //             'url'  => '/user',
+        //         ],
+        //     ],
+        // ],
+
+        [
             'text' => 'Manage Users',
             'url'  => '/user',
             'can'  => 'Manage Users',
@@ -152,8 +168,6 @@ return [
             'url'  => '/settings',
             'icon' => 'user',
         ],
-
-
     ],
 
     /*
@@ -174,6 +188,7 @@ return [
         JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
+        \App\Lib\SpatieFilter::class,
     ],
 
     /*

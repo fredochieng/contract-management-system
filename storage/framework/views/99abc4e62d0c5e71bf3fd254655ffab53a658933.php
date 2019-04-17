@@ -4,6 +4,7 @@
     My Contracts
     <a href="/contract/create" class="btn btn-xs btn-info pull-right btn-flat">NEW CONTRACT</a>
 </h1>
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <style>
@@ -45,30 +46,26 @@
                     <td><?php echo e(date("d-m-Y",strtotime($my_contract->expiry_date))); ?></td>
                     <td><span class="pull-right-container">
                         <?php if($my_contract->contract_status == 'created'): ?>
-                        <small class="label pull-center btn-warning"><?php echo e($my_contract->contract_status); ?></small></span>
-                        <?php elseif($my_contract->contract_status
+                        <small class="badge bg-purple"><?php echo e($my_contract->contract_status); ?></small></span> <?php elseif($my_contract->contract_status
                         == 'published'): ?>
-                        <small class="label pull-center btn-info"><?php echo e($my_contract->contract_status); ?></small></span>
-                        <?php elseif($my_contract->contract_status== 'submitted'): ?>
-                        <small class="label label-success"><?php echo e($my_contract->contract_status); ?></small></span>
+                        <small class="badge bg-yellow"><?php echo e($my_contract->contract_status); ?></small></span>
                         <?php elseif($my_contract->contract_status== 'ammended'): ?>
-                        <small class="label pull-center btn-danger"><?php echo e($my_contract->contract_status); ?></small></span>
+                        <small class="badge bg-blue"><?php echo e($my_contract->contract_status); ?></small></span>
                         <?php elseif($my_contract->contract_status== 'approved'): ?>
-                        <small class="label pull-center btn-success"><?php echo e($my_contract->contract_status); ?></small></span>
+                        <small class="badge bg-green"><?php echo e($my_contract->contract_status); ?></small></span>
                         <?php elseif($my_contract->contract_status== 'terminated'): ?>
-                        <small class="label pull-center btn-danger"><?php echo e($my_contract->contract_status); ?></small></span>
+                        <small class="badge bg-red"><?php echo e($my_contract->contract_status); ?></small></span>
                     </td>
                     <?php endif; ?>
                     </td>
                     <td>
-                       <?php if(auth()->check()): ?> <?php if(auth()->user()->isUser() && ($my_contract->contract_status
-                        == 'created' || $my_contract->contract_status == 'ammended')): ?>
+                        <?php if(auth()->check()): ?> <?php if(auth()->user()->isUser() && ($my_contract->contract_status == 'created' || $my_contract->contract_status
+                        == 'ammended')): ?>
                         <a href="/contract/<?php echo e($my_contract->contract_id); ?>/edit">
                                 <span class = "fa fa-pencil bigger"></span></center></a> <?php else: ?>
 
                         <a href="/contract/<?php echo e($my_contract->contract_id); ?>/view">
-                                                                    <span class = "fa fa-eye bigger"></span></center></a>
-                                                                    <?php endif; ?> <?php endif; ?> <?php echo Form::open(['action'=>['ContractController@destroy',$my_contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?> <?php echo e(Form::hidden('_method','DELETE')); ?> 
+                                                                    <span class = "fa fa-eye bigger"></span></center></a>                        <?php endif; ?> <?php endif; ?> <?php echo Form::open(['action'=>['ContractController@destroy',$my_contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?> <?php echo e(Form::hidden('_method','DELETE')); ?> 
                         <a class="delete" data-id="<?php echo e($my_contract->contract_id); ?>" href="javascript:void(0)">
                                 <span style="color:red;" class = "fa fa-trash bigger"></span></a>
                     </td>
@@ -80,6 +77,7 @@
         </table>
     </div>
 </div>
+
 
 
 
@@ -142,6 +140,7 @@
     });
 
 </script>
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('adminlte::page', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

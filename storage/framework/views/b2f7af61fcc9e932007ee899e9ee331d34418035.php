@@ -139,13 +139,6 @@
 
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <?php echo e(Form::label('password', 'Password')); ?><br>
-                        <div class="form-group">
-                          <?php echo e(Form::password('password', array('placeholder'=>'Password', 'class'=>'form-control' ) )); ?>
-
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="modal-footer">

@@ -1,10 +1,6 @@
 <?php $__env->startSection('title', 'New Contract'); ?>
 <?php $__env->startSection('content_header'); ?>
-    <?php echo $__env->make('adminlte::partials.messages', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <h1>New Contract</h1>
-
-
-
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <style>

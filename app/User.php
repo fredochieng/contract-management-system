@@ -25,6 +25,12 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->hasRole('Admin');
+        foreach ($this->roles()->get() as $role) {
+            if ($role->id == 6) {
+                return true;
+            }
+        }
+        return false;
     }
     public function isUser()
     {

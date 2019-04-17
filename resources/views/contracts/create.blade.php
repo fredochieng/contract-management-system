@@ -1,11 +1,7 @@
 @extends('adminlte::page')
 @section('title', 'New Contract')
 @section('content_header')
-    @include('adminlte::partials.messages')
 <h1>New Contract</h1>
-
-
-
 @stop
 @section('content')
 <style>

@@ -68,14 +68,13 @@ class AdminController extends Controller
             'organization_id' => ['required', 'string', 'max:255'],
             'role_id' => ['required', 'string', 'max:255'],
             'job_title' => ['required', 'string', 'max:255'],
-            'password' => ['required', 'string', 'min:6'],
         ]);
 
         $user = new user;
-
+        $password_string = "Wananchi.1234";
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->password = Hash::make($request->input('password'));
+        $user->password = Hash::make($password_string);
         $user->save();
 
         $saved_user_id = $user->id;

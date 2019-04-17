@@ -130,12 +130,6 @@
                             {{Form::text('job_title', '',['class'=>'form-control', 'placeholder'=>''])}}
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        {{Form::label('password', 'Password')}}<br>
-                        <div class="form-group">
-                          {{ Form::password('password', array('placeholder'=>'Password', 'class'=>'form-control' ) ) }}
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="modal-footer">

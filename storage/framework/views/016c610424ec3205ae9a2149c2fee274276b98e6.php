@@ -113,6 +113,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <?php echo $__env->yieldContent('content_header'); ?>
+                <?php echo $__env->make('adminlte::partials.messages', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </section>
 
             <!-- Main content -->

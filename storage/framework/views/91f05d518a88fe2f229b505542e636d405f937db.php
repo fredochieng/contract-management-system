@@ -6,6 +6,7 @@
 </h1>
 
 
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <style>
@@ -47,37 +48,38 @@
                     <td><?php echo e(date("d-m-Y",strtotime($contract->expiry_date))); ?></td>
                     <td><span class="pull-right-container">
                         <?php if($contract->contract_status == 'created'): ?>
-                        <small class="label pull-center btn-warning"><?php echo e($contract->contract_status); ?></small></span> <?php elseif($contract->contract_status
-                        == 'published'): ?>
-                        <small class="label pull-center btn-info"><?php echo e($contract->contract_status); ?></small></span>
-                        <?php elseif($contract->contract_status== 'submitted'): ?>
-                        <small class="label label-success"><?php echo e($contract->contract_status); ?></small></span>
+                        <small class="badge bg-purple"><?php echo e($contract->contract_status); ?></small></span>
+                         <?php elseif($contract->contract_status == 'published'): ?>
+                        <small class="badge bg-yellow"><?php echo e($contract->contract_status); ?></small></span>
                         <?php elseif($contract->contract_status== 'ammended'): ?>
-                        <small class="label pull-center btn-danger"><?php echo e($contract->contract_status); ?></small></span>
+                        <small class="badge bg-blue"><?php echo e($contract->contract_status); ?></small></span>
                         <?php elseif($contract->contract_status== 'approved'): ?>
-                        <small class="label pull-center btn-success"><?php echo e($contract->contract_status); ?></small></span>
+                        <small class="badge bg-green"><?php echo e($contract->contract_status); ?></small></span>
                         <?php elseif($contract->contract_status== 'terminated'): ?>
-                        <small class="label pull-center btn-danger"><?php echo e($contract->contract_status); ?></small></span>
+                        <small class="badge bg-red"><?php echo e($contract->contract_status); ?></small></span>
                     </td>
                     <?php endif; ?>
                     </td>
                     <td>
-                        
-                        <?php if(auth()->check()): ?> <?php if(auth()->user()->isUser() && ($contract->contract_status == 'created' || $contract->contract_status == 'ammended')): ?>
-                        <a href="/contract/<?php echo e($contract->contract_id); ?>/edit">
-                                <span class = "fa fa-pencil bigger"></span></center></a>
-                                 <?php else: ?>
+                        <?php if(auth()->check()): ?> <?php if(auth()->user()->isUser() && ($contract->contract_status == 'created' ||
+                            $contract->contract_status== 'ammended')): ?>
+                            <a href="/contract/<?php echo e($contract->contract_id); ?>/edit" class="btn btn-info btn-xs" data-toggle="tooltip" title="Edit Contract">
+                            <span class = "fa fa-pencil bigger"></span></a>
+                        <?php else: ?>
+                        <a href="/contract/<?php echo e($contract->contract_id); ?>/view" class="btn btn-primary btn-xs" data-toggle="tooltip" title="View Contract Details">
+                            <span class = "fa fa-eye bigger"></span></a>
+                        <?php endif; ?> <?php endif; ?>
+                        <?php echo Form::open(['action'=>['ContractController@assign',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?>
 
-                        <a href="/contract/<?php echo e($contract->contract_id); ?>/view">
-                                                                    <span class = "fa fa-eye bigger"></span></center></a>
-                        <?php endif; ?>
-                        <?php endif; ?>
-                                                                    <?php echo Form::open(['action'=>['ContractController@destroy',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?> <?php echo e(Form::hidden('_method','DELETE')); ?>
+                        <?php if(auth()->check()): ?> <?php if((auth()->user()->isLegal() || auth()->user()->isAdmin()) && ($contract->contract_status
+                        == 'published' && $contract->assigned == '')): ?>
 
-                        <button type="submit" class="btn btn-danger btn-xs btn-flat"
-                            onClick="return confirm('Are you sure you want to delete this contract?');">   <strong>  <i class="fa fa-close"></i></strong></button>
-                        
-                    </td>
+                            <?php else: ?>
+
+                        <?php endif; ?> <?php endif; ?> <?php echo e(Form::hidden('_method','POST')); ?> <?php echo Form::open(['action'=>['ContractController@destroy',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?> <?php echo e(Form::hidden('_method','DELETE')); ?>
+
+                        <button type="submit" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete Contract" onClick="return confirm('Are you sure you want to delete this contract?');">   <strong>  <i class="fa fa-trash"></i></strong></button>                        
+                        </td>
                     <?php echo Form::close(); ?>
 
                 </tr>
@@ -86,6 +88,7 @@
         </table>
     </div>
 </div>
+
 
 
 
@@ -147,6 +150,7 @@
     });
 
 </script>
+
 
 
 <?php $__env->stopSection(); ?>

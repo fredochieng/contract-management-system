@@ -5,22 +5,8 @@
 @stop
 @section('content')
 <div class="row">
-    @if (auth()->check()) @if (auth()->user()->isAdmin())
     <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-aqua">
-            <div class="inner">
-                <h3>{{ $submitted_contract_count }}</h3>
-                <p>Submitted Contracts</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-person-add"></i>
-            </div>
-
-        </div>
-    </div>
-    @elseif(auth()->user()->isLegal())
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-purple">
+        <div class="small-box bg-yellow">
             <div class="inner">
                 <h3>{{ $published_contract_count }}</h3>
                 <p>Pending Contracts</p>
@@ -28,12 +14,10 @@
             <div class="icon">
                 <i class="ion ion-person-add"></i>
             </div>
-
         </div>
     </div>
-    @elseif(auth()->user()->isUser())
     <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-yellow">
+        <div class="small-box bg-blue">
             <div class="inner">
                 <h3>{{ $ammended_contract_count }}</h3>
                 <p>Ammended Contracts</p>
@@ -44,35 +28,6 @@
 
         </div>
     </div>
-    @endif @endif
-@if (auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isUser())
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-purple">
-            <div class="inner">
-                <h3>{{ $published_contract_count }}</h3>
-                <p>Pending Contracts</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-bag"></i>
-            </div>
-
-        </div>
-    </div>
-    @elseif(auth()->user()->isLegal())
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-yellow">
-            <div class="inner">
-                <h3>{{ $ammended_contract_count }}</h3>
-                <p>Ammended Contracts</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-person-add"></i>
-            </div>
-
-        </div>
-    </div>
-    @endif @endif
-  @if (auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isUser())
     <div class="col-lg-3 col-xs-6">
         <div class="small-box bg-green">
             <div class="inner">
@@ -85,47 +40,6 @@
 
         </div>
     </div>
-    @elseif(auth()->user()->isLegal())
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-aqua">
-            <div class="inner">
-                <h3>{{ $submitted_contract_count }}</h3>
-                <p>Submitted Contracts</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-person-add"></i>
-            </div>
-
-        </div>
-    </div>
-    @endif @endif
-    @if (auth()->check()) @if (auth()->user()->isAdmin())
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-yellow">
-            <div class="inner">
-                <h3>{{ $ammended_contract_count }}</h3>
-                <p>Ammended Contracts</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-            </div>
-
-        </div>
-    </div>
-    <@elseif(auth()->user()->isLegal())
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-green">
-            <div class="inner">
-                <h3>{{ $approved_contract_count }}</h3>
-                <p>Approved Contracts</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-person-add"></i>
-            </div>
-
-        </div>
-    </div>
-    @elseif(auth()->user()->isUser())
     <div class="col-lg-3 col-xs-6">
         <div class="small-box bg-red">
             <div class="inner">
@@ -138,17 +52,14 @@
 
         </div>
     </div>
-    @endif @endif
     <!-- ./col -->
 </div>
 <div class="row">
     <div class="col-md-6">
         <div class="box box-info">
             <div class="box-header with-border">
-                @if(auth()->check()) @if (auth()->user()->isAdmin())
-                <h3 class="box-title">Latest Submitted Contracts</h3>
-                @elseif(auth()->user()->isLegal())
-                <h3 class="box-title">Latest Published Contracts</h3>
+                @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
+                <h3 class="box-title">Latest Pending Contracts</h3>
                 @elseif(auth()->user()->isUser())
                 <h3 class="box-title">Latest Approved Contracts</h3>
                 @endif @endif
@@ -190,17 +101,16 @@
                                 <td>{{date("d-m-Y",strtotime($contract->effective_date))}}</td>
                                 <td>{{ date("d-m-Y",strtotime($contract->expiry_date))</td> }} --}}
                                 <td><span class="pull-right-container">
-                                    @if($contract->contract_status == 'created')
-                                    <small class="label pull-center btn-warning">{{$contract->contract_status}}</small></span>                                    @elseif($contract->contract_status == 'published')
-                                    <small class="label pull-center btn-info">{{ $contract->contract_status}}</small></span>
-                                    @elseif($contract->contract_status== 'submitted')
-                                    <small class="label label-success">{{$contract->contract_status}}</small></span>
+                                                                    @if($contract->contract_status == 'created')
+                                                                    <small class="badge bg-purple">{{$contract->contract_status}}</small></span> @elseif($contract->contract_status
+                                    == 'published')
+                                    <small class="badge bg-yellow">{{ $contract->contract_status}}</small></span>
                                     @elseif($contract->contract_status== 'ammended')
-                                    <small class="label pull-center btn-danger">{{$contract->contract_status}}</small></span>
+                                    <small class="badge bg-blue">{{$contract->contract_status}}</small></span>
                                     @elseif($contract->contract_status== 'approved')
-                                    <small class="label pull-center btn-success">{{$contract->contract_status}}</small></span>
+                                    <small class="badge bg-green">{{$contract->contract_status}}</small></span>
                                     @elseif($contract->contract_status== 'terminated')
-                                    <small class="label pull-center btn-danger">{{$contract->contract_status}}</small></span>
+                                    <small class="badge bg-red">{{$contract->contract_status}}</small></span>
                                 </td>
                                 @endif
                                 </td>
@@ -232,6 +142,15 @@
             <!-- /.box-header -->
             <div class="box-body" style="">
                 <div class="col-md-12">
+                    <!-- /.progress-group -->
+                    <div class="progress-group">
+                        <span class="progress-text">Pending Contracts</span>
+                        <span class="progress-number"><b>{{ $published_contract_count }}</b>/{{ $total_contracts_count }}</span>
+
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-yellow" style="width: {{ $published_percentage }}%"></div>
+                        </div>
+                    </div>
                     <div class="progress-group">
                         <span class="progress-text">Approved Contracts</span>
                         <span class="progress-number"><b>{{ $approved_contract_count }}</b>/{{ $total_contracts_count }}</span>
@@ -242,30 +161,11 @@
                     </div>
                     <!-- /.progress-group -->
                     <div class="progress-group">
-                        <span class="progress-text">Submitted Contracts</span>
-                        <span class="progress-number"><b>{{ $submitted_contract_count }}</b>/{{ $total_contracts_count }}</span>
-
-                        <div class="progress sm">
-                            <div class="progress-bar progress-bar-purple" style="width: {{ $submitted_percentage }}%"></div>
-                        </div>
-                    </div>
-                    <!-- /.progress-group -->
-                    <!-- /.progress-group -->
-                    <div class="progress-group">
                         <span class="progress-text">Ammended Contracts</span>
                         <span class="progress-number"><b>{{ $ammended_contract_count }}</b>/{{ $total_contracts_count }}</span>
 
                         <div class="progress sm">
-                            <div class="progress-bar progress-bar-aqua" style="width: {{ $ammended_percentage }}%"></div>
-                        </div>
-                    </div>
-                    <!-- /.progress-group -->
-                    <div class="progress-group">
-                        <span class="progress-text">Published Contracts</span>
-                        <span class="progress-number"><b>{{ $published_contract_count }}</b>/{{ $total_contracts_count }}</span>
-
-                        <div class="progress sm">
-                            <div class="progress-bar progress-bar-yellow" style="width: {{ $published_percentage }}%"></div>
+                            <div class="progress-bar progress-bar-blue" style="width: {{ $ammended_percentage }}%"></div>
                         </div>
                     </div>
                     <div class="progress-group">
@@ -289,9 +189,7 @@
     <div class="col-md-6">
         <div class="box box-info">
             <div class="box-header with-border">
-                @if(auth()->check()) @if (auth()->user()->isAdmin())
-                <h3 class="box-title">Latest Published Contracts</h3>
-                @elseif(auth()->user()->isLegal())
+                @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
                 <h3 class="box-title">Latest Approved Contracts</h3>
                 @elseif(auth()->user()->isUser())
                 <h3 class="box-title">Latest Ammended Contracts</h3>
@@ -337,17 +235,15 @@
                                 <td>{{ date("d-m-Y",strtotime($contract->expiry_date))</td> }} --}}
                                 <td><span class="pull-right-container">
                                     @if($contract1->contract_status == 'created')
-                                    <small class="label pull-center btn-warning">{{$contract1->contract_status}}</small></span>
+                                    <small class="badge bg-purple">{{$contract1->contract_status}}</small></span>
                                     @elseif($contract1->contract_status == 'published')
-                                    <small class="label pull-center btn-info">{{ $contract1->contract_status}}</small></span>
-                                    @elseif($contract1->contract_status== 'submitted')
-                                    <small class="label label-success">{{$contract1->contract_status}}</small></span>
+                                    <small class="badge bg-yellow">{{ $contract1->contract_status}}</small></span>
                                     @elseif($contract1->contract_status== 'ammended')
-                                    <small class="label pull-center btn-danger">{{$contract1->contract_status}}</small></span>
+                                    <small class="badge bg-blue">{{$contract1->contract_status}}</small></span>
                                     @elseif($contract1->contract_status== 'approved')
-                                    <small class="label pull-center btn-success">{{$contract1->contract_status}}</small></span>
+                                    <small class="badge bg-green">{{$contract1->contract_status}}</small></span>
                                     @elseif($contract1->contract_status== 'terminated')
-                                    <small class="label pull-center btn-danger">{{$contract1->contract_status}}</small></span>
+                                    <small class="badge bg-purple">{{$contract1->contract_status}}</small></span>
                                 </td>
                                 @endif
                                 </td>
@@ -415,7 +311,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix" style="">
-               
+
             </div>
             <!-- /.box-footer -->
         </div>
