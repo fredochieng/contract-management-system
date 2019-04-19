@@ -69,14 +69,7 @@
                         <a href="/contract/<?php echo e($contract->contract_id); ?>/view" class="btn btn-primary btn-xs" data-toggle="tooltip" title="View Contract Details">
                             <span class = "fa fa-eye bigger"></span></a>
                         <?php endif; ?> <?php endif; ?>
-                        <?php echo Form::open(['action'=>['ContractController@assign',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?>
-
-                        <?php if(auth()->check()): ?> <?php if((auth()->user()->isLegal() || auth()->user()->isAdmin()) && ($contract->contract_status
-                        == 'published' && $contract->assigned == '')): ?>
-
-                            <?php else: ?>
-
-                        <?php endif; ?> <?php endif; ?> <?php echo e(Form::hidden('_method','POST')); ?> <?php echo Form::open(['action'=>['ContractController@destroy',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?> <?php echo e(Form::hidden('_method','DELETE')); ?>
+                        <?php echo e(Form::hidden('_method','POST')); ?> <?php echo Form::open(['action'=>['ContractController@destroy',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?> <?php echo e(Form::hidden('_method','DELETE')); ?>
 
                         <button type="submit" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete Contract" onClick="return confirm('Are you sure you want to delete this contract?');">   <strong>  <i class="fa fa-trash"></i></strong></button>                        
                         </td>
@@ -88,9 +81,6 @@
         </table>
     </div>
 </div>
-
-
-
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>

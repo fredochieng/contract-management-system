@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\contract;
 use Illuminate\Support\Facades\Auth;
 use DB;
-
 use App\party;
 use App\contract_drafts;
 use Spatie\Permission\Traits\HasRoles;
@@ -53,10 +52,15 @@ class HomeController extends Controller
             $total_contracts_count = contract::where($compare_field, $compare_operator, $compare_value)
                 ->where(function ($query) {
                     $query->where('contracts.status', '!=', 'created');
+                    $query->where('contracts.legal_approval_id', '=', Auth::user()->id);
                 })
-                ->where('contracts.legal_approval_id', '=', Auth::user()->id)
+                // ->where('contracts.legal_approval_id', '=', Auth::user()->id)
+                // ->where('contracts.legal_ammendment_id', '=', Auth::user()->id)
+                // ->where('contracts.legal_termination_id', '=', Auth::user()->id)
                 ->count();
 
+            // print_r($total_contracts_count);
+            // exit;
         } else {
             $total_contracts_count = contract::where($compare_field, $compare_operator, $compare_value)
                 ->where(function ($query) {
@@ -89,8 +93,6 @@ class HomeController extends Controller
                 ['contracts.status', '=', 'ammended'],
                 ['contracts.legal_ammendment_id', '=', Auth::user()->id]
             ])->count();
-            //   print_r($ammended_contract_count);
-            // exit;
         } else {
             $ammended_contract_count = \DB::table('contracts')->where([
                 [$compare_field, $compare_operator, $compare_value],
@@ -108,7 +110,6 @@ class HomeController extends Controller
                 [$compare_field, $compare_operator, $compare_value],
                 ['contracts.status', '=', 'terminated']
             ])->count();
-
         }
 
         if ($total_contracts_count == 0) {
@@ -136,20 +137,13 @@ class HomeController extends Controller
         if (auth()->check()) if (auth()->user()->isAdmin()) {
             $contract_status = 'published';
             $contract_status1 = 'approved';
-        }
-//          elseif (auth()->user()->isLegal()) {
-//             $contract_status = 'published';
-//         //     $contract_status1 = 'approved';
-//  }
-        elseif (auth()->user()->isUser()) {
+        } elseif (auth()->user()->isUser()) {
             $contract_status = 'approved';
             $contract_status1 = 'ammended';
         }
         if (auth()->user()->isLegal()) {
             $contract_status = 'published';
-            $contract_status1 = 'approved';
-            $contract_status2 = 'published';
-            $contract_status3 = 'approved';
+            $contract_status2 = 'approved';
         }
         $contracts = DB::table('contracts')
             ->select(
@@ -165,7 +159,6 @@ class HomeController extends Controller
                 DB::raw('contract_drafts.*'),
                 DB::raw('draft_stages.*')
             )
-
             ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
             ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
             ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
@@ -176,71 +169,67 @@ class HomeController extends Controller
             ->where([
                 [$compare_field, $compare_operator, $compare_value],
                 ['contracts.status', '=', $contract_status],
-
             ])
             ->get();
-
         // Dashboard Table Two
-        $contracts1 = DB::table('contracts')
-            ->select(
-                DB::raw('contracts.*'),
-                DB::raw('contracts.status AS contract_status'),
-                DB::raw('parties.*'),
-                DB::raw('users.name'),
-                DB::raw('users.id'),
-                DB::raw('users_details.*'),
-                DB::raw('contracts.created_at AS created_date'),
-                DB::raw('contracts.stage AS contract_stage'),
-                DB::raw('users_organizations.*'),
-                DB::raw('contract_drafts.*'),
-                DB::raw('draft_stages.*')
-            )
+        if (auth()->check()) if (auth()->user()->isAdmin() || auth()->user()->isUser()) {
+            $contracts1 = DB::table('contracts')
+                ->select(
+                    DB::raw('contracts.*'),
+                    DB::raw('contracts.status AS contract_status'),
+                    DB::raw('parties.*'),
+                    DB::raw('users.name'),
+                    DB::raw('users.id'),
+                    DB::raw('users_details.*'),
+                    DB::raw('contracts.created_at AS created_date'),
+                    DB::raw('contracts.stage AS contract_stage'),
+                    DB::raw('users_organizations.*'),
+                    DB::raw('contract_drafts.*'),
+                    DB::raw('draft_stages.*')
+                )
 
-            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
-            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
-            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
-            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
-            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
-            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
-            ->orderBy('contracts.contract_id', 'desc')
-            ->where([
-                [$compare_field, $compare_operator, $compare_value],
-                ['contracts.status', '=', $contract_status1]
-            ])
-            ->get();
+                ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+                ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+                ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+                ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+                ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+                ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+                ->orderBy('contracts.contract_id', 'desc')
+                ->where([
+                    [$compare_field, $compare_operator, $compare_value],
+                    ['contracts.status', '=', $contract_status1]
+                ])
+                ->get();
+        } elseif (auth()->user()->isLegal()) {
+            $contracts1 = DB::table('contracts')
+                ->select(
+                    DB::raw('contracts.*'),
+                    DB::raw('contracts.status AS contract_status'),
+                    DB::raw('parties.*'),
+                    DB::raw('users.name'),
+                    DB::raw('users.id'),
+                    DB::raw('users_details.*'),
+                    DB::raw('contracts.created_at AS created_date'),
+                    DB::raw('contracts.stage AS contract_stage'),
+                    DB::raw('users_organizations.*'),
+                    DB::raw('contract_drafts.*'),
+                    DB::raw('draft_stages.*')
+                )
 
-        $legal_approved_contracts = DB::table('contracts')
-            ->select(
-                DB::raw('contracts.*'),
-                DB::raw('contracts.status AS contract_status'),
-                DB::raw('parties.*'),
-                DB::raw('users.name'),
-                DB::raw('users.id'),
-                DB::raw('users_details.*'),
-                DB::raw('contracts.created_at AS created_date'),
-                DB::raw('contracts.stage AS contract_stage'),
-                DB::raw('users_organizations.*'),
-                DB::raw('contract_drafts.*'),
-                DB::raw('draft_stages.*')
-            )
-
-            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
-            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
-            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
-            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
-            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
-            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
-            ->orderBy('contracts.contract_id', 'desc')
-            ->where([
-                [$compare_field, $compare_operator, $compare_value],
-                ['contracts.status', '=', $contract_status],
-
-            ])
-            ->get();
-
-        $users = User::all();
-        $organizations = DB::table('users_organizations')->pluck('organization_name', 'organization_id')->all();
-        $roles = DB::table('roles')->pluck('name', 'id')->all();
+                ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+                ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+                ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+                ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+                ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+                ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+                ->orderBy('contracts.contract_id', 'desc')
+                ->where([
+                    [$compare_field, $compare_operator, $compare_value],
+                    ['contracts.status', '=', $contract_status2],
+                    ['contracts.legal_approval_id', '=', Auth::user()->id]
+                ])
+                ->get();
+        }
 
         $user = Auth::user();
         ~$user_role = $user->getRoleNames()->first();
@@ -264,10 +253,8 @@ class HomeController extends Controller
         return view('home')->with([
             'contracts' => $contracts,
             'contracts1' => $contracts1,
-            'legal_approved_contracts' => $legal_approved_contracts,
+            // 'legal_approved_contracts' => $legal_approved_contracts,
             'users' => $users,
-            'organizations' => $organizations,
-            'roles' => $roles,
             'total_contracts_count' => $total_contracts_count,
             'created_contract_count' => $created_contract_count,
             'published_contract_count' => $published_contract_count,

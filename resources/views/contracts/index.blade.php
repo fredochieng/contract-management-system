@@ -70,13 +70,7 @@
                         <a href="/contract/{{$contract->contract_id}}/view" class="btn btn-primary btn-xs" data-toggle="tooltip" title="View Contract Details">
                             <span class = "fa fa-eye bigger"></span></a>
                         @endif @endif
-                        {!! Form::open(['action'=>['ContractController@assign',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])!!}
-                        @if (auth()->check()) @if((auth()->user()->isLegal() || auth()->user()->isAdmin()) && ($contract->contract_status
-                        == 'published' && $contract->assigned == ''))
-
-                            @else
-
-                        @endif @endif {{ Form::hidden('_method','POST') }} {!! Form::open(['action'=>['ContractController@destroy',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])
+                        {{ Form::hidden('_method','POST') }} {!! Form::open(['action'=>['ContractController@destroy',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])
                         !!} {{Form::hidden('_method','DELETE')}}
                         <button type="submit" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete Contract" onClick="return confirm('Are you sure you want to delete this contract?');">   <strong>  <i class="fa fa-trash"></i></strong></button>                        {{-- <a class="delete" data-id="{{ $contract->contract_id }}" href="javascript:void(0)">
                                 <span style="color:red;" class = "fa fa-trash bigger"></span></a> --}}
@@ -88,9 +82,6 @@
         </table>
     </div>
 </div>
-
-
-
 
 @stop
 @section('css')

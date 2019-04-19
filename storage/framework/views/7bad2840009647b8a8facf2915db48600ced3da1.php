@@ -2,6 +2,9 @@
 <?php $__env->startSection('content_header'); ?>
 <h1>View Contract Details</h1>
 
+
+
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <style>
@@ -71,7 +74,8 @@
                     <div class="form-group">
                         <span class="pull-right-container">
         <?php if($contract->contract_status == 'created'): ?>
-                <small class="badge bg-purple"><?php echo e($contract->contract_status); ?></small></span>                        <?php elseif($contract->contract_status == 'published'): ?>
+                <small class="badge bg-purple"><?php echo e($contract->contract_status); ?></small></span> <?php elseif($contract->contract_status
+                        == 'published'): ?>
                         <small class="badge bg-yellow"><?php echo e($contract->contract_status); ?></small></span>
                         <?php elseif($contract->contract_status == 'approved'): ?>
                         <small class="badge bg-green"><?php echo e($contract->contract_status); ?></small></span>
@@ -97,33 +101,43 @@
             <div class="row no-print">
                 <div class="col-xs-12">
                     <?php if(auth()->check()): ?> <?php if($contract->contract_status=='created' && (auth()->user()->isLegal() || auth()->user()->isAdmin())): ?>
-                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> PUBLISH CONTRACT</button> <?php elseif(auth()->user()->isUser()
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Publish Contract</button> <?php elseif(auth()->user()->isUser()
                     && ($contract->contract_status=='created' && $contract->created_by== Auth::user()->id) ): ?>
-                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> PUBLISH CONTRACT</button> <?php endif; ?>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Publish Contract</button> <?php endif; ?>
                     <?php endif; ?> <?php if(auth()->check()): ?> <?php if( $contract->contract_status =='published' && auth()->user()->isUser()): ?>
                     <p class="col-md-6 text-green well well-sm no-shadow" style="margin-top: 10px;">
                         The contract has been published for review by the legal team
                     </p>
                     <?php endif; ?> <?php endif; ?> <?php if(auth()->check()): ?> <?php if($contract->contract_status=='published' && $contract->assigned== '1' && (auth()->user()->isAdmin()
                     || auth()->user()->isLegal())): ?>
-                    <a href="#modal_approve_contract" data-toggle="modal" data-target="#modal_approve_contract" class="btn btn-success">
-                        <i class="fa fa-check"></i> APPROVE CONTRACT</a>
-                    <a href="#modal_ammend_contract" data-toggle="modal" data-target="#modal_ammend_contract" class="btn btn-info">
-                        <i class="fa fa-refresh"></i> AMMEND CONTRACT</a>
-                    <a href="#modal_terminate_contract" data-toggle="modal" data-target="#modal_terminate_contract" class="btn btn-danger">
-                        <i class="fa fa-close"></i> TERMINATE CONTRACT</a> <?php elseif($contract->contract_status=='published'
-                    && $contract->assigned=='' && (auth()->user()->isLegal() || auth()->user()->isAdmin())): ?>
-                    <?php echo Form::open(['action'=>['ContractController@assign',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?>
+                    <a href="#modal_approve_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_approve_contract"
+                        class="btn btn-success">
+                        <i class="fa fa-check"></i> Approve Contract</a>
+                    <a href="#modal_ammend_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_ammend_contract"
+                        class="btn btn-info">
+                        <i class="fa fa-refresh"></i> Ammend Contract</a>
+                    <a href="#modal_terminate_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_terminate_contract"
+                        class="btn btn-danger">
+                        <i class="fa fa-close"></i> Terminate Contract</a> <?php elseif($contract->contract_status=='published'
+                    && $contract->assigned=='' && (auth()->user()->isLegal())): ?> <?php echo Form::open(['action'=>['ContractController@workonContract',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?>
 
-                   <a href="#modal_work_on" data-toggle="modal" data-target="#modal_work_on" class="btn btn-success">
-                                            <i class="fa fa-check"></i> WORK ON CONTRACT</a> <?php endif; ?>
-                    <?php endif; ?> <?php if(auth()->check()): ?> <?php if($contract->contract_status =='ammended' && (auth()->user()->isLegal()
-                    || auth()->user()->isAdmin())): ?>
+                    <a href="#modal_work_on" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_work_on" class="btn btn-success">
+                                            <i class="fa fa-check"></i> Work on Contract</a> <?php elseif($contract->contract_status=='published'
+                    && $contract->assigned=='' && (auth()->user()->isAdmin())): ?>
+                    <?php echo Form::open(['action'=>['ContractController@assignContract',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?>
+
+                    <a href="#modal_assign_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_assign_contract" class="btn btn-info">
+                    <i class="fa fa-check"></i> Assign Contract</a>
+                    <?php echo Form::open(['action'=>['ContractController@workonContract',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?>
+
+                    <a href="#modal_work_on" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_work_on" class="btn btn-success">
+                                            <i class="fa fa-check"></i> Work on Contract</a> <?php endif; ?> <?php endif; ?>
+                    <?php if(auth()->check()): ?> <?php if($contract->contract_status =='ammended' && (auth()->user()->isLegal() || auth()->user()->isAdmin())): ?>
                     <p class="col-md-6 text-red well well-sm no-shadow" style="margin-top: 10px;">
                         This contract has been ammended waiting for the action by the contract party
                     </p>
                     <?php endif; ?> <?php endif; ?> <?php if(auth()->check()): ?> <?php if($contract->contract_status =='ammended' && (auth()->user()->isUser())): ?>
-                    <a href="/contract/<?php echo e($contract->contract_id); ?>/edit" class="btn btn-success"><i class="fa fa-check"></i> APPROVE CHANGES</a>                     <?php endif; ?> <?php endif; ?> <?php if($contract->contract_status =='approved'): ?>
+                    <a href="/contract/<?php echo e($contract->contract_id); ?>/edit" class="btn btn-success"><i class="fa fa-check"></i> Approve Changes</a>                     <?php endif; ?> <?php endif; ?> <?php if($contract->contract_status =='approved'): ?>
                     <p class="col-md-6 text-green well well-sm no-shadow" style="margin-top: 10px;">
                         This contract has been approved by the legal admin awaiting shelving
                     </p>
@@ -139,11 +153,11 @@
                 </div>
             </div>
     </section>
-   <!-- Modal to approve a contract by legal team/legal admin -->
+    <!-- Modal to confirm working on a contract by legal team/legal admin -->
     <div class="modal fade" id="modal_work_on">
         <div class="modal-dialog">
             <div class="modal-content">
-                <?php echo Form::open(['action'=>'ContractController@assign','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data']); ?>
+                <?php echo Form::open(['action'=>'ContractController@workonContract','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data']); ?>
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -160,7 +174,45 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+                <?php echo Form::close(); ?>
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- End modal to confirm working on a contract by legal team/ legal admin -->
+    <!-- Modal to approve a contract by legal team/legal admin -->
+    <div class="modal fade" id="modal_assign_contract">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <?php echo Form::open(['action'=>'ContractController@assignContract','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data']); ?>
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Assign Contract To Legal Counsel Member</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php echo e(Form::text('contract_id',$contract->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])); ?>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <?php echo e(Form::label('id', 'Legal Team Member')); ?><br> <?php echo e(Form::select('id',$legal_team,null,
+                                    ['class' => 'form-control select2','placeholder'=>'--Select Legal Team Member--'])); ?>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Assign Contract</button>
                 </div>
                 <?php echo Form::close(); ?>
 
@@ -200,7 +252,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success pull-left btn-flat" name="approve"><i class="fa fa-check"></i> SUBMIT CONTRACT</button>
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Approve Contract</button>
                 </div>
                 <?php echo Form::close(); ?>
 
@@ -253,8 +306,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success pull-left btn-flat" name="reject"><i class="fa fa-close"></i> AMMEND CONTRACT</button>
+               <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Ammend Contract</button>
                 </div>
                 <?php echo Form::close(); ?>
 
@@ -289,8 +343,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success pull-left btn-flat" name="reject"><i class="fa fa-close"></i> TERMINATE CONTRACT</button>
+               <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger"> Terminate Contract</button>
                 </div>
                 <?php echo Form::close(); ?>
 
@@ -342,15 +397,15 @@
                             <td>
                                 <center><span class="pull-right-container">
                                     <?php if($contracts->contract_drafts_status == 'created'): ?>
-                                    <small class="badge bg-purple"><?php echo e($contracts->contract_drafts_status); ?></small></span>
-                                    <?php elseif($contracts->contract_drafts_status== 'published'): ?>
+                                    <small class="badge bg-purple"><?php echo e($contracts->contract_drafts_status); ?></small></span>                                    <?php elseif($contracts->contract_drafts_status== 'published'): ?>
                                     <small class="badge bg-yellow"><?php echo e($contracts->contract_drafts_status); ?></small></span>
                                     <?php elseif($contracts->contract_drafts_status== 'approved'): ?>
                                     <small class="badge bg-green"><?php echo e($contracts->contract_drafts_status); ?></small></span>
                                     <?php elseif($contracts->contract_drafts_status== 'ammended'): ?>
                                     <small class="badge bg-blue"><?php echo e($contracts->contract_drafts_status); ?></small></span>
-                                <?php elseif($contracts->contract_drafts_status== 'terminated'): ?>
-                                <small class="badge bg-red"><?php echo e($contracts->contract_drafts_status); ?></small></span></center>
+                                    <?php elseif($contracts->contract_drafts_status== 'terminated'): ?>
+                                    <small class="badge bg-red"><?php echo e($contracts->contract_drafts_status); ?></small></span>
+                                </center>
                             </td>
                             <?php endif; ?>
                             <td>
@@ -358,7 +413,7 @@
                                     <p class="text-light-primary"><?php echo e($contracts->task); ?></p>
                                 </center>
                             </td>
-                            <td><a href="#modal_show_action_comments" data-toggle="modal" data-target="#modal_show_action_comments_<?php echo e($contracts->contract_draft_id); ?>"><strong>View comments</strong></a></p>
+                            <td><a href="#modal_show_action_comments" data-toggle="modal" data-target="#modal_show_action_comments_<?php echo e($contracts->contract_draft_id); ?>"><strong><center>View</center></strong></a></p>
                             </td>
                         </tr>
                         <!-- Modal to show comments for an approved contract -->
@@ -404,6 +459,9 @@
         </table>
         </div>
     </div>
+
+
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>
     <link rel="stylesheet" href="/css/admin_custom.css">
@@ -423,6 +481,9 @@
             })
                     })
     </script>
+
+
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('adminlte::page', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

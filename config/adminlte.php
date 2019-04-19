@@ -126,6 +126,10 @@ return [
                     'url'  => 'contract',
                     'can' => 'Manage Contracts',
                 ],[
+                    'text' => 'Pending Contracts',
+                    'url'  => 'pending-contracts',
+                ],
+                [
                     'text' => 'Ammended Contracts',
                     'url'  => 'contract',
                 ],
@@ -133,6 +137,10 @@ return [
                     'text' => 'Approved Contracts',
                     'url'  => 'approved-contracts',
                 ],[
+                    'text' => 'Terminated Contracts',
+                    'url'  => 'contract',
+                ],
+                [
                     'text' => 'My Contracts',
                     'url'  => 'my-contracts',
                 ],

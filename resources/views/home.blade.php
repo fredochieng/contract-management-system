@@ -14,6 +14,7 @@
             <div class="icon">
                 <i class="ion ion-person-add"></i>
             </div>
+            <a href="pending-contracts" class="small-box-footer">View Contracts  <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-xs-6">
@@ -25,7 +26,7 @@
             <div class="icon">
                 <i class="ion ion-person-add"></i>
             </div>
-
+<a href="#" class="small-box-footer">View Contracts  <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-xs-6">
@@ -37,7 +38,7 @@
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-
+<a href="#" class="small-box-footer">View Contracts  <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-xs-6">
@@ -49,13 +50,17 @@
             <div class="icon">
                 <i class="ion ion-person-add"></i>
             </div>
-
+<a href="#" class="small-box-footer">View Contracts  <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
 </div>
 <div class="row">
-    <div class="col-md-6">
+    @if(auth()->check()) @if (auth()->user()->isAdmin())
+    <div class="col-md-8">
+        @else
+        <div class="col-md-6">
+        @endif @endif
         <div class="box box-info">
             <div class="box-header with-border">
                 @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
@@ -75,7 +80,7 @@
                         <thead>
                             <tr>
                                 <th style="width:25px;">S/N</th>
-                                <th style="width:300px;">Contract Title</th>
+                                <th style="width:200px;">Contract Title</th>
                                 <th style="width:160px;">Party Name</th>
                                 {{--  <th style="width:145px;">Uploads</th>  --}}
                                 {{--  <th style="width:145px;">Submitted By</th>  --}}
@@ -84,6 +89,10 @@
                                 <th style="width:90px;">Effective Date</th>
                                 <th style="width:90px;">Expiry Date</th> --}}
                                 <th style="width:50px;">Status</th>
+                                @if(auth()->check()) @if (auth()->user()->isAdmin())
+                                <th style="width:70px;">Alert</th>
+                                {{--  <th style="width:70px;">Assign</th>  --}}
+                                @endif @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -114,6 +123,13 @@
                                 </td>
                                 @endif
                                 </td>
+                                @if(auth()->check()) @if (auth()->user()->isAdmin())
+                             <td>
+                                <div class="progress progress-xs">
+                                    <div class="progress-bar progress-bar-danger" style="width: 100%"></div>
+                                </div>
+                            </td>
+                                @endif @endif
                                 {!! Form::close() !!}
                             </tr>
                             @endforeach
@@ -130,7 +146,11 @@
             <!-- /.box-footer -->
         </div>
     </div>
-    <div class="col-md-6">
+    @if(auth()->check()) @if (auth()->user()->isAdmin())
+    <div class="col-md-4">
+        @else
+        <div class="col-md-6">
+            @endif @endif
         <div class="box box-info">
             <div class="box-header with-border">
                 <h3 class="box-title">Contracts Statistics</h3>
@@ -323,17 +343,20 @@
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
 <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="/css/select2.min.css">
 @stop
 @section('js')
 <script src="/js/bootstrap-datepicker.min.js"></script>
+<script src="/js/select2.full.min.js"></script>
 <script src="/js/bootbox.min.js"></script>
 
 <script>
     $(function () {
          $('#example1').DataTable()
-         iDisplayLength: 5,
          $('#example2').DataTable()
          $('#example3').DataTable()
+         //Initialize Select2 Elements
+          $('.select2').select2()
         $(document).ready(function() {
 });
     });
