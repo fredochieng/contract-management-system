@@ -2,7 +2,7 @@
 <?php $__env->startSection('content_header'); ?>
 <h1>
     Contracts
-    <a href="/contract/create" class="btn btn-xs btn-info pull-right btn-flat">NEW CONTRACT</a>
+    <div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create">NEW CONTRACT</a></div>
 </h1>
 
 
@@ -95,48 +95,6 @@
 <script>
     $(function () {
          $('#example1').DataTable()
-        $(document).ready(function() {
-
-        $('.delete').click(function(e) {
-
-            e.preventDefault();
-
-            var cont_id = $(this).attr('data-id');
-            var parent = $(this).parent("td").parent("tr");
-
-            bootbox.dialog({
-                message: " Are you sure you want to delete the contract?",
-                title: "<i class='fa fa-trash'></i> Delete Contract",
-                buttons: {
-                    danger: {
-                        label: "No",
-                        className: "btn-primary",
-                        callback: function() {
-                            $('.bootbox').modal('hide');
-                        }
-                    },
-                    success: {
-                        label: "Delete",
-                        className: "btn-success",
-                        callback: function() {
-                            $.post('', {
-                                    'delete': cont_id
-                                })
-                                .done(function(response) {
-                                    bootbox.alert(response);
-                                    parent.fadeOut('slow');
-                                })
-                                .fail(function() {
-                                    bootbox.alert('Something Went Wrong ....');
-                                })
-
-                        }
-                    }
-                }
-            });
-
-        });
-});
     });
 
 </script>

@@ -11,7 +11,7 @@ use App\contract_drafts;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-
+use Carbon\Carbon;
 use App\User;
 use function GuzzleHttp\json_decode;
 
@@ -154,6 +154,7 @@ class HomeController extends Controller
                 DB::raw('users.id'),
                 DB::raw('users_details.*'),
                 DB::raw('contracts.created_at AS created_date'),
+            DB::raw( 'contracts.published_time AS contract_published_time'),
                 DB::raw('contracts.stage AS contract_stage'),
                 DB::raw('users_organizations.*'),
                 DB::raw('contract_drafts.*'),
@@ -165,12 +166,23 @@ class HomeController extends Controller
             ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
             ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
-            ->orderBy('contracts.contract_id', 'desc')
+            ->orderBy('contracts.published_time', 'desc')->take(4)
             ->where([
                 [$compare_field, $compare_operator, $compare_value],
                 ['contracts.status', '=', $contract_status],
             ])
-            ->get();
+        ->get();
+
+        $contracts->map(function ($item) {
+            $published_time = Carbon::parse($item->contract_published_time);
+            $current_time = Carbon::now('Africa/Nairobi');
+            $duration = $current_time->diffInMinutes($published_time);
+            $item->escalation_duration = $duration;
+            return $item;
+        });
+        // echo "<pre>";
+        // print_r($contracts);
+        // exit;
         // Dashboard Table Two
         if (auth()->check()) if (auth()->user()->isAdmin() || auth()->user()->isUser()) {
             $contracts1 = DB::table('contracts')
@@ -194,7 +206,7 @@ class HomeController extends Controller
                 ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
                 ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
                 ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
-                ->orderBy('contracts.contract_id', 'desc')
+                ->orderBy('contracts.updated_at', 'desc')->take(4)
                 ->where([
                     [$compare_field, $compare_operator, $compare_value],
                     ['contracts.status', '=', $contract_status1]
@@ -233,6 +245,7 @@ class HomeController extends Controller
 
         $user = Auth::user();
         ~$user_role = $user->getRoleNames()->first();
+        // $users = User::role("Legal Counsel")->pluck('name', 'id')->();
         $users = DB::table('users')
             ->select(
                 DB::raw('users.*'),
@@ -246,15 +259,35 @@ class HomeController extends Controller
             ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
             ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
-            ->where('users.id', '>', 2)
+            ->where('roles.name', 'Legal Counsel')
+            ->orderBy('users.id', 'desc')->take(3)
+            ->get();
+
+        $standard_users = DB::table('users')
+            ->select(
+                DB::raw('users.*'),
+                DB::raw('users_details.*'),
+                DB::raw('users_organizations.*'),
+                DB::raw('model_has_roles.*'),
+                DB::raw('roles.name AS role_name')
+
+            )
+            ->leftJoin('users_details', 'users.id', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Standard User')
             ->orderBy('users.id', 'desc')
             ->get();
+        //     echo"<pre>";
+        // print_r($users);
+        // exit;
 
         return view('home')->with([
             'contracts' => $contracts,
             'contracts1' => $contracts1,
-            // 'legal_approved_contracts' => $legal_approved_contracts,
             'users' => $users,
+            'standard_users' => $standard_users,
             'total_contracts_count' => $total_contracts_count,
             'created_contract_count' => $created_contract_count,
             'published_contract_count' => $published_contract_count,

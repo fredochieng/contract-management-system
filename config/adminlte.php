@@ -131,7 +131,7 @@ return [
                 ],
                 [
                     'text' => 'Ammended Contracts',
-                    'url'  => 'contract',
+                    'url'  => 'ammended-contracts',
                 ],
                 [
                     'text' => 'Approved Contracts',

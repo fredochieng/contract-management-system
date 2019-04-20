@@ -3,11 +3,10 @@
 @section('title', 'Edit Contract')
 
 @section('content_header')
-<h1>Edit Contract</h1>
+<h1>Contracts<small> Edit Contract</small></h1>
 @stop
 
 @section('content')
-
 
 <style>
 .description {
@@ -16,10 +15,12 @@
 </style>
 
 
-<div class="box">
-
+<div class="box box-success">
+<div class="box-header with-border">
+    <h3 class="box-title">&nbsp;&nbsp;&nbsp; Edit Contract</h3>
+</div>
     <div class="box-body">
-        <div class="col-md-8">
+        <div class="col-md-12">
 
             {!!
             Form::open(['action'=>['ContractController@update',$contract->contract_id],'method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
@@ -27,48 +28,45 @@
 
             <div class="row">
 
-                <div class="col-md-12">
+                <div class="col-md-6">
 
                     {{Form::label('party_name', 'Party Name* ')}}
                     <div class="form-group">
-
                         <select id="party_name" class="form-control" name="party_name">
                             <option value="{{$contract->party_name_id}}" selected>{{$contract->party_name}}</option>
 
                         </select>
-
-
                     </div>
 
                     <p>If you are not able to find the Contract Party Name/Supplier.
                         <a href="/party?new=true" target="_blank"><strong>Click here to capture the details</strong></a>
                     </p>
-                    <br>
+
                 </div>
-
-
-
-
-
-                <div class="col-md-12">
+                <div class="col-md-6">
 
                     {{Form::label('title', 'Contract Title* ')}}
                     <div class="form-group">
 
                         {{Form::text('title',$contract->contract_title,['class'=>'form-control','placeholder'=>'The contract Title'])}}
+                    </div>
+                </div>
+                <div class="col-md-6">
 
+                    {{Form::label('', '')}}
+                    <div class="form-group">
+
+                        {{-- {{Form::text('effective_date', '',['class'=>'form-control issued_date','placeholder'=>'Effective Date','autocomplete'=>'off'])}}
+                        --}}
 
                     </div>
                 </div>
-
-
                 <div class="col-md-6">
 
                     {{Form::label('effective_date', 'Effective Date* ')}}
                     <div class="form-group">
 
                         {{Form::text('effective_date', date("m-d-Y",strtotime($contract->effective_date)),['class'=>'form-control issued_date','placeholder'=>'Effective date','autocomplete'=>'off'])}}
-
 
                     </div>
                 </div>
@@ -89,49 +87,33 @@
 
                     @if($contract->draft_file) <a href="{{$contract->draft_file}}"><strong>Download</strong></a> @endif
 
-
                     {{Form::label('contract_document', 'Upload Contract Document *')}}
 
                     <div class="form-group">
                         {{Form::file('contract_document',['class'=>'form-control'])}}
                     </div>
-
-
-
                 </div>
 
                 <div class="col-md-6">
-
-
                     {{Form::label('contract_crf', 'Upload Contract CRF (optional)')}}
 
                     <div class="form-group">
                         {{Form::file('contract_crf',['class'=>'form-control'])}}
                     </div>
 
-
-
                 </div>
 
                 <div class="col-md-12">
 
-
                     {{Form::label('description', 'Description')}}
-
 
                     <div class="form-group">
                         {{Form::textarea('description', $contract->description,['class'=>'form-control description','placeholder'=>'Fully Describe your contract here for clarifications'])}}
                     </div>
-
-
-
                 </div>
 
-
-
                 <div class="col-md-12">
-
-                    <button type="submit" class="btn btn-primary btn-flat" name="update_status">UPDATE </button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save fa-fw"></i> Save Changes</button>
                 </div>
 
                 {{Form::hidden('_method','PUT')}}

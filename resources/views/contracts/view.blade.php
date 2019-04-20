@@ -1,7 +1,27 @@
 @extends('adminlte::page')
 @section('title', 'Contract Details')
 @section('content_header')
-<h1>View Contract Details</h1>
+<h1 class="pull-left">Contracts<small>View Contract</small></h1>
+
+<div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create">NEW CONTRACT</a></div>
+<div style="clear:both"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -19,12 +39,12 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="page-header" style="font-weight:bold">
-                    Contract Party: {{ $contract->party_name }}
+                    Contract Title: {{ $contract->contract_title }}
                     <small class="pull-right" style="font-weight:bold">Ticket Number: # {{ $contract->contract_id }}</small>
                 </h2>
             </div>
         </div>
-        <div class="row invoice-info">
+        <div class="invoice-info">
             <!-- Contract Details row -->
             {!! Form::open(['action'=>['ContractController@publish', $contract->contract_id],'method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
             !!}
@@ -94,36 +114,46 @@
                 <div class="col-xs-12">
                     @if (auth()->check()) @if($contract->contract_status=='created' && (auth()->user()->isLegal() || auth()->user()->isAdmin()))
                     <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Publish Contract</button> @elseif(auth()->user()->isUser()
-                    && ($contract->contract_status=='created' && $contract->created_by== Auth::user()->id) )
+                    && ($contract->contract_status=='created' && $contract->created_by== Auth::user()->id))
                     <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Publish Contract</button> @endif
                     @endif @if (auth()->check()) @if( $contract->contract_status =='published' && auth()->user()->isUser())
                     <p class="col-md-6 text-green well well-sm no-shadow" style="margin-top: 10px;">
-                        The contract has been published for review by the legal team
-                    </p>
-                    @endif @endif @if (auth()->check()) @if($contract->contract_status=='published' && $contract->assigned== '1' && (auth()->user()->isAdmin()
-                    || auth()->user()->isLegal()))
+                        The contract has been published for review by the legal team</p>
+
+                    @endif @endif @if (auth()->check()) @if($contract->contract_status=='published' && $contract->assigned== '1' && (auth()->user()->isAdmin()))
                     <a href="#modal_approve_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_approve_contract"
-                        class="btn btn-success">
-                        <i class="fa fa-check"></i> Approve Contract</a>
+                        class="btn btn-success"><i class="fa fa-check"></i> Approve Contract</a>
+
                     <a href="#modal_ammend_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_ammend_contract"
-                        class="btn btn-info">
-                        <i class="fa fa-refresh"></i> Ammend Contract</a>
+                        class="btn btn-info"><i class="fa fa-refresh"></i> Ammend Contract</a>
+
                     <a href="#modal_terminate_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_terminate_contract"
-                        class="btn btn-danger">
-                        <i class="fa fa-close"></i> Terminate Contract</a> @elseif($contract->contract_status=='published'
-                    && $contract->assigned=='' && (auth()->user()->isLegal())) {!! Form::open(['action'=>['ContractController@workonContract',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])
-                    !!}
+                        class="btn btn-danger"><i class="fa fa-close"></i> Terminate Contract</a> @elseif($contract->contract_status=='published'
+                    && $contract->assigned== '1' && $contract->assigned_user_id== Auth::user()->id && (auth()->user()->isLegal()))
+                    <a href="#modal_approve_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_approve_contract"
+                        class="btn btn-success"><i class="fa fa-check"></i> Approve Contract</a>
+
+                    <a href="#modal_ammend_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_ammend_contract"
+                        class="btn btn-info"><i class="fa fa-refresh"></i> Ammend Contract</a>
+
+                    <a href="#modal_terminate_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_terminate_contract"
+                        class="btn btn-danger"><i class="fa fa-close"></i> Terminate Contract</a> @elseif($contract->contract_status=='published'
+                    && $contract->assigned== '1' && $contract->assigned_user_id != Auth::user()->id && (auth()->user()->isLegal()))
+                    <p class="col-md-6 text-red well well-sm no-shadow" style="margin-top: 10px;">
+                        This contract has already been taken by another legal counsel member
+                    </p>
+
+                    @elseif($contract->contract_status=='published' && $contract->assigned=='' && (auth()->user()->isLegal())) {!! Form::open(['action'=>['ContractController@workonContract',$contract->contract_id],'method'=>'POST','class'=>'floatit',
+                    'enctype'=>'multipart/form-data'])!!}
                     <a href="#modal_work_on" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_work_on" class="btn btn-success">
-                                            <i class="fa fa-check"></i> Work on Contract</a> @elseif($contract->contract_status=='published'
-                    && $contract->assigned=='' && (auth()->user()->isAdmin()))
-                    {!! Form::open(['action'=>['ContractController@assignContract',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])!!}
-                    <a href="#modal_assign_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_assign_contract" class="btn btn-info">
-                    <i class="fa fa-check"></i> Assign Contract</a>
-                    {!! Form::open(['action'=>['ContractController@workonContract',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])
-                    !!}
-                    <a href="#modal_work_on" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_work_on" class="btn btn-success">
-                                            <i class="fa fa-check"></i> Work on Contract</a> @endif @endif
-                    @if (auth()->check()) @if($contract->contract_status =='ammended' && (auth()->user()->isLegal() || auth()->user()->isAdmin()))
+                                                <i class="fa fa-check"></i> Work on Contract</a> @elseif($contract->contract_status=='published'
+                    && $contract->assigned=='' && (auth()->user()->isAdmin())) {!! Form::open(['action'=>['ContractController@assignContract',$contract->contract_id],'method'=>'POST','class'=>'floatit',
+                    'enctype'=>'multipart/form-data'])!!}
+                    <a href="#modal_assign_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_assign_contract"
+                        class="btn btn-info"><i class="fa fa-check"></i> Assign Contract</a> {!! Form::open(['action'=>['ContractController@workonContract',$contract->contract_id],'method'=>'POST','class'=>'floatit',
+                    'enctype'=>'multipart/form-data'])!!}
+                    <a href="#modal_work_on" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_work_on" class="btn btn-success"><i class="fa fa-check"></i> Work on Contract</a>                    @endif @endif @if (auth()->check()) @if($contract->contract_status =='ammended' && (auth()->user()->isLegal()
+                    || auth()->user()->isAdmin()))
                     <p class="col-md-6 text-red well well-sm no-shadow" style="margin-top: 10px;">
                         This contract has been ammended waiting for the action by the contract party
                     </p>
@@ -155,18 +185,19 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Confirm Working On The Contract</h4>
+                    <h4 class="modal-title">Work On The Contract</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             {{Form::text('contract_id',$contract->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])}}
+                            <p>Are you sure you want to work on the contract?</p>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-check"></i> Work on Contract</button>
                 </div>
                 {!! Form::close() !!}
             </div>
@@ -200,8 +231,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success">Assign Contract</button>
+                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-check"></i> Assign Contract</button>
+                    <script type="text/javascript">
+                        $(".select2").select2();
+                    </script>
                 </div>
                 {!! Form::close() !!}
             </div>
@@ -238,8 +272,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success">Approve Contract</button>
+                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-check"></i> Approve Contract</button>
                 </div>
                 {!! Form::close() !!}
             </div>
@@ -285,9 +319,9 @@
                         </div>
                     </div>
                 </div>
-               <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success">Ammend Contract</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-check"></i> Ammend Contract</button>
                 </div>
                 {!! Form::close() !!}
             </div>
@@ -319,9 +353,9 @@
                         </div>
                     </div>
                 </div>
-               <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger"> Terminate Contract</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                    <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-check"></i> Terminate Contract</button>
                 </div>
                 {!! Form::close() !!}
             </div>
@@ -349,9 +383,6 @@
                             <th>CRF Document</th>
                             <th>
                                 <center>Status</center>
-                            </th>
-                            <th>
-                                <center>Stage</center>
                             </th>
                             <th style="width:90px">Comments</th>
                         </tr>
@@ -383,11 +414,6 @@
                                 </center>
                             </td>
                             @endif
-                            <td>
-                                <center>
-                                    <p class="text-light-primary">{{ $contracts->task }}</p>
-                                </center>
-                            </td>
                             <td><a href="#modal_show_action_comments" data-toggle="modal" data-target="#modal_show_action_comments_{{ $contracts->contract_draft_id  }}"><strong><center>View</center></strong></a></p>
                             </td>
                         </tr>
@@ -434,6 +460,26 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @stop
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
@@ -453,6 +499,26 @@
             })
                     })
     </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

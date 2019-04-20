@@ -3,7 +3,7 @@
 @section('content_header')
 <h1>
     Users
-    <a href="" class="btn btn-xs btn-info pull-right btn-flat" href="#modal_new_user" data-toggle="modal" data-target="#modal_new_user">ADD NEW USER</a>
+    <a href="" class="btn btn-xs btn-success pull-right" href="#modal_new_user" data-toggle="modal" data-target="#modal_new_user">ADD NEW USER</a>
 </h1>
 
 @stop

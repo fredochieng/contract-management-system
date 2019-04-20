@@ -3,7 +3,7 @@
 @section('content_header')
 <h1>
     Contracts
-    <a href="/contract/create" class="btn btn-xs btn-info pull-right btn-flat">NEW CONTRACT</a>
+    <div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create">NEW CONTRACT</a></div>
 </h1>
 
 

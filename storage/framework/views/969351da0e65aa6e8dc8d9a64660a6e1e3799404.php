@@ -1,6 +1,6 @@
 <?php $__env->startSection('title', 'New Contract'); ?>
 <?php $__env->startSection('content_header'); ?>
-<h1>New Contract</h1>
+<h1>Contracts<small> Manage contracts</small></h1>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <style>
@@ -8,15 +8,18 @@
         height: 90px !important
     }
 </style>
-<div class="box">
+<div class="box box-success">
+    <div class="box-header with-border">
+        <h3 class="box-title">Create New Contract</h3>
+    </div>
     <div class="box-body">
-        <div class="col-md-8">
+        <div class="col-md-12">
 
             <?php echo Form::open(['action'=>'ContractController@store','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data']); ?>
 
             <div class="row">
 
-                <div class="col-md-12">
+                <div class="col-md-6">
 
                     <?php echo e(Form::label('party_name', 'Party Name* ')); ?>
 
@@ -27,9 +30,8 @@
                     </div>
                     <p>If you are not able to find the Contract Party Name/Supplier.
                         <a href="/party?new=true" target="_blank"><strong>Click here to capture the details</strong></a></p>
-                    <br>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
 
                     <?php echo e(Form::label('title', 'Contract Title* ')); ?>
 
@@ -41,6 +43,16 @@
                     </div>
                 </div>
 
+                <div class="col-md-6">
+
+                    <?php echo e(Form::label('', '')); ?>
+
+                    <div class="form-group">
+
+                        
+
+                    </div>
+                </div>
                 <div class="col-md-6">
 
                     <?php echo e(Form::label('effective_date', 'Effective Date* ')); ?>
@@ -87,14 +99,12 @@
                     <?php echo e(Form::label('description', 'Description')); ?>
 
                     <div class="form-group">
-                        <?php echo e(Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Fully describe your contract information
-                        here for clarifications'])); ?>
+                        <?php echo e(Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Contract description'])); ?>
 
                     </div>
                 </div>
                 <div class="col-md-12">
-
-                    <button type="submit" class="btn btn-success" name="update_status">CREATE NEW CONTRACT </button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Create New Contract</button>
                 </div>
                 <?php echo Form::close(); ?>
 
