@@ -3,26 +3,8 @@
 @section('content_header')
 <h1 class="pull-left">Contracts<small>View Contract</small></h1>
 
-<div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create">NEW CONTRACT</a></div>
+<div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a></div>
 <div style="clear:both"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -372,91 +354,99 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                <table id="example1" class="table no-margin">
-                    <thead>
-                        <tr>
-                            <th style="width:20px">S/N</th>
-                            <th style="width:130px">User</th>
-                            <th>Position</th>
-                            <th>Date</th>
-                            <th style="width:50px">Contract Draft</th>
-                            <th>CRF Document</th>
-                            <th>
-                                <center>Status</center>
-                            </th>
-                            <th style="width:90px">Comments</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($contract_drafts as $key=> $contracts)
-                        <tr>
-                            <td>{{ $key + 1}}</td>
-                            <td>{{ $contracts->name }}</td>
-                            <td>{{ $contracts->job_title }}</td>
-                            <td>{{ $contracts->contract_drafts_created_at }}</td>
-                            <td style="width:120px"> <a href="/{{$contracts->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
-                            @if($contracts->crf_file =='')
-                            <td style="width:120px"> <a href="#"> No CRF Document</a></td>
-                            @else
-                            <td style="width:120px"> <a href="/{{$contracts->crf_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
-                            @endif
-                            <td>
-                                <center><span class="pull-right-container">
+                <div class="table-responsive">
+                    <table id="example1" class="table no-margin">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>User</th>
+                                <th>Position</th>
+                                <th>Date</th>
+                                <th>Contract Draft</th>
+                                <th style="width:120px">CRF Document</th>
+                                <th>
+                                    <center>Status</center>
+                                </th>
+                                <th>Comments</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($contract_drafts as $key=> $contracts)
+                            <tr>
+                                <td>{{ $key + 1}}</td>
+                                <td>{{ $contracts->name }}</td>
+                                <td>{{ $contracts->job_title }}</td>
+                                <td>{{ $contracts->contract_drafts_created_at }}</td>
+                                <td style="width:120px"> <a href="/{{$contracts->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
+                                @if($contracts->crf_file =='')
+                                <td style="width:120px"> <a href="#"> No CRF Document</a></td>
+                                @else
+                                <td style="width:120px"> <a href="/{{$contracts->crf_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
+                                @endif
+                                <td>
+                                    <center><span class="pull-right-container">
                                     @if($contracts->contract_drafts_status == 'created')
-                                    <small class="badge bg-purple">{{$contracts->contract_drafts_status}}</small></span>                                    @elseif($contracts->contract_drafts_status== 'published')
-                                    <small class="badge bg-yellow">{{$contracts->contract_drafts_status}}</small></span>
-                                    @elseif($contracts->contract_drafts_status== 'approved')
-                                    <small class="badge bg-green">{{ $contracts->contract_drafts_status}}</small></span>
-                                    @elseif ($contracts->contract_drafts_status== 'ammended')
-                                    <small class="badge bg-blue">{{$contracts->contract_drafts_status}}</small></span>
-                                    @elseif($contracts->contract_drafts_status== 'terminated')
-                                    <small class="badge bg-red">{{ $contracts->contract_drafts_status}}</small></span>
-                                </center>
-                            </td>
-                            @endif
-                            <td><a href="#modal_show_action_comments" data-toggle="modal" data-target="#modal_show_action_comments_{{ $contracts->contract_draft_id  }}"><strong><center>View</center></strong></a></p>
-                            </td>
-                        </tr>
-                        <!-- Modal to show comments for an approved contract -->
-                        <div class="modal fade" id="modal_show_action_comments_{{ $contracts->contract_draft_id }}">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    {!! Form::open(['class'=>'form']) !!}
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <small class="badge bg-purple">{{$contracts->contract_drafts_status}}</small></span>                                        @elseif($contracts->contract_drafts_status== 'published')
+                                        <small class="badge bg-yellow">{{$contracts->contract_drafts_status}}</small></span>
+                                        @elseif($contracts->contract_drafts_status== 'approved')
+                                        <small class="badge bg-green">{{ $contracts->contract_drafts_status}}</small></span>
+                                        @elseif ($contracts->contract_drafts_status== 'ammended')
+                                        <small class="badge bg-blue">{{$contracts->contract_drafts_status}}</small></span>
+                                        @elseif($contracts->contract_drafts_status== 'terminated')
+                                        <small class="badge bg-red">{{ $contracts->contract_drafts_status}}</small></span>
+                                    </center>
+                                </td>
+                                @endif
+                                <td><a href="#modal_show_action_comments" data-toggle="modal" data-target="#modal_show_action_comments_{{ $contracts->contract_draft_id  }}"><strong><center>View</center></strong></a></p>
+                                </td>
+                            </tr>
+                            <!-- Modal to show comments for an approved contract -->
+                            <div class="modal fade" id="modal_show_action_comments_{{ $contracts->contract_draft_id }}">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        {!! Form::open(['class'=>'form']) !!}
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title">Comments</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    {{Form::text('contract_id',$contracts->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])}}
-                                                    @if($contracts->comments == '')
-                                                    <p>No comments left for this action...</p>
-                                                    @else
-                                                    <p>{{$contracts->comments}}</p>
-                                                    @endif
+                                            <h4 class="modal-title">Comments</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        {{Form::text('contract_id',$contracts->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])}}
+                                                        @if($contracts->comments == '')
+                                                        <p>No comments left for this action...</p>
+                                                        @else
+                                                        <p>{{$contracts->comments}}</p>
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                        {!! Form::close() !!}
                                     </div>
-                                    <div class="modal-footer">
-                                    </div>
-                                    {!! Form::close() !!}
+                                    <!-- /.modal-content -->
                                 </div>
-                                <!-- /.modal-content -->
+                                <!-- /.modal-dialog -->
                             </div>
-                            <!-- /.modal-dialog -->
-                        </div>
-                        <!-- End modal show comments for an approved contract -->
-                        @endforeach
-
+                            <!-- End modal show comments for an approved contract -->
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
         </section>
-        </tbody>
-        </table>
+
         </div>
     </div>
+
+
+
+
+
+
 
 
 
@@ -499,6 +489,12 @@
             })
                     })
     </script>
+
+
+
+
+
+
 
 
 

@@ -87,7 +87,7 @@ return [
     |
     */
 
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
 
     'logout_url' => 'logout',
 
@@ -114,10 +114,10 @@ return [
 
         [
             'text' => 'Dashboard',
-            'url'  => '/home',
-            'icon'        => 'home',
+            'url'  => '/dashboard',
+            'icon'        => 'dashboard',
             // 'can'  => '',
-        ],[
+        ], [
             'text'    => 'Manage Contracts',
             'icon'    => 'paperclip',
             'submenu' => [
@@ -125,7 +125,7 @@ return [
                     'text' => 'All Contracts',
                     'url'  => 'contract',
                     'can' => 'Manage Contracts',
-                ],[
+                ], [
                     'text' => 'Pending Contracts',
                     'url'  => 'pending-contracts',
                 ],
@@ -136,7 +136,7 @@ return [
                 [
                     'text' => 'Approved Contracts',
                     'url'  => 'approved-contracts',
-                ],[
+                ], [
                     'text' => 'Terminated Contracts',
                     'url'  => 'contract',
                 ],
@@ -166,7 +166,7 @@ return [
 
         [
             'text' => 'Manage Users',
-            'url'  => '/user',
+            'url'  => '/system-users/users',
             'can'  => 'Manage Users',
         ],
 

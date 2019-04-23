@@ -17,11 +17,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $users = User::all();
         $organizations = DB::table('users_organizations')->pluck('organization_name', 'organization_id')->all();
         $roles = DB::table('roles')->pluck('name', 'id')->all();
-
-        $users = DB::table('users')
+        $legal_counsel_users = DB::table('users')
             ->select(
                 DB::raw('users.*'),
                 DB::raw('users_details.*'),
@@ -30,19 +28,39 @@ class AdminController extends Controller
                 DB::raw('roles.name AS role_name')
 
             )
-
             ->leftJoin('users_details', 'users.id', '=', 'users_details.user_id')
             ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
             ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
-            ->orderBy('users.id', 'desc')
+            ->where('roles.name', 'Legal Counsel')
+            ->orderBy('users.id', 'desc')->take(3)
             ->get();
+
+        $standard_users = DB::table('users')
+            ->select(
+                DB::raw('users.*'),
+                DB::raw('users_details.*'),
+                DB::raw('users_organizations.*'),
+                DB::raw('model_has_roles.*'),
+                DB::raw('roles.name AS role_name')
+
+            )
+            ->leftJoin('users_details', 'users.id', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Standard User')
+            ->orderBy('users.id', 'desc')->take(3)
+            ->get();
+
         return view('contracts.users')->with([
-            'users' => $users,
+            'legal_counsel_users' => $legal_counsel_users,
+            'standard_users' => $standard_users,
             'organizations' => $organizations,
             'roles' => $roles
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -1,19 +1,6 @@
-<?php $__env->startSection('title', 'Contract Management System'); ?>
+<?php $__env->startSection('title', 'CMS | Dashboard'); ?>
 <?php $__env->startSection('content_header'); ?>
 <h1>Dashboard</h1>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -98,7 +85,8 @@
                                  
                                 <th style="width:145px;">Date</th>
                                 
-                                <th style="width:50px;">Status</th>
+
+<th style="width:145px;">Status</th>
                                 <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isLegal()): ?>
                                 <th style="width:70px;">Alert</th>
                                  <?php endif; ?> <?php endif; ?>
@@ -109,7 +97,7 @@
                             <tr>
                                 <td><?php echo e($key+1); ?></td>
                                 <td><a href="/contract/<?php echo e($contract->contract_id); ?>/view"><?php echo e($contract->contract_title); ?></a></td>
-                                <td><a href="/contract-party/<?php echo e($contract->party_id); ?>/view-contract-party">
+                                <td><a href="/contract-party/<?php echo e($contract->party_id); ?>/view-contract-party" target="_blank">
                                                                                     <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
                                                                                     <i class="fa fa-briefcase fa-fw"></i> <?php echo e($contract->party_name); ?>	</a></span>
                                 </td>
@@ -159,6 +147,81 @@
             <!-- /.box-body -->
             <div class="box-footer clearfix" style="">
 
+            </div>
+            <!-- /.box-footer -->
+        </div>
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isLegal()): ?>
+                <h3 class="box-title">Latest Approved Contracts</h3>
+                <?php elseif(auth()->user()->isUser()): ?>
+                <h3 class="box-title">Latest Ammended Contracts</h3>
+                <?php endif; ?> <?php endif; ?>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button> 
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="">
+                <div class="table-responsive">
+                    <table class="table no-margin">
+                        <thead>
+                            <tr>
+                                <th style="width:25px;">S/N</th>
+                                <th style="width:300px;">Contract Title</th>
+                                <th style="width:160px;">Party Name</th>
+                                 
+                                <th style="width:145px;">Date</th>
+                                
+                                <th style="width:50px;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $__currentLoopData = $contracts1; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$contract1): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <tr>
+                                <td><?php echo e($key+1); ?></td>
+                                <td><a href="/contract/<?php echo e($contract1->contract_id); ?>/view"><?php echo e($contract1->contract_title); ?></a></td>
+                                <td><a href="/contract-party/<?php echo e($contract1->party_id); ?>/view-contract-party" target="_blank">
+                                                                                                                        <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
+                                                                                                                        <i class="fa fa-briefcase fa-fw"></i> <?php echo e($contract1->party_name); ?>	</a></span>
+                                </td>
+                                 
+                                <td><?php echo e($contract1->created_at); ?></td>
+                                
+                                <td><span class="pull-right-container">
+                                            <?php if($contract1->contract_status == 'created'): ?>
+                                            <small class="badge bg-purple"><?php echo e($contract1->contract_status); ?></small></span>                                    <?php elseif($contract1->contract_status == 'published'): ?>
+                                    <small class="badge bg-yellow"><?php echo e($contract1->contract_status); ?></small></span>
+                                    <?php elseif($contract1->contract_status== 'ammended'): ?>
+                                    <small class="badge bg-blue"><?php echo e($contract1->contract_status); ?></small></span>
+                                    <?php elseif($contract1->contract_status== 'approved'): ?>
+                                    <small class="badge bg-green"><?php echo e($contract1->contract_status); ?></small></span>
+                                    <?php elseif($contract1->contract_status== 'terminated'): ?>
+                                    <small class="badge bg-purple"><?php echo e($contract1->contract_status); ?></small></span>
+                                </td>
+                                <?php endif; ?>
+                                </td>
+                                <?php echo Form::close(); ?>
+
+                            </tr>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </tbody>
+                    </table>
+                </div>
+                <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isLegal()): ?>
+                <div class="box-footer text-center">
+                    <a href="approved-contracts" class="uppercase">View All Approved Contracts</a>
+                </div>
+                <?php else: ?>
+                <div class="box-footer text-center">
+                    <a href="approved-contracts" class="uppercase">View All Ammended Contracts</a>
+                </div>
+                <?php endif; ?> <?php endif; ?>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix" style="">
             </div>
             <!-- /.box-footer -->
         </div>
@@ -212,95 +275,16 @@
                     </div>
                 </div>
                 <div class="box-footer text-center">
+                    <a href="approved-contracts" class="uppercase"></a>
+                </div>
+                <div class="box-footer text-center">
                     <a href="approved-contracts" class="uppercase">View All Contracts</a>
                 </div>
             </div>
             <!-- /.box-body -->
             <!-- /.box-footer -->
         </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-8">
-        <div class="box box-success">
-            <div class="box-header with-border">
-                <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isLegal()): ?>
-                <h3 class="box-title">Latest Approved Contracts</h3>
-                <?php elseif(auth()->user()->isUser()): ?>
-                <h3 class="box-title">Latest Ammended Contracts</h3>
-                <?php endif; ?> <?php endif; ?>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button> 
-                </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body" style="">
-                <div class="table-responsive">
-                    <table class="table no-margin">
-                        <thead>
-                            <tr>
-                                <th style="width:25px;">S/N</th>
-                                <th style="width:300px;">Contract Title</th>
-                                <th style="width:160px;">Party Name</th>
-                                 
-                                <th style="width:145px;">Date</th>
-                                
-                                <th style="width:50px;">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $__currentLoopData = $contracts1; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$contract1): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <tr>
-                                <td><?php echo e($key+1); ?></td>
-                                <td><a href="/contract/<?php echo e($contract1->contract_id); ?>/view"><?php echo e($contract1->contract_title); ?></a></td>
-                                <td><a href="/contract-party/<?php echo e($contract->party_id); ?>/view-contract-party">
-                                                                                                                <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
-                                                                                                                <i class="fa fa-briefcase fa-fw"></i> <?php echo e($contract->party_name); ?>	</a></span>
-                                </td>
-                                 
-                                <td><?php echo e($contract1->created_at); ?></td>
-                                
-                                <td><span class="pull-right-container">
-                                    <?php if($contract1->contract_status == 'created'): ?>
-                                    <small class="badge bg-purple"><?php echo e($contract1->contract_status); ?></small></span> <?php elseif($contract1->contract_status
-                                    == 'published'): ?>
-                                    <small class="badge bg-yellow"><?php echo e($contract1->contract_status); ?></small></span>
-                                    <?php elseif($contract1->contract_status== 'ammended'): ?>
-                                    <small class="badge bg-blue"><?php echo e($contract1->contract_status); ?></small></span>
-                                    <?php elseif($contract1->contract_status== 'approved'): ?>
-                                    <small class="badge bg-green"><?php echo e($contract1->contract_status); ?></small></span>
-                                    <?php elseif($contract1->contract_status== 'terminated'): ?>
-                                    <small class="badge bg-purple"><?php echo e($contract1->contract_status); ?></small></span>
-                                </td>
-                                <?php endif; ?>
-                                </td>
-                                <?php echo Form::close(); ?>
-
-                            </tr>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        </tbody>
-                    </table>
-                </div>
-                <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isLegal()): ?>
-                <div class="box-footer text-center">
-                    <a href="approved-contracts" class="uppercase">View All Approved Contracts</a>
-                </div>
-                <?php else: ?>
-                <div class="box-footer text-center">
-                    <a href="approved-contracts" class="uppercase">View All Ammended Contracts</a>
-                </div>
-                <?php endif; ?> <?php endif; ?>
-                <!-- /.table-responsive -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix" style="">
-            </div>
-            <!-- /.box-footer -->
-        </div>
-    </div>
-    <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin()): ?>
-    <div class="col-md-4">
+        <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin()): ?>
         <div class="box box-success">
             <div class="box-header with-border">
                 <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isLegal()): ?>
@@ -308,7 +292,7 @@
                 <?php else: ?> <?php endif; ?> <?php endif; ?>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                    </button>
+                            </button>
                 </div>
             </div>
             <!-- /.box-header -->
@@ -326,8 +310,8 @@
                             <?php $__currentLoopData = $parties; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$party): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
                                 <td><?php echo e($key+1); ?></td>
-                                <td><a href="/contract-party/<?php echo e($party->party_id); ?>/view-contract-party">
-                                <?php echo e($party->party_name); ?></a>
+                                <td><a href="/contract-party/<?php echo e($party->party_id); ?>/view-contract-party" target="_blank">
+                                        <?php echo e($party->party_name); ?></a>
                                 </td>
                                 <td><?php echo e($party->email); ?></td>
                                 </td>
@@ -348,21 +332,26 @@
             </div>
             <!-- /.box-footer -->
         </div>
+        <?php endif; ?> <?php endif; ?>
     </div>
-    <?php endif; ?> <?php endif; ?>
+</div>
+
+
+
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>
-    <link rel="stylesheet" href="/css/admin_custom.css">
-    <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="/css/select2.min.css">
+<link rel="stylesheet" href="/css/admin_custom.css">
+<link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="/css/select2.min.css">
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('js'); ?>
-    <script src="/js/bootstrap-datepicker.min.js"></script>
-    <script src="/js/select2.full.min.js"></script>
-    <script src="/js/bootbox.min.js"></script>
+<script src="/js/bootstrap-datepicker.min.js"></script>
+<script src="/js/select2.full.min.js"></script>
+<script src="/js/bootbox.min.js"></script>
 
-    <script>
-        $(function () {
+<script>
+    $(function () {
          $('#example1').DataTable()
          $('#example2').DataTable()
          $('#example3').DataTable()
@@ -372,7 +361,13 @@
         $(document).ready(function() {
 });
     });
-    </script>
+
+</script>
+
+
+
+
+
 
 
 

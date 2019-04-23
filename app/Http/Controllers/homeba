@@ -151,11 +151,9 @@ class HomeController extends Controller
         if (auth()->check()) if (auth()->user()->isAdmin()) {
             $contract_status = 'published';
             $contract_status1 = 'approved';
-            $contract_assigned = '';
         } elseif (auth()->user()->isUser()) {
             $contract_status = 'approved';
             $contract_status1 = 'ammended';
-            $contract_assigned = 1;
         }
         if (auth()->user()->isLegal()) {
             $contract_status = 'published';
@@ -182,11 +180,10 @@ class HomeController extends Controller
             ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
             ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
-            ->orderBy('contracts.published_time', 'desc')
+            ->orderBy('contracts.published_time', 'desc')->take(4)
             ->where([
                 [$compare_field, $compare_operator, $compare_value],
                 ['contracts.status', '=', $contract_status],
-                ['contracts.assigned', '=', $contract_assigned]
             ])
             ->get();
 
@@ -266,7 +263,7 @@ class HomeController extends Controller
             ->orderBy('parties.party_id', 'desc')->take(4)
             ->get();
 
-        return view('dashboard')->with([
+        return view('home')->with([
             'contracts' => $contracts,
             'contracts1' => $contracts1,
             'parties' => $parties,

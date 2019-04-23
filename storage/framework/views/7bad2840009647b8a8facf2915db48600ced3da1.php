@@ -2,26 +2,8 @@
 <?php $__env->startSection('content_header'); ?>
 <h1 class="pull-left">Contracts<small>View Contract</small></h1>
 
-<div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create">NEW CONTRACT</a></div>
+<div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a></div>
 <div style="clear:both"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -399,94 +381,102 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                <table id="example1" class="table no-margin">
-                    <thead>
-                        <tr>
-                            <th style="width:20px">S/N</th>
-                            <th style="width:130px">User</th>
-                            <th>Position</th>
-                            <th>Date</th>
-                            <th style="width:50px">Contract Draft</th>
-                            <th>CRF Document</th>
-                            <th>
-                                <center>Status</center>
-                            </th>
-                            <th style="width:90px">Comments</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $__currentLoopData = $contract_drafts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $contracts): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <tr>
-                            <td><?php echo e($key + 1); ?></td>
-                            <td><?php echo e($contracts->name); ?></td>
-                            <td><?php echo e($contracts->job_title); ?></td>
-                            <td><?php echo e($contracts->contract_drafts_created_at); ?></td>
-                            <td style="width:120px"> <a href="/<?php echo e($contracts->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
-                            <?php if($contracts->crf_file ==''): ?>
-                            <td style="width:120px"> <a href="#"> No CRF Document</a></td>
-                            <?php else: ?>
-                            <td style="width:120px"> <a href="/<?php echo e($contracts->crf_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
-                            <?php endif; ?>
-                            <td>
-                                <center><span class="pull-right-container">
+                <div class="table-responsive">
+                    <table id="example1" class="table no-margin">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>User</th>
+                                <th>Position</th>
+                                <th>Date</th>
+                                <th>Contract Draft</th>
+                                <th style="width:120px">CRF Document</th>
+                                <th>
+                                    <center>Status</center>
+                                </th>
+                                <th>Comments</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $__currentLoopData = $contract_drafts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $contracts): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <tr>
+                                <td><?php echo e($key + 1); ?></td>
+                                <td><?php echo e($contracts->name); ?></td>
+                                <td><?php echo e($contracts->job_title); ?></td>
+                                <td><?php echo e($contracts->contract_drafts_created_at); ?></td>
+                                <td style="width:120px"> <a href="/<?php echo e($contracts->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
+                                <?php if($contracts->crf_file ==''): ?>
+                                <td style="width:120px"> <a href="#"> No CRF Document</a></td>
+                                <?php else: ?>
+                                <td style="width:120px"> <a href="/<?php echo e($contracts->crf_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
+                                <?php endif; ?>
+                                <td>
+                                    <center><span class="pull-right-container">
                                     <?php if($contracts->contract_drafts_status == 'created'): ?>
-                                    <small class="badge bg-purple"><?php echo e($contracts->contract_drafts_status); ?></small></span>                                    <?php elseif($contracts->contract_drafts_status== 'published'): ?>
-                                    <small class="badge bg-yellow"><?php echo e($contracts->contract_drafts_status); ?></small></span>
-                                    <?php elseif($contracts->contract_drafts_status== 'approved'): ?>
-                                    <small class="badge bg-green"><?php echo e($contracts->contract_drafts_status); ?></small></span>
-                                    <?php elseif($contracts->contract_drafts_status== 'ammended'): ?>
-                                    <small class="badge bg-blue"><?php echo e($contracts->contract_drafts_status); ?></small></span>
-                                    <?php elseif($contracts->contract_drafts_status== 'terminated'): ?>
-                                    <small class="badge bg-red"><?php echo e($contracts->contract_drafts_status); ?></small></span>
-                                </center>
-                            </td>
-                            <?php endif; ?>
-                            <td><a href="#modal_show_action_comments" data-toggle="modal" data-target="#modal_show_action_comments_<?php echo e($contracts->contract_draft_id); ?>"><strong><center>View</center></strong></a></p>
-                            </td>
-                        </tr>
-                        <!-- Modal to show comments for an approved contract -->
-                        <div class="modal fade" id="modal_show_action_comments_<?php echo e($contracts->contract_draft_id); ?>">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <?php echo Form::open(['class'=>'form']); ?>
+                                    <small class="badge bg-purple"><?php echo e($contracts->contract_drafts_status); ?></small></span>                                        <?php elseif($contracts->contract_drafts_status== 'published'): ?>
+                                        <small class="badge bg-yellow"><?php echo e($contracts->contract_drafts_status); ?></small></span>
+                                        <?php elseif($contracts->contract_drafts_status== 'approved'): ?>
+                                        <small class="badge bg-green"><?php echo e($contracts->contract_drafts_status); ?></small></span>
+                                        <?php elseif($contracts->contract_drafts_status== 'ammended'): ?>
+                                        <small class="badge bg-blue"><?php echo e($contracts->contract_drafts_status); ?></small></span>
+                                        <?php elseif($contracts->contract_drafts_status== 'terminated'): ?>
+                                        <small class="badge bg-red"><?php echo e($contracts->contract_drafts_status); ?></small></span>
+                                    </center>
+                                </td>
+                                <?php endif; ?>
+                                <td><a href="#modal_show_action_comments" data-toggle="modal" data-target="#modal_show_action_comments_<?php echo e($contracts->contract_draft_id); ?>"><strong><center>View</center></strong></a></p>
+                                </td>
+                            </tr>
+                            <!-- Modal to show comments for an approved contract -->
+                            <div class="modal fade" id="modal_show_action_comments_<?php echo e($contracts->contract_draft_id); ?>">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <?php echo Form::open(['class'=>'form']); ?>
 
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title">Comments</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <?php echo e(Form::text('contract_id',$contracts->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])); ?>
+                                            <h4 class="modal-title">Comments</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <?php echo e(Form::text('contract_id',$contracts->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])); ?>
 
-                                                    <?php if($contracts->comments == ''): ?>
-                                                    <p>No comments left for this action...</p>
-                                                    <?php else: ?>
-                                                    <p><?php echo e($contracts->comments); ?></p>
-                                                    <?php endif; ?>
+                                                        <?php if($contracts->comments == ''): ?>
+                                                        <p>No comments left for this action...</p>
+                                                        <?php else: ?>
+                                                        <p><?php echo e($contracts->comments); ?></p>
+                                                        <?php endif; ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                    </div>
-                                    <?php echo Form::close(); ?>
+                                        <div class="modal-footer">
+                                        </div>
+                                        <?php echo Form::close(); ?>
 
+                                    </div>
+                                    <!-- /.modal-content -->
                                 </div>
-                                <!-- /.modal-content -->
+                                <!-- /.modal-dialog -->
                             </div>
-                            <!-- /.modal-dialog -->
-                        </div>
-                        <!-- End modal show comments for an approved contract -->
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
+                            <!-- End modal show comments for an approved contract -->
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </tbody>
+                    </table>
+                </div>
         </section>
-        </tbody>
-        </table>
+
         </div>
     </div>
+
+
+
+
+
+
 
 
 
@@ -529,6 +519,12 @@
             })
                     })
     </script>
+
+
+
+
+
+
 
 
 

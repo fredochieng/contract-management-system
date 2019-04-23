@@ -379,10 +379,6 @@ class ContractController extends Controller
             return $item;
         });
 
-        // echo "<pre>";
-        // print_r($my_pending_contracts);
-        // exit;
-
         return view('contracts.pending-contracts')->with([
             'pending_contracts' => $pending_contracts,
             'overdue_pending_contracts' => $overdue_pending_contracts,
@@ -400,14 +396,26 @@ class ContractController extends Controller
             $compare_field2 = "contracts.contract_id";
             $compare_operator2 = ">=";
             $compare_value2 = 1;
+
+            $compare_field3 = 'contracts.legal_approval_id';
+            $compare_operator3 = "=";
+            $compare_value3 = Auth::user()->id;
         } elseif ($user_role == "Legal Counsel") {
-            $compare_field2 = 'contracts.legal_approval_id';
-            $compare_operator2 = "=";
-            $compare_value2 = Auth::user()->id;
+            $compare_field2 = "contracts.contract_id";
+            $compare_operator2 = ">=";
+            $compare_value2 = 1;
+
+            $compare_field3 = 'contracts.legal_approval_id';
+            $compare_operator3 = "=";
+            $compare_value3 = Auth::user()->id;
         } else {
             $compare_field2 = 'contracts.created_by';
             $compare_operator2 = "=";
             $compare_value2 = Auth::user()->id;
+
+            $compare_field3 = 'contracts.created_by';
+            $compare_operator3 = "=";
+            $compare_value3 = Auth::user()->id;
         }
         $approved_contracts = DB::table('contracts')
             ->select(
@@ -435,8 +443,65 @@ class ContractController extends Controller
             ->where('contracts.status', '=', 'approved')
             ->get();
 
+        // Contracts Approved By Me
+        $approved_by_me_contracts = DB::table('contracts')
+            ->select(
+                DB::raw('contracts.*'),
+                DB::raw('contracts.status AS contract_status'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('contracts.created_at AS created_date'),
+                DB::raw('contracts.stage AS contract_stage'),
+                DB::raw('users_organizations.*'),
+                DB::raw('contract_drafts.*'),
+                DB::raw('draft_stages.*')
+            )
+
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+            ->orderBy('contracts.contract_id', 'desc')
+            ->where($compare_field3, $compare_operator3, $compare_value3)
+            ->where('contracts.status', '=', 'approved')
+            ->get();
+
+
+        // My Approved Contracts
+        $my_approved_contracts = DB::table('contracts')
+            ->select(
+                DB::raw('contracts.*'),
+                DB::raw('contracts.status AS contract_status'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('contracts.created_at AS created_date'),
+                DB::raw('contracts.stage AS contract_stage'),
+                DB::raw('users_organizations.*'),
+                DB::raw('contract_drafts.*'),
+                DB::raw('draft_stages.*')
+            )
+
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+            ->orderBy('contracts.contract_id', 'desc')
+            ->where('contracts.status', '=', 'approved')
+            ->where('contracts.created_by', '=', Auth::user()->id)
+            ->get();
+
         return view('contracts.approved-contracts')->with([
             'approved_contracts' => $approved_contracts,
+            'approved_by_me_contracts' => $approved_by_me_contracts,
+            'my_approved_contracts' => $my_approved_contracts
         ]);
     }
 
@@ -449,14 +514,26 @@ class ContractController extends Controller
             $compare_field2 = "contracts.contract_id";
             $compare_operator2 = ">=";
             $compare_value2 = 1;
+
+            $compare_field3 = 'contracts.legal_ammendment_id';
+            $compare_operator3 = "=";
+            $compare_value3 = Auth::user()->id;
         } elseif ($user_role == "Legal Counsel") {
-            $compare_field2 = 'contracts.legal_ammendment_id';
-            $compare_operator2 = "=";
-            $compare_value2 = Auth::user()->id;
+            $compare_field2 = "contracts.contract_id";
+            $compare_operator2 = ">=";
+            $compare_value2 = 1;
+
+            $compare_field3 = 'contracts.legal_ammendment_id';
+            $compare_operator3 = "=";
+            $compare_value3 = Auth::user()->id;
         } else {
             $compare_field2 = 'contracts.created_by';
             $compare_operator2 = "=";
             $compare_value2 = Auth::user()->id;
+
+            $compare_field3 = 'contracts.created_by';
+            $compare_operator3 = "=";
+            $compare_value3 = Auth::user()->id;
         }
         $ammended_contracts = DB::table('contracts')
             ->select(
@@ -484,10 +561,186 @@ class ContractController extends Controller
             ->where('contracts.status', '=', 'ammended')
             ->get();
 
-        return view('contracts.approved-contracts')->with([
-            'approved_contracts' => $ammended_contracts,
+        // Contracts Ammended By Me
+        $ammended_by_me_contracts = DB::table('contracts')
+            ->select(
+                DB::raw('contracts.*'),
+                DB::raw('contracts.status AS contract_status'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('contracts.created_at AS created_date'),
+                DB::raw('contracts.stage AS contract_stage'),
+                DB::raw('users_organizations.*'),
+                DB::raw('contract_drafts.*'),
+                DB::raw('draft_stages.*')
+            )
+
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+            ->orderBy('contracts.contract_id', 'desc')
+            ->where($compare_field3, $compare_operator3, $compare_value3)
+            ->where('contracts.status', '=', 'ammended')
+            ->get();
+
+
+        // My Ammended Contracts
+        $my_ammended_contracts = DB::table('contracts')
+            ->select(
+                DB::raw('contracts.*'),
+                DB::raw('contracts.status AS contract_status'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('contracts.created_at AS created_date'),
+                DB::raw('contracts.stage AS contract_stage'),
+                DB::raw('users_organizations.*'),
+                DB::raw('contract_drafts.*'),
+                DB::raw('draft_stages.*')
+            )
+
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+            ->orderBy('contracts.contract_id', 'desc')
+            ->where('contracts.status', '=', 'ammended')
+            ->where('contracts.created_by', '=', Auth::user()->id)
+            ->get();
+
+        return view('contracts.ammended-contracts')->with([
+            'ammended_contracts' => $ammended_contracts,
+            'ammended_by_me_contracts' => $ammended_by_me_contracts,
+            'my_ammended_contracts' => $my_ammended_contracts
         ]);
     }
+
+    // Terminated Contracts
+    public function terminatedContracts()
+    {
+        $user = Auth::user();
+        ~$user_role = $user->getRoleNames()->first();
+        if ($user_role == "Admin") {
+            $compare_field2 = "contracts.contract_id";
+            $compare_operator2 = ">=";
+            $compare_value2 = 1;
+
+            $compare_field3 = 'contracts.legal_termination_id';
+            $compare_operator3 = "=";
+            $compare_value3 = Auth::user()->id;
+        } elseif ($user_role == "Legal Counsel") {
+            $compare_field2 = "contracts.contract_id";
+            $compare_operator2 = ">=";
+            $compare_value2 = 1;
+
+            $compare_field3 = 'contracts.legal_termination_id';
+            $compare_operator3 = "=";
+            $compare_value3 = Auth::user()->id;
+        } else {
+            $compare_field2 = 'contracts.created_by';
+            $compare_operator2 = "=";
+            $compare_value2 = Auth::user()->id;
+
+            $compare_field3 = 'contracts.created_by';
+            $compare_operator3 = "=";
+            $compare_value3 = Auth::user()->id;
+        }
+        $terminated_contracts = DB::table('contracts')
+            ->select(
+                DB::raw('contracts.*'),
+                DB::raw('contracts.status AS contract_status'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('contracts.created_at AS created_date'),
+                DB::raw('contracts.stage AS contract_stage'),
+                DB::raw('users_organizations.*'),
+                DB::raw('contract_drafts.*'),
+                DB::raw('draft_stages.*')
+            )
+
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+            ->orderBy('contracts.contract_id', 'desc')
+            ->where($compare_field2, $compare_operator2, $compare_value2)
+            ->where('contracts.status', '=', 'terminated')
+            ->get();
+
+        // Contracts Ammended By Me
+        $terminated_by_me_contracts = DB::table('contracts')
+            ->select(
+                DB::raw('contracts.*'),
+                DB::raw('contracts.status AS contract_status'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('contracts.created_at AS created_date'),
+                DB::raw('contracts.stage AS contract_stage'),
+                DB::raw('users_organizations.*'),
+                DB::raw('contract_drafts.*'),
+                DB::raw('draft_stages.*')
+            )
+
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+            ->orderBy('contracts.contract_id', 'desc')
+            ->where($compare_field3, $compare_operator3, $compare_value3)
+            ->where('contracts.status', '=', 'terminated')
+            ->get();
+
+
+        // My Ammended Contracts
+        $my_terminated_contracts = DB::table('contracts')
+            ->select(
+                DB::raw('contracts.*'),
+                DB::raw('contracts.status AS contract_status'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('contracts.created_at AS created_date'),
+                DB::raw('contracts.stage AS contract_stage'),
+                DB::raw('users_organizations.*'),
+                DB::raw('contract_drafts.*'),
+                DB::raw('draft_stages.*')
+            )
+
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+            ->orderBy('contracts.contract_id', 'desc')
+            ->where('contracts.status', '=', 'terminated')
+            ->where('contracts.created_by', '=', Auth::user()->id)
+            ->get();
+
+        return view('contracts.terminated-contracts')->with([
+            'terminated_contracts' => $terminated_contracts,
+            'terminated_by_me_contracts' => $terminated_by_me_contracts,
+            'my_terminated_contracts' => $my_terminated_contracts
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -559,7 +812,6 @@ class ContractController extends Controller
 
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
         DB::table('contracts')->where('contract_id', $just_saved_contract_id)->update(array('last_draft_id' => $last_draft_id));
-
         Alert::success('Contract Creation', 'Contract successfully created');
         return redirect('contract/' . $request->input('contract_id'));
         // ->with('success', 'Contract successfully created...');
@@ -681,15 +933,6 @@ class ContractController extends Controller
             ->orderBy('contracts.contract_id', 'desc')
             ->where('contracts.contract_id', '=', $contract_id)
             ->first();
-
-
-        // $published_time = Carbon::parse($contract->contract_updated_date);
-        // $current_time = Carbon::now('Africa/Nairobi');
-        // $duration = $current_time->diffInMinutes($published_time);
-        // echo "<pre>";
-        // print_r($published_time);
-        // print_r($current_time);
-        // print_r( $duration);
 
         $latest = contract_drafts::where('contract_draft_id', $contract->last_draft_id)
             ->latest('created_at')
