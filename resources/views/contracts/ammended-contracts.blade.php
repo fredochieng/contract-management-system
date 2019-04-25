@@ -7,6 +7,9 @@
 @endif @endif
 <div style="clear:both"></div>
 
+
+
+
 @stop
 @section('content')
 <style>
@@ -29,7 +32,7 @@
                 <li><a href="#ammended-by-me-contracts" data-toggle="tab">Ammended By Me</a></li>
                 <li><a href="#my-ammended-contracts" data-toggle="tab">My Ammended Contracts</a></li>
                 <div class="btn-group pull-right" style="padding:6px;">
-                    <a class="btn btn-info btn-sm btn-flat" href="/contract/create"><i class="fa fa-clock-o fa-fw"></i> New Contract</a>
+                    <a class="btn btn-info btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a>
                 </div>
 
             </ul>
@@ -46,7 +49,6 @@
                                                     <th>S/N</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
-                                                    <th>Uploads</th>
                                                     <th>Effective Date</th>
                                                     <th>Expiry Date</th>
                                                     <th>Status</th>
@@ -63,11 +65,12 @@
                                                                                                                         <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
                                                                                                                         <i class="fa fa-briefcase fa-fw"></i> {{$ammended_contract->party_name}}	</a></span>
                                                     </td>
-                                                    <td><a href="/{{$ammended_contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>                                                        |
-                                                        <a href="/{{$ammended_contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
-                                                    </td>
                                                     <td>{{date("d-m-Y",strtotime($ammended_contract->effective_date))}}</td>
+                                                    @if($ammended_contract->expiry_date == '')
+                                                    <td>N/A</td>
+                                                    @else
                                                     <td>{{date("d-m-Y",strtotime($ammended_contract->expiry_date))}}</td>
+                                                    @endif
                                                     <td><span class="pull-right-container">
                                                             @if($ammended_contract->contract_status == 'created')
                                                             <small class="label pull-center btn-warning">{{$ammended_contract->contract_status}}</small></span>                                                        @elseif($ammended_contract->contract_status == 'published')
@@ -127,7 +130,6 @@
                                                     <th style="width:25px;">S/N</th>
                                                     <th style="width:400px;">Contract Title</th>
                                                     <th style="width:160px;">Party Name</th>
-                                                    <th style="width:145px;">Uploads</th>
                                                     <th style="width:90px;">Effective Date</th>
                                                     <th style="width:90px;">Expiry Date</th>
                                                     <th style="width:50px;">Status</th>
@@ -144,11 +146,12 @@
                                                          <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
                                                             <i class="fa fa-briefcase fa-fw"></i> {{$ammended_by_me_contract->party_name}}</a></span>
                                                     </td>
-                                                    <td><a href="/{{$ammended_by_me_contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>                                                        |
-                                                        <a href="/{{$ammended_by_me_contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
-                                                    </td>
                                                     <td>{{date("d-m-Y",strtotime($ammended_by_me_contract->effective_date))}}</td>
+                                                    @if($ammended_by_me_contract->expiry_date == '')
+                                                    <td>N/A</td>
+                                                    @else
                                                     <td>{{date("d-m-Y",strtotime($ammended_by_me_contract->expiry_date))}}</td>
+                                                    @endif
                                                     <td><span class="pull-right-container">
                                                             @if($ammended_by_me_contract->contract_status == 'created')
                                                             <small class="label pull-center btn-warning">{{$ammended_by_me_contract->contract_status}}</small></span>                                                        @elseif($ammended_contract->contract_status == 'published')
@@ -209,7 +212,6 @@
                                                     <th style="width:25px;">S/N</th>
                                                     <th style="width:400px;">Contract Title</th>
                                                     <th style="width:160px;">Party Name</th>
-                                                    <th style="width:145px;">Uploads</th>
                                                     <th style="width:90px;">Effective Date</th>
                                                     <th style="width:90px;">Expiry Date</th>
                                                     <th style="width:50px;">Status</th>
@@ -226,11 +228,12 @@
                                                                                                      <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
                                                                                                         <i class="fa fa-briefcase fa-fw"></i> {{$my_ammended_contract->party_name}}</a></span>
                                                     </td>
-                                                    <td><a href="/{{$my_ammended_contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>                                                        |
-                                                        <a href="/{{$my_ammended_contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
-                                                    </td>
                                                     <td>{{date("d-m-Y",strtotime($my_ammended_contract->effective_date))}}</td>
+                                                    @if($my_ammended_contract->expiry_date == '')
+                                                    <td>N/A</td>
+                                                    @else
                                                     <td>{{date("d-m-Y",strtotime($my_ammended_contract->expiry_date))}}</td>
+                                                    @endif
                                                     <td><span class="pull-right-container">
                                                                                                 @if($my_ammended_contract->contract_status == 'created')
                                                                                                 <small class="label pull-center btn-warning">{{$my_ammended_contract->contract_status}}</small></span>                                                        @elseif($ammended_contract->contract_status == 'published')
@@ -310,7 +313,6 @@
                     <th style="width:25px;">S/N</th>
                     <th style="width:400px;">Contract Title</th>
                     <th style="width:160px;">Party Name</th>
-                    <th style="width:145px;">Uploads</th>
                     <th style="width:90px;">Effective Date</th>
                     <th style="width:90px;">Expiry Date</th>
                     <th style="width:50px;">Status</th>
@@ -322,12 +324,16 @@
                 <tr>
                     <td>{{ $key+1}}</td>
                     <td><a href="/contract/{{$ammended_contract->contract_id}}/view">{{$ammended_contract->contract_title}}</a></td>
-                    <td>{{$ammended_contract->party_name}}</td>
-                    <td><a href="/{{$ammended_contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>                        |
-                        <a href="/{{$ammended_contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
+                    <td><a href="/contract-party/{{$ammended_contract->party_id}}/view-contract-party" target="_blank">
+                                                                                                                     <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
+                                                                                                                        <i class="fa fa-briefcase fa-fw"></i> {{$ammended_contract->party_name}}</a></span>
                     </td>
                     <td>{{date("d-m-Y",strtotime($ammended_contract->effective_date))}}</td>
+                    @if($ammended_contract->expiry_date == '')
+                    <td>N/A</td>
+                    @else
                     <td>{{date("d-m-Y",strtotime($ammended_contract->expiry_date))}}</td>
+                    @endif
                     <td><span class="pull-right-container">
                         @if($ammended_contract->contract_status == 'created')
                         <small class="label pull-center btn-warning">{{$ammended_contract->contract_status}}</small></span>                        @elseif($ammended_contract->contract_status == 'published')
@@ -344,17 +350,21 @@
                     @endif
                     </td>
                     <td>
-                        @if (auth()->check()) @if(auth()->user()->isUser() && ($ammended_contract->contract_status == 'created' || $ammended_contract->contract_status
-                        == 'ammended'))
-                        <a href="/contract/{{$ammended_contract->contract_id}}/edit">
-                                <span class = "fa fa-pencil bigger"></span></center></a> @else
-
-                        <a href="/contract/{{$ammended_contract->contract_id}}/view">
-                                                                    <span class = "fa fa-eye bigger"></span></center></a>                        @endif @endif {!! Form::open(['action'=>['ContractController@destroy',$ammended_contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])
-                        !!} {{Form::hidden('_method','DELETE')}} {{-- <button type="submit" class="btn btn-danger btn-xs btn-flat"
-                            onClick="return confirm('Are you sure you want to delete this contract?');">   <strong>  <i class="fa fa-close"></i></strong></button>                        --}}
-                        <a class="delete" data-id="{{ $ammended_contract->contract_id }}" href="javascript:void(0)">
-                                <span style="color:red;" class = "fa fa-trash bigger"></span></a>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-block btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Actions<span class="caret"></span><span class="sr-only">Toggle Dropdown</span>
+                                                                                                                                                                                                                                                    </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                @if (auth()->check()) @if(auth()->user()->isUser() && ($ammended_contract->contract_status == 'created' || $ammended_contract->contract_status
+                                == 'ammended'))
+                                <li><a href="/contract/{{$ammended_contract->contract_id}}/edit" class="edit-contract"><i class="fa fa-pencil"></i> View</a></li>
+                                @else
+                                <li><a href="/contract/{{$ammended_contract->contract_id}}/view" class="view-contract"><i class="fa fa-eye"></i> View</a></li>
+                                @endif @endif
+                                <li>
+                                    <a href="#modal_delete_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_delete_contract"
+                                        class="delete-product"><i class="fa fa-trash"></i>  Delete</a></li>
+                            </ul>
+                        </div>
                     </td>
                     {!! Form::close() !!}
                 </tr>
@@ -382,6 +392,14 @@
      });
 
 </script>
+
+
+
+
+
+
+
+
 
 
 

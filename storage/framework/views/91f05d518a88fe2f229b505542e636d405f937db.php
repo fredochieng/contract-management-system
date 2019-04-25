@@ -41,8 +41,8 @@
                     <td><?php echo e($key+1); ?></td>
                     <td><a href="/contract/<?php echo e($contract->contract_id); ?>/view"><?php echo e($contract->contract_title); ?></a></td>
                     <td><?php echo e($contract->party_name); ?></td>
-                    <td><a href="/<?php echo e($contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>                        |
-                        <a href="/<?php echo e($contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
+                    <td><a href="/<?php echo e($contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>
+
                     </td>
                     <td><?php echo e(date("d-m-Y",strtotime($contract->effective_date))); ?></td>
                     <td><?php echo e(date("d-m-Y",strtotime($contract->expiry_date))); ?></td>

@@ -6,6 +6,33 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="row">
@@ -34,15 +61,15 @@
         </div>
     </div>
     <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-green">
+        <div class="small-box bg-aqua">
             <div class="inner">
-                <h3><?php echo e($approved_contract_count); ?></h3>
-                <p>Approved Contracts</p>
+                <h3><?php echo e($closed_contract_count); ?></h3>
+                <p>Closed Contracts</p>
             </div>
             <div class="icon">
                 <i class="fa fa-briefcase"></i>
             </div>
-            <a href="approved-contracts" class="small-box-footer">View Contracts  <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="closed-contracts" class="small-box-footer">View Contracts  <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-xs-6">
@@ -64,7 +91,7 @@
         <div class="box box-success">
             <div class="box-header with-border">
                 <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isLegal()): ?>
-                <h3 class="box-title">Latest Pending Contracts</h3>
+                <h3 class="box-title">Latest Pending Contracts (Unassigned)</h3>
                 <?php elseif(auth()->user()->isUser()): ?>
                 <h3 class="box-title">Latest Approved Contracts</h3>
                 <?php endif; ?> <?php endif; ?>
@@ -86,7 +113,7 @@
                                 <th style="width:145px;">Date</th>
                                 
 
-<th style="width:145px;">Status</th>
+                                <th style="width:145px;">Status</th>
                                 <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isLegal()): ?>
                                 <th style="width:70px;">Alert</th>
                                  <?php endif; ?> <?php endif; ?>
@@ -112,6 +139,8 @@
                                     <small class="badge bg-blue"><?php echo e($contract->contract_status); ?></small></span>
                                     <?php elseif($contract->contract_status== 'approved'): ?>
                                     <small class="badge bg-green"><?php echo e($contract->contract_status); ?></small></span>
+                                    <?php elseif($contract1->contract_status== 'closed'): ?>
+                                    <small class="badge bg-aqua"><?php echo e($contract1->contract_status); ?></small></span>
                                     <?php elseif($contract->contract_status== 'terminated'): ?>
                                     <small class="badge bg-red"><?php echo e($contract->contract_status); ?></small></span>
                                 </td>
@@ -153,7 +182,7 @@
         <div class="box box-success">
             <div class="box-header with-border">
                 <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isLegal()): ?>
-                <h3 class="box-title">Latest Approved Contracts</h3>
+                <h3 class="box-title">Latest Closed Contracts</h3>
                 <?php elseif(auth()->user()->isUser()): ?>
                 <h3 class="box-title">Latest Ammended Contracts</h3>
                 <?php endif; ?> <?php endif; ?>
@@ -197,6 +226,8 @@
                                     <small class="badge bg-blue"><?php echo e($contract1->contract_status); ?></small></span>
                                     <?php elseif($contract1->contract_status== 'approved'): ?>
                                     <small class="badge bg-green"><?php echo e($contract1->contract_status); ?></small></span>
+                                    <?php elseif($contract1->contract_status== 'closed'): ?>
+                                    <small class="badge bg-aqua"><?php echo e($contract1->contract_status); ?></small></span>
                                     <?php elseif($contract1->contract_status== 'terminated'): ?>
                                     <small class="badge bg-purple"><?php echo e($contract1->contract_status); ?></small></span>
                                 </td>
@@ -211,7 +242,7 @@
                 </div>
                 <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isLegal()): ?>
                 <div class="box-footer text-center">
-                    <a href="approved-contracts" class="uppercase">View All Approved Contracts</a>
+                    <a href="closed-contracts" class="uppercase">View All Closed Contracts</a>
                 </div>
                 <?php else: ?>
                 <div class="box-footer text-center">
@@ -226,7 +257,54 @@
             <!-- /.box-footer -->
         </div>
     </div>
+
     <div class="col-md-4">
+        <?php if(auth()->check()): ?> <?php if(auth()->user()->isLegal()): ?>
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title">My Assigned Contracts</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="">
+                <div class="table-responsive">
+                    <table class="table no-margin">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Contract Title</th>
+                                <th>Party Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $__currentLoopData = $assigned_contracts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$assigned_contract): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <tr>
+                                <td><?php echo e($key+1); ?></td>
+                                <td><a href="/contract/<?php echo e($assigned_contract->contract_id); ?>/view"><?php echo e($assigned_contract->contract_title); ?></a></td>
+                                <td><a href="/contract-party/<?php echo e($assigned_contract->party_id); ?>/view-contract-party" target="_blank">
+                                                    <?php echo e($assigned_contract->party_name); ?></a>
+                                </td>
+                                <?php echo Form::close(); ?>
+
+                            </tr>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer text-center">
+                    <a href="my-assigned-contracts" class="uppercase">View My Assigned Contracts</a>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix" style="">
+            </div>
+            <!-- /.box-footer -->
+        </div>
+        <?php elseif(auth()->user()->isAdmin() || auth()->user()->isUser()): ?>
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Contracts Statistics</h3>
@@ -254,6 +332,14 @@
 
                         <div class="progress sm">
                             <div class="progress-bar progress-bar-green" style="width: <?php echo e($approved_percentage); ?>%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-group">
+                        <span class="progress-text">Closed Contracts</span>
+                        <span class="progress-number"><b><?php echo e($closed_contract_count); ?></b>/<?php echo e($total_contracts_count); ?></span>
+
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-grey" style="width: <?php echo e($closed_percentage); ?>%"></div>
                         </div>
                     </div>
                     <!-- /.progress-group -->
@@ -284,7 +370,7 @@
             <!-- /.box-body -->
             <!-- /.box-footer -->
         </div>
-        <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin()): ?>
+        <?php endif; ?> <?php endif; ?> <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin()): ?>
         <div class="box box-success">
             <div class="box-header with-border">
                 <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isLegal()): ?>
@@ -332,9 +418,91 @@
             </div>
             <!-- /.box-footer -->
         </div>
+        <?php elseif(auth()->user()->isLegal()): ?>
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title">Contracts Statistics</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="">
+                <div class="col-md-12">
+                    <div class="progress-group">
+                        <span class="progress-text">Approved Contracts</span>
+                        <span class="progress-number"><b><?php echo e($approved_contract_count); ?></b>/<?php echo e($total_contracts_count); ?></span>
+
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-green" style="width: <?php echo e($approved_percentage); ?>%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-group">
+                        <span class="progress-text">Closed Contracts</span>
+                        <span class="progress-number"><b><?php echo e($closed_contract_count); ?></b>/<?php echo e($total_contracts_count); ?></span>
+
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-grey" style="width: <?php echo e($closed_percentage); ?>%"></div>
+                        </div>
+                    </div>
+                    <!-- /.progress-group -->
+                    <div class="progress-group">
+                        <span class="progress-text">Ammended Contracts</span>
+                        <span class="progress-number"><b><?php echo e($ammended_contract_count); ?></b>/<?php echo e($total_contracts_count); ?></span>
+
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-blue" style="width: <?php echo e($ammended_percentage); ?>%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-group">
+                        <span class="progress-text">Terminated Contracts</span>
+                        <span class="progress-number"><b><?php echo e($terminated_contract_count); ?></b>/<?php echo e($total_contracts_count); ?></span>
+
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-red" style="width: <?php echo e($terminated_percentage); ?>%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer text-center">
+                    <a href="approved-contracts" class="uppercase"></a>
+                </div>
+                <div class="box-footer text-center">
+                    <a href="approved-contracts" class="uppercase">View All Contracts</a>
+                </div>
+            </div>
+            <!-- /.box-body -->
+            <!-- /.box-footer -->
+        </div>
         <?php endif; ?> <?php endif; ?>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -363,6 +531,33 @@
     });
 
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

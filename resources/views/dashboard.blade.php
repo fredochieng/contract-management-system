@@ -8,6 +8,32 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @stop
 @section('content')
 <div class="row">
@@ -36,15 +62,15 @@
         </div>
     </div>
     <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-green">
+        <div class="small-box bg-aqua">
             <div class="inner">
-                <h3>{{ $approved_contract_count }}</h3>
-                <p>Approved Contracts</p>
+                <h3>{{ $closed_contract_count }}</h3>
+                <p>Closed Contracts</p>
             </div>
             <div class="icon">
                 <i class="fa fa-briefcase"></i>
             </div>
-            <a href="approved-contracts" class="small-box-footer">View Contracts  <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="closed-contracts" class="small-box-footer">View Contracts  <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-xs-6">
@@ -66,7 +92,7 @@
         <div class="box box-success">
             <div class="box-header with-border">
                 @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
-                <h3 class="box-title">Latest Pending Contracts</h3>
+                <h3 class="box-title">Latest Pending Contracts (Unassigned)</h3>
                 @elseif(auth()->user()->isUser())
                 <h3 class="box-title">Latest Approved Contracts</h3>
                 @endif @endif
@@ -125,6 +151,8 @@
                                     <small class="badge bg-blue">{{$contract->contract_status}}</small></span>
                                     @elseif($contract->contract_status== 'approved')
                                     <small class="badge bg-green">{{$contract->contract_status}}</small></span>
+                                    @elseif($contract1->contract_status== 'closed')
+                                    <small class="badge bg-aqua">{{$contract1->contract_status}}</small></span>
                                     @elseif($contract->contract_status== 'terminated')
                                     <small class="badge bg-red">{{$contract->contract_status}}</small></span>
                                 </td>
@@ -165,7 +193,7 @@
         <div class="box box-success">
             <div class="box-header with-border">
                 @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
-                <h3 class="box-title">Latest Approved Contracts</h3>
+                <h3 class="box-title">Latest Closed Contracts</h3>
                 @elseif(auth()->user()->isUser())
                 <h3 class="box-title">Latest Ammended Contracts</h3>
                 @endif @endif
@@ -219,6 +247,8 @@
                                     <small class="badge bg-blue">{{$contract1->contract_status}}</small></span>
                                     @elseif($contract1->contract_status== 'approved')
                                     <small class="badge bg-green">{{$contract1->contract_status}}</small></span>
+                                    @elseif($contract1->contract_status== 'closed')
+                                    <small class="badge bg-aqua">{{$contract1->contract_status}}</small></span>
                                     @elseif($contract1->contract_status== 'terminated')
                                     <small class="badge bg-purple">{{$contract1->contract_status}}</small></span>
                                 </td>
@@ -232,7 +262,7 @@
                 </div>
                 @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
                 <div class="box-footer text-center">
-                    <a href="approved-contracts" class="uppercase">View All Approved Contracts</a>
+                    <a href="closed-contracts" class="uppercase">View All Closed Contracts</a>
                 </div>
                 @else
                 <div class="box-footer text-center">
@@ -247,7 +277,53 @@
             <!-- /.box-footer -->
         </div>
     </div>
+
     <div class="col-md-4">
+        @if(auth()->check()) @if (auth()->user()->isLegal())
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title">My Assigned Contracts</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="">
+                <div class="table-responsive">
+                    <table class="table no-margin">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Contract Title</th>
+                                <th>Party Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($assigned_contracts as $key=>$assigned_contract)
+                            <tr>
+                                <td>{{ $key+1}}</td>
+                                <td><a href="/contract/{{$assigned_contract->contract_id}}/view">{{$assigned_contract->contract_title}}</a></td>
+                                <td><a href="/contract-party/{{$assigned_contract->party_id}}/view-contract-party" target="_blank">
+                                                    {{$assigned_contract->party_name}}</a>
+                                </td>
+                                {!! Form::close() !!}
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer text-center">
+                    <a href="my-assigned-contracts" class="uppercase">View My Assigned Contracts</a>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix" style="">
+            </div>
+            <!-- /.box-footer -->
+        </div>
+        @elseif(auth()->user()->isAdmin() || auth()->user()->isUser())
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Contracts Statistics</h3>
@@ -275,6 +351,14 @@
 
                         <div class="progress sm">
                             <div class="progress-bar progress-bar-green" style="width: {{ $approved_percentage }}%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-group">
+                        <span class="progress-text">Closed Contracts</span>
+                        <span class="progress-number"><b>{{ $closed_contract_count }}</b>/{{ $total_contracts_count }}</span>
+
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-grey" style="width: {{ $closed_percentage }}%"></div>
                         </div>
                     </div>
                     <!-- /.progress-group -->
@@ -305,7 +389,7 @@
             <!-- /.box-body -->
             <!-- /.box-footer -->
         </div>
-        @if(auth()->check()) @if (auth()->user()->isAdmin())
+        @endif @endif @if(auth()->check()) @if (auth()->user()->isAdmin())
         <div class="box box-success">
             <div class="box-header with-border">
                 @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
@@ -352,9 +436,90 @@
             </div>
             <!-- /.box-footer -->
         </div>
+        @elseif(auth()->user()->isLegal())
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title">Contracts Statistics</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="">
+                <div class="col-md-12">
+                    <div class="progress-group">
+                        <span class="progress-text">Approved Contracts</span>
+                        <span class="progress-number"><b>{{ $approved_contract_count }}</b>/{{ $total_contracts_count }}</span>
+
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-green" style="width: {{ $approved_percentage }}%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-group">
+                        <span class="progress-text">Closed Contracts</span>
+                        <span class="progress-number"><b>{{ $closed_contract_count }}</b>/{{ $total_contracts_count }}</span>
+
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-grey" style="width: {{ $closed_percentage }}%"></div>
+                        </div>
+                    </div>
+                    <!-- /.progress-group -->
+                    <div class="progress-group">
+                        <span class="progress-text">Ammended Contracts</span>
+                        <span class="progress-number"><b>{{ $ammended_contract_count }}</b>/{{ $total_contracts_count }}</span>
+
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-blue" style="width: {{ $ammended_percentage }}%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-group">
+                        <span class="progress-text">Terminated Contracts</span>
+                        <span class="progress-number"><b>{{ $terminated_contract_count }}</b>/{{ $total_contracts_count }}</span>
+
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-red" style="width: {{ $terminated_percentage }}%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer text-center">
+                    <a href="approved-contracts" class="uppercase"></a>
+                </div>
+                <div class="box-footer text-center">
+                    <a href="approved-contracts" class="uppercase">View All Contracts</a>
+                </div>
+            </div>
+            <!-- /.box-body -->
+            <!-- /.box-footer -->
+        </div>
         @endif @endif
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -384,6 +549,32 @@
     });
 
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

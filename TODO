@@ -1,0 +1,18 @@
+
+Todo:
+Open and Overdue Contracts in pending-contracts   ☐ Item
+Modal pop up to confirm publishing a contract:
+Change status from published to pending in all the affected files
+Archive a contract - backend implementation:
+View details of archived contract...retrieve info from contracts_storage table
+Upload final/signed contract.....NB A contract can be achirved once this signed contract has been uploaded::
+Change file name of all uploads of contracts to pick the title of the contracts> For example if the contract title is My Contract then the draft file name should be My Contract.docx/doc/pdf
+Change Approved to Closed in Dashboard Statistics:
+Out of office implementation- assign contract to someone else if out of office:
+Replace Uploads in Closed Contracts list with signed contract | crf Add transferred column in the cntracts table for easy identification of transferred contracts...even the the one who has been transferred the contract tp can easily get those contracts
+Eliminated Upload CRF Form in both contract creation and ammending forms as well as backend implementations in the ContractController (function store, update and ammend):
+Emailing
+Password Reset
+User Registration in initial registration form
+Action buttons in each and every table...edit, delete, view implementation
+After contract creation, redirect to created contracts page (create this view)

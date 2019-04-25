@@ -59,8 +59,14 @@ class HomeController extends Controller
             //     ->where('contracts.legal_termination_id', '=', Auth::user()->id)
             //     ->count();
 
-            $approved_contract_count = \DB::table('contracts')
+            // $approved_contract_count = \DB::table('contracts')
+            //     ->where($compare_field, $compare_operator, $compare_value)
+            //     ->where('contracts.legal_approval_id', '=', Auth::user()->id)
+            //     ->count();
+
+            $closed_contract_count = \DB::table('contracts')
                 ->where($compare_field, $compare_operator, $compare_value)
+                ->where('contracts.status', '=', 'closed')
                 ->where('contracts.legal_approval_id', '=', Auth::user()->id)
                 ->count();
 
@@ -74,7 +80,7 @@ class HomeController extends Controller
                 ->where('contracts.legal_termination_id', '=', Auth::user()->id)
                 ->count();
 
-            $total_contracts_count = $approved_contract_count + $ammended_contract_count + $terminated_contract_count;
+            $total_contracts_count = $closed_contract_count + $ammended_contract_count + $terminated_contract_count;
         } else {
             $total_contracts_count = contract::where($compare_field, $compare_operator, $compare_value)
                 ->where(function ($query) {
@@ -91,10 +97,21 @@ class HomeController extends Controller
                 ['contracts.status', '=', 'approved'],
                 ['contracts.legal_approval_id', '=', Auth::user()->id]
             ])->count();
+
+            $closed_contract_count = \DB::table('contracts')->where([
+                [$compare_field, $compare_operator, $compare_value],
+                ['contracts.status', '=', 'closed'],
+                ['contracts.legal_approval_id', '=', Auth::user()->id]
+            ])->count();
         } else {
             $approved_contract_count = \DB::table('contracts')->where([
                 [$compare_field, $compare_operator, $compare_value],
                 ['contracts.status', '=', 'approved']
+            ])->count();
+
+            $closed_contract_count = \DB::table('contracts')->where([
+                [$compare_field, $compare_operator, $compare_value],
+                ['contracts.status', '=', 'closed']
             ])->count();
         }
         $published_contract_count = \DB::table('contracts')->where([
@@ -129,10 +146,12 @@ class HomeController extends Controller
         if ($total_contracts_count == 0) {
             $total_contracts_count = 0;
             $approved_percentage = 0;
+            $closed_percentage = 0;
             $ammended_percentage = 0;
             $terminated_percentage = 0;
             $published_percentage = 0;
         } else {
+            $closed_percentage = ($closed_contract_count * 100) / $total_contracts_count;
             $approved_percentage = ($approved_contract_count * 100) / $total_contracts_count;
             $ammended_percentage = ($ammended_contract_count * 100) / $total_contracts_count;
             $terminated_percentage = ($terminated_contract_count * 100) / $total_contracts_count;
@@ -150,16 +169,20 @@ class HomeController extends Controller
         }
         if (auth()->check()) if (auth()->user()->isAdmin()) {
             $contract_status = 'published';
-            $contract_status1 = 'approved';
+            $contract_status1 = 'closed';
             $contract_assigned = '';
+            $contract_assigned1 = 1;
         } elseif (auth()->user()->isUser()) {
             $contract_status = 'approved';
             $contract_status1 = 'ammended';
             $contract_assigned = 1;
+            $contract_assigned1 = 1;
         }
         if (auth()->user()->isLegal()) {
             $contract_status = 'published';
-            $contract_status2 = 'approved';
+            $contract_status2 = 'closed';
+            $contract_assigned = '';
+            $contract_assigned1 = 1;
         }
         $contracts = DB::table('contracts')
             ->select(
@@ -189,6 +212,7 @@ class HomeController extends Controller
                 ['contracts.assigned', '=', $contract_assigned]
             ])
             ->get();
+
 
         $contracts->map(function ($item) {
             $published_time = Carbon::parse($item->contract_published_time);
@@ -266,17 +290,51 @@ class HomeController extends Controller
             ->orderBy('parties.party_id', 'desc')->take(4)
             ->get();
 
+        $assigned_contracts = DB::table('contracts')
+            ->select(
+                DB::raw('contracts.*'),
+                DB::raw('contracts.status AS contract_status'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('contracts.created_at AS created_date'),
+                DB::raw('contracts.published_time AS contract_published_time'),
+                DB::raw('contracts.stage AS contract_stage'),
+                DB::raw('users_organizations.*'),
+                DB::raw('contract_drafts.*'),
+                DB::raw('draft_stages.*')
+            )
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+            ->orderBy('contracts.published_time', 'desc')
+            ->where([
+                [$compare_field, $compare_operator, $compare_value],
+                ['contracts.status', '=', $contract_status],
+                ['contracts.assigned', '=', $contract_assigned1],
+                ['contracts.assigned_user_id', '=', Auth::user()->id]
+            ])
+            ->get();
+
+
         return view('dashboard')->with([
             'contracts' => $contracts,
             'contracts1' => $contracts1,
             'parties' => $parties,
+            'assigned_contracts' => $assigned_contracts,
             'total_contracts_count' => $total_contracts_count,
             'created_contract_count' => $created_contract_count,
             'published_contract_count' => $published_contract_count,
             'approved_contract_count' => $approved_contract_count,
+            'closed_contract_count' => $closed_contract_count,
             'terminated_contract_count' => $terminated_contract_count,
             'ammended_contract_count' => $ammended_contract_count,
             'approved_percentage' => $approved_percentage,
+            'closed_percentage' => $closed_percentage,
             'ammended_percentage' => $ammended_percentage,
             'terminated_percentage' => $terminated_percentage,
             'published_percentage' => $published_percentage

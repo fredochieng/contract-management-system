@@ -7,9 +7,6 @@
 @endif @endif
 <div style="clear:both"></div>
 
-
-
-
 @stop
 @section('content')
 <style>
@@ -70,7 +67,11 @@
                                                     <i class="fa fa-briefcase fa-fw"></i> {{$pending_contract->party_name}}	</a></span>
                                                     </td>
                                                     <td>{{date("d-m-Y",strtotime($pending_contract->effective_date))}}</td>
+                                                    @if($pending_contract->expiry_date == '')
+                                                    <td>N/A</td>
+                                                    @else
                                                     <td>{{date("d-m-Y",strtotime($pending_contract->expiry_date))}}</td>
+                                                    @endif
                                                     <td><span class="pull-right-container">
                                                         @if($pending_contract->contract_status == 'created')
                                                         <small class="badge bg-purple">{{$pending_contract->contract_status}}</small></span>                                                        @elseif($pending_contract->contract_status == 'published')
@@ -185,7 +186,11 @@
                                                                                                     <i class="fa fa-briefcase fa-fw"></i> {{$overdue_pending_contract->party_name}}	</a></span>
                                                     </td>
                                                     <td>{{date("d-m-Y",strtotime($overdue_pending_contract->effective_date))}}</td>
+                                                    @if($overdue_pending_contract->expiry_date == '')
+                                                    <td>N/A</td>
+                                                    @else
                                                     <td>{{date("d-m-Y",strtotime($overdue_pending_contract->expiry_date))}}</td>
+                                                    @endif
                                                     <td><span class="pull-right-container">
                                                         @if($overdue_pending_contract->contract_status == 'created')
                                                         <small class="badge bg-purple">{{$overdue_pending_contract->contract_status}}</small></span>                                                        @elseif($overdue_pending_contract->contract_status == 'published')
@@ -296,7 +301,11 @@
                                                                                                     <i class="fa fa-briefcase fa-fw"></i> {{$assigned_pending_contract->party_name}}	</a></span>
                                                     </td>
                                                     <td>{{date("d-m-Y",strtotime($assigned_pending_contract->effective_date))}}</td>
+                                                    @if($assigned_pending_contract->expiry_date == '')
+                                                    <td>N/A</td>
+                                                    @else
                                                     <td>{{date("d-m-Y",strtotime($assigned_pending_contract->expiry_date))}}</td>
+                                                    @endif
                                                     <td><span class="pull-right-container">
                                                                         @if($assigned_pending_contract->contract_status == 'created')
                                                                         <small class="badge bg-purple">{{$assigned_pending_contract->contract_status}}</small></span>                                                        @elseif($assigned_pending_contract->contract_status == 'published')
@@ -406,7 +415,11 @@
                                                                                                     <i class="fa fa-briefcase fa-fw"></i> {{$my_pending_contract->party_name}}	</a></span>
                                                     </td>
                                                     <td>{{date("d-m-Y",strtotime($my_pending_contract->effective_date))}}</td>
+                                                    @if($my_pending_contract->expiry_date == '')
+                                                    <td>N/A</td>
+                                                    @else
                                                     <td>{{date("d-m-Y",strtotime($my_pending_contract->expiry_date))}}</td>
+                                                    @endif
                                                     <td><span class="pull-right-container">
                                                                                             @if($my_pending_contract->contract_status == 'created')
                                                                                             <small class="badge bg-purple">{{$my_pending_contract->contract_status}}</small></span>                                                        @elseif($my_pending_contract->contract_status == 'published')
@@ -524,7 +537,11 @@
                                                                     <i class="fa fa-briefcase fa-fw"></i> {{$pending_contract->party_name}}	</a></span>
                         </td>
                         <td>{{date("d-m-Y",strtotime($pending_contract->effective_date))}}</td>
+                        @if($pending_contract->expiry_date == '')
+                        <td>N/A</td>
+                        @else
                         <td>{{date("d-m-Y",strtotime($pending_contract->expiry_date))}}</td>
+                        @endif
                         <td><span class="pull-right-container">
                         @if($pending_contract->contract_status == 'created')
                         <small class="badge bg-purple">{{$pending_contract->contract_status}}</small></span> @elseif($pending_contract->contract_status
@@ -617,6 +634,7 @@
 });
 
 </script>
+
 
 
 

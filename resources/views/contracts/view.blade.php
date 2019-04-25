@@ -8,6 +8,12 @@
 
 
 
+
+
+
+
+
+
 @stop
 @section('content')
 <style>
@@ -61,7 +67,9 @@
                 <div class="col-md-3">
                     {{Form::label('expiry_date', 'Expiry Date ')}}
                     <div class="form-group">
-                        <h4>{{ $contract->expiry_date }}</h4>
+                        @if($contract->expiry_date =='')
+                        <h4>N/A</h4>
+                        @else {{ $contract->expiry_date }} @endif
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -95,10 +103,18 @@
             <div class="row no-print">
                 <div class="col-xs-12">
                     @if (auth()->check()) @if($contract->contract_status=='created' && (auth()->user()->isLegal() || auth()->user()->isAdmin()))
-                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Publish Contract</button> @elseif(auth()->user()->isUser()
-                    && ($contract->contract_status=='created' && $contract->created_by== Auth::user()->id))
-                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Publish Contract</button> @endif
-                    @endif @if (auth()->check()) @if( $contract->contract_status =='published' && auth()->user()->isUser())
+                    {{-- <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Publish Contract</button>                    --}} {!! Form::open(['action'=>['ContractController@publish',$contract->contract_id],'method'=>'POST','class'=>'floatit',
+                    'enctype'=>'multipart/form-data'])!!}
+                    <a href="#modal_publish_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_publish_contract"
+                        class="btn btn-success">
+                                                <i class="fa fa-check"></i> Publish Contract</a> @elseif(auth()->user()->isUser()
+                    && ($contract->contract_status=='created' && $contract->created_by== Auth::user()->id)) {{--
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Publish Contract</button> --}}
+                    {!! Form::open(['action'=>['ContractController@publish',$contract->contract_id],'method'=>'POST','class'=>'floatit',
+                    'enctype'=>'multipart/form-data'])!!}
+                    <a href="#modal_publish_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_publish_contract"
+                        class="btn btn-success">
+                                                                    <i class="fa fa-check"></i> Publish Contract</a>                    @endif @endif @if (auth()->check()) @if( $contract->contract_status =='published' && auth()->user()->isUser())
                     <p class="col-md-6 text-green well well-sm no-shadow" style="margin-top: 10px;">
                         The contract has been published for review by the legal team</p>
 
@@ -143,24 +159,69 @@
                     <a href="/contract/{{$contract->contract_id}}/edit" class="btn btn-success"><i class="fa fa-check"></i> Approve Changes</a>                    {{-- <a href="#modal_approve_changes" data-toggle="modal" data-target="#modal_approve_changes" class="btn btn-success">
                                                         <i class="fa fa-check"></i> APPROVE CHANGES</a>
                     <a href="#modal_reject_changes" data-toggle="modal" data-target="#modal_reject_changes" class="btn btn-danger">
-                                                        <i class="fa fa-close"></i> REJECT CHANGES</a>                    --}} @endif @endif @if($contract->contract_status =='approved')
-                    <p class="col-md-6 text-green well well-sm no-shadow" style="margin-top: 10px;">
-                        This contract has been approved by the legal admin awaiting shelving
+                                                        <i class="fa fa-close"></i> REJECT CHANGES</a>                    --}} @endif @endif @if (auth()->check()) @if($contract->contract_status =='approved' && (auth()->user()->isAdmin()
+                    || auth()->user()->isLegal()) && $contract->created_by != Auth::user()->id)
+
+                    <p class="col-md-6 text-blue well well-sm no-shadow" style="margin-top: 10px;">
+                        Contract approved and awaiting upload of signed contract
                     </p>
+                    @endif @endif @if (auth()->check()) @if($contract->contract_status =='closed' && (auth()->user()->isAdmin() || auth()->user()->isLegal()))
+
+                    <a href="#modal_archive_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_archive_contract"
+                        class="btn btn-success"><i class="fa fa-file-archive-o"></i>  Archive Contract</a>                    @endif @endif @if (auth()->check()) @if($contract->contract_status =='closed' && (auth()->user()->isUser()))
+
+                    <p class="col-md-6 text-blue well well-sm no-shadow" style="margin-top: 10px;">
+                        Contract closed
+                    </p> @endif @endif @if (auth()->check()) @if($contract->contract_status =='approved' && (auth()->user()->isUser()
+                    || $contract->created_by == Auth::user()->id))
+                    <a href="#modal_upload_signed_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_upload_signed_contract"
+                        class="btn btn-success"><i class="fa fa-check"></i> Upload Signed Contract</a> @endif
                     @endif @if($contract->contract_status =='terminated')
                     <p class="col-md-6 text-red well well-sm no-shadow" style="margin-top: 10px;">
                         This contract has been terminated and the contract party has neen notified
                     </p>
-                    @endif @if($last_draft_contract_section->crf_file =='') @else
-                    <a href="/{{$last_draft_contract_section->crf_file}}" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> Latest CRF Document</a>                    @endif
-                    <a href="/{{$last_draft_contract_section->draft_file}}" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> Latest Contract Document</a>                    {!! Form::close() !!}
+                    @endif @if($last_draft_contract_section->crf_form =='') @else
+                    <a href="/{{$last_draft_contract_section->crf_form}}" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i> Latest CRF Document</a>                    @endif
+
+                    <a href="/{{$last_draft_contract_section->draft_file}}" class="btn btn-primary pull-right" style="margin-right: 10px;" target="_blank"><i class="fa fa-fw fa-download"></i>@if($contract->contract_status =='closed') Signed Contract Document @else Latest Contract Document @endif</a>{!!
+                    Form::close() !!}
 
                 </div>
             </div>
     </section>
+    <!-- Modal publish contract by legal team/legal admin/standard user -->
+    <div class="modal fade" id="modal_publish_contract">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                {!! Form::open(['action'=>'ContractController@publish','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
+                !!}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Publish Contract</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{Form::text('contract_id',$contract->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])}}
+                            <p>Are you sure you want to publish the contract?</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-check"></i> Publish Contract</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- End modal to confirm working on a contract by legal team/ legal admin -->
     <!-- Modal to confirm working on a contract by legal team/legal admin -->
     <div class="modal fade" id="modal_work_on">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 {!! Form::open(['action'=>'ContractController@workonContract','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
                 !!}
@@ -188,9 +249,9 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- End modal to confirm working on a contract by legal team/ legal admin -->
-    <!-- Modal to approve a contract by legal team/legal admin -->
+    <!-- Modal to assign a contract by legal team/legal admin -->
     <div class="modal fade" id="modal_assign_contract">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 {!! Form::open(['action'=>'ContractController@assignContract','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
                 !!}
@@ -225,7 +286,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- End modal to approve a contract by legal team/ legal admin -->
+    <!-- End modal to assign a contract by legal team/ legal admin -->
     <!-- Modal to approve a contract by legal team/legal admin -->
     <div class="modal fade" id="modal_approve_contract">
         <div class="modal-dialog modal-lg">
@@ -265,6 +326,82 @@
     </div>
     <!-- End modal to approve a contract by legal team/ legal admin -->
 
+    <!-- Modal to upload signed contract by legal team/legal admin -->
+    <div class="modal fade" id="modal_upload_signed_contract">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                {!! Form::open(['action'=>'ContractController@uploadSignedContract','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
+                !!}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Upload Signed Contract (Signed by both contracting party and initiating department)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{Form::text('contract_id',$contract->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])}}
+                            <div class="col-md-12">
+                                {{Form::label('signed_contract', 'Upload Signed Contract *')}}
+                                <div class="form-group">
+                                    {{ Form::file('signed_contract',['class'=>'form-control', 'required', 'accept'=>'.doc , .docx , .pdf'])}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-check"></i> Upload Signed Contract</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- End modal to upload signed contract by legal team/ legal admin -->
+
+    <!-- Modal to archive a contract by legal team/legal admin -->
+    <div class="modal fade" id="modal_archive_contract">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                {!! Form::open(['action'=>'ContractController@archiveContract','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
+                !!}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Archive Contract</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{Form::text('contract_id',$contract->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])}}
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    {{Form::label('cabinet_id', 'Cabinet Number (Optional)')}}<br> {{ Form::select('cabinet_id',$cabinet_number,null,
+                                    ['class' => 'form-control select2','placeholder'=>'Select Cabinet Number']) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-check"></i> Archive Contract</button>
+                    <script type="text/javascript">
+                        $(".select2").select2();
+                    </script>
+                </div>
+                {!! Form::close() !!}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- End modal to archive a contract by legal team/ legal admin -->
+
     <!-- Modal to ammend a contract by legal team -->
     <div class="modal fade" id="modal_ammend_contract">
         <div class="modal-dialog modal-lg">
@@ -278,19 +415,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             {{Form::text('contract_id',$contract->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])}}
                             {{Form::label('ammended_contract_document', 'Upload Ammended Contract Document (optional)')}}
 
                             <div class="form-group">
                                 {{Form::file('ammended_contract_document',['class'=>'form-control'])}}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            {{Form::label('ammended_contract_crf', 'Upload Ammended Contract CRF (optional)')}}
-
-                            <div class="form-group">
-                                {{Form::file('ammended_contract_crf',['class'=>'form-control'])}}
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -378,10 +508,10 @@
                                 <td>{{ $contracts->job_title }}</td>
                                 <td>{{ $contracts->contract_drafts_created_at }}</td>
                                 <td style="width:120px"> <a href="/{{$contracts->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
-                                @if($contracts->crf_file =='')
+                                @if($contracts->crf_form =='')
                                 <td style="width:120px"> <a href="#"> No CRF Document</a></td>
                                 @else
-                                <td style="width:120px"> <a href="/{{$contracts->crf_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
+                                <td style="width:120px"> <a href="/{{$contracts->crf_form}}" target="_blank"><i class="fa fa-fw fa-download"></i> Download</a></td>
                                 @endif
                                 <td>
                                     <center><span class="pull-right-container">
@@ -390,6 +520,8 @@
                                         <small class="badge bg-yellow">{{$contracts->contract_drafts_status}}</small></span>
                                         @elseif($contracts->contract_drafts_status== 'approved')
                                         <small class="badge bg-green">{{ $contracts->contract_drafts_status}}</small></span>
+                                        @elseif($contracts->contract_drafts_status== 'closed')
+                                        <small class="badge bg-grey">{{ $contracts->contract_drafts_status}}</small></span>
                                         @elseif ($contracts->contract_drafts_status== 'ammended')
                                         <small class="badge bg-blue">{{$contracts->contract_drafts_status}}</small></span>
                                         @elseif($contracts->contract_drafts_status== 'terminated')
@@ -470,6 +602,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 @stop
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
@@ -489,6 +633,18 @@
             })
                     })
     </script>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

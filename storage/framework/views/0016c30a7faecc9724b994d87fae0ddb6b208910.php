@@ -6,6 +6,9 @@
 <?php endif; ?> <?php endif; ?>
 <div style="clear:both"></div>
 
+
+
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <style>
@@ -28,7 +31,7 @@
                 <li><a href="#ammended-by-me-contracts" data-toggle="tab">Ammended By Me</a></li>
                 <li><a href="#my-ammended-contracts" data-toggle="tab">My Ammended Contracts</a></li>
                 <div class="btn-group pull-right" style="padding:6px;">
-                    <a class="btn btn-info btn-sm btn-flat" href="/contract/create"><i class="fa fa-clock-o fa-fw"></i> New Contract</a>
+                    <a class="btn btn-info btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a>
                 </div>
 
             </ul>
@@ -45,7 +48,6 @@
                                                     <th>S/N</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
-                                                    <th>Uploads</th>
                                                     <th>Effective Date</th>
                                                     <th>Expiry Date</th>
                                                     <th>Status</th>
@@ -62,11 +64,12 @@
                                                                                                                         <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
                                                                                                                         <i class="fa fa-briefcase fa-fw"></i> <?php echo e($ammended_contract->party_name); ?>	</a></span>
                                                     </td>
-                                                    <td><a href="/<?php echo e($ammended_contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>                                                        |
-                                                        <a href="/<?php echo e($ammended_contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
-                                                    </td>
                                                     <td><?php echo e(date("d-m-Y",strtotime($ammended_contract->effective_date))); ?></td>
+                                                    <?php if($ammended_contract->expiry_date == ''): ?>
+                                                    <td>N/A</td>
+                                                    <?php else: ?>
                                                     <td><?php echo e(date("d-m-Y",strtotime($ammended_contract->expiry_date))); ?></td>
+                                                    <?php endif; ?>
                                                     <td><span class="pull-right-container">
                                                             <?php if($ammended_contract->contract_status == 'created'): ?>
                                                             <small class="label pull-center btn-warning"><?php echo e($ammended_contract->contract_status); ?></small></span>                                                        <?php elseif($ammended_contract->contract_status == 'published'): ?>
@@ -127,7 +130,6 @@
                                                     <th style="width:25px;">S/N</th>
                                                     <th style="width:400px;">Contract Title</th>
                                                     <th style="width:160px;">Party Name</th>
-                                                    <th style="width:145px;">Uploads</th>
                                                     <th style="width:90px;">Effective Date</th>
                                                     <th style="width:90px;">Expiry Date</th>
                                                     <th style="width:50px;">Status</th>
@@ -144,11 +146,12 @@
                                                          <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
                                                             <i class="fa fa-briefcase fa-fw"></i> <?php echo e($ammended_by_me_contract->party_name); ?></a></span>
                                                     </td>
-                                                    <td><a href="/<?php echo e($ammended_by_me_contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>                                                        |
-                                                        <a href="/<?php echo e($ammended_by_me_contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
-                                                    </td>
                                                     <td><?php echo e(date("d-m-Y",strtotime($ammended_by_me_contract->effective_date))); ?></td>
+                                                    <?php if($ammended_by_me_contract->expiry_date == ''): ?>
+                                                    <td>N/A</td>
+                                                    <?php else: ?>
                                                     <td><?php echo e(date("d-m-Y",strtotime($ammended_by_me_contract->expiry_date))); ?></td>
+                                                    <?php endif; ?>
                                                     <td><span class="pull-right-container">
                                                             <?php if($ammended_by_me_contract->contract_status == 'created'): ?>
                                                             <small class="label pull-center btn-warning"><?php echo e($ammended_by_me_contract->contract_status); ?></small></span>                                                        <?php elseif($ammended_contract->contract_status == 'published'): ?>
@@ -210,7 +213,6 @@
                                                     <th style="width:25px;">S/N</th>
                                                     <th style="width:400px;">Contract Title</th>
                                                     <th style="width:160px;">Party Name</th>
-                                                    <th style="width:145px;">Uploads</th>
                                                     <th style="width:90px;">Effective Date</th>
                                                     <th style="width:90px;">Expiry Date</th>
                                                     <th style="width:50px;">Status</th>
@@ -227,11 +229,12 @@
                                                                                                      <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
                                                                                                         <i class="fa fa-briefcase fa-fw"></i> <?php echo e($my_ammended_contract->party_name); ?></a></span>
                                                     </td>
-                                                    <td><a href="/<?php echo e($my_ammended_contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>                                                        |
-                                                        <a href="/<?php echo e($my_ammended_contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
-                                                    </td>
                                                     <td><?php echo e(date("d-m-Y",strtotime($my_ammended_contract->effective_date))); ?></td>
+                                                    <?php if($my_ammended_contract->expiry_date == ''): ?>
+                                                    <td>N/A</td>
+                                                    <?php else: ?>
                                                     <td><?php echo e(date("d-m-Y",strtotime($my_ammended_contract->expiry_date))); ?></td>
+                                                    <?php endif; ?>
                                                     <td><span class="pull-right-container">
                                                                                                 <?php if($my_ammended_contract->contract_status == 'created'): ?>
                                                                                                 <small class="label pull-center btn-warning"><?php echo e($my_ammended_contract->contract_status); ?></small></span>                                                        <?php elseif($ammended_contract->contract_status == 'published'): ?>
@@ -312,7 +315,6 @@
                     <th style="width:25px;">S/N</th>
                     <th style="width:400px;">Contract Title</th>
                     <th style="width:160px;">Party Name</th>
-                    <th style="width:145px;">Uploads</th>
                     <th style="width:90px;">Effective Date</th>
                     <th style="width:90px;">Expiry Date</th>
                     <th style="width:50px;">Status</th>
@@ -324,12 +326,16 @@
                 <tr>
                     <td><?php echo e($key+1); ?></td>
                     <td><a href="/contract/<?php echo e($ammended_contract->contract_id); ?>/view"><?php echo e($ammended_contract->contract_title); ?></a></td>
-                    <td><?php echo e($ammended_contract->party_name); ?></td>
-                    <td><a href="/<?php echo e($ammended_contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>                        |
-                        <a href="/<?php echo e($ammended_contract->draft_file); ?>" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
+                    <td><a href="/contract-party/<?php echo e($ammended_contract->party_id); ?>/view-contract-party" target="_blank">
+                                                                                                                     <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
+                                                                                                                        <i class="fa fa-briefcase fa-fw"></i> <?php echo e($ammended_contract->party_name); ?></a></span>
                     </td>
                     <td><?php echo e(date("d-m-Y",strtotime($ammended_contract->effective_date))); ?></td>
+                    <?php if($ammended_contract->expiry_date == ''): ?>
+                    <td>N/A</td>
+                    <?php else: ?>
                     <td><?php echo e(date("d-m-Y",strtotime($ammended_contract->expiry_date))); ?></td>
+                    <?php endif; ?>
                     <td><span class="pull-right-container">
                         <?php if($ammended_contract->contract_status == 'created'): ?>
                         <small class="label pull-center btn-warning"><?php echo e($ammended_contract->contract_status); ?></small></span>                        <?php elseif($ammended_contract->contract_status == 'published'): ?>
@@ -346,15 +352,21 @@
                     <?php endif; ?>
                     </td>
                     <td>
-                        <?php if(auth()->check()): ?> <?php if(auth()->user()->isUser() && ($ammended_contract->contract_status == 'created' || $ammended_contract->contract_status
-                        == 'ammended')): ?>
-                        <a href="/contract/<?php echo e($ammended_contract->contract_id); ?>/edit">
-                                <span class = "fa fa-pencil bigger"></span></center></a> <?php else: ?>
-
-                        <a href="/contract/<?php echo e($ammended_contract->contract_id); ?>/view">
-                                                                    <span class = "fa fa-eye bigger"></span></center></a>                        <?php endif; ?> <?php endif; ?> <?php echo Form::open(['action'=>['ContractController@destroy',$ammended_contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data']); ?> <?php echo e(Form::hidden('_method','DELETE')); ?> 
-                        <a class="delete" data-id="<?php echo e($ammended_contract->contract_id); ?>" href="javascript:void(0)">
-                                <span style="color:red;" class = "fa fa-trash bigger"></span></a>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-block btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Actions<span class="caret"></span><span class="sr-only">Toggle Dropdown</span>
+                                                                                                                                                                                                                                                    </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                <?php if(auth()->check()): ?> <?php if(auth()->user()->isUser() && ($ammended_contract->contract_status == 'created' || $ammended_contract->contract_status
+                                == 'ammended')): ?>
+                                <li><a href="/contract/<?php echo e($ammended_contract->contract_id); ?>/edit" class="edit-contract"><i class="fa fa-pencil"></i> View</a></li>
+                                <?php else: ?>
+                                <li><a href="/contract/<?php echo e($ammended_contract->contract_id); ?>/view" class="view-contract"><i class="fa fa-eye"></i> View</a></li>
+                                <?php endif; ?> <?php endif; ?>
+                                <li>
+                                    <a href="#modal_delete_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_delete_contract"
+                                        class="delete-product"><i class="fa fa-trash"></i>  Delete</a></li>
+                            </ul>
+                        </div>
                     </td>
                     <?php echo Form::close(); ?>
 
@@ -383,6 +395,14 @@
      });
 
 </script>
+
+
+
+
+
+
+
+
 
 
 

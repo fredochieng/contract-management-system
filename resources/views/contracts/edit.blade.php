@@ -71,18 +71,6 @@
                     </div>
                 </div>
 
-
-                <div class="col-md-6">
-
-                    {{Form::label('expiry_date', 'Expiry Date ')}}
-                    <div class="form-group">
-
-                        {{Form::text('expiry_date', date("m-d-Y",strtotime($contract->expiry_date)),['class'=>'form-control issued_date','placeholder'=>'Expiry Date', 'autocomplete'=>'off'])}}
-
-
-                    </div>
-                </div>
-
                 <div class="col-md-6">
 
                     @if($contract->draft_file) <a href="{{$contract->draft_file}}"><strong>Download</strong></a> @endif
@@ -92,15 +80,6 @@
                     <div class="form-group">
                         {{Form::file('contract_document',['class'=>'form-control'])}}
                     </div>
-                </div>
-
-                <div class="col-md-6">
-                    {{Form::label('contract_crf', 'Upload Contract CRF (optional)')}}
-
-                    <div class="form-group">
-                        {{Form::file('contract_crf',['class'=>'form-control'])}}
-                    </div>
-
                 </div>
 
                 <div class="col-md-12">

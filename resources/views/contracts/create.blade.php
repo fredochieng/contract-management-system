@@ -61,26 +61,9 @@
                 </div>
 
                 <div class="col-md-6">
-
-                    {{Form::label('expiry_date', 'Expiry Date ')}}
-                    <div class="form-group">
-
-                        {{Form::text('expiry_date', '',['class'=>'form-control issued_date','placeholder'=>'Expiry Date', 'autocomplete'=>'off'])}}
-                    </div>
-                </div>
-
-                <div class="col-md-6">
                     {{Form::label('contract_document', 'Upload Contract Document *')}}
                     <div class="form-group">
                         {{Form::file('contract_document',['class'=>'form-control', 'required', 'accept'=>'.doc , .docx , .pdf'])}}
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    {{Form::label('contract_crf', 'Upload Contract CRF (optional)')}}
-
-                    <div class="form-group">
-                        {{Form::file('contract_crf',['class'=>'form-control', 'accept'=>'.doc , .docx , .pdf'])}}
                     </div>
                 </div>
 

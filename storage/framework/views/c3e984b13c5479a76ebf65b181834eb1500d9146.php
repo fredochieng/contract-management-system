@@ -6,9 +6,6 @@
 <?php endif; ?> <?php endif; ?>
 <div style="clear:both"></div>
 
-
-
-
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <style>
@@ -69,7 +66,11 @@
                                                     <i class="fa fa-briefcase fa-fw"></i> <?php echo e($pending_contract->party_name); ?>	</a></span>
                                                     </td>
                                                     <td><?php echo e(date("d-m-Y",strtotime($pending_contract->effective_date))); ?></td>
+                                                    <?php if($pending_contract->expiry_date == ''): ?>
+                                                    <td>N/A</td>
+                                                    <?php else: ?>
                                                     <td><?php echo e(date("d-m-Y",strtotime($pending_contract->expiry_date))); ?></td>
+                                                    <?php endif; ?>
                                                     <td><span class="pull-right-container">
                                                         <?php if($pending_contract->contract_status == 'created'): ?>
                                                         <small class="badge bg-purple"><?php echo e($pending_contract->contract_status); ?></small></span>                                                        <?php elseif($pending_contract->contract_status == 'published'): ?>
@@ -185,7 +186,11 @@
                                                                                                     <i class="fa fa-briefcase fa-fw"></i> <?php echo e($overdue_pending_contract->party_name); ?>	</a></span>
                                                     </td>
                                                     <td><?php echo e(date("d-m-Y",strtotime($overdue_pending_contract->effective_date))); ?></td>
+                                                    <?php if($overdue_pending_contract->expiry_date == ''): ?>
+                                                    <td>N/A</td>
+                                                    <?php else: ?>
                                                     <td><?php echo e(date("d-m-Y",strtotime($overdue_pending_contract->expiry_date))); ?></td>
+                                                    <?php endif; ?>
                                                     <td><span class="pull-right-container">
                                                         <?php if($overdue_pending_contract->contract_status == 'created'): ?>
                                                         <small class="badge bg-purple"><?php echo e($overdue_pending_contract->contract_status); ?></small></span>                                                        <?php elseif($overdue_pending_contract->contract_status == 'published'): ?>
@@ -297,7 +302,11 @@
                                                                                                     <i class="fa fa-briefcase fa-fw"></i> <?php echo e($assigned_pending_contract->party_name); ?>	</a></span>
                                                     </td>
                                                     <td><?php echo e(date("d-m-Y",strtotime($assigned_pending_contract->effective_date))); ?></td>
+                                                    <?php if($assigned_pending_contract->expiry_date == ''): ?>
+                                                    <td>N/A</td>
+                                                    <?php else: ?>
                                                     <td><?php echo e(date("d-m-Y",strtotime($assigned_pending_contract->expiry_date))); ?></td>
+                                                    <?php endif; ?>
                                                     <td><span class="pull-right-container">
                                                                         <?php if($assigned_pending_contract->contract_status == 'created'): ?>
                                                                         <small class="badge bg-purple"><?php echo e($assigned_pending_contract->contract_status); ?></small></span>                                                        <?php elseif($assigned_pending_contract->contract_status == 'published'): ?>
@@ -408,7 +417,11 @@
                                                                                                     <i class="fa fa-briefcase fa-fw"></i> <?php echo e($my_pending_contract->party_name); ?>	</a></span>
                                                     </td>
                                                     <td><?php echo e(date("d-m-Y",strtotime($my_pending_contract->effective_date))); ?></td>
+                                                    <?php if($my_pending_contract->expiry_date == ''): ?>
+                                                    <td>N/A</td>
+                                                    <?php else: ?>
                                                     <td><?php echo e(date("d-m-Y",strtotime($my_pending_contract->expiry_date))); ?></td>
+                                                    <?php endif; ?>
                                                     <td><span class="pull-right-container">
                                                                                             <?php if($my_pending_contract->contract_status == 'created'): ?>
                                                                                             <small class="badge bg-purple"><?php echo e($my_pending_contract->contract_status); ?></small></span>                                                        <?php elseif($my_pending_contract->contract_status == 'published'): ?>
@@ -527,7 +540,11 @@
                                                                     <i class="fa fa-briefcase fa-fw"></i> <?php echo e($pending_contract->party_name); ?>	</a></span>
                         </td>
                         <td><?php echo e(date("d-m-Y",strtotime($pending_contract->effective_date))); ?></td>
+                        <?php if($pending_contract->expiry_date == ''): ?>
+                        <td>N/A</td>
+                        <?php else: ?>
                         <td><?php echo e(date("d-m-Y",strtotime($pending_contract->expiry_date))); ?></td>
+                        <?php endif; ?>
                         <td><span class="pull-right-container">
                         <?php if($pending_contract->contract_status == 'created'): ?>
                         <small class="badge bg-purple"><?php echo e($pending_contract->contract_status); ?></small></span> <?php elseif($pending_contract->contract_status
@@ -621,6 +638,7 @@
 });
 
 </script>
+
 
 
 

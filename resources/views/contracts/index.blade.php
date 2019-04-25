@@ -42,8 +42,8 @@
                     <td>{{ $key+1}}</td>
                     <td><a href="/contract/{{$contract->contract_id}}/view">{{$contract->contract_title}}</a></td>
                     <td>{{$contract->party_name}}</td>
-                    <td><a href="/{{$contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>                        |
-                        <a href="/{{$contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> CRF</a>
+                    <td><a href="/{{$contract->draft_file}}" target="_blank"><i class="fa fa-fw fa-download"></i> Contract</a>
+
                     </td>
                     <td>{{date("d-m-Y",strtotime($contract->effective_date))}}</td>
                     <td>{{date("d-m-Y",strtotime($contract->expiry_date))}}</td>

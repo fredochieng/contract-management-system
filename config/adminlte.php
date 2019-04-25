@@ -136,9 +136,13 @@ return [
                 [
                     'text' => 'Approved Contracts',
                     'url'  => 'approved-contracts',
-                ], [
+                ],
+                [
                     'text' => 'Terminated Contracts',
-                    'url'  => 'contract',
+                    'url'  => 'terminated-contracts',
+                ], [
+                    'text' => 'Closed Contracts',
+                    'url'  => 'closed-contracts',
                 ],
                 [
                     'text' => 'My Contracts',
