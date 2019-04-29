@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,20 +16,24 @@
     return view('welcome');
 });*/
 
+
+
+Auth::routes(['verify' => true]);
 Route::get('/', 'HomeController@index');
 
-Auth::routes();
-Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+Route::group(['middleware' => 'verified'], function () {
 
-Route::group(['middleware' => 'auth'], function () {
+    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
     Route::any('/party/get_party', 'PartyController@get_party');
     Route::any('contract-party/{id}/view-contract-party', 'PartyController@contractParty');
     Route::resource('contract', 'ContractController');
     Route::any('my-contracts', 'ContractController@mycontracts');
+    Route::any('created-contracts', 'ContractController@createdContracts');
+    Route::any('delete-contract/{contract}', 'ContractController@deleteCreatedContract');
     Route::any('pending-contracts', 'ContractController@pendingContracts');
     Route::any('my-assigned-contracts', 'ContractController@myAssignedContracts');
     Route::any('approved-contracts', 'ContractController@approvedContracts');
-    Route::any('ammended-contracts', 'ContractController@ammendedContracts');
+    Route::any('amended-contracts', 'ContractController@ammendedContracts');
     Route::any('terminated-contracts', 'ContractController@terminatedContracts');
     Route::any('closed-contracts', 'ContractController@closedContracts');
     Route::any('work-on-contract', 'ContractController@workonContract');
@@ -42,5 +47,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::any('approve', 'ContractController@approve');
     Route::resource('/party', 'PartyController');
     Route::any('contract/{id}/view', 'ContractController@viewcontract');
-    Route::resource('/system-users/users', 'AdminController');
+    Route::resource('/system-users/users', 'UserController');
+    Route::any('delete-user', 'UserController@deleteUser');
+    Route::any('profile', 'UserController@getUserProfile');
+    // Route::any('update-profile', 'UserController@updateUserProfile');
+    Route::any('update-profile/{user}', 'UserController@updateUserProfile');
 });

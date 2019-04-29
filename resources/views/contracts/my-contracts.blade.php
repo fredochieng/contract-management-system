@@ -6,6 +6,8 @@
     <div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create">NEW CONTRACT</a></div>
 </h1>
 
+
+
 @stop
 @section('content')
 <style>
@@ -48,12 +50,14 @@
                     <td><span class="pull-right-container">
                         @if($my_contract->contract_status == 'created')
                         <small class="badge bg-purple">{{$my_contract->contract_status}}</small></span> @elseif($my_contract->contract_status
-                        == 'published')
+                        == 'pending')
                         <small class="badge bg-yellow">{{ $my_contract->contract_status}}</small></span>
-                        @elseif($my_contract->contract_status== 'ammended')
+                        @elseif($my_contract->contract_status== 'amended')
                         <small class="badge bg-blue">{{$my_contract->contract_status}}</small></span>
                         @elseif($my_contract->contract_status== 'approved')
                         <small class="badge bg-green">{{$my_contract->contract_status}}</small></span>
+                        @elseif($my_contract->contract_status== 'closed')
+                        <small class="badge bg-aqua">{{$my_contract->contract_status}}</small></span>
                         @elseif($my_contract->contract_status== 'terminated')
                         <small class="badge bg-red">{{$my_contract->contract_status}}</small></span>
                     </td>
@@ -61,7 +65,7 @@
                     </td>
                     <td>
                         @if (auth()->check()) @if(auth()->user()->isUser() && ($my_contract->contract_status == 'created' || $my_contract->contract_status
-                        == 'ammended'))
+                        == 'amended'))
                         <a href="/contract/{{$my_contract->contract_id}}/edit">
                                 <span class = "fa fa-pencil bigger"></span></center></a> @else
 
@@ -79,6 +83,8 @@
         </table>
     </div>
 </div>
+
+
 
 
 
@@ -142,5 +148,7 @@
     });
 
 </script>
+
+
 
 @stop

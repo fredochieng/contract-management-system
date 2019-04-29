@@ -113,7 +113,6 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <?php echo $__env->yieldContent('content_header'); ?>
-                
                 <?php echo $__env->make('sweetalert::alert', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </section>
 

@@ -3,10 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use Spatie\Permission\Traits\HasRoles;
+use RealRashid\SweetAlert\Facades\Alert;
+use App\Users_Details;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Notifications\UserCreatedNotification;
+use Notification;
 
 class AdminController extends Controller
 {
@@ -15,6 +25,14 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    use RegistersUsers;
+    use Notifiable;
+
+    public function __construct()
+    {
+
+        // $this->middleware(['role:Admin']);
+    }
     public function index()
     {
         $organizations = DB::table('users_organizations')->pluck('organization_name', 'organization_id')->all();
@@ -33,7 +51,7 @@ class AdminController extends Controller
             ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->where('roles.name', 'Legal Counsel')
-            ->orderBy('users.id', 'desc')->take(3)
+            ->orderBy('users.id', 'desc')
             ->get();
 
         $standard_users = DB::table('users')
@@ -50,7 +68,7 @@ class AdminController extends Controller
             ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->where('roles.name', 'Standard User')
-            ->orderBy('users.id', 'desc')->take(3)
+            ->orderBy('users.id', 'desc')
             ->get();
 
         return view('contracts.users')->with([
@@ -92,8 +110,25 @@ class AdminController extends Controller
         $password_string = "Wananchi.1234";
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->password = Hash::make($password_string);
-        $user->save();
+        // $user->password = Hash::make($password_string);
+        // $user->save();
+        $user = User::create([
+            'name' =>  $user->name,
+            'email' => $user->email,
+            'password' => Hash::make($password_string)
+        ]);
+
+        $details = [
+            'greeting' => 'Hi' . ' ' . $request['name'],
+            'body' => 'Thank you for registering to Wananchi Group Legal Management System',
+            'thanks' => 'Welcome aboard!',
+            'password' => 'Your password is' . $request['password'],
+            'actionText' => 'Click here to login',
+            'actionURL' => url('/'),
+            'Your password is' . $user[$password_string]
+        ];
+
+        Notification::send($user, new UserCreatedNotification($details));
 
         $saved_user_id = $user->id;
 
@@ -111,7 +146,8 @@ class AdminController extends Controller
 
         $save_users_details = DB::table('users_details')->insertGetId($user_data);
         $save_role_details = DB::table('model_has_roles')->insertGetId($user_role_data);
-        return redirect('user')->with('success', 'User Successfully saved!');
+        Alert::success('Create User', 'User successfully created');
+        return redirect('system-users/users');
     }
 
     /**
@@ -145,21 +181,30 @@ class AdminController extends Controller
      */
     public function update(Request $request, user $user)
     {
-        $this->validate($request, [
-            'name' => 'required',
-        ]);
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->save();
 
+        $just_saved_user_id = $user->id;
+        $user->organization_id = $request->input('organization_id');
+        $user->job_title = $request->input('job_title');
+        $user->role_id = $request->input('role_id');
 
-        // $party->party_name = $request->input('party_name');
-        // $party->address = $request->input('address');
-        // $party->telephone = $request->input('telephone');
-        // $party->email = $request->input('email');
-        // //$party->created_by=Auth::user()->id;
-        // $party->updated_by = Auth::user()->id;
+        $users_details_data = array(
+            'user_id' => $just_saved_user_id,
+            'organization_id' => $user->organization_id,
+            'job_title' => $user->job_title
+        );
 
-        // $party->save();
+        $role_details_data = array(
+            'model_id' => $just_saved_user_id,
+            'role_id' => $user->role_id,
+        );
+        $save_user_details = DB::table('users_details')->where('user_id', $user->id)->update($users_details_data);
+        $save_role_details = DB::table('model_has_roles')->where('model_id', $user->id)->update($role_details_data);
 
-        // return redirect('party')->with('success', 'Record Successfully saved');
+        Alert::success('Update User', 'User details successfully updated');
+        return back();
     }
 
     /**
@@ -168,9 +213,10 @@ class AdminController extends Controller
      * @param  \App\party  $party
      * @return \Illuminate\Http\Response
      */
-    public function destroy(user $user)
+    public function destroy(Request $request, user $user)
     {
-        $user->delete();
-        return redirect('user')->with('success', 'Record Successfully Deleted');
+        DB::table('users')->where('id', $user->id)->delete();
+        Alert::success('Delete User', 'User deleted successfully');
+        return back();
     }
 }

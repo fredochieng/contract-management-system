@@ -118,66 +118,89 @@ return [
             'icon'        => 'dashboard',
             // 'can'  => '',
         ], [
-            'text'    => 'Manage Contracts',
-            'icon'    => 'paperclip',
+            'text'    => 'User Management',
+            'icon'    => 'users',
             'submenu' => [
                 [
-                    'text' => 'All Contracts',
-                    'url'  => 'contract',
-                    'can' => 'Manage Contracts',
+                    'text' => 'Users',
+                    'icon'        => 'angle-double-right',
+                    'url'  => '/system-users/users',
                 ], [
+                    'text' => 'Roles',
+                    'icon'        => 'angle-double-right',
+                    'url'  => '#',
+                ],
+            ],
+            'can'  => 'Manage Users',
+        ],
+
+        [
+            'text'    => 'Contracts',
+            'icon'    => 'briefcase',
+            'submenu' => [
+                [
+                    'text' => 'Create New Contract',
+                    'icon'        => 'angle-double-right',
+                    'url'  => 'contract/create',
+                ], [
+                    'text' => 'Created Contracts',
+                    'icon'        => 'angle-double-right',
+                    'url'  => 'created-contracts',
+                ],
+
+                [
                     'text' => 'Pending Contracts',
+                    'icon'        => 'angle-double-right',
                     'url'  => 'pending-contracts',
                 ],
                 [
                     'text' => 'Ammended Contracts',
-                    'url'  => 'ammended-contracts',
+                    'icon'        => 'angle-double-right',
+                    'url'  => 'amended-contracts',
                 ],
                 [
                     'text' => 'Approved Contracts',
+                    'icon'        => 'angle-double-right',
                     'url'  => 'approved-contracts',
                 ],
                 [
                     'text' => 'Terminated Contracts',
+                    'icon'        => 'angle-double-right',
                     'url'  => 'terminated-contracts',
                 ], [
                     'text' => 'Closed Contracts',
+                    'icon'        => 'angle-double-right',
                     'url'  => 'closed-contracts',
                 ],
+            ],
+        ], [
+            'text' => 'Contract Parties',
+            'icon'    => 'certificate',
+            'url'  => 'party',
+            'can'  => 'Manage Parties',
+        ], [
+            'text'    => 'Business Documents',
+            'icon'    => 'book',
+            'submenu' => [
                 [
-                    'text' => 'My Contracts',
-                    'url'  => 'my-contracts',
+                    'text' => 'Licences',
+                    'icon'        => 'angle-double-right',
+                    'url'  => '#',
+                ], [
+                    'text' => 'Type Approvals',
+                    'icon'        => 'angle-double-right',
+                    'url'  => '#',
                 ],
             ],
+            'can'  => 'Manage Business Documents',
+
         ],
 
-        [
-            'text' => 'New Contract',
-            'url'  => 'contract/create',
-            // 'can'  => '',
-        ],
-        // [
-        //     'text'    => 'Manage Users',
-        //     'icon'    => 'users',
-        //     'can' => 'Manage Users',
-        //     'submenu' => [
-        //         [
-        //             'text' => 'All Users',
-        //             'url'  => '/user',
-        //         ],
-        //     ],
-        // ],
-
-        [
-            'text' => 'Manage Users',
-            'url'  => '/system-users/users',
-            'can'  => 'Manage Users',
-        ],
 
         'ACCOUNT SETTINGS',
         [
             'text' => 'Profile',
-            'url'  => '/settings',
+            'url'  => 'profile',
             'icon' => 'user',
         ],
     ],

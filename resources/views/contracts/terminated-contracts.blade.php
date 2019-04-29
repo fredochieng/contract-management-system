@@ -9,6 +9,12 @@
 
 
 
+
+
+
+
+
+
 @stop
 @section('content')
 <style>
@@ -22,7 +28,7 @@
     <strong> {{ session('update') }} </strong>
 </div>
 @endif @if (auth()->check()) @if(auth()->user()->isAdmin() || auth()->user()->isLegal())
-<div class="row">
+<div class="row" style="font-size:12px;">
     <div class="col-md-12">
         <!-- Custom Tabs (Pulled to the right) -->
         <div class="nav-tabs-custom">
@@ -31,7 +37,7 @@
                 <li><a href="#terminated-by-me-contracts" data-toggle="tab">Terminated By Me</a></li>
                 <li><a href="#my-terminated-contracts" data-toggle="tab">My Terminated Contracts</a></li>
                 <div class="btn-group pull-right" style="padding:6px;">
-                    <a class="btn btn-info btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a>
+                    <a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a>
                 </div>
 
             </ul>
@@ -68,11 +74,11 @@
                                                     <td>{{date("d-m-Y",strtotime($terminated_contract->expiry_date))}}</td>
                                                     <td><span class="pull-right-container">
                                                             @if($terminated_contract->contract_status == 'created')
-                                                            <small class="label pull-center btn-warning">{{$terminated_contract->contract_status}}</small></span>                                                        @elseif($terminated_contract->contract_status == 'published')
+                                                            <small class="label pull-center btn-warning">{{$terminated_contract->contract_status}}</small></span>                                                        @elseif($terminated_contract->contract_status == 'pending')
                                                         <small class="label pull-center btn-info">{{ $terminated_contract->contract_status}}</small></span>
                                                         @elseif($terminated_contract->contract_status== 'submitted')
                                                         <small class="label label-success">{{$terminated_contract->contract_status}}</small></span>
-                                                        @elseif($terminated_contract->contract_status== 'ammended')
+                                                        @elseif($terminated_contract->contract_status== 'amended')
                                                         <small class="label pull-center btn-danger">{{$terminated_contract->contract_status}}</small></span>
                                                         @elseif($terminated_contract->contract_status== 'approved')
                                                         <small class="label pull-center btn-success">{{$terminated_contract->contract_status}}</small></span>
@@ -81,6 +87,7 @@
                                                     </td>
                                                     @endif
                                                     </td>
+                                                    {{--
                                                     <td>
                                                         <div class="btn-group">
                                                             <button type="button" class="btn btn-block btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Actions<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
@@ -92,6 +99,11 @@
                                                                     <a href="#modal_delete_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_delete_contract"
                                                                         class="delete-product"><i class="fa fa-trash"></i>  Delete</a></li>
                                                             </ul>
+                                                        </div>
+                                                    </td> --}}
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <a class="btn btn-info btn-block btn-sm btn-flat" href="/contract/{{$terminated_contract->contract_id}}/view"><i class="fa fa-eye"></i> View</a>
                                                         </div>
                                                     </td>
                                                     {!! Form::close() !!}
@@ -140,11 +152,11 @@
 
                                                     <td><span class="pull-right-container">
                                                             @if($terminated_by_me_contract->contract_status == 'created')
-                                                            <small class="label pull-center btn-warning">{{$terminated_by_me_contract->contract_status}}</small></span>                                                        @elseif($terminated_contract->contract_status == 'published')
+                                                            <small class="label pull-center btn-warning">{{$terminated_by_me_contract->contract_status}}</small></span>                                                        @elseif($terminated_contract->contract_status == 'pending')
                                                         <small class="label pull-center btn-info">{{ $terminated_by_me_contract->contract_status}}</small></span>
                                                         @elseif($terminated_by_me_contract->contract_status== 'submitted')
                                                         <small class="label label-success">{{$terminated_by_me_contract->contract_status}}</small></span>
-                                                        @elseif($terminated_by_me_contract->contract_status== 'ammended')
+                                                        @elseif($terminated_by_me_contract->contract_status== 'amended')
                                                         <small class="label pull-center btn-danger">{{$terminated_by_me_contract->contract_status}}</small></span>
                                                         @elseif($terminated_by_me_contract->contract_status== 'approved')
                                                         <small class="label pull-center btn-success">{{$terminated_by_me_contract->contract_status}}</small></span>
@@ -155,15 +167,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="btn-group">
-                                                            <button type="button" class="btn btn-block btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Actions<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
-                                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                                                <li><a href="/contract/{{$terminated_contract->contract_id}}/view"
-                                                                        class="view-contract"><i class="fa fa-eye"></i> View</a></li>
-
-                                                                <li>
-                                                                    <a href="#modal_delete_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_delete_contract"
-                                                                        class="delete-product"><i class="fa fa-trash"></i>  Delete</a></li>
-                                                            </ul>
+                                                            <a class="btn btn-info btn-block btn-sm btn-flat" href="/contract/{{$terminated_by_me_contract->contract_id}}/view"><i class="fa fa-eye"></i> View</a>
                                                         </div>
                                                     </td>
                                                     {!! Form::close() !!}
@@ -211,11 +215,11 @@
                                                     <td>{{date("d-m-Y",strtotime($my_terminated_contract->expiry_date))}}</td>
                                                     <td><span class="pull-right-container">
                                                                                                 @if($my_terminated_contract->contract_status == 'created')
-                                                                                                <small class="label pull-center btn-warning">{{$my_terminated_contract->contract_status}}</small></span>                                                        @elseif($terminated_contract->contract_status == 'published')
+                                                                                                <small class="label pull-center btn-warning">{{$my_terminated_contract->contract_status}}</small></span>                                                        @elseif($terminated_contract->contract_status == 'pending')
                                                         <small class="label pull-center btn-info">{{ $my_terminated_contract->contract_status}}</small></span>
                                                         @elseif($my_terminated_contract->contract_status== 'submitted')
                                                         <small class="label label-success">{{$my_terminated_contract->contract_status}}</small></span>
-                                                        @elseif($my_terminated_contract->contract_status== 'ammended')
+                                                        @elseif($my_terminated_contract->contract_status== 'amended')
                                                         <small class="label pull-center btn-danger">{{$my_terminated_contract->contract_status}}</small></span>
                                                         @elseif($my_terminated_contract->contract_status== 'approved')
                                                         <small class="label pull-center btn-success">{{$my_terminated_contract->contract_status}}</small></span>
@@ -226,15 +230,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="btn-group">
-                                                            <button type="button" class="btn btn-block btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Actions<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
-                                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                                                <li><a href="/contract/{{$terminated_contract->contract_id}}/view"
-                                                                        class="view-contract"><i class="fa fa-eye"></i> View</a></li>
-
-                                                                <li>
-                                                                    <a href="#modal_delete_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_delete_contract"
-                                                                        class="delete-product"><i class="fa fa-trash"></i>  Delete</a></li>
-                                                            </ul>
+                                                            <a class="btn btn-info btn-block btn-sm btn-flat" href="/contract/{{$my_terminated_contract->contract_id}}/view"><i class="fa fa-eye"></i> View</a>
                                                         </div>
                                                     </td>
                                                     {!! Form::close() !!}
@@ -284,11 +280,11 @@
                             <td><span class="pull-right-container">
                         @if($terminated_contract->contract_status == 'created')
                         <small class="label pull-center btn-warning">{{$terminated_contract->contract_status}}</small></span>@elseif($terminated_contract->contract_status
-                                == 'published')
+                                == 'pending')
                                 <small class="label pull-center btn-info">{{ $terminated_contract->contract_status}}</small></span>
                                 @elseif($terminated_contract->contract_status== 'submitted')
                                 <small class="label label-success">{{$terminated_contract->contract_status}}</small></span>
-                                @elseif($terminated_contract->contract_status== 'ammended')
+                                @elseif($terminated_contract->contract_status== 'amended')
                                 <small class="label pull-center btn-danger">{{ $ammended_contract->contract_status}}</small></span>
                                 @elseif($terminated_contract->contract_status== 'approved')
                                 <small class="label pull-center btn-success">{{$terminated_contract->contract_status}}</small></span>
@@ -299,14 +295,7 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-block btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Actions<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
-                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                        <li><a href="/contract/{{$terminated_contract->contract_id}}/view" class="view-contract"><i class="fa fa-eye"></i> View</a></li>
-
-                                        <li>
-                                            <a href="#modal_delete_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_delete_contract"
-                                                class="delete-product"><i class="fa fa-trash"></i>  Delete</a></li>
-                                    </ul>
+                                    <a class="btn btn-info btn-block btn-sm btn-flat" href="/contract/{{$terminated_contract->contract_id}}/view"><i class="fa fa-eye"></i> View</a>
                                 </div>
                             </td>
                             {!! Form::close() !!}
@@ -335,6 +324,12 @@
        $('#example4').DataTable()
      });
     </script>
+
+
+
+
+
+
 
 
 

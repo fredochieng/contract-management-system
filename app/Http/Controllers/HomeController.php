@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('verified');
     }
 
     /**
@@ -116,18 +116,18 @@ class HomeController extends Controller
         }
         $published_contract_count = \DB::table('contracts')->where([
             [$compare_field, $compare_operator, $compare_value],
-            ['contracts.status', '=', 'published']
+            ['contracts.status', '=', 'pending']
         ])->count();
         if (auth()->check()) if (auth()->user()->isLegal()) {
             $ammended_contract_count = \DB::table('contracts')->where([
                 [$compare_field, $compare_operator, $compare_value],
-                ['contracts.status', '=', 'ammended'],
+                ['contracts.status', '=', 'amended'],
                 ['contracts.legal_ammendment_id', '=', Auth::user()->id]
             ])->count();
         } else {
             $ammended_contract_count = \DB::table('contracts')->where([
                 [$compare_field, $compare_operator, $compare_value],
-                ['contracts.status', '=', 'ammended'],
+                ['contracts.status', '=', 'amended'],
             ])->count();
         }
         if (auth()->check()) if (auth()->user()->isLegal()) {
@@ -168,18 +168,18 @@ class HomeController extends Controller
             $compare_value = Auth::user()->id;
         }
         if (auth()->check()) if (auth()->user()->isAdmin()) {
-            $contract_status = 'published';
+            $contract_status = 'pending';
             $contract_status1 = 'closed';
             $contract_assigned = '';
             $contract_assigned1 = 1;
         } elseif (auth()->user()->isUser()) {
             $contract_status = 'approved';
-            $contract_status1 = 'ammended';
+            $contract_status1 = 'amended';
             $contract_assigned = 1;
             $contract_assigned1 = 1;
         }
         if (auth()->user()->isLegal()) {
-            $contract_status = 'published';
+            $contract_status = 'pending';
             $contract_status2 = 'closed';
             $contract_assigned = '';
             $contract_assigned1 = 1;

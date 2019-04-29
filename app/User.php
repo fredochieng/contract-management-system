@@ -6,8 +6,10 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use Users_Details;
+use App\Notifications\UserCreatedNotification;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasRoles;
@@ -19,6 +21,11 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password',
     ];
+
+    public function users_details()
+    {
+        return $this->hasOne('Users_Details');
+    }
 
     protected $table = 'users';
 
@@ -40,7 +47,6 @@ class User extends Authenticatable
     {
         return $this->hasRole('Legal Counsel');
     }
-
 
     /**
      * The attributes that should be hidden for arrays.

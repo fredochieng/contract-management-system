@@ -17,6 +17,14 @@
 
 
 
+
+
+
+
+
+
+
+
 @stop
 @section('content')
 <style>
@@ -30,7 +38,7 @@
     <strong> {{ session('update') }} </strong>
 </div>
 @endif @if (auth()->check()) @if(auth()->user()->isAdmin() || auth()->user()->isLegal())
-<div class="row">
+<div class="row" style="font-size:12px;">
     <div class="col-md-12">
         <!-- Custom Tabs (Pulled to the right) -->
         <div class="nav-tabs-custom">
@@ -39,7 +47,7 @@
                 <li><a href="#approved-by-me-contracts" data-toggle="tab">Closed By Me</a></li>
                 <li><a href="#my-approved-contracts" data-toggle="tab">My Closed Contracts</a></li>
                 <div class="btn-group pull-right" style="padding:6px;">
-                    <a class="btn btn-info btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a>
+                    <a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a>
                 </div>
             </ul>
             <div class="tab-content">
@@ -82,7 +90,7 @@
                                                     @endif
                                                     <td><span class="pull-right-container">
                                                         @if($approved_contract->contract_status == 'created')
-                                                        <small class="label pull-center btn-warning">{{$approved_contract->contract_status}}</small></span>                                                        @elseif($approved_contract->contract_status == 'published')
+                                                        <small class="label pull-center btn-warning">{{$approved_contract->contract_status}}</small></span>                                                        @elseif($approved_contract->contract_status == 'pending')
                                                         <small class="label pull-center btn-info">{{ $approved_contract->contract_status}}</small></span>
                                                         @elseif($approved_contract->contract_status== 'closed')
                                                         <small class="label label-default">{{$approved_contract->contract_status}}</small></span>
@@ -153,7 +161,7 @@
                                                     @endif
                                                     <td><span class="pull-right-container">
                                                     @if($approved_by_me_contract->contract_status == 'created')
-                                                    <small class="label pull-center btn-warning">{{$approved_by_me_contract->contract_status}}</small></span>                                                        @elseif($approved_contract->contract_status == 'published')
+                                                    <small class="label pull-center btn-warning">{{$approved_by_me_contract->contract_status}}</small></span>                                                        @elseif($approved_contract->contract_status == 'pending')
                                                         <small class="label pull-center btn-info">{{ $approved_by_me_contract->contract_status}}</small></span>
                                                         @elseif($approved_contract->contract_status== 'closed')
                                                         <small class="label label-default">{{$approved_by_me_contract->contract_status}}</small></span>
@@ -168,7 +176,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="btn-group">
-                                                            <a class="btn btn-info btn-block btn-sm btn-flat" href="/contract/{{$approved_contract->contract_id}}/view"><i class="fa fa-eye"></i> View</a>
+                                                            <a class="btn btn-info btn-block btn-sm btn-flat" href="/contract/{{$approved_by_me_contract->contract_id}}/view"><i class="fa fa-eye"></i> View</a>
                                                         </div>
                                                     </td>
                                                     {!! Form::close() !!}
@@ -200,7 +208,6 @@
                                                     <th>Effective Date</th>
                                                     <th>Expiry Date</th>
                                                     <th>Status</th>
-                                                    <th></th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -223,23 +230,23 @@
                                                     <td>{{date("d-m-Y",strtotime($my_approved_contract->expiry_date))}}</td>
                                                     @endif
                                                     <td><span class="pull-right-container">
-                                                            @if($approved_contract->contract_status == 'created')
-                                                            <small class="label pull-center btn-warning">{{$my_approved_contract->contract_status}}</small></span>                                                        @elseif($approved_contract->contract_status == 'published')
-                                                        <small class="label pull-center btn-info">{{ $my_approved_contract->contract_status}}</small></span>
-                                                        @elseif($my_approved_contract->contract_status== 'closed')
-                                                        <small class="label label-closed">{{$my_approved_contract->contract_status}}</small></span>
-                                                        @elseif($my_approved_contract->contract_status== 'ammended')
-                                                        <small class="label pull-center btn-danger">{{$my_approved_contract->contract_status}}</small></span>
-                                                        @elseif($my_approved_contract->contract_status== 'approved')
-                                                        <small class="label pull-center btn-success">{{$my_approved_contract->contract_status}}</small></span>
-                                                        @elseif($my_approved_contract->contract_status== 'terminated')
-                                                        <small class="label pull-center btn-danger">{{$my_approved_contract->contract_status}}</small></span>
+                                                                                                        @if($approved_by_me_contract->contract_status == 'created')
+                                                                                                        <small class="label pull-center btn-warning">{{$approved_by_me_contract->contract_status}}</small></span>                                                        @elseif($approved_contract->contract_status == 'pending')
+                                                        <small class="label pull-center btn-info">{{ $approved_by_me_contract->contract_status}}</small></span>
+                                                        @elseif($approved_contract->contract_status== 'closed')
+                                                        <small class="label label-default">{{$approved_by_me_contract->contract_status}}</small></span>
+                                                        @elseif($approved_by_me_contract->contract_status== 'ammended')
+                                                        <small class="label pull-center btn-danger">{{$approved_by_me_contract->contract_status}}</small></span>
+                                                        @elseif($approved_by_me_contract->contract_status== 'approved')
+                                                        <small class="label pull-center btn-success">{{$approved_by_me_contract->contract_status}}</small></span>
+                                                        @elseif($approved_by_me_contract->contract_status== 'terminated')
+                                                        <small class="label pull-center btn-danger">{{$approved_by_me_contract->contract_status}}</small></span>
                                                     </td>
                                                     @endif
                                                     </td>
                                                     <td>
                                                         <div class="btn-group">
-                                                            <a class="btn btn-primary btn-block btn-sm btn-flat" href="/contract/{{$approved_contract->contract_id}}/view"><i class="fa fa-eye"></i> View</a>
+                                                            <a class="btn btn-info btn-block btn-sm btn-flat" href="/contract/{{$my_approved_contract->contract_id}}/view"><i class="fa fa-eye"></i> View</a>
                                                         </div>
                                                     </td>
                                                     {!! Form::close() !!}
@@ -296,7 +303,7 @@
                         @endif
                         <td><span class="pull-right-container">
                                 @if($approved_contract->contract_status == 'created')
-                                <small class="label pull-center btn-warning">{{$approved_contract->contract_status}}</small></span>                            @elseif($approved_contract->contract_status == 'published')
+                                <small class="label pull-center btn-warning">{{$approved_contract->contract_status}}</small></span>                            @elseif($approved_contract->contract_status == 'pending')
                             <small class="label pull-center btn-info">{{ $approved_contract->contract_status}}</small></span>
                             @elseif($approved_contract->contract_status== 'submitted')
                             <small class="label label-success">{{$approved_contract->contract_status}}</small></span>
@@ -341,6 +348,14 @@
     });
 
 </script>
+
+
+
+
+
+
+
+
 
 
 

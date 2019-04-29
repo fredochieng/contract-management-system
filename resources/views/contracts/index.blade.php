@@ -8,6 +8,10 @@
 
 
 
+
+
+
+
 @stop
 @section('content')
 <style>
@@ -49,32 +53,28 @@
                     <td>{{date("d-m-Y",strtotime($contract->expiry_date))}}</td>
                     <td><span class="pull-right-container">
                         @if($contract->contract_status == 'created')
-                        <small class="badge bg-purple">{{$contract->contract_status}}</small></span>
-                         @elseif($contract->contract_status == 'published')
+                        <small class="badge bg-purple">{{$contract->contract_status}}</small></span> @elseif($contract->contract_status
+                        == 'pending')
                         <small class="badge bg-yellow">{{ $contract->contract_status}}</small></span>
-                        @elseif($contract->contract_status== 'ammended')
+                        @elseif($contract->contract_status== 'amended')
                         <small class="badge bg-blue">{{$contract->contract_status}}</small></span>
-                        @elseif($contract->contract_status== 'approved')
-                        <small class="badge bg-green">{{$contract->contract_status}}</small></span>
-                        @elseif($contract->contract_status== 'terminated')
-                        <small class="badge bg-red">{{$contract->contract_status}}</small></span>
+                        @elseif($contract->contract_status== 'terminated') @elseif($contract->contract_status== 'closed')
+                        <small class="badge bg-aqua">{{$contract->contract_status}}</small></span>
                     </td>
                     @endif
                     </td>
                     <td>
-                        @if (auth()->check()) @if(auth()->user()->isUser() && ($contract->contract_status == 'created' ||
-                            $contract->contract_status== 'ammended'))
-                            <a href="/contract/{{$contract->contract_id}}/edit" class="btn btn-info btn-xs" data-toggle="tooltip" title="Edit Contract">
-                            <span class = "fa fa-pencil bigger"></span></a>
-                        @else
+                        @if (auth()->check()) @if(auth()->user()->isUser() && ($contract->contract_status == 'created' || $contract->contract_status==
+                        'amended'))
+                        <a href="/contract/{{$contract->contract_id}}/edit" class="btn btn-info btn-xs" data-toggle="tooltip" title="Edit Contract">
+                            <span class = "fa fa-pencil bigger"></span></a> @else
                         <a href="/contract/{{$contract->contract_id}}/view" class="btn btn-primary btn-xs" data-toggle="tooltip" title="View Contract Details">
-                            <span class = "fa fa-eye bigger"></span></a>
-                        @endif @endif
-                        {{ Form::hidden('_method','POST') }} {!! Form::open(['action'=>['ContractController@destroy',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])
+                            <span class = "fa fa-eye bigger"></span></a> @endif @endif {{ Form::hidden('_method','POST')
+                        }} {!! Form::open(['action'=>['ContractController@destroy',$contract->contract_id],'method'=>'POST','class'=>'floatit','enctype'=>'multipart/form-data'])
                         !!} {{Form::hidden('_method','DELETE')}}
                         <button type="submit" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete Contract" onClick="return confirm('Are you sure you want to delete this contract?');">   <strong>  <i class="fa fa-trash"></i></strong></button>                        {{-- <a class="delete" data-id="{{ $contract->contract_id }}" href="javascript:void(0)">
                                 <span style="color:red;" class = "fa fa-trash bigger"></span></a> --}}
-                        </td>
+                    </td>
                     {!! Form::close() !!}
                 </tr>
                 @endforeach
@@ -82,6 +82,10 @@
         </table>
     </div>
 </div>
+
+
+
+
 
 @stop
 @section('css')
@@ -99,6 +103,10 @@
     });
 
 </script>
+
+
+
+
 
 
 

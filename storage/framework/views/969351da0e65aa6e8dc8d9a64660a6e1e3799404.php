@@ -1,6 +1,13 @@
 <?php $__env->startSection('title', 'New Contract'); ?>
 <?php $__env->startSection('content_header'); ?>
 <h1>Contracts<small> Manage contracts</small></h1>
+
+
+
+
+
+
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <style>
@@ -8,7 +15,7 @@
         height: 90px !important
     }
 </style>
-<div class="box box-success">
+<div class="box box-success" style="font-size:10px;">
     <div class="box-header with-border">
         <h3 class="box-title">Create New Contract</h3>
     </div>
@@ -25,7 +32,7 @@
 
                     <div class="form-group">
 
-                        <select id="party_name" class="form-control" required name="party_name"> </select>
+                        <select id="party_name" class=" col-md-12 " required name="party_name"> </select>
 
                     </div>
                     <p>If you are not able to find the Contract Party Name/Supplier.
@@ -42,17 +49,9 @@
 
                     </div>
                 </div>
+            </div>
+            <div class="row">
 
-                <div class="col-md-6">
-
-                    <?php echo e(Form::label('', '')); ?>
-
-                    <div class="form-group">
-
-                        
-
-                    </div>
-                </div>
                 <div class="col-md-6">
 
                     <?php echo e(Form::label('effective_date', 'Effective Date* ')); ?>
@@ -91,6 +90,13 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>
@@ -171,6 +177,13 @@ function formatRepoSelection (repo) {
  })
 
 </script>
+
+
+
+
+
+
+
 
 
 

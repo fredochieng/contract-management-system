@@ -8,35 +8,9 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop
 @section('content')
-<div class="row">
+<div class="row" style="font-size:10px;">
     <div class="col-lg-3 col-xs-6">
         <div class="small-box bg-yellow">
             <div class="inner">
@@ -53,12 +27,12 @@
         <div class="small-box bg-blue">
             <div class="inner">
                 <h3>{{ $ammended_contract_count }}</h3>
-                <p>Ammended Contracts</p>
+                <p>Amended Contracts</p>
             </div>
             <div class="icon">
                 <i class="fa fa-certificate"></i>
             </div>
-            <a href="ammended-contracts" class="small-box-footer">View Contracts  <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="amended-contracts" class="small-box-footer">View Contracts  <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-xs-6">
@@ -87,7 +61,7 @@
     </div>
     <!-- ./col -->
 </div>
-<div class="row">
+<div class="row" style="font-size:10px;">
     <div class="col-md-8">
         <div class="box box-success">
             <div class="box-header with-border">
@@ -107,22 +81,21 @@
                     <table class="table no-margin">
                         <thead>
                             <tr>
-                                <th style="width:25px;">S/N</th>
-                                <th style="width:200px;">Contract Title</th>
-                                <th style="width:160px;">Party Name</th>
+                                <th>S/N</th>
+                                <th>Contract Title</th>
+                                <th>Party Name</th>
                                 {{--
                                 <th style="width:145px;">Uploads</th> --}} {{--
                                 <th style="width:145px;">Submitted By</th> --}}
-                                <th style="width:145px;">Date</th>
-                                {{--
-                                <th style="width:90px;">Effective Date</th>
-                                <th style="width:90px;">Expiry Date</th> --}}
 
-                                <th style="width:145px;">Status</th>
-                                @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
-                                <th style="width:70px;">Alert</th>
-                                {{--
-                                <th style="width:70px;">Assign</th> --}} @endif @endif
+                                    <th>Effective Date</th>
+                                    {{-- <th style="width:90px;">Expiry Date</th> --}}
+
+                                    <th>Status</th>
+                                    @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
+                                    <th>Alert</th>
+                                    {{--
+                                    <th style="width:70px;">Assign</th> --}} @endif @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -145,14 +118,14 @@
                                 <td>{{ date("d-m-Y",strtotime($contract->expiry_date))</td> }} --}}
                                 <td><span class="pull-right-container">
                                                                     @if($contract->contract_status == 'created')
-                                                                    <small class="badge bg-purple">{{$contract->contract_status}}</small></span>                                    @elseif($contract->contract_status == 'published')
+                                                                    <small class="badge bg-purple">{{$contract->contract_status}}</small></span>                                    @elseif($contract->contract_status == 'pending')
                                     <small class="badge bg-yellow">{{ $contract->contract_status}}</small></span>
-                                    @elseif($contract->contract_status== 'ammended')
+                                    @elseif($contract->contract_status== 'amended')
                                     <small class="badge bg-blue">{{$contract->contract_status}}</small></span>
                                     @elseif($contract->contract_status== 'approved')
                                     <small class="badge bg-green">{{$contract->contract_status}}</small></span>
-                                    @elseif($contract1->contract_status== 'closed')
-                                    <small class="badge bg-aqua">{{$contract1->contract_status}}</small></span>
+                                    @elseif($contract->contract_status== 'closed')
+                                    <small class="badge bg-aqua">{{$contract->contract_status}}</small></span>
                                     @elseif($contract->contract_status== 'terminated')
                                     <small class="badge bg-red">{{$contract->contract_status}}</small></span>
                                 </td>
@@ -195,7 +168,7 @@
                 @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
                 <h3 class="box-title">Latest Closed Contracts</h3>
                 @elseif(auth()->user()->isUser())
-                <h3 class="box-title">Latest Ammended Contracts</h3>
+                <h3 class="box-title">Latest Amended Contracts</h3>
                 @endif @endif
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -208,17 +181,17 @@
                     <table class="table no-margin">
                         <thead>
                             <tr>
-                                <th style="width:25px;">S/N</th>
-                                <th style="width:300px;">Contract Title</th>
-                                <th style="width:160px;">Party Name</th>
+                                <th>S/N</th>
+                                <th>Contract Title</th>
+                                <th>Party Name</th>
                                 {{--
                                 <th style="width:145px;">Uploads</th> --}} {{--
                                 <th style="width:145px;">Submitted By</th> --}}
-                                <th style="width:145px;">Date</th>
+                                <th>Date</th>
                                 {{--
                                 <th style="width:90px;">Effective Date</th>
                                 <th style="width:90px;">Expiry Date</th> --}}
-                                <th style="width:50px;">Status</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -241,9 +214,9 @@
                                 <td>{{ date("d-m-Y",strtotime($contract->expiry_date))</td> }} --}}
                                 <td><span class="pull-right-container">
                                             @if($contract1->contract_status == 'created')
-                                            <small class="badge bg-purple">{{$contract1->contract_status}}</small></span>                                    @elseif($contract1->contract_status == 'published')
+                                            <small class="badge bg-purple">{{$contract1->contract_status}}</small></span>                                    @elseif($contract1->contract_status == 'pending')
                                     <small class="badge bg-yellow">{{ $contract1->contract_status}}</small></span>
-                                    @elseif($contract1->contract_status== 'ammended')
+                                    @elseif($contract1->contract_status== 'amended')
                                     <small class="badge bg-blue">{{$contract1->contract_status}}</small></span>
                                     @elseif($contract1->contract_status== 'approved')
                                     <small class="badge bg-green">{{$contract1->contract_status}}</small></span>
@@ -266,7 +239,7 @@
                 </div>
                 @else
                 <div class="box-footer text-center">
-                    <a href="approved-contracts" class="uppercase">View All Ammended Contracts</a>
+                    <a href="approved-contracts" class="uppercase">View All Amended Contracts</a>
                 </div>
                 @endif @endif
                 <!-- /.table-responsive -->
@@ -363,7 +336,7 @@
                     </div>
                     <!-- /.progress-group -->
                     <div class="progress-group">
-                        <span class="progress-text">Ammended Contracts</span>
+                        <span class="progress-text">Amended Contracts</span>
                         <span class="progress-number"><b>{{ $ammended_contract_count }}</b>/{{ $total_contracts_count }}</span>
 
                         <div class="progress sm">
@@ -465,7 +438,7 @@
                     </div>
                     <!-- /.progress-group -->
                     <div class="progress-group">
-                        <span class="progress-text">Ammended Contracts</span>
+                        <span class="progress-text">Amended Contracts</span>
                         <span class="progress-number"><b>{{ $ammended_contract_count }}</b>/{{ $total_contracts_count }}</span>
 
                         <div class="progress sm">
@@ -525,6 +498,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
 @stop
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
@@ -549,6 +531,15 @@
     });
 
 </script>
+
+
+
+
+
+
+
+
+
 
 
 

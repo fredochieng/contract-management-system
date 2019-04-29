@@ -14,6 +14,7 @@
 
 
 
+
 @stop
 @section('content')
 <style>
@@ -27,7 +28,7 @@
     <strong> {{ session('update') }} </strong>
 </div>
 @endif @if (auth()->check()) @if(auth()->user()->isAdmin() || auth()->user()->isLegal())
-<div class="row">
+<div class="row" style="font-size:12px;">
     <div class="col-md-12">
         <!-- Custom Tabs (Pulled to the right) -->
         <div class="nav-tabs-custom">
@@ -76,11 +77,11 @@
                                                     @endif
                                                     <td><span class="pull-right-container">
                                                         @if($assigned_contract->contract_status == 'created')
-                                                        <small class="label pull-center btn-warning">{{$assigned_contract->contract_status}}</small></span>                                                        @elseif($assigned_contract->contract_status == 'published')
+                                                        <small class="label pull-center btn-warning">{{$assigned_contract->contract_status}}</small></span>                                                        @elseif($assigned_contract->contract_status == 'pending')
                                                         <small class="label pull-center btn-info">{{ $assigned_contract->contract_status}}</small></span>
                                                         @elseif($assigned_contract->contract_status== 'closed')
                                                         <small class="label label-default">{{$assigned_contract->contract_status}}</small></span>
-                                                        @elseif($assigned_contract->contract_status== 'ammended')
+                                                        @elseif($assigned_contract->contract_status== 'amended')
                                                         <small class="label pull-center btn-danger">{{$assigned_contract->contract_status}}</small></span>
                                                         @elseif($assigned_contract->contract_status== 'approved')
                                                         <small class="label pull-center btn-success">{{$assigned_contract->contract_status}}</small></span>
@@ -201,6 +202,7 @@
     });
 
 </script>
+
 
 
 

@@ -1,29 +1,26 @@
 @extends('adminlte::page')
-
 @section('title', 'Edit Contract')
-
 @section('content_header')
 <h1>Contracts<small> Edit Contract</small></h1>
-@stop
 
+@stop
 @section('content')
 
 <style>
-.description {
-    height: 90px !important
-}
+    .description {
+        height: 90px !important
+    }
 </style>
 
 
-<div class="box box-success">
-<div class="box-header with-border">
-    <h3 class="box-title">&nbsp;&nbsp;&nbsp; Edit Contract</h3>
-</div>
+<div class="box box-success" style="font-size:10px;">
+    <div class="box-header with-border">
+        <h3 class="box-title">&nbsp;&nbsp;&nbsp; Edit Contract</h3>
+    </div>
     <div class="box-body">
         <div class="col-md-12">
 
-            {!!
-            Form::open(['action'=>['ContractController@update',$contract->contract_id],'method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
+            {!! Form::open(['action'=>['ContractController@update',$contract->contract_id],'method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
             !!}
 
             <div class="row">
@@ -51,31 +48,23 @@
                         {{Form::text('title',$contract->contract_title,['class'=>'form-control','placeholder'=>'The contract Title'])}}
                     </div>
                 </div>
-                <div class="col-md-6">
-
-                    {{Form::label('', '')}}
-                    <div class="form-group">
-
-                        {{-- {{Form::text('effective_date', '',['class'=>'form-control issued_date','placeholder'=>'Effective Date','autocomplete'=>'off'])}}
-                        --}}
-
-                    </div>
-                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
 
                     {{Form::label('effective_date', 'Effective Date* ')}}
                     <div class="form-group">
 
-                        {{Form::text('effective_date', date("m-d-Y",strtotime($contract->effective_date)),['class'=>'form-control issued_date','placeholder'=>'Effective date','autocomplete'=>'off'])}}
+                        {{Form::text('effective_date', date("m-d-Y",strtotime($contract->effective_date)),['class'=>'form-control issued_date','placeholder'=>'Effective
+                        date','autocomplete'=>'off'])}}
 
                     </div>
                 </div>
 
                 <div class="col-md-6">
 
-                    @if($contract->draft_file) <a href="{{$contract->draft_file}}"><strong>Download</strong></a> @endif
-
-                    {{Form::label('contract_document', 'Upload Contract Document *')}}
+                    @if($contract->draft_file) <a href="{{$contract->draft_file}}"><strong>Download</strong></a> @endif {{Form::label('contract_document',
+                    'Upload Contract Document *')}}
 
                     <div class="form-group">
                         {{Form::file('contract_document',['class'=>'form-control'])}}
@@ -87,7 +76,8 @@
                     {{Form::label('description', 'Description')}}
 
                     <div class="form-group">
-                        {{Form::textarea('description', $contract->description,['class'=>'form-control description','placeholder'=>'Fully Describe your contract here for clarifications'])}}
+                        {{Form::textarea('description', $contract->description,['class'=>'form-control description','placeholder'=>'Fully Describe
+                        your contract here for clarifications'])}}
                     </div>
                 </div>
 
@@ -95,19 +85,17 @@
                     <button type="submit" class="btn btn-success"><i class="fa fa-save fa-fw"></i> Save Changes</button>
                 </div>
 
-                {{Form::hidden('_method','PUT')}}
-                {!! Form::close() !!}
+                {{Form::hidden('_method','PUT')}} {!! Form::close() !!}
             </div>
         </div>
     </div>
 </div>
-@stop
 
+@stop
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
 <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
 @stop
-
 @section('js')
 
 
@@ -115,7 +103,7 @@
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
 <script>
-$(function() {
+    $(function() {
     //Initialize Select2 Elements
 
     $("#party_name").select2({
@@ -181,5 +169,7 @@ $(function() {
 
     })
 })
+
 </script>
+
 @stop

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Admin;
+use App\User_Details;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Notifications\UserCreatedNotification;
+use Notification;
 
 class RegisterController extends Controller
 {
@@ -32,7 +35,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/dashboard';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -67,8 +70,8 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'organization_id' => ['required', 'string', 'max:255'],
-            'job_title' => ['required', 'string', 'max:255'],
+            // 'organization_id' => ['required', 'string', 'max:255'],
+            // 'job_title' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
@@ -81,17 +84,35 @@ class RegisterController extends Controller
      */
     public function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-        $user_id = Auth::user()->id;
-        $user_details = array(
-            'user_id' => $user_id,
-            'job_title' => $data['job_title'],
 
+        $just_saved_user_id = $user->id;
+
+        $user_details_data = array(
+            'user_id' => $just_saved_user_id
         );
-        $user_data = DB::table('user_details')->insertGetId($user_details);
+
+        $save_users_details = DB::table('users_details')->insertGetId($user_details_data);
+
+        $user_inserted = User::find($user->id);
+
+        $user_inserted->assignRole('Standard User');
+
+        $details = [
+            'greeting' => 'Hi' . ' ' . $data['name'],
+            'body' => 'Thank you for registering to Wananchi Group Legal Management System',
+            'thanks' => 'Welcome aboard!',
+            'password' => 'Your password is' . $data['password'],
+            'actionText' => 'Click here to login',
+            'actionURL' => url('/'),
+            'Your password is' . $data['password']
+        ];
+        Notification::send($user, new UserCreatedNotification($details));
+
+        return $user;
     }
 }
