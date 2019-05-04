@@ -4,21 +4,6 @@
 <h1 class="pull-left">Users<small>Manage Users</small></h1>
 <div style="clear:both"></div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop
 @section('content')
 <style>
@@ -374,6 +359,7 @@
 
 
 
+
 @stop
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
@@ -389,6 +375,7 @@
     });
 
 </script>
+
 
 
 

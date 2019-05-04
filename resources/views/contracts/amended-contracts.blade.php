@@ -6,20 +6,6 @@
 <div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a></div>
 @endif @endif
 <div style="clear:both"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop
 @section('content')
 <style>
@@ -87,7 +73,7 @@
                                                         <small class="label pull-center btn-info">{{ $ammended_contract->contract_status}}</small></span>
                                                         @elseif($ammended_contract->contract_status== 'submitted')
                                                         <small class="label label-success">{{$ammended_contract->contract_status}}</small></span>
-                                                        @elseif($ammended_contract->contract_status== 'amended')
+                                                        @elseif($ammended_contract->contract_status== 'Amended')
                                                         <small class="label pull-center btn-primary">{{$ammended_contract->contract_status}}</small></span>
                                                         @elseif($ammended_contract->contract_status== 'approved')
                                                         <small class="label pull-center btn-success">{{$ammended_contract->contract_status}}</small></span>
@@ -154,7 +140,7 @@
                                                         <small class="label pull-center btn-info">{{ $ammended_by_me_contract->contract_status}}</small></span>
                                                         @elseif($ammended_by_me_contract->contract_status== 'submitted')
                                                         <small class="label label-success">{{$ammended_by_me_contract->contract_status}}</small></span>
-                                                        @elseif($ammended_by_me_contract->contract_status== 'amended')
+                                                        @elseif($ammended_by_me_contract->contract_status== 'Amended')
                                                         <small class="label pull-center btn-primary">{{$ammended_by_me_contract->contract_status}}</small></span>
                                                         @elseif($ammended_by_me_contract->contract_status== 'approved')
                                                         <small class="label pull-center btn-success">{{$ammended_by_me_contract->contract_status}}</small></span>
@@ -223,7 +209,7 @@
                                                         <small class="label pull-center btn-info">{{ $my_ammended_contract->contract_status}}</small></span>
                                                         @elseif($my_ammended_contract->contract_status== 'submitted')
                                                         <small class="label label-success">{{$my_ammended_contract->contract_status}}</small></span>
-                                                        @elseif($my_ammended_contract->contract_status== 'amended')
+                                                        @elseif($my_ammended_contract->contract_status== 'Amended')
                                                         <small class="label pull-center btn-primary">{{$my_ammended_contract->contract_status}}</small></span>
                                                         @elseif($my_ammended_contract->contract_status== 'approved')
                                                         <small class="label pull-center btn-success">{{$my_ammended_contract->contract_status}}</small></span>
@@ -309,7 +295,7 @@
                         <small class="label pull-center btn-info">{{ $ammended_contract->contract_status}}</small></span>
                         @elseif($ammended_contract->contract_status== 'submitted')
                         <small class="label label-success">{{$ammended_contract->contract_status}}</small></span>
-                        @elseif($ammended_contract->contract_status== 'amended')
+                        @elseif($ammended_contract->contract_status== 'Amended')
                         <small class="label pull-center btn-danger">{{$ammended_contract->contract_status}}</small></span>
                         @elseif($ammended_contract->contract_status== 'approved')
                         <small class="label pull-center btn-success">{{$ammended_contract->contract_status}}</small></span>

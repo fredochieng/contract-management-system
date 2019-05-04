@@ -48,6 +48,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasRole('Legal Counsel');
     }
 
+    public function verifyUser()
+    {
+        return $this->hasOne('App\VerifyAddedUser');
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

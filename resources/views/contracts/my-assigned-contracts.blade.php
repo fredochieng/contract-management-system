@@ -6,15 +6,6 @@
 <div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a></div>
 @endif @endif
 <div style="clear:both"></div>
-
-
-
-
-
-
-
-
-
 @stop
 @section('content')
 <style>
@@ -76,16 +67,17 @@
                                                     <td>{{date("d-m-Y",strtotime($assigned_contract->expiry_date))}}</td>
                                                     @endif
                                                     <td><span class="pull-right-container">
-                                                        @if($assigned_contract->contract_status == 'created')
-                                                        <small class="label pull-center btn-warning">{{$assigned_contract->contract_status}}</small></span>                                                        @elseif($assigned_contract->contract_status == 'pending')
+                                                        @if($assigned_contract->contract_status == 'Created')
+                                                        <small class="label pull-center btn-warning">{{$assigned_contract->contract_status}}</small></span>
+                                                        @elseif($assigned_contract->contract_status == 'Pending')
                                                         <small class="label pull-center btn-info">{{ $assigned_contract->contract_status}}</small></span>
-                                                        @elseif($assigned_contract->contract_status== 'closed')
+                                                        @elseif($assigned_contract->contract_status== 'Closed')
                                                         <small class="label label-default">{{$assigned_contract->contract_status}}</small></span>
-                                                        @elseif($assigned_contract->contract_status== 'amended')
+                                                        @elseif($assigned_contract->contract_status== 'Amended')
                                                         <small class="label pull-center btn-danger">{{$assigned_contract->contract_status}}</small></span>
-                                                        @elseif($assigned_contract->contract_status== 'approved')
+                                                        @elseif($assigned_contract->contract_status== 'Approved')
                                                         <small class="label pull-center btn-success">{{$assigned_contract->contract_status}}</small></span>
-                                                        @elseif($assigned_contract->contract_status== 'terminated')
+                                                        @elseif($assigned_contract->contract_status== 'Terminated')
                                                         <small class="label pull-center btn-danger">{{$assigned_contract->contract_status}}</small></span>
                                                     </td>
                                                     @endif

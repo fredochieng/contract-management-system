@@ -194,6 +194,10 @@ return [
             ],
             'can'  => 'Manage Business Documents',
 
+        ], [
+            'text' => 'Reports',
+            'url'  => 'reports',
+            'icon' => 'bar-chart',
         ],
 
 

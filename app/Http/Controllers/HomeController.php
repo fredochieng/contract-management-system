@@ -49,24 +49,9 @@ class HomeController extends Controller
         }
 
         if (auth()->check()) if (auth()->user()->isLegal()) {
-            // $total_contracts_count = contract::where($compare_field, $compare_operator, $compare_value)
-            //     ->where(function ($query) {
-            //         $query->where('contracts.status', '!=', 'created');
-            //         $query->where('contracts.legal_approval_id', '=', Auth::user()->id);
-            //     })
-            //     ->where('contracts.legal_approval_id', '=', Auth::user()->id)
-            //     ->where('contracts.legal_ammendment_id', '=', Auth::user()->id)
-            //     ->where('contracts.legal_termination_id', '=', Auth::user()->id)
-            //     ->count();
-
-            // $approved_contract_count = \DB::table('contracts')
-            //     ->where($compare_field, $compare_operator, $compare_value)
-            //     ->where('contracts.legal_approval_id', '=', Auth::user()->id)
-            //     ->count();
-
             $closed_contract_count = \DB::table('contracts')
                 ->where($compare_field, $compare_operator, $compare_value)
-                ->where('contracts.status', '=', 'closed')
+                ->where('contracts.status', '=', 'Closed')
                 ->where('contracts.legal_approval_id', '=', Auth::user()->id)
                 ->count();
 
@@ -84,62 +69,62 @@ class HomeController extends Controller
         } else {
             $total_contracts_count = contract::where($compare_field, $compare_operator, $compare_value)
                 ->where(function ($query) {
-                    $query->where('contracts.status', '!=', 'created');
+                    $query->where('contracts.status', '!=', 'Created');
                 })->count();
         }
         $created_contract_count = \DB::table('contracts')->where([
             [$compare_field, $compare_operator, $compare_value],
-            ['contracts.status', '=', 'created']
+            ['contracts.status', '=', 'Created']
         ])->count();
         if (auth()->check()) if (auth()->user()->isLegal()) {
             $approved_contract_count = \DB::table('contracts')->where([
                 [$compare_field, $compare_operator, $compare_value],
-                ['contracts.status', '=', 'approved'],
+                ['contracts.status', '=', 'Approved'],
                 ['contracts.legal_approval_id', '=', Auth::user()->id]
             ])->count();
 
             $closed_contract_count = \DB::table('contracts')->where([
                 [$compare_field, $compare_operator, $compare_value],
-                ['contracts.status', '=', 'closed'],
+                ['contracts.status', '=', 'Closed'],
                 ['contracts.legal_approval_id', '=', Auth::user()->id]
             ])->count();
         } else {
             $approved_contract_count = \DB::table('contracts')->where([
                 [$compare_field, $compare_operator, $compare_value],
-                ['contracts.status', '=', 'approved']
+                ['contracts.status', '=', 'Approved']
             ])->count();
 
             $closed_contract_count = \DB::table('contracts')->where([
                 [$compare_field, $compare_operator, $compare_value],
-                ['contracts.status', '=', 'closed']
+                ['contracts.status', '=', 'Closed']
             ])->count();
         }
         $published_contract_count = \DB::table('contracts')->where([
             [$compare_field, $compare_operator, $compare_value],
-            ['contracts.status', '=', 'pending']
+            ['contracts.status', '=', 'Pending']
         ])->count();
         if (auth()->check()) if (auth()->user()->isLegal()) {
             $ammended_contract_count = \DB::table('contracts')->where([
                 [$compare_field, $compare_operator, $compare_value],
-                ['contracts.status', '=', 'amended'],
+                ['contracts.status', '=', 'Amended'],
                 ['contracts.legal_ammendment_id', '=', Auth::user()->id]
             ])->count();
         } else {
             $ammended_contract_count = \DB::table('contracts')->where([
                 [$compare_field, $compare_operator, $compare_value],
-                ['contracts.status', '=', 'amended'],
+                ['contracts.status', '=', 'Amended'],
             ])->count();
         }
         if (auth()->check()) if (auth()->user()->isLegal()) {
             $terminated_contract_count = \DB::table('contracts')->where([
                 [$compare_field, $compare_operator, $compare_value],
-                ['contracts.status', '=', 'terminated'],
+                ['contracts.status', '=', 'Terminated'],
                 ['contracts.legal_termination_id', '=', Auth::user()->id]
             ])->count();
         } else {
             $terminated_contract_count = \DB::table('contracts')->where([
                 [$compare_field, $compare_operator, $compare_value],
-                ['contracts.status', '=', 'terminated']
+                ['contracts.status', '=', 'Terminated']
             ])->count();
         }
 

@@ -39,11 +39,11 @@ class ContractController extends Controller
 
             $contract_status_query = contract::where($compare_field, $compare_operator, $compare_value)
                 ->where(function ($query) {
-                    $query->where('contracts.status', 'approved')
-                        ->orWhere('contracts.status', 'submitted')
-                        ->orWhere('contracts.status', 'amended')
-                        ->orWhere('contracts.status', 'terminated')
-                        ->orWhere('contracts.status', 'pending');
+                    $query->where('contracts.status', 'Approved')
+                        ->orWhere('contracts.status', 'Submitted')
+                        ->orWhere('contracts.status', 'Amended')
+                        ->orWhere('contracts.status', 'Terminated')
+                        ->orWhere('contracts.status', 'Pending');
                 })->get();
         } elseif ($user_role == "Legal Counsel") {
             $compare_field = "contracts.contract_id";
@@ -259,11 +259,11 @@ class ContractController extends Controller
 
             $contract_status_query = contract::where($compare_field, $compare_operator, $compare_value)
                 ->where(function ($query) {
-                    $query->where('contracts.status', 'approved')
-                        ->orWhere('contracts.status', 'submitted')
-                        ->orWhere('contracts.status', 'amended')
-                        ->orWhere('contracts.status', 'terminated')
-                        ->orWhere('contracts.status', 'pending');
+                    $query->where('contracts.status', 'Approved')
+                        ->orWhere('contracts.status', 'Submitted')
+                        ->orWhere('contracts.status', 'Amended')
+                        ->orWhere('contracts.status', 'Terminated')
+                        ->orWhere('contracts.status', 'Pending');
                 })->get();
         } elseif ($user_role == "Legal Counsel") {
             $compare_field = "contracts.contract_id";
@@ -299,7 +299,7 @@ class ContractController extends Controller
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
             ->where($compare_field, $compare_operator, $compare_value)
-            ->where('contracts.status', '=', 'created')
+            ->where('contracts.status', '=', 'Created')
             ->get();
 
         return view('contracts.created-contracts')->with([
@@ -319,11 +319,11 @@ class ContractController extends Controller
 
             $contract_status_query = contract::where($compare_field, $compare_operator, $compare_value)
                 ->where(function ($query) {
-                    $query->where('contracts.status', 'approved')
-                        ->orWhere('contracts.status', 'submitted')
-                        ->orWhere('contracts.status', 'amended')
-                        ->orWhere('contracts.status', 'terminated')
-                        ->orWhere('contracts.status', 'pending');
+                    $query->where('contracts.status', 'Approved')
+                        ->orWhere('contracts.status', 'Submitted')
+                        ->orWhere('contracts.status', 'Amended')
+                        ->orWhere('contracts.status', 'Terminated')
+                        ->orWhere('contracts.status', 'Pending');
                 })->get();
         } elseif ($user_role == "Legal Counsel") {
             $compare_field = "contracts.contract_id";
@@ -359,7 +359,7 @@ class ContractController extends Controller
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
             ->where($compare_field, $compare_operator, $compare_value)
-            ->where('contracts.status', '=', 'pending')
+            ->where('contracts.status', '=', 'Pending')
             ->get();
 
         $pending_contracts->map(function ($item) {
@@ -436,7 +436,7 @@ class ContractController extends Controller
             ->orderBy('contracts.contract_id', 'desc')
             ->where($compare_field, $compare_operator, $compare_value)
             ->where([
-                ['contracts.status', '=', 'pending'],
+                ['contracts.status', '=', 'Pending'],
                 ['contracts.assigned', '=', 1]
             ])->get();
 
@@ -466,7 +466,7 @@ class ContractController extends Controller
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
             ->where([
-                ['contracts.status', '=', 'pending'],
+                ['contracts.status', '=', 'Pending'],
                 ['contracts.created_by', '=', Auth::user()->id]
             ])->get();
 
@@ -529,7 +529,7 @@ class ContractController extends Controller
             ->orderBy('contracts.contract_id', 'desc')
             ->where([
                 [$compare_field, $compare_operator, $compare_value],
-                ['contracts.status', '=', 'pending'],
+                ['contracts.status', '=', 'Pending'],
             ])
             ->get();
 
@@ -593,7 +593,7 @@ class ContractController extends Controller
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
             ->where($compare_field2, $compare_operator2, $compare_value2)
-            ->where('contracts.status', '=', 'approved')
+            ->where('contracts.status', '=', 'Approved')
             ->get();
 
         // Contracts Approved By Me
@@ -620,7 +620,7 @@ class ContractController extends Controller
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
             ->where($compare_field3, $compare_operator3, $compare_value3)
-            ->where('contracts.status', '=', 'approved')
+            ->where('contracts.status', '=', 'Approved')
             ->get();
 
 
@@ -647,7 +647,7 @@ class ContractController extends Controller
             ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
-            ->where('contracts.status', '=', 'approved')
+            ->where('contracts.status', '=', 'Approved')
             ->where('contracts.created_by', '=', Auth::user()->id)
             ->get();
 
@@ -713,7 +713,7 @@ class ContractController extends Controller
             ->orderBy('contracts.contract_id', 'desc')
             ->where([
                 [$compare_field2, $compare_operator2, $compare_value2],
-                ['contracts.status', '=', 'closed'],
+                ['contracts.status', '=', 'Closed'],
             ])
             ->get();
 
@@ -741,7 +741,7 @@ class ContractController extends Controller
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
             ->where($compare_field3, $compare_operator3, $compare_value3)
-            ->where('contracts.status', '=', 'closed')
+            ->where('contracts.status', '=', 'Closed')
             ->get();
 
 
@@ -768,7 +768,7 @@ class ContractController extends Controller
             ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
-            ->where('contracts.status', '=', 'closed')
+            ->where('contracts.status', '=', 'Closed')
             ->where('contracts.created_by', '=', Auth::user()->id)
             ->get();
 
@@ -832,7 +832,7 @@ class ContractController extends Controller
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
             ->where($compare_field2, $compare_operator2, $compare_value2)
-            ->where('contracts.status', '=', 'amended')
+            ->where('contracts.status', '=', 'Amended')
             ->get();
 
         // Contracts Ammended By Me
@@ -859,7 +859,7 @@ class ContractController extends Controller
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
             ->where($compare_field3, $compare_operator3, $compare_value3)
-            ->where('contracts.status', '=', 'amended')
+            ->where('contracts.status', '=', 'Amended')
             ->get();
 
 
@@ -886,7 +886,7 @@ class ContractController extends Controller
             ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
-            ->where('contracts.status', '=', 'amended')
+            ->where('contracts.status', '=', 'Amended')
             ->where('contracts.created_by', '=', Auth::user()->id)
             ->get();
 
@@ -950,7 +950,7 @@ class ContractController extends Controller
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
             ->where($compare_field2, $compare_operator2, $compare_value2)
-            ->where('contracts.status', '=', 'terminated')
+            ->where('contracts.status', '=', 'Terminated')
             ->get();
 
         // Contracts Ammended By Me
@@ -977,7 +977,7 @@ class ContractController extends Controller
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
             ->where($compare_field3, $compare_operator3, $compare_value3)
-            ->where('contracts.status', '=', 'terminated')
+            ->where('contracts.status', '=', 'Terminated')
             ->get();
 
 
@@ -1004,7 +1004,7 @@ class ContractController extends Controller
             ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
             ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
             ->orderBy('contracts.contract_id', 'desc')
-            ->where('contracts.status', '=', 'terminated')
+            ->where('contracts.status', '=', 'Terminated')
             ->where('contracts.created_by', '=', Auth::user()->id)
             ->get();
 
@@ -1039,10 +1039,25 @@ class ContractController extends Controller
             'effective_date' => 'required',
             'contract_document' => 'required',
         ]);
+        $partyname =  DB::table('parties')
+            ->where('party_id', '=', $request->input('party_name'))
+            ->first();
+        $cont_party_name = substr($partyname->party_name, 0, 3);
+
+        $last_contract = contract::orderBy('contract_id', 'desc')->first();
+
+
+            if (!$last_contract){
+                $number = 0;
+            }else{
+            $last_contract = $last_contract->contract_code;
+                $number = substr($last_contract, -3);
+            }
+             $number1 = sprintf('%03d', intval($number) + 1);
+
         try {
 
             $contract = new contract;
-
             $contract->contract_title = $request->input('title');
             $contract->party_name_id = $request->input('party_name');
             $contract->effective_date = date("Y-m-d", strtotime($request->input('effective_date')));
@@ -1051,7 +1066,7 @@ class ContractController extends Controller
             }
             $contract->description = $request->input('description');
             $contract->stage = 1;
-            $contract->status = 'created';
+            $contract->status = 'Created';
             $contract->created_by = Auth::user()->id;
             $contract->updated_by = Auth::user()->id;
             $contract->last_action_by = Auth::user()->id;
@@ -1072,18 +1087,19 @@ class ContractController extends Controller
                 $contract_file = 'uploads/contract_documents/' . $file_name;
             }
 
-            $default_contract_string = "WGKCT";
-            $contract_code = $default_contract_string . $just_saved_contract_id;
+            $cont_code = $cont_party_name;
+            $default_contract_string = "WGT";
+            $ticket = $cont_code . '-' . $default_contract_string . '-'.$number1;
 
             $save_contract_code = array(
-                'contract_code' => $contract_code
+                'contract_code' => $ticket
             );
 
             $contract_draft_data = array(
                 'contract_id' => $just_saved_contract_id,
                 'stage_id' => 1,
                 'draft_file' => $contract_file,
-                'status' => 'created',
+                'status' => 'Created',
                 'created_by' => Auth::user()->id,
                 'updated_by' => Auth::user()->id,
             );
@@ -1151,8 +1167,7 @@ class ContractController extends Controller
         }
         $contract->description = $request->input('description');
         $contract->stage = 1;
-        $contract->status = 'created';
-        //$contract->created_by=Auth::user()->id;
+        $contract->status = 'Created';
         $contract->updated_by = Auth::user()->id;
         $contract->last_action_by = Auth::user()->id;
 
@@ -1173,7 +1188,7 @@ class ContractController extends Controller
             'contract_id' => $just_saved_contract_id,
             'stage_id' => 1,
             'draft_file' => $contract_file,
-            'status' => 'created',
+            'status' => 'Created',
             'updated_by' => Auth::user()->id,
         );
         $last_draft_id = DB::table('contract_drafts')->where('contract_draft_id', $contract->last_draft_id)->update($contract_draft_data);
@@ -1219,10 +1234,6 @@ class ContractController extends Controller
             ->orderBy('contracts.contract_id', 'desc')
             ->where('contracts.contract_id', '=', $contract_id)
             ->first();
-
-        // echo "<pre>";
-        // print_r($contract);
-        // exit;
 
         $latest = contract_drafts::where('contract_draft_id', $contract->last_draft_id)
             ->latest('created_at')
@@ -1299,7 +1310,7 @@ class ContractController extends Controller
             'cabinet_number' => $cabinet_number
         ]);
     }
-    public function publish(request $request)
+    function publish(request $request)
     {
         $contractss = DB::table('contracts')
             ->select(
@@ -1326,11 +1337,10 @@ class ContractController extends Controller
             ->where('contracts.contract_id', '=', $request->contract_id)
             ->first();
 
-        $status = 'pending';
+        $status = 'Pending';
         $stage = 2;
         $published_contract_id = $request->contract_id;
         $published_contract_draft = $contractss->draft_file;
-        // $published_crf_file = $contractss->crf_file;
         $created_by = $contractss->created_by;
         $published_time = Carbon::now('Africa/Nairobi');
         DB::table('contracts')->where('contract_id', $published_contract_id)
@@ -1339,18 +1349,22 @@ class ContractController extends Controller
             'contract_id' => $published_contract_id,
             'stage_id' => 2,
             'draft_file' => $published_contract_draft,
-            // 'crf_file' => $published_crf_file,
-            'status' => 'pending',
+            'status' => 'Pending',
             'created_by' => $created_by,
             'updated_by' => Auth::user()->id,
         );
 
+        $action_dates_data = array(
+            'contract_id' => $published_contract_id,
+            'status' => $status,
+            'date' => $published_time
+        );
+
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
+        $action_dates_data = DB::table('contracts_action_dates')->insertGetId($action_dates_data);
         DB::table('contracts')->where('contract_id', $published_contract_id)->update(array('last_draft_id' => $last_draft_id));
 
-        // Alert::success('Publish Contract', 'Contract successfully published awaiting approval by the legal department');
-        Alert::toast('Contract successfully submitted awaiting approval by the legal department', 'success', 'top-right');
-
+        Alert::success('Publish Contract', 'Contract successfully published awaiting approval by the legal department');
         return redirect('contract/' . $request->input('contract_id') . '/view');
         // ->with('success', 'Contract successfully submitted awaiting approval by the legal department');
     }
@@ -1382,7 +1396,7 @@ class ContractController extends Controller
 
         $signed_contract_file = '';
         $initiated_crf_form = $signed_contract->crf_form;
-        $initiated_crf_form = 'uploads/contract_documents/CONTRACT-REQUEST-FORM.pdf';
+        $initiated_crf_form = 'uploads/contract_documents/Contract Approval Form-Supplier Contracts.doc';
         $contract_title = $signed_contract->contract_title;
         $signed_string = "Signed Contract";
 
@@ -1395,10 +1409,11 @@ class ContractController extends Controller
         }
 
         $stage = 6;
-        $status = "closed";
+        $status = "Closed";
         $signed_contract_id = $request->contract_id;
         $upload_signed_action_id = Auth::user()->id;
         $created_by = $signed_contract->created_by;
+        $closed_date = Carbon::now('Africa/Nairobi');
         DB::table('contracts')->where('contract_id', $signed_contract_id)
             ->update([
                 'status' => $status, 'stage' => $stage,
@@ -1411,18 +1426,20 @@ class ContractController extends Controller
             'stage_id' => 6,
             'draft_file' => $signed_contract_file,
             'crf_form' => $initiated_crf_form,
-            'status' => 'closed',
+            'status' => 'Closed',
             'created_by' => $created_by,
             'updated_by' => Auth::user()->id,
         );
 
+        $action_dates_data = array(
+            'contract_id' => $signed_contract_id,
+            'status' => $status,
+            'date' => $closed_date
+        );
+
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
+        $action_dates_data = DB::table('contracts_action_dates')->insertGetId($action_dates_data);
         DB::table('contracts')->where('contract_id', $signed_contract_id)->update(array('last_draft_id' => $last_draft_id));
-
-
-        // echo "<pre>";
-        // print_r($contract_draft_data);
-        // exit;
 
         Alert::success('Upload Signed Contract', 'Signed Contract successfully uploaded awaiting archiving...');
         return redirect('contract/' . $request->input('contract_id') . '/view');
@@ -1455,7 +1472,7 @@ class ContractController extends Controller
             ->where('contracts.contract_id', '=', $request->contract_id)
             ->first();
 
-        $status = 'approved';
+        $status = 'Approved';
         $stage = 3;
         $approved_contract->comments = $request->input('comments');
         $approved_contract->contract_type = $request->input('contract_type');
@@ -1463,9 +1480,9 @@ class ContractController extends Controller
         $submit_comments = $approved_contract->comments;
         $approved_contract_id = $request->contract_id;
         $approved_contract_draft = $approved_contract->draft_file;
-        // $approved_crf_file = $approved_contract->crf_file;
         $created_by = $approved_contract->created_by;
         $action_id = Auth::user()->id;
+        $approved_time = Carbon::now('Africa/Nairobi');
 
         DB::table('contracts')->where('contract_id', $approved_contract_id)->update(
             [
@@ -1477,13 +1494,20 @@ class ContractController extends Controller
             'contract_id' => $approved_contract_id,
             'stage_id' => 3,
             'draft_file' => $approved_contract_draft,
-            // 'crf_file' => $approved_crf_file,
-            'status' => 'approved',
+            'status' => 'Approved',
             'comments' => $submit_comments,
             'created_by' => $created_by,
             'updated_by' => Auth::user()->id,
         );
+
+        $action_dates_data = array(
+            'contract_id' => $approved_contract_id,
+            'status' => $status,
+            'date' => $approved_time
+        );
+
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
+        $action_dates_data = DB::table('contracts_action_dates')->insertGetId($action_dates_data);
         DB::table('contracts')->where('contract_id', $approved_contract_id)->update(array('last_draft_id' => $last_draft_id));
 
         Alert::success('Contract Approval', 'Contract successfully submitted to the legal admin awaiting for approval');
@@ -1577,13 +1601,14 @@ class ContractController extends Controller
             $ammended_contract_file = $ammended_contract->draft_file;
         }
 
-        $status = 'amended';
+        $status = 'Amended';
         $stage = 4;
         $ammended_contract->comments = $request->input('comments');
         $ammend_comments = $ammended_contract->comments;
         $ammended_contract_id = $request->contract_id;
         $ammendment_action_id = Auth::user()->id;
         $created_by = $ammended_contract->created_by;
+        $amended_date = Carbon::now('Africa/Nairobi');
         DB::table('contracts')->where('contract_id', $ammended_contract_id)
             ->update([
                 'status' => $status, 'stage' => $stage,
@@ -1594,13 +1619,20 @@ class ContractController extends Controller
             'contract_id' => $ammended_contract_id,
             'stage_id' => 4,
             'draft_file' => $ammended_contract_file,
-            'status' => 'amended',
+            'status' => 'Amended',
             'comments' => $ammend_comments,
             'created_by' => $created_by,
             'updated_by' => Auth::user()->id,
         );
 
+        $action_dates_data = array(
+            'contract_id' => $ammended_contract_id,
+            'status' => $status,
+            'date' => $amended_date
+        );
+
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
+        $action_dates_data = DB::table('contracts_action_dates')->insertGetId($action_dates_data);
         DB::table('contracts')->where('contract_id', $ammended_contract_id)->update(array('last_draft_id' => $last_draft_id));
 
         Alert::success('Ammend Contract', 'Contract successfully amended awaiting action by the contract party');
@@ -1634,7 +1666,7 @@ class ContractController extends Controller
             ->where('contracts.contract_id', '=', $request->contract_id)
             ->first();
 
-        $status = 'terminated';
+        $status = 'Terminated';
         $stage = 5;
         $terminated_contract->comments = $request->input('comments');
         $termination_comments = $terminated_contract->comments;
@@ -1642,6 +1674,7 @@ class ContractController extends Controller
         $terminated_contract_draft = $terminated_contract->draft_file;
         $termination_action_id = Auth::user()->id;
         $created_by = $terminated_contract->created_by;
+        $terminated_date = Carbon::now('Africa/Nairobi');
         DB::table('contracts')->where('contract_id', $terminated_contract_id)
             ->update([
                 'status' => $status, 'stage' => $stage,
@@ -1659,7 +1692,14 @@ class ContractController extends Controller
 
         );
 
+        $action_dates_data = array(
+            'contract_id' => $terminated_contract_id,
+            'status' => $status,
+            'date' => $terminated_date
+        );
+
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
+        $action_dates_data = DB::table('contracts_action_dates')->insertGetId($action_dates_data);
         DB::table('contracts')->where('contract_id', $terminated_contract_id)->update(array('last_draft_id' => $last_draft_id));
 
         Alert::success('Terminate Contract', 'Contract successfully terminated and the contract owner has bee notified');

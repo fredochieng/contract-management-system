@@ -75,7 +75,7 @@
                                                         <small class="label label-success">{{$approved_contract->contract_status}}</small></span>
                                                         @elseif($approved_contract->contract_status== 'amended')
                                                         <small class="label pull-center btn-danger">{{$approved_contract->contract_status}}</small></span>
-                                                        @elseif($approved_contract->contract_status== 'approved')
+                                                        @elseif($approved_contract->contract_status== 'Approved')
                                                         <small class="label pull-center btn-success">{{$approved_contract->contract_status}}</small></span>
                                                         @elseif($approved_contract->contract_status== 'terminated')
                                                         <small class="label pull-center btn-danger">{{$approved_contract->contract_status}}</small></span>
@@ -142,7 +142,7 @@
                                                         <small class="label label-success">{{$approved_by_me_contract->contract_status}}</small></span>
                                                         @elseif($approved_by_me_contract->contract_status== 'amended')
                                                         <small class="label pull-center btn-danger">{{$approved_by_me_contract->contract_status}}</small></span>
-                                                        @elseif($approved_by_me_contract->contract_status== 'approved')
+                                                        @elseif($approved_by_me_contract->contract_status== 'Approved')
                                                         <small class="label pull-center btn-success">{{$approved_by_me_contract->contract_status}}</small></span>
                                                         @elseif($approved_by_me_contract->contract_status== 'terminated')
                                                         <small class="label pull-center btn-danger">{{$approved_by_me_contract->contract_status}}</small></span>
@@ -209,7 +209,7 @@
                                                         <small class="label label-success">{{$my_approved_contract->contract_status}}</small></span>
                                                         @elseif($my_approved_contract->contract_status== 'amended')
                                                         <small class="label pull-center btn-danger">{{$my_approved_contract->contract_status}}</small></span>
-                                                        @elseif($my_approved_contract->contract_status== 'approved')
+                                                        @elseif($my_approved_contract->contract_status== 'Approved')
                                                         <small class="label pull-center btn-success">{{$my_approved_contract->contract_status}}</small></span>
                                                         @elseif($my_approved_contract->contract_status== 'terminated')
                                                         <small class="label pull-center btn-danger">{{$my_approved_contract->contract_status}}</small></span>
@@ -277,7 +277,7 @@
                         <small class="label label-success">{{$approved_contract->contract_status}}</small></span>
                         @elseif($approved_contract->contract_status== 'amended')
                         <small class="label pull-center btn-danger">{{$approved_contract->contract_status}}</small></span>
-                        @elseif($approved_contract->contract_status== 'approved')
+                        @elseif($approved_contract->contract_status== 'Approved')
                         <small class="label pull-center btn-success">{{$approved_contract->contract_status}}</small></span>
                         @elseif($approved_contract->contract_status== 'terminated')
                         <small class="label pull-center btn-danger">{{$approved_contract->contract_status}}</small></span>

@@ -117,16 +117,17 @@
                                 <td>{{date("d-m-Y",strtotime($contract->effective_date))}}</td>
                                 <td>{{ date("d-m-Y",strtotime($contract->expiry_date))</td> }} --}}
                                 <td><span class="pull-right-container">
-                                                                    @if($contract->contract_status == 'created')
-                                                                    <small class="badge bg-purple">{{$contract->contract_status}}</small></span>                                    @elseif($contract->contract_status == 'pending')
+                                                                    @if($contract->contract_status == 'Created')
+                                                                    <small class="badge bg-purple">{{$contract->contract_status}}</small></span>
+                                                                     @elseif($contract->contract_status == 'Pending')
                                     <small class="badge bg-yellow">{{ $contract->contract_status}}</small></span>
-                                    @elseif($contract->contract_status== 'amended')
+                                    @elseif($contract->contract_status== 'Amended')
                                     <small class="badge bg-blue">{{$contract->contract_status}}</small></span>
-                                    @elseif($contract->contract_status== 'approved')
+                                    @elseif($contract->contract_status== 'Approved')
                                     <small class="badge bg-green">{{$contract->contract_status}}</small></span>
-                                    @elseif($contract->contract_status== 'closed')
+                                    @elseif($contract->contract_status== 'Closed')
                                     <small class="badge bg-aqua">{{$contract->contract_status}}</small></span>
-                                    @elseif($contract->contract_status== 'terminated')
+                                    @elseif($contract->contract_status== 'Terminated')
                                     <small class="badge bg-red">{{$contract->contract_status}}</small></span>
                                 </td>
                                 @endif
@@ -213,16 +214,17 @@
                                 <td>{{date("d-m-Y",strtotime($contract->effective_date))}}</td>
                                 <td>{{ date("d-m-Y",strtotime($contract->expiry_date))</td> }} --}}
                                 <td><span class="pull-right-container">
-                                            @if($contract1->contract_status == 'created')
-                                            <small class="badge bg-purple">{{$contract1->contract_status}}</small></span>                                    @elseif($contract1->contract_status == 'pending')
+                                            @if($contract1->contract_status == 'Created')
+                                            <small class="badge bg-purple">{{$contract1->contract_status}}</small></span>
+                                             @elseif($contract1->contract_status == 'Pending')
                                     <small class="badge bg-yellow">{{ $contract1->contract_status}}</small></span>
-                                    @elseif($contract1->contract_status== 'amended')
+                                    @elseif($contract1->contract_status== 'Amended')
                                     <small class="badge bg-blue">{{$contract1->contract_status}}</small></span>
-                                    @elseif($contract1->contract_status== 'approved')
+                                    @elseif($contract1->contract_status== 'Approved')
                                     <small class="badge bg-green">{{$contract1->contract_status}}</small></span>
-                                    @elseif($contract1->contract_status== 'closed')
+                                    @elseif($contract1->contract_status== 'Closed')
                                     <small class="badge bg-aqua">{{$contract1->contract_status}}</small></span>
-                                    @elseif($contract1->contract_status== 'terminated')
+                                    @elseif($contract1->contract_status== 'Terminated')
                                     <small class="badge bg-purple">{{$contract1->contract_status}}</small></span>
                                 </td>
                                 @endif
@@ -467,46 +469,6 @@
         @endif @endif
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
@@ -531,73 +493,4 @@
     });
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop

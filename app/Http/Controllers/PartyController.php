@@ -154,32 +154,32 @@ class PartyController extends Controller
 
         $total_contracts = \DB::table('contracts')
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '!=', 'created')
+            ->where('contracts.status', '!=', 'Created')
             ->count();
 
         $total_pending_contracts = \DB::table('contracts')
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '=', 'pending')
+            ->where('contracts.status', '=', 'Pending')
             ->count();
 
         $total_approved_contracts = \DB::table('contracts')
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '=', 'approved')
+            ->where('contracts.status', '=', 'Approved')
             ->count();
 
         $total_closed_contracts = \DB::table('contracts')
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '=', 'closed')
+            ->where('contracts.status', '=', 'Closed')
             ->count();
 
         $total_ammended_contracts = \DB::table('contracts')
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '=', 'amended')
+            ->where('contracts.status', '=', 'Amended')
             ->count();
 
         $total_terminated_contracts = \DB::table('contracts')
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '=', 'terminated')
+            ->where('contracts.status', '=', 'Terminated')
             ->count();
 
         // Contract party approved contracts
@@ -209,7 +209,7 @@ class PartyController extends Controller
             ->leftJoin('contract_types', 'contracts.contract_type', '=', 'contract_types.contract_type_id')
             ->orderBy('contracts.contract_id', 'desc')->take(2)
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '=', 'approved')
+            ->where('contracts.status', '=', 'Approved')
             ->get();
 
         // Contract party approved contracts
@@ -239,7 +239,7 @@ class PartyController extends Controller
             ->leftJoin('contract_types', 'contracts.contract_type', '=', 'contract_types.contract_type_id')
             ->orderBy('contracts.contract_id', 'desc')->take(2)
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '=', 'closed')
+            ->where('contracts.status', '=', 'Closed')
             ->get();
 
 
@@ -270,7 +270,7 @@ class PartyController extends Controller
             ->leftJoin('contract_types', 'contracts.contract_type', '=', 'contract_types.contract_type_id')
             ->orderBy('contracts.contract_id', 'desc')->take(2)
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '=', 'amended')
+            ->where('contracts.status', '=', 'Amended')
             ->get();
 
         // Contract party terminated contracts
@@ -300,7 +300,7 @@ class PartyController extends Controller
             ->leftJoin('contract_types', 'contracts.contract_type', '=', 'contract_types.contract_type_id')
             ->orderBy('contracts.contract_id', 'desc')->take(2)
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '=', 'terminated')
+            ->where('contracts.status', '=', 'Terminated')
             ->get();
 
         return view('contracts.view-contract-party')->with([

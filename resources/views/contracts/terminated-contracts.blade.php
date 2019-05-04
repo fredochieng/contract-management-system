@@ -82,25 +82,11 @@
                                                         <small class="label pull-center btn-danger">{{$terminated_contract->contract_status}}</small></span>
                                                         @elseif($terminated_contract->contract_status== 'approved')
                                                         <small class="label pull-center btn-success">{{$terminated_contract->contract_status}}</small></span>
-                                                        @elseif($terminated_contract->contract_status== 'terminated')
+                                                        @elseif($terminated_contract->contract_status== 'Terminated')
                                                         <small class="label pull-center btn-danger">{{$terminated_contract->contract_status}}</small></span>
                                                     </td>
                                                     @endif
                                                     </td>
-                                                    {{--
-                                                    <td>
-                                                        <div class="btn-group">
-                                                            <button type="button" class="btn btn-block btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Actions<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
-                                                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                                                <li><a href="/contract/{{$terminated_contract->contract_id}}/view"
-                                                                        class="view-contract"><i class="fa fa-eye"></i> View</a></li>
-
-                                                                <li>
-                                                                    <a href="#modal_delete_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#modal_delete_contract"
-                                                                        class="delete-product"><i class="fa fa-trash"></i>  Delete</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </td> --}}
                                                     <td>
                                                         <div class="btn-group">
                                                             <a class="btn btn-info btn-block btn-sm btn-flat" href="/contract/{{$terminated_contract->contract_id}}/view"><i class="fa fa-eye"></i> View</a>
@@ -160,7 +146,7 @@
                                                         <small class="label pull-center btn-danger">{{$terminated_by_me_contract->contract_status}}</small></span>
                                                         @elseif($terminated_by_me_contract->contract_status== 'approved')
                                                         <small class="label pull-center btn-success">{{$terminated_by_me_contract->contract_status}}</small></span>
-                                                        @elseif($terminated_by_me_contract->contract_status== 'terminated')
+                                                        @elseif($terminated_by_me_contract->contract_status== 'Terminated')
                                                         <small class="label pull-center btn-danger">{{$terminated_by_me_contract->contract_status}}</small></span>
                                                     </td>
                                                     @endif
@@ -223,7 +209,7 @@
                                                         <small class="label pull-center btn-danger">{{$my_terminated_contract->contract_status}}</small></span>
                                                         @elseif($my_terminated_contract->contract_status== 'approved')
                                                         <small class="label pull-center btn-success">{{$my_terminated_contract->contract_status}}</small></span>
-                                                        @elseif($my_terminated_contract->contract_status== 'terminated')
+                                                        @elseif($my_terminated_contract->contract_status== 'Terminated')
                                                         <small class="label pull-center btn-danger">{{$my_terminated_contract->contract_status}}</small></span>
                                                     </td>
                                                     @endif
@@ -288,7 +274,7 @@
                                 <small class="label pull-center btn-danger">{{ $ammended_contract->contract_status}}</small></span>
                                 @elseif($terminated_contract->contract_status== 'approved')
                                 <small class="label pull-center btn-success">{{$terminated_contract->contract_status}}</small></span>
-                                @elseif($terminated_contract->contract_status== 'terminated')
+                                @elseif($terminated_contract->contract_status== 'Terminated')
                                 <small class="label pull-center btn-danger">{{$terminated_contract->contract_status}}</small></span>
                             </td>
                             @endif

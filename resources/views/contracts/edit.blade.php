@@ -1,9 +1,25 @@
 @extends('adminlte::page')
+
+
+
+
 @section('title', 'Edit Contract')
+
+
+
+
 @section('content_header')
 <h1>Contracts<small> Edit Contract</small></h1>
 
+
+
+
+
 @stop
+
+
+
+
 @section('content')
 
 <style>
@@ -12,7 +28,6 @@
     }
 </style>
 
-
 <div class="box box-success" style="font-size:10px;">
     <div class="box-header with-border">
         <h3 class="box-title">&nbsp;&nbsp;&nbsp; Edit Contract</h3>
@@ -20,7 +35,8 @@
     <div class="box-body">
         <div class="col-md-12">
 
-            {!! Form::open(['action'=>['ContractController@update',$contract->contract_id],'method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
+            {!!
+            Form::open(['action'=>['ContractController@update',$contract->contract_id],'method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
             !!}
 
             <div class="row">
@@ -91,11 +107,27 @@
     </div>
 </div>
 
+
+
+
+
 @stop
+
+
+
+
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
 <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+
+
+
+
 @stop
+
+
+
+
 @section('js')
 
 
@@ -171,5 +203,9 @@
 })
 
 </script>
+
+
+
+
 
 @stop

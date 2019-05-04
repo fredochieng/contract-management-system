@@ -16,7 +16,10 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Notifications\UserCreatedNotification;
+use App\VerifyAddedUser;
+use App\Mail\VerifyMail;
 use Notification;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -142,10 +145,36 @@ class UserController extends Controller
         ];
 
         Notification::send($user, new UserCreatedNotification($details));
+
+        $verifyUser = VerifyAddedUser::create([
+            'user_id' => $user->id,
+            'token' => sha1(time())
+        ]);
+        \Mail::to($user->email)->send(new VerifyMail($user));
         Alert::success('Create User', 'User successfully created');
         return redirect('system-users/users');
     }
 
+
+    public function verifyUser($token)
+    {
+        $verifyUser = VerifyAddedUser::where('token', $token)->first();
+        if (isset($verifyUser)) {
+            $user = $verifyUser->user;
+            $current_time = Carbon::now('Africa/Nairobi');
+            if (!$user->email_verified_at) {
+                $verifyUser->user->email_verified_at = $current_time;
+                $verifyUser->user->save();
+                $status = "Your e-mail is verified. You can now login.";
+            } else {
+                $status1 = "Your e-mail is already verified. You can now login.";
+            }
+        } else {
+            return redirect('/login')->with('warning', "Sorry your email cannot be identified.");
+        }
+        Alert::error('Email Verification', 'Email already verified');
+        return redirect('/login');
+    }
     /**
      * Display the specified resource.
      *

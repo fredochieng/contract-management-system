@@ -6,27 +6,6 @@
 <div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a></div>
 @endif @endif
 <div style="clear:both"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop
 @section('content')
 <style>
@@ -94,7 +73,8 @@
                                                     @endif
                                                     <td><span class="pull-right-container">
                                                         @if($pending_contract->contract_status == 'created')
-                                                        <small class="badge bg-purple">{{$pending_contract->contract_status}}</small></span>                                                        @elseif($pending_contract->contract_status == 'pending')
+                                                        <small class="badge bg-purple">{{$pending_contract->contract_status}}</small></span
+                                                        @elseif($pending_contract->contract_status == 'Pending')
                                                         <small class="badge bg-yellow">{{ $pending_contract->contract_status}}</small></span>
                                                         @elseif($pending_contract->contract_status== 'ammended')
                                                         <small class="badge bg-blue">{{$pending_contract->contract_status}}</small></span>
@@ -175,7 +155,8 @@
                                                     @endif
                                                     <td><span class="pull-right-container">
                                                         @if($overdue_pending_contract->contract_status == 'created')
-                                                        <small class="badge bg-purple">{{$overdue_pending_contract->contract_status}}</small></span>                                                        @elseif($overdue_pending_contract->contract_status == 'pending')
+                                                        <small class="badge bg-purple">{{$overdue_pending_contract->contract_status}}</small></span>
+                                                        @elseif($overdue_pending_contract->contract_status == 'Pending')
                                                         <small class="badge bg-yellow">{{ $overdue_pending_contract->contract_status}}</small></span>
                                                         @elseif($overdue_pending_contract->contract_status== 'ammended')
                                                         <small class="badge bg-blue">{{$overdue_pending_contract->contract_status}}</small></span>
@@ -253,7 +234,8 @@
                                                     @endif
                                                     <td><span class="pull-right-container">
                                                         @if($overdue_pending_contract->contract_status == 'created')
-                                                        <small class="badge bg-purple">{{$overdue_pending_contract->contract_status}}</small></span>                                                        @elseif($overdue_pending_contract->contract_status == 'pending')
+                                                        <small class="badge bg-purple">{{$overdue_pending_contract->contract_status}}</small></span>
+                                                        @elseif($overdue_pending_contract->contract_status == 'Pending')
                                                         <small class="badge bg-yellow">{{ $overdue_pending_contract->contract_status}}</small></span>
                                                         @elseif($overdue_pending_contract->contract_status== 'ammended')
                                                         <small class="badge bg-blue">{{$overdue_pending_contract->contract_status}}</small></span>
@@ -329,7 +311,8 @@
                                                     @endif
                                                     <td><span class="pull-right-container">
                                                                         @if($assigned_pending_contract->contract_status == 'created')
-                                                                        <small class="badge bg-purple">{{$assigned_pending_contract->contract_status}}</small></span>                                                        @elseif($assigned_pending_contract->contract_status == 'pending')
+                                                                        <small class="badge bg-purple">{{$assigned_pending_contract->contract_status}}</small></span>
+                                                                        @elseif($assigned_pending_contract->contract_status == 'Pending')
                                                         <small class="badge bg-yellow">{{ $assigned_pending_contract->contract_status}}</small></span>
                                                         @elseif($assigned_pending_contract->contract_status== 'ammended')
                                                         <small class="badge bg-blue">{{$overdue_pending_contract->contract_status}}</small></span>
@@ -404,7 +387,8 @@
                                                     @endif
                                                     <td><span class="pull-right-container">
                                                                                             @if($my_pending_contract->contract_status == 'created')
-                                                                                            <small class="badge bg-purple">{{$my_pending_contract->contract_status}}</small></span>                                                        @elseif($my_pending_contract->contract_status == 'pending')
+                                                                                            <small class="badge bg-purple">{{$my_pending_contract->contract_status}}</small></span>
+                                                                                            @elseif($my_pending_contract->contract_status == 'Pending')
                                                         <small class="badge bg-yellow">{{ $my_pending_contract->contract_status}}</small></span>
                                                         @elseif($my_pending_contract->contract_status== 'ammended')
                                                         <small class="badge bg-blue">{{$my_pending_contract->contract_status}}</small></span>

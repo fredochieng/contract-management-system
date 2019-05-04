@@ -6,28 +6,6 @@
 <div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="#modal_new_party" data-toggle="modal" data-target="#modal_new_party"><i class="fa fa-plus"></i>
     New Contract Party</a></div>
 <div style="clear:both"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop
 @section('content')
 <style>
@@ -49,9 +27,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-
                 <tbody>
-
                     @foreach($parties as $count=> $party)
                     <tr>
                         <td>{{ $count+1}}</td>

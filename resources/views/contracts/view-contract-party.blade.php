@@ -3,8 +3,6 @@
 @section('content_header')
 <h1>Contract Party: {{ $party->party_name }}</h1>
 
-
-
 @stop
 @section('content')
 <div class="row" style="font-size:12px;">

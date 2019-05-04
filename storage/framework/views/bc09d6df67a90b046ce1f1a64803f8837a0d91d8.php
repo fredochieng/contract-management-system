@@ -25,7 +25,6 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#created-contracts" data-toggle="tab">Created Contracts</a></li>
-                
                 <div class="btn-group pull-right" style="padding:6px;">
                     <a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a>
                 </div>

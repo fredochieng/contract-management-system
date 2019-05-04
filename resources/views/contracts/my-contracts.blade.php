@@ -48,24 +48,24 @@
                     <td>{{date("d-m-Y",strtotime($my_contract->effective_date))}}</td>
                     <td>{{date("d-m-Y",strtotime($my_contract->expiry_date))}}</td>
                     <td><span class="pull-right-container">
-                        @if($my_contract->contract_status == 'created')
+                        @if($my_contract->contract_status == 'Created')
                         <small class="badge bg-purple">{{$my_contract->contract_status}}</small></span> @elseif($my_contract->contract_status
                         == 'pending')
                         <small class="badge bg-yellow">{{ $my_contract->contract_status}}</small></span>
-                        @elseif($my_contract->contract_status== 'amended')
+                        @elseif($my_contract->contract_status== 'Amended')
                         <small class="badge bg-blue">{{$my_contract->contract_status}}</small></span>
-                        @elseif($my_contract->contract_status== 'approved')
+                        @elseif($my_contract->contract_status== 'Approved')
                         <small class="badge bg-green">{{$my_contract->contract_status}}</small></span>
-                        @elseif($my_contract->contract_status== 'closed')
+                        @elseif($my_contract->contract_status== 'Closed')
                         <small class="badge bg-aqua">{{$my_contract->contract_status}}</small></span>
-                        @elseif($my_contract->contract_status== 'terminated')
+                        @elseif($my_contract->contract_status== 'Terminated')
                         <small class="badge bg-red">{{$my_contract->contract_status}}</small></span>
                     </td>
                     @endif
                     </td>
                     <td>
-                        @if (auth()->check()) @if(auth()->user()->isUser() && ($my_contract->contract_status == 'created' || $my_contract->contract_status
-                        == 'amended'))
+                        @if (auth()->check()) @if(auth()->user()->isUser() && ($my_contract->contract_status == 'Created' || $my_contract->contract_status
+                        == 'Amended'))
                         <a href="/contract/{{$my_contract->contract_id}}/edit">
                                 <span class = "fa fa-pencil bigger"></span></center></a> @else
 

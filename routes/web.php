@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Artisan;
 
 Auth::routes(['verify' => true]);
 Route::get('/', 'HomeController@index');
+Route::get('/user/verify/{token}', 'UserController@verifyUser');
 
 Route::group(['middleware' => 'verified'], function () {
 
@@ -50,6 +51,7 @@ Route::group(['middleware' => 'verified'], function () {
     Route::resource('/system-users/users', 'UserController');
     Route::any('delete-user', 'UserController@deleteUser');
     Route::any('profile', 'UserController@getUserProfile');
-    // Route::any('update-profile', 'UserController@updateUserProfile');
     Route::any('update-profile/{user}', 'UserController@updateUserProfile');
+    Route::resource('/reports', 'ReportController');
+    Route::get('reports/{type}/view', 'ReportController@show');
 });
