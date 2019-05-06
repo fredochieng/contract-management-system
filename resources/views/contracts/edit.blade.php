@@ -1,27 +1,9 @@
 @extends('adminlte::page')
-
-
-
-
 @section('title', 'Edit Contract')
-
-
-
-
 @section('content_header')
 <h1>Contracts<small> Edit Contract</small></h1>
-
-
-
-
-
 @stop
-
-
-
-
 @section('content')
-
 <style>
     .description {
         height: 90px !important
@@ -106,38 +88,18 @@
         </div>
     </div>
 </div>
-
-
-
-
-
+@include('page.footer')
 @stop
-
-
-
-
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
 <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
-
-
-
-
 @stop
-
-
-
-
 @section('js')
-
-
-
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
 <script>
     $(function() {
     //Initialize Select2 Elements
-
     $("#party_name").select2({
         ajax: {
             url: "/party/get_party",
@@ -203,9 +165,4 @@
 })
 
 </script>
-
-
-
-
-
 @stop

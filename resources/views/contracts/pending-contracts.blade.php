@@ -44,6 +44,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
                                                     <th>Effective Date</th>
@@ -59,6 +60,7 @@
                                                 @foreach($pending_contracts as $key=>$pending_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$pending_contract->contract_id}}/view">{{$pending_contract->contract_code}}</a></td>
                                                     <td><a href="/contract/{{$pending_contract->contract_id}}/view">{{$pending_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$pending_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -92,7 +94,6 @@
                                                             <span class="label" style="background-color:#FFF;color:#058e29;border:1px solid #058e29">Assigned</span>                                                            @endif
                                                     </td>
                                                     @endif @endif
-
                                                     <td>
                                                         <div class="btn-group">
                                                             <a class="btn btn-info btn-block btn-sm btn-flat" href="/contract/{{$pending_contract->contract_id}}/view"><i class="fa fa-eye"></i> View</a>
@@ -120,7 +121,8 @@
                                         <table id="example2" class="table no-margin">
                                             <thead>
                                                 <tr>
-                                                    <th>S/NDD</th>
+                                                    <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     @if(auth()->check()) @if (auth()->user()->isLegal() || auth()->user()->isUser() )
                                                     <th>Party Name</th>
@@ -141,6 +143,7 @@
                                                 <?php if($overdue_pending_contract->escalation_duration <= 1 ){ continue; } ?>
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$overdue_pending_contract->contract_id}}/view">{{$overdue_pending_contract->contract_code}}</a></td>
                                                     <td><a href="/contract/{{$overdue_pending_contract->contract_id}}/view">{{$overdue_pending_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$overdue_pending_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -199,7 +202,8 @@
                                         <table id="example2" class="table no-margin">
                                             <thead>
                                                 <tr>
-                                                    <th>S/NDD</th>
+                                                    <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     @if(auth()->check()) @if (auth()->user()->isLegal() || auth()->user()->isUser() )
                                                     <th>Party Name</th>
@@ -220,6 +224,8 @@
                                                 <?php if($overdue_pending_contract->escalation_duration >= 1 ){ continue; } ?>
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$overdue_pending_contract->contract_id}}/view">{{$overdue_pending_contract->contract_code}}</a>
+                                                        </td>
                                                     <td><a href="/contract/{{$overdue_pending_contract->contract_id}}/view">{{$overdue_pending_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$overdue_pending_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -278,6 +284,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     @if(auth()->check()) @if (auth()->user()->isLegal() || auth()->user()->isUser() )
                                                     <th>Party Name</th>
@@ -297,6 +304,8 @@
                                                 @foreach($assigned_pending_contracts as $key=>$assigned_pending_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$assigned_pending_contract->contract_id}}/view">{{$assigned_pending_contract->contract_code}}</a>
+                                                        </td>
                                                     <td><a href="/contract/{{$assigned_pending_contract->contract_id}}/view">{{$assigned_pending_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$assigned_pending_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -354,6 +363,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     @if(auth()->check()) @if (auth()->user()->isLegal() || auth()->user()->isUser() )
                                                     <th>Party Name</th>
@@ -373,6 +383,8 @@
                                                 @foreach($my_pending_contracts as $key=>$my_pending_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$my_pending_contract->contract_id}}/view">{{$my_pending_contract->contract_code}}</a>
+                                                        </td>
                                                     <td><a href="/contract/{{$my_pending_contract->contract_id}}/view">{{$my_pending_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$my_pending_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -439,12 +451,9 @@
                 <thead>
                     <tr>
                         <th>S/N</th>
+                        <th>Ticket #</th>
                         <th>Contract Title</th>
-                        @if(auth()->check()) @if (auth()->user()->isLegal() || auth()->user()->isUser() )
                         <th>Party Name</th>
-                        @else
-                        <th>Party Name</th>
-                        @endif @endif
                         <th>Effective Date</th>
                         <th>Expiry Date</th>
                         <th>Status</th>
@@ -458,6 +467,8 @@
                     @foreach($pending_contracts as $key=>$pending_contract)
                     <tr>
                         <td>{{ $key+1}}</td>
+                        <td><a href="/contract/{{$pending_contract->contract_id}}/view">{{$pending_contract->contract_code}}</a>
+                            </td>
                         <td><a href="/contract/{{$pending_contract->contract_id}}/view">{{$pending_contract->contract_title}}</a></td>
                         <td><a href="/contract-party/{{$pending_contract->party_id}}/view-contract-party" target="_blank">
                                                                     <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
@@ -508,6 +519,7 @@
     </div>
 </div>
 @endif @endif
+@include('page.footer')
 @stop
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
@@ -527,84 +539,4 @@
 });
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop

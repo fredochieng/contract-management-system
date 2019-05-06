@@ -1,21 +1,9 @@
 @extends('adminlte::page')
 @section('title', 'New Contract')
 @section('content_header')
-<h1>Contracts<small> Manage contracts</small></h1>
-
-
-
-
-
-
-
+<h1>Contracts<small> Create contract</small></h1>
 @stop
 @section('content')
-<style>
-    .description {
-        height: 90px !important
-    }
-</style>
 <div class="box box-success" style="font-size:10px;">
     <div class="box-header with-border">
         <h3 class="box-title">Create New Contract</h3>
@@ -55,7 +43,7 @@
                     {{Form::label('effective_date', 'Effective Date* ')}}
                     <div class="form-group">
 
-                        {{Form::text('effective_date', '',['class'=>'form-control issued_date','placeholder'=>'Effective Date','autocomplete'=>'off'])}}
+                        {{Form::text('effective_date', '',['class'=>'form-control issued_date','placeholder'=>'Effective Date','autocomplete'=>'off', 'readonly'])}}
 
                     </div>
                 </div>
@@ -81,14 +69,7 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
+@include('page.footer')
 @stop
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
@@ -165,20 +146,7 @@ function formatRepoSelection (repo) {
          clearBtn: true,
 
 	 })
- })
+ });
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop

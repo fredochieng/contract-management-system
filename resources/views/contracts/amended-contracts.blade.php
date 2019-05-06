@@ -30,7 +30,6 @@
                 <div class="btn-group pull-right" style="padding:6px;">
                     <a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a>
                 </div>
-
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="ammended-contracts">
@@ -43,6 +42,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
                                                     <th>Effective Date</th>
@@ -55,11 +55,12 @@
                                                 @foreach($ammended_contracts as $key=>$ammended_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$ammended_contract->contract_id}}/view">{{$ammended_contract->contract_code}}</a></td>
                                                     <td><a href="/contract/{{$ammended_contract->contract_id}}/view">{{$ammended_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$ammended_contract->party_id}}/view-contract-party"
-                                                            target="_blank">
-                                                                                                                        <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
-                                                                                                                        <i class="fa fa-briefcase fa-fw"></i> {{$ammended_contract->party_name}}	</a></span>
+                                                target="_blank">
+                                                    <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
+                                                    <i class="fa fa-briefcase fa-fw"></i> {{$ammended_contract->party_name}}	</a></span>
                                                     </td>
                                                     <td>{{date("d-m-Y",strtotime($ammended_contract->effective_date))}}</td>
                                                     @if($ammended_contract->expiry_date == '')
@@ -109,19 +110,21 @@
                                         <table id="example2" class="table no-margin">
                                             <thead>
                                                 <tr>
-                                                    <th style="width:25px;">S/N</th>
-                                                    <th style="width:400px;">Contract Title</th>
-                                                    <th style="width:160px;">Party Name</th>
-                                                    <th style="width:90px;">Effective Date</th>
-                                                    <th style="width:90px;">Expiry Date</th>
-                                                    <th style="width:50px;">Status</th>
-                                                    <th style="width:50px;">Action</th>
+                                                    <th>S/N</th>
+                                                    <th>Ticket #</th>
+                                                    <th>Contract Title</th>
+                                                    <th>Party Name</th>
+                                                    <th>Effective Date</th>
+                                                    <th>Expiry Date</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($ammended_by_me_contracts as $key=>$ammended_by_me_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$ammended_by_me_contract->contract_id}}/view">{{$ammended_by_me_contract->contract_code}}</a></td>
                                                     <td><a href="/contract/{{$ammended_by_me_contract->contract_id}}/view">{{$ammended_by_me_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$ammended_by_me_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -178,19 +181,21 @@
                                         <table id="example3" class="table no-margin">
                                             <thead>
                                                 <tr>
-                                                    <th style="width:25px;">S/N</th>
-                                                    <th style="width:400px;">Contract Title</th>
-                                                    <th style="width:160px;">Party Name</th>
-                                                    <th style="width:90px;">Effective Date</th>
-                                                    <th style="width:90px;">Expiry Date</th>
-                                                    <th style="width:50px;">Status</th>
-                                                    <th style="width:50px;">Action</th>
+                                                    <th>S/N</th>
+                                                    <th>Ticket #</th>
+                                                    <th>Contract Title</th>
+                                                    <th>Party Name</th>
+                                                    <th>Effective Date</th>
+                                                    <th>Expiry Date</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($my_ammended_contracts as $key=>$my_ammended_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$my_ammended_contract->contract_id}}/view">{{$my_ammended_contract->contract_code}}</a></td>
                                                     <td><a href="/contract/{{$my_ammended_contract->contract_id}}/view">{{$my_ammended_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$my_ammended_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -237,21 +242,6 @@
                     </div>
                 </div>
                 <!-- /.tab-pane -->
-                <div class="tab-pane" id="my-pending-contracts">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="box box-success">
-                                <div class="box-body">
-                                    <table id="example4" class="table no-margin">
-
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- /.tab-pane -->
             </div>
             <!-- /.tab-content -->
         </div>
@@ -265,19 +255,21 @@
         <table id="example1" class="table table-striped table-bordered records">
             <thead>
                 <tr>
-                    <th style="width:25px;">S/N</th>
-                    <th style="width:400px;">Contract Title</th>
-                    <th style="width:160px;">Party Name</th>
-                    <th style="width:90px;">Effective Date</th>
-                    <th style="width:90px;">Expiry Date</th>
-                    <th style="width:50px;">Status</th>
-                    <th style="width:50px;">Action</th>
+                    <th>S/N</th>
+                    <th>Ticket #</th>
+                    <th>Contract Title</th>
+                    <th>Party Name</th>
+                    <th>Effective Date</th>
+                    <th>Expiry Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($ammended_contracts as $key=>$ammended_contract)
                 <tr>
                     <td>{{ $key+1}}</td>
+                    <td><a href="/contract/{{$ammended_contract->contract_id}}/view">{{$ammended_contract->contract_code}}</a></td>
                     <td><a href="/contract/{{$ammended_contract->contract_id}}/view">{{$ammended_contract->contract_title}}</a></td>
                     <td><a href="/contract-party/{{$ammended_contract->party_id}}/view-contract-party" target="_blank">
                                                                                                                      <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
@@ -318,12 +310,12 @@
 </div>
 @endif @endif
 @stop
+@include('page.footer')
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
 <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
 @stop
 @section('js')
-
 <script src="/js/bootstrap-datepicker.min.js"></script>
 <script src="/js/bootbox.min.js"></script>
 <script>
@@ -335,50 +327,4 @@
      });
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop

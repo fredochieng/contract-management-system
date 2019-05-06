@@ -8,11 +8,6 @@
 <div style="clear:both"></div>
 @stop
 @section('content')
-<style>
-    .description {
-        height: 90px !important
-    }
-</style>
 <div class="box box-success" style="font-size:10px;">
     <div class="box-body">
         <div class="table-responsive">
@@ -130,7 +125,7 @@
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <p>Are you sure you want to delete {{ $party->party_name }}?</p>
+                                            <p>Are you sure you want to delete <span style="font-weight:bold">{{ $party->party_name }}</span>?</p>
                                         </div>
                                     </div>
                                 </div>
@@ -215,35 +210,7 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@include('page.footer')
 @stop
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
@@ -263,7 +230,7 @@
 
 	 $(".records").DataTable();
 
-	$('.select2').select2()
+	$('.select2').select2();
 	 $('.issued_date').datepicker( {
 	 	format: 'dd-mm-yyyy',
 		orientation: "bottom",
@@ -271,37 +238,7 @@
 		 showDropdowns: true,
 
 	 })
- })
+ });
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop

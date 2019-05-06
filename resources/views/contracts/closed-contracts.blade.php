@@ -1,7 +1,5 @@
 @extends('adminlte::page')
-
 @section('title', 'CMS | Closed Contracts')
-
 @section('content_header')
 <h1 class="pull-left">Contracts<small>Closed Contracts</small></h1>
 @if(auth()->check()) @if(auth()->user()->isUser())
@@ -9,9 +7,7 @@
         New Contract</a></div>
 @endif @endif
 <div style="clear:both"></div>
-
 @stop
-
 @section('content')
 <style>
     .description {
@@ -48,6 +44,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
                                                     <th>Signed Contract</th>
@@ -61,6 +58,7 @@
                                                 @foreach($approved_contracts as $key=>$approved_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$approved_contract->contract_id}}/view">{{$approved_contract->contract_code}}</a></td>
                                                     <td><a
                                                             href="/contract/{{$approved_contract->contract_id}}/view">{{$approved_contract->contract_title}}</a>
                                                     </td>
@@ -134,6 +132,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
                                                     <th>Signed Contract</th>
@@ -147,6 +146,7 @@
                                                 @foreach($approved_by_me_contracts as $key=>$approved_by_me_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$approved_by_me_contract->contract_id}}/view">{{$approved_by_me_contract->contract_code}}</a></td>
                                                     <td><a
                                                             href="/contract/{{$approved_by_me_contract->contract_id}}/view">{{$approved_by_me_contract->contract_title}}</a>
                                                     </td>
@@ -223,6 +223,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
                                                     <th>Uploads</th>
@@ -236,6 +237,7 @@
                                                 @foreach($my_approved_contracts as $key=>$my_approved_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$my_approved_contract->contract_id}}/view">{{$my_approved_contract->contract_code}}</a></td>
                                                     <td><a
                                                             href="/contract/{{$my_approved_contract->contract_id}}/view">{{$my_approved_contract->contract_title}}</a>
                                                     </td>
@@ -316,6 +318,7 @@
                 <thead>
                     <tr>
                         <th>S/N</th>
+                        <th>Ticket #</th>
                         <th>Contract Title</th>
                         <th>Party Name</th>
                         <th>Uploads</th>
@@ -329,6 +332,7 @@
                     @foreach($approved_contracts as $key=>$approved_contract)
                     <tr>
                         <td>{{ $key+1}}</td>
+                        <td><a href="/contract/{{$approved_contract->contract_id}}/view">{{$approved_contract->contract_code}}</a></td>
                         <td><a
                                 href="/contract/{{$approved_contract->contract_id}}/view">{{$approved_contract->contract_title}}</a>
                         </td>
@@ -375,17 +379,13 @@
     </div>
 </div>
 @endif @endif
-
+@include('page.footer')
 @stop
-
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
 <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
-
 @stop
-
 @section('js')
-
 <script src="/js/bootstrap-datepicker.min.js"></script>
 <script src="/js/bootbox.min.js"></script>
 <script>
@@ -395,69 +395,5 @@
         $('#example3').DataTable()
         $('#example4').DataTable()
     });
-
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop

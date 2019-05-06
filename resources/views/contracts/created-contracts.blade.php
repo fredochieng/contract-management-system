@@ -6,7 +6,6 @@
 <div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a></div>
 @endif @endif
 <div style="clear:both"></div>
-
 @stop
 @section('content')
 <style>
@@ -41,6 +40,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
                                                     <th>Effective Date</th>
@@ -53,6 +53,7 @@
                                                 @foreach($created_contracts as $key=>$created_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$created_contract->contract_id}}/view">{{$created_contract->contract_code}}</a></td>
                                                     <td><a href="/contract/{{$created_contract->contract_id}}/view">{{$created_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$created_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -102,7 +103,7 @@
                                                 <div class="modal-body">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <p>Are you sure you want to delete the contract?</p>
+                                                        <p>Are you sure you want to delete the contract <span style="font-weight:bold">{{$created_contract->contract_code}}</span>?</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -144,6 +145,7 @@
                 <thead>
                     <tr>
                         <th>S/N</th>
+                        <th>Ticket #</th>
                         <th>Contract Title</th>
                         <th>Party Name</th>
                         <th>Effective Date</th>
@@ -156,6 +158,7 @@
                     @foreach($created_contracts as $key=>$created_contract)
                     <tr>
                         <td>{{ $key+1}}</td>
+                        <td><a href="/contract/{{$created_contract->contract_id}}/view">{{$created_contract->contract_code}}</a></td>
                         <td><a href="/contract/{{$created_contract->contract_id}}/view">{{$created_contract->contract_title}}</a></td>
                         <td><a href="/contract-party/{{$created_contract->party_id}}/view-contract-party" target="_blank">
                                                                     <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
@@ -168,9 +171,7 @@
                         <td>{{date("d-m-Y",strtotime($created_contract->expiry_date))}}</td>
                         @endif
                         <td><span class="pull-right-container">
-
                                                                         <small class="badge bg-purple">{{$created_contract->contract_status}}</small>
-
                                                                     </td>
                                                                     <td>
                                                                         <div class="btn-group">
@@ -179,7 +180,6 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right" role="menu">
                                 <li><a href="/contract/{{$created_contract->contract_id}}/edit" class="view-contract"><i class="fa fa-pencil"></i> Edit</a></li>
-
                                 <li>
                                     <a href="#modal_user_delete_contract_{{$created_contract->contract_id}}" data-backdrop="static" data-keyboard="false" data-toggle="modal"
                                         data-target="#modal_user_delete_contract_{{$created_contract->contract_id}}" class="delete-product"><i class="fa fa-trash"></i>  Delete</a>
@@ -226,6 +226,7 @@
 </div>
 </div>
 @endif @endif
+@include('page.footer')
 @stop
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
@@ -245,48 +246,4 @@
 });
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop

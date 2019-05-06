@@ -1046,7 +1046,6 @@ class ContractController extends Controller
 
         $last_contract = contract::orderBy('contract_id', 'desc')->first();
 
-
             if (!$last_contract){
                 $number = 0;
             }else{
@@ -1058,7 +1057,7 @@ class ContractController extends Controller
         try {
 
             $contract = new contract;
-            $contract->contract_title = $request->input('title');
+            $contract->contract_title = strtoupper($request->input('title'));
             $contract->party_name_id = $request->input('party_name');
             $contract->effective_date = date("Y-m-d", strtotime($request->input('effective_date')));
             if ($request->input('expiry_date')) {
@@ -1159,7 +1158,7 @@ class ContractController extends Controller
             'title' => 'required',
             'effective_date' => 'required',
         ]);
-        $contract->contract_title = $request->input('title');
+        $contract->contract_title = strtoupper($request->input('title'));
         $contract->party_name_id = $request->input('party_name');
         $contract->effective_date = date("Y-m-d", strtotime($request->input('effective_date')));
         if ($request->input('expiry_date')) {

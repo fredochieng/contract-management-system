@@ -6,15 +6,6 @@
 <div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a></div>
 @endif @endif
 <div style="clear:both"></div>
-
-
-
-
-
-
-
-
-
 @stop
 @section('content')
 <style>
@@ -52,6 +43,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
                                                     <th>Effective Date</th>
@@ -64,6 +56,8 @@
                                                 @foreach($terminated_contracts as $key=>$terminated_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$terminated_contract->contract_id}}/view">{{$terminated_contract->contract_code}}</a>
+                                                        </td>
                                                     <td><a href="/contract/{{$terminated_contract->contract_id}}/view">{{$terminated_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$terminated_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -115,6 +109,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
                                                     <th>Effective Date</th>
@@ -127,6 +122,8 @@
                                                 @foreach($terminated_by_me_contracts as $key=>$terminated_by_me_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$terminated_by_me_contract->contract_id}}/view">{{$terminated_by_me_contract->contract_code}}</a>
+                                                    </td>
                                                     <td><a href="/contract/{{$terminated_by_me_contract->contract_id}}/view">{{$terminated_by_me_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$terminated_by_me_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -179,6 +176,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
                                                     <th>Effective Date</th>
@@ -191,6 +189,8 @@
                                                 @foreach($my_terminated_contracts as $key=>$my_terminated_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$my_terminated_contract->contract_id}}/view">{{$my_terminated_contract->contract_code}}</a>
+                                                    </td>
                                                     <td><a href="/contract/{{$my_terminated_contract->contract_id}}/view">{{$my_terminated_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$my_terminated_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -247,6 +247,7 @@
                     <thead>
                         <tr>
                             <th>S/N</th>
+                            <th>Ticket #</th>
                             <th>Contract Title</th>
                             <th>Party Name</th>
                             <th>Effective Date</th>
@@ -259,6 +260,8 @@
                         @foreach($terminated_contracts as $key=>$terminated_contract)
                         <tr>
                             <td>{{ $key+1}}</td>
+                            <td><a href="/contract/{{$terminated_contract->contract_id}}/view">{{$terminated_contract->contract_code}}</a>
+                            </td>
                             <td><a href="/contract/{{$terminated_contract->contract_id}}/view">{{$terminated_contract->contract_title}}</a></td>
                             <td>{{$terminated_contract->party_name}}</td>
                             <td>{{date("d-m-Y",strtotime($terminated_contract->effective_date))}}</td>
@@ -293,13 +296,13 @@
         </div>
     </div>
     @endif @endif
+    @include('page.footer')
 @stop
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
     <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
 @stop
 @section('js')
-
     <script src="/js/bootstrap-datepicker.min.js"></script>
     <script src="/js/bootbox.min.js"></script>
     <script>
@@ -310,33 +313,4 @@
        $('#example4').DataTable()
      });
     </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop

@@ -43,6 +43,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
                                                     <th>Effective Date</th>
@@ -55,6 +56,7 @@
                                                 @foreach($approved_contracts as $key=>$approved_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$approved_contract->contract_id}}/view">{{$approved_contract->contract_code}}</a></td>
                                                     <td><a href="/contract/{{$approved_contract->contract_id}}/view">{{$approved_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$approved_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -110,6 +112,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
                                                     <th>Effective Date</th>
@@ -122,6 +125,7 @@
                                                 @foreach($approved_by_me_contracts as $key=>$approved_by_me_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$approved_by_me_contract->contract_id}}/view">{{$approved_by_me_contract->contract_code}}</a></td>
                                                     <td><a href="/contract/{{$approved_by_me_contract->contract_id}}/view">{{$approved_by_me_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$approved_by_me_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -177,6 +181,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
                                                     <th>Effective Date</th>
@@ -189,6 +194,7 @@
                                                 @foreach($my_approved_contracts as $key=>$my_approved_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$my_approved_contract->contract_id}}/view">{{$my_approved_contract->contract_code}}</a></td>
                                                     <td><a href="/contract/{{$my_approved_contract->contract_id}}/view">{{$my_approved_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$my_approved_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -248,6 +254,7 @@
             <thead>
                 <tr>
                     <th>S/N</th>
+                    <th>Ticket #</th>
                     <th>Contract Title</th>
                     <th>Party Name</th>
                     <th>Effective Date</th>
@@ -260,6 +267,7 @@
                 @foreach($approved_contracts as $key=>$approved_contract)
                 <tr>
                     <td>{{ $key+1}}</td>
+                    <td><a href="/contract/{{$approved_contract->contract_id}}/view">{{$approved_contract->contract_code}}</a></td>
                     <td><a href="/contract/{{$approved_contract->contract_id}}/view">{{$approved_contract->contract_title}}</a></td>
                     <td>{{$approved_contract->party_name}}</td>
 
@@ -297,13 +305,13 @@
     </div>
 </div>
 @endif @endif
+@include('page.footer')
 @stop
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
 <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
 @stop
 @section('js')
-
 <script src="/js/bootstrap-datepicker.min.js"></script>
 <script src="/js/bootbox.min.js"></script>
 <script>
@@ -315,32 +323,4 @@
     });
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop

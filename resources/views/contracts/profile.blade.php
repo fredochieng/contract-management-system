@@ -1,12 +1,9 @@
 @extends('adminlte::page')
-
 @section('title', 'CMS | Profile')
-
 @section('content_header')
 <h1 class="pull-left">My Profile</h1>
 <div style="clear:both"></div>
 @stop
-
 @section('content')
 <div class="row" style="font-size:10px;">
     <div class="col-xs-12">
@@ -30,13 +27,11 @@
                             <div class="form-group">
                                 {!! Form::label('organization_id', 'Organization' . '') !!} {!!
                                 Form::select('organization_id', $organizations, $auth_users->organization_id,
-                                ['placeholder' => 'Please select user organization', 'class' => 'form-control select2',
-                                'disabled="disabled"']);
+                                ['placeholder' => 'Please select user organization', 'class' => 'form-control select2'
+                                ]);
                                 !!}
                             </div>
-
                         </div>
-
                         <div class="col-md-6">
 
                             {{Form::label('job_title', 'Job Title')}}<br>
@@ -73,65 +68,5 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+{{-- @include('page.footer') --}}
 @stop

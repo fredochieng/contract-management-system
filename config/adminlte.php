@@ -131,7 +131,7 @@ return [
                     'url'  => '#',
                 ],
             ],
-            'can'  => 'Manage Users',
+            'can'  => 'users.manage',
         ],
 
         [
@@ -177,7 +177,7 @@ return [
             'text' => 'Contract Parties',
             'icon'    => 'certificate',
             'url'  => 'party',
-            'can'  => 'Manage Parties',
+            'can'  => 'parties.manage',
         ], [
             'text'    => 'Business Documents',
             'icon'    => 'book',
@@ -192,12 +192,13 @@ return [
                     'url'  => '#',
                 ],
             ],
-            'can'  => 'Manage Business Documents',
+            'can'  => 'documents.manage',
 
         ], [
             'text' => 'Reports',
             'url'  => 'reports',
             'icon' => 'bar-chart',
+            'can'  => 'reports.manage',
         ],
 
 

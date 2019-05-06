@@ -111,7 +111,7 @@ class UserController extends Controller
 
         $user = new user;
         $password_string = str_random(6);
-        $user->name = $request->input('name');
+        $user->name = strtoupper($request->input('name'));
         $user->email = $request->input('email');
         $user = User::create([
             'name' =>  $user->name,
@@ -124,7 +124,7 @@ class UserController extends Controller
         $user_data = array(
             'user_id' => $saved_user_id,
             'organization_id' => $request->input('organization_id'),
-            'job_title' => $request->input('job_title')
+            'job_title' => strtoupper($request->input('job_title'))
         );
 
         $user_role_data = array(
@@ -206,13 +206,13 @@ class UserController extends Controller
      */
     public function update(Request $request, user $user)
     {
-        $user->name = $request->input('name');
+        $user->name = strtoupper($request->input('name'));
         $user->email = $request->input('email');
         $user->save();
 
         $just_saved_user_id = $user->id;
         $user->organization_id = $request->input('organization_id');
-        $user->job_title = $request->input('job_title');
+        $user->job_title = strtoupper($request->input('job_title'));
         $user->role_id = $request->input('role_id');
 
         $users_details_data = array(
@@ -220,6 +220,10 @@ class UserController extends Controller
             'organization_id' => $user->organization_id,
             'job_title' => $user->job_title
         );
+
+        // echo"<pre>";
+        // print_r($users_details_data);
+        // exit;
 
         $role_details_data = array(
             'model_id' => $just_saved_user_id,
@@ -287,10 +291,12 @@ class UserController extends Controller
                 $user->save();
 
                 $just_updated_user_id = $user->id;
-                $user->job_title = $request->input('job_title');
+                $user->job_title = strtoupper($request->input('job_title'));
+                $user->organization_id = $request->organization_id;
 
                 $users_details_data = array(
                     'user_id' => $just_updated_user_id,
+                    'organization_id' => $user->organization_id,
                     'job_title' => $user->job_title
                 );
 

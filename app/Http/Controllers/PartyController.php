@@ -48,11 +48,11 @@ class PartyController extends Controller
 
         $party = new party;
 
-        $party->party_name = $request->input('party_name');
-        $party->contact_person = $request->input('contact_person');
+        $party->party_name = strtoupper($request->input('party_name'));
+        $party->contact_person = strtoupper($request->input('contact_person'));
         $party->telephone = $request->input('telephone');
         $party->email = $request->input('email');
-        $party->physical_address = $request->input('physical_address');
+        $party->physical_address = strtoupper($request->input('physical_address'));
         $party->postal_address = $request->input('postal_address');
         $party->created_by = Auth::user()->id;
         $party->updated_by = Auth::user()->id;
@@ -104,11 +104,11 @@ class PartyController extends Controller
         ]);
 
 
-        $party->party_name = $request->input('party_name');
-        $party->contact_person = $request->input('contact_person');
+        $party->party_name = strtoupper($request->input('party_name'));
+        $party->contact_person = strtoupper($request->input('contact_person'));
         $party->telephone = $request->input('telephone');
         $party->email = $request->input('email');
-        $party->physical_address = $request->input('physical_address');
+        $party->physical_address = strtoupper($request->input('physical_address'));
         $party->postal_address = $request->input('postal_address');
         $party->updated_by = Auth::user()->id;
 

@@ -55,7 +55,8 @@
                             @foreach($contracts as $key=>$collection)
                             <tr>
                                 <td>{{ $key+1}}</td>
-                                <td>{{$collection->contract_code}}</td>
+                              <td><a href="/contract/{{$collection->contract_id}}/view">{{$collection->contract_code}}</a>
+                            </td>
                                 <td><a
                                         href="/contract/{{$collection->contract_id}}/view">{{$collection->contract_title}}</a>
                                 </td>
@@ -111,7 +112,8 @@
                             @foreach($contract_type_report as $key=>$collection1)
                             <tr>
                                 <td>{{ $key+1}}</td>
-                                <td>{{$collection1->contract_code}}</td>
+                             <td><a href="/contract/{{$collection1->contract_id}}/view">{{$collection1->contract_code}}</a>
+                                </td>
                                 <td><a
                                         href="/contract/{{$collection1->contract_id}}/view">{{$collection1->contract_title}}</a>
                                 </td>
@@ -164,7 +166,8 @@
                             @foreach($contract_party_report as $key=>$collection1)
                             <tr>
                                 <td>{{ $key+1}}</td>
-                                <td>{{$collection1->contract_code}}</td>
+                            <td><a href="/contract/{{$collection1->contract_id}}/view">{{$collection1->contract_code}}</a>
+                            </td>
                                 <td><a
                                         href="/contract/{{$collection1->contract_id}}/view">{{$collection1->contract_title}}</a>
                                 </td>

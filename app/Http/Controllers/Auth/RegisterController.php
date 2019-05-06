@@ -104,12 +104,10 @@ class RegisterController extends Controller
 
         $details = [
             'greeting' => 'Hi' . ' ' . $data['name'],
-            'body' => 'Thank you for registering to Wananchi Group Legal Management System',
+            'body' => 'Thank you for registering to Wananchi Group Contracts Management System',
             'thanks' => 'Welcome aboard!',
-            'password' => 'Your password is' . $data['password'],
             'actionText' => 'Click here to login',
-            'actionURL' => url('/'),
-            'Your password is' . $data['password']
+            'actionURL' => url('/')
         ];
         Notification::send($user, new UserCreatedNotification($details));
 

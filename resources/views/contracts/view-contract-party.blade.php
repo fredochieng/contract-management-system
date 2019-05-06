@@ -2,7 +2,6 @@
 @section('title', 'Contract Management System')
 @section('content_header')
 <h1>Contract Party: {{ $party->party_name }}</h1>
-
 @stop
 @section('content')
 <div class="row" style="font-size:12px;">
@@ -131,17 +130,18 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Effective Date</th>
                                                     <th>Expiry Date</th>
-                                                    {{--
-                                                    <th>Action</th> --}}
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($closed_contracts as $key=>$closed_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$closed_contract->contract_id}}/view">{{$closed_contract->contract_code}}</a>
+                                                    </td>
                                                     <td><a href="/contract/{{$closed_contract->contract_id}}/view">{{$closed_contract->contract_title}}</a></td>
                                                     <td>{{date("d-m-Y",strtotime($closed_contract->effective_date))}}</td>
                                                     <td>{{date("d-m-Y",strtotime($closed_contract->expiry_date))}}</td>
@@ -168,20 +168,21 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Effective Date</th>
                                                     <th>Expiry Date</th>
-                                                    {{--
-                                                    <th>Action</th> --}}
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($terminated_contracts as $key=>$terminated_contract)
+                                                @foreach($ammended_contracts as $key=>$ammended_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
-                                                    <td><a href="/contract/{{$terminated_contract->contract_id}}/view">{{$terminated_contract->contract_title}}</a></td>
-                                                    <td>{{date("d-m-Y",strtotime($terminated_contract->effective_date))}}</td>
-                                                    <td>{{date("d-m-Y",strtotime($terminated_contract->expiry_date))}}</td>
+                                                    <td><a href="/contract/{{$ammended_contract->contract_id}}/view">{{$ammended_contract->contract_code}}</a>
+                                                    </td>
+                                                    <td><a href="/contract/{{$ammended_contract->contract_id}}/view">{{$ammended_contract->contract_title}}</a></td>
+                                                    <td>{{date("d-m-Y",strtotime($ammended_contract->effective_date))}}</td>
+                                                    <td>{{date("d-m-Y",strtotime($ammended_contract->expiry_date))}}</td>
                                                     </td>
                                                     {!! Form::close() !!}
                                                 </tr>
@@ -206,17 +207,18 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Effective Date</th>
                                                     <th>Expiry Date</th>
-                                                    {{--
-                                                    <th>Action</th> --}}
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($terminated_contracts as $key=>$terminated_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$terminated_contract->contract_id}}/view">{{$terminated_contract->contract_code}}</a>
+                                                    </td>
                                                     <td><a href="/contract/{{$terminated_contract->contract_id}}/view">{{$terminated_contract->contract_title}}</a></td>
                                                     <td>{{date("d-m-Y",strtotime($terminated_contract->effective_date))}}</td>
                                                     <td>{{date("d-m-Y",strtotime($terminated_contract->expiry_date))}}</td>
@@ -240,76 +242,7 @@
     </div>
     <!-- /.col -->
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@include('page.footer')
 @stop
 @section('css')
 <link rel="stylesheet " href="/css/admin_custom.css ">
@@ -319,75 +252,4 @@
 @section('js')
 <script src="/js/bootstrap-datepicker.min.js "></script>
 <script src="/js/select2.full.min.js "></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop

@@ -14,8 +14,7 @@
             <div class="icon">
                 <i class="fa fa-desktop"></i>
             </div>
-            <a href="pending-contracts" class="small-box-footer">View Contracts <i
-                    class="fa fa-arrow-circle-right"></i></a>
+            <a href="pending-contracts" class="small-box-footer">View Contracts  <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-xs-6">
@@ -27,8 +26,7 @@
             <div class="icon">
                 <i class="fa fa-certificate"></i>
             </div>
-            <a href="amended-contracts" class="small-box-footer">View Contracts <i
-                    class="fa fa-arrow-circle-right"></i></a>
+            <a href="amended-contracts" class="small-box-footer">View Contracts  <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-xs-6">
@@ -40,8 +38,7 @@
             <div class="icon">
                 <i class="fa fa-briefcase"></i>
             </div>
-            <a href="closed-contracts" class="small-box-footer">View Contracts <i
-                    class="fa fa-arrow-circle-right"></i></a>
+            <a href="closed-contracts" class="small-box-footer">View Contracts  <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-xs-6">
@@ -53,8 +50,7 @@
             <div class="icon">
                 <i class="fa fa-rocket"></i>
             </div>
-            <a href="terminated-contracts" class="small-box-footer">View Contracts <i
-                    class="fa fa-arrow-circle-right"></i></a>
+            <a href="terminated-contracts" class="small-box-footer">View Contracts  <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
@@ -70,8 +66,7 @@
                 @endif @endif
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                    </button>
-                    {{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>                    --}}
+                </button> {{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>                    --}}
                 </div>
             </div>
             <!-- /.box-header -->
@@ -84,32 +79,27 @@
                                 <th>Ticket</th>
                                 <th>Contract Title</th>
                                 <th>Party Name</th>
-                                <th>Effective Date</th>
-                                <th>Status</th>
-                                @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
-                                <th>Alert</th>
-                                @endif @endif
+                                    <th>Effective Date</th>
+                                    <th>Status</th>
+                                    @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
+                                    <th>Alert</th>
+                                    @endif @endif
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($contracts as $key=>$contract)
                             <tr>
                                 <td>{{ $key+1}}</td>
-                                <td><a href="/contract/{{$contract->contract_id}}/view">{{$contract->contract_code}}</a>
-                                </td>
-                                <td><a
-                                        href="/contract/{{$contract->contract_id}}/view">{{$contract->contract_title}}</a>
-                                </td>
-                                <td><a href="/contract-party/{{$contract->party_id}}/view-contract-party"
-                                        target="_blank">
-                                        <span class="label"
-                                            style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
-                                            <i class="fa fa-briefcase fa-fw"></i> {{$contract->party_name}} </a></span>
+                               <td><a href="/contract/{{$contract->contract_id}}/view">{{$contract->contract_code}}</a></td>
+                                <td><a href="/contract/{{$contract->contract_id}}/view">{{$contract->contract_title}}</a></td>
+                                <td><a href="/contract-party/{{$contract->party_id}}/view-contract-party" target="_blank">
+                                                                                    <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
+                                                                                    <i class="fa fa-briefcase fa-fw"></i> {{$contract->party_name}}	</a></span>
                                 </td>
                                 <td>{{$contract->created_at}}</td>
                                 <td><span class="pull-right-container">
-                                        @if($contract->contract_status == 'Created')
-                                        <small class="badge bg-purple">{{$contract->contract_status}}</small></span>
+                                    @if($contract->contract_status == 'Created')
+                                    <small class="badge bg-purple">{{$contract->contract_status}}</small></span>
                                     @elseif($contract->contract_status == 'Pending')
                                     <small class="badge bg-yellow">{{ $contract->contract_status}}</small></span>
                                     @elseif($contract->contract_status== 'Amended')
@@ -126,15 +116,10 @@
                                 @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
                                 <td>
                                     @if ($contract->assigned=='' && $contract->escalation_duration >=1)
-                                    <span class="label"
-                                        style="background-color:#FFF;color:#ff0000;border:1px solid #ff0000">Overdue</span>
-                                    @elseif ($contract->assigned=='' && $contract->escalation_duration
-                                    <1) <span class="label"
-                                        style="background-color:#FFF;color:#1e3fda;border:1px solid #1e3fda">Open</span>
+                                    <span class="label" style="background-color:#FFF;color:#ff0000;border:1px solid #ff0000">Overdue</span>                                    @elseif ($contract->assigned=='' && $contract->escalation_duration
+                                    <1) <span class="label" style="background-color:#FFF;color:#1e3fda;border:1px solid #1e3fda">Open</span>
                                         @else
-                                        <span class="label"
-                                            style="background-color:#FFF;color:#058e29;border:1px solid #058e29">Assigned</span>
-                                        @endif
+                                        <span class="label" style="background-color:#FFF;color:#058e29;border:1px solid #058e29">Assigned</span>                                        @endif
                                 </td>
                                 @endif @endif {!! Form::close() !!}
                             </tr>
@@ -169,8 +154,7 @@
                 @endif @endif
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                    </button>
-                    {{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>                    --}}
+                        </button> {{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>                    --}}
                 </div>
             </div>
             <!-- /.box-header -->
@@ -191,23 +175,17 @@
                             @foreach($contracts1 as $key=>$contract1)
                             <tr>
                                 <td>{{ $key+1}}</td>
-                                <td><a
-                                        href="/contract/{{$contract1->contract_id}}/view">{{$contract1->contract_code}}</a>
-                                </td>
-                                <td><a
-                                        href="/contract/{{$contract1->contract_id}}/view">{{$contract1->contract_title}}</a>
-                                </td>
-                                <td><a href="/contract-party/{{$contract1->party_id}}/view-contract-party"
-                                        target="_blank">
-                                        <span class="label"
-                                            style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
-                                            <i class="fa fa-briefcase fa-fw"></i> {{$contract1->party_name}} </a></span>
+                                <td><a href="/contract/{{$contract1->contract_id}}/view">{{$contract1->contract_code}}</a></td>
+                                <td><a href="/contract/{{$contract1->contract_id}}/view">{{$contract1->contract_title}}</a></td>
+                                <td><a href="/contract-party/{{$contract1->party_id}}/view-contract-party" target="_blank">
+                                                                                                                        <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
+                                                                                                                        <i class="fa fa-briefcase fa-fw"></i> {{$contract1->party_name}}	</a></span>
                                 </td>
                                 <td>{{$contract1->created_at}}</td>
                                 <td><span class="pull-right-container">
-                                        @if($contract1->contract_status == 'Created')
-                                        <small class="badge bg-purple">{{$contract1->contract_status}}</small></span>
-                                    @elseif($contract1->contract_status == 'Pending')
+                                            @if($contract1->contract_status == 'Created')
+                                            <small class="badge bg-purple">{{$contract1->contract_status}}</small></span>
+                                             @elseif($contract1->contract_status == 'Pending')
                                     <small class="badge bg-yellow">{{ $contract1->contract_status}}</small></span>
                                     @elseif($contract1->contract_status== 'Amended')
                                     <small class="badge bg-blue">{{$contract1->contract_status}}</small></span>
@@ -251,7 +229,7 @@
                 <h3 class="box-title">My Assigned Contracts</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                    </button>
+                                        </button>
                 </div>
             </div>
             <!-- /.box-header -->
@@ -270,15 +248,10 @@
                             @foreach($assigned_contracts as $key=>$assigned_contract)
                             <tr>
                                 <td>{{ $key+1}}</td>
-                                <td><a
-                                        href="/contract/{{$assigned_contract->contract_id}}/view">{{$assigned_contract->contract_code}}</a>
-                                </td>
-                                <td><a
-                                        href="/contract/{{$assigned_contract->contract_id}}/view">{{$assigned_contract->contract_title}}</a>
-                                </td>
-                                <td><a href="/contract-party/{{$assigned_contract->party_id}}/view-contract-party"
-                                        target="_blank">
-                                        {{$assigned_contract->party_name}}</a>
+                                <td><a href="/contract/{{$assigned_contract->contract_id}}/view">{{$assigned_contract->contract_code}}</a></td>
+                                <td><a href="/contract/{{$assigned_contract->contract_id}}/view">{{$assigned_contract->contract_title}}</a></td>
+                                <td><a href="/contract-party/{{$assigned_contract->party_id}}/view-contract-party" target="_blank">
+                                                    {{$assigned_contract->party_name}}</a>
                                 </td>
                                 {!! Form::close() !!}
                             </tr>
@@ -301,8 +274,7 @@
             <div class="box-header with-border">
                 <h3 class="box-title">Contracts Statistics</h3>
                 <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                            class="fa fa-minus"></i></button>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>
             </div>
             <!-- /.box-header -->
@@ -312,29 +284,24 @@
                     @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isUser())
                     <div class="progress-group">
                         <span class="progress-text">Pending Contracts</span>
-                        <span
-                            class="progress-number"><b>{{ $published_contract_count }}</b>/{{ $total_contracts_count }}</span>
+                        <span class="progress-number"><b>{{ $published_contract_count }}</b>/{{ $total_contracts_count }}</span>
 
                         <div class="progress sm">
-                            <div class="progress-bar progress-bar-yellow" style="width: {{ $published_percentage }}%">
-                            </div>
+                            <div class="progress-bar progress-bar-yellow" style="width: {{ $published_percentage }}%"></div>
                         </div>
                     </div>
                     @else @endif @endif
                     <div class="progress-group">
                         <span class="progress-text">Approved Contracts</span>
-                        <span
-                            class="progress-number"><b>{{ $approved_contract_count }}</b>/{{ $total_contracts_count }}</span>
+                        <span class="progress-number"><b>{{ $approved_contract_count }}</b>/{{ $total_contracts_count }}</span>
 
                         <div class="progress sm">
-                            <div class="progress-bar progress-bar-green" style="width: {{ $approved_percentage }}%">
-                            </div>
+                            <div class="progress-bar progress-bar-green" style="width: {{ $approved_percentage }}%"></div>
                         </div>
                     </div>
                     <div class="progress-group">
                         <span class="progress-text">Closed Contracts</span>
-                        <span
-                            class="progress-number"><b>{{ $closed_contract_count }}</b>/{{ $total_contracts_count }}</span>
+                        <span class="progress-number"><b>{{ $closed_contract_count }}</b>/{{ $total_contracts_count }}</span>
 
                         <div class="progress sm">
                             <div class="progress-bar progress-bar-grey" style="width: {{ $closed_percentage }}%"></div>
@@ -343,22 +310,18 @@
                     <!-- /.progress-group -->
                     <div class="progress-group">
                         <span class="progress-text">Amended Contracts</span>
-                        <span
-                            class="progress-number"><b>{{ $ammended_contract_count }}</b>/{{ $total_contracts_count }}</span>
+                        <span class="progress-number"><b>{{ $ammended_contract_count }}</b>/{{ $total_contracts_count }}</span>
 
                         <div class="progress sm">
-                            <div class="progress-bar progress-bar-blue" style="width: {{ $ammended_percentage }}%">
-                            </div>
+                            <div class="progress-bar progress-bar-blue" style="width: {{ $ammended_percentage }}%"></div>
                         </div>
                     </div>
                     <div class="progress-group">
                         <span class="progress-text">Terminated Contracts</span>
-                        <span
-                            class="progress-number"><b>{{ $terminated_contract_count }}</b>/{{ $total_contracts_count }}</span>
+                        <span class="progress-number"><b>{{ $terminated_contract_count }}</b>/{{ $total_contracts_count }}</span>
 
                         <div class="progress sm">
-                            <div class="progress-bar progress-bar-red" style="width: {{ $terminated_percentage }}%">
-                            </div>
+                            <div class="progress-bar progress-bar-red" style="width: {{ $terminated_percentage }}%"></div>
                         </div>
                     </div>
                 </div>
@@ -380,7 +343,7 @@
                 @else @endif @endif
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                    </button>
+                            </button>
                 </div>
             </div>
             <!-- /.box-header -->
@@ -424,8 +387,7 @@
             <div class="box-header with-border">
                 <h3 class="box-title">Contracts Statistics</h3>
                 <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                            class="fa fa-minus"></i></button>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>
             </div>
             <!-- /.box-header -->
@@ -433,18 +395,15 @@
                 <div class="col-md-12">
                     <div class="progress-group">
                         <span class="progress-text">Approved Contracts</span>
-                        <span
-                            class="progress-number"><b>{{ $approved_contract_count }}</b>/{{ $total_contracts_count }}</span>
+                        <span class="progress-number"><b>{{ $approved_contract_count }}</b>/{{ $total_contracts_count }}</span>
 
                         <div class="progress sm">
-                            <div class="progress-bar progress-bar-green" style="width: {{ $approved_percentage }}%">
-                            </div>
+                            <div class="progress-bar progress-bar-green" style="width: {{ $approved_percentage }}%"></div>
                         </div>
                     </div>
                     <div class="progress-group">
                         <span class="progress-text">Closed Contracts</span>
-                        <span
-                            class="progress-number"><b>{{ $closed_contract_count }}</b>/{{ $total_contracts_count }}</span>
+                        <span class="progress-number"><b>{{ $closed_contract_count }}</b>/{{ $total_contracts_count }}</span>
 
                         <div class="progress sm">
                             <div class="progress-bar progress-bar-grey" style="width: {{ $closed_percentage }}%"></div>
@@ -453,22 +412,18 @@
                     <!-- /.progress-group -->
                     <div class="progress-group">
                         <span class="progress-text">Amended Contracts</span>
-                        <span
-                            class="progress-number"><b>{{ $ammended_contract_count }}</b>/{{ $total_contracts_count }}</span>
+                        <span class="progress-number"><b>{{ $ammended_contract_count }}</b>/{{ $total_contracts_count }}</span>
 
                         <div class="progress sm">
-                            <div class="progress-bar progress-bar-blue" style="width: {{ $ammended_percentage }}%">
-                            </div>
+                            <div class="progress-bar progress-bar-blue" style="width: {{ $ammended_percentage }}%"></div>
                         </div>
                     </div>
                     <div class="progress-group">
                         <span class="progress-text">Terminated Contracts</span>
-                        <span
-                            class="progress-number"><b>{{ $terminated_contract_count }}</b>/{{ $total_contracts_count }}</span>
+                        <span class="progress-number"><b>{{ $terminated_contract_count }}</b>/{{ $total_contracts_count }}</span>
 
                         <div class="progress sm">
-                            <div class="progress-bar progress-bar-red" style="width: {{ $terminated_percentage }}%">
-                            </div>
+                            <div class="progress-bar progress-bar-red" style="width: {{ $terminated_percentage }}%"></div>
                         </div>
                     </div>
                 </div>

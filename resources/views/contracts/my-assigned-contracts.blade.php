@@ -41,6 +41,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
+                                                    <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
                                                     <th>Effective Date</th>
@@ -53,6 +54,7 @@
                                                 @foreach($assigned_contracts as $key=>$assigned_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
+                                                    <td><a href="/contract/{{$assigned_contract->contract_id}}/view">{{$assigned_contract->contract_code}}</a></td>
                                                     <td><a href="/contract/{{$assigned_contract->contract_id}}/view">{{$assigned_contract->contract_title}}</a></td>
                                                     <td><a href="/contract-party/{{$assigned_contract->party_id}}/view-contract-party"
                                                             target="_blank">
@@ -97,7 +99,6 @@
                                                     </td>
                                                     {!! Form::close() !!}
                                                 </tr>
-
                                                 <!-- Modal transfer contract by legal team/legal admin -->
                                                 <div class="modal fade" id="modal_transfer_contract">
                                                     <div class="modal-dialog modal-lg">
@@ -176,6 +177,7 @@
     <!-- /.col -->
 </div>
 @endif @endif
+@include('page.footer')
 @stop
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
@@ -194,27 +196,4 @@
     });
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @stop

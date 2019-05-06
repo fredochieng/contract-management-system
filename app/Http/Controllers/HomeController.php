@@ -237,6 +237,7 @@ class HomeController extends Controller
                 ])
                 ->get();
         } elseif (auth()->user()->isLegal()) {
+
             $contracts1 = DB::table('contracts')
                 ->select(
                     DB::raw('contracts.*'),
@@ -272,7 +273,7 @@ class HomeController extends Controller
                 DB::raw('parties.*')
             )
             ->leftJoin('contracts', 'parties.party_id', '=', 'contracts.party_name_id')
-            ->orderBy('parties.party_id', 'desc')->take(4)
+            ->orderBy('parties.party_id', 'desc')
             ->get();
 
         $assigned_contracts = DB::table('contracts')
