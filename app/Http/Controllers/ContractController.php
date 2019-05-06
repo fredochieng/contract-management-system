@@ -29,62 +29,9 @@ class ContractController extends Controller
     protected $guard_name = 'web';
 
     public function index()
-    {
-        $user = Auth::user();
-        ~$user_role = $user->getRoleNames()->first();
-        if ($user_role == "Admin") {
-            $compare_field = "contracts.contract_id";
-            $compare_operator = ">=";
-            $compare_value = 1;
+  {
 
-            $contract_status_query = contract::where($compare_field, $compare_operator, $compare_value)
-                ->where(function ($query) {
-                    $query->where('contracts.status', 'Approved')
-                        ->orWhere('contracts.status', 'Submitted')
-                        ->orWhere('contracts.status', 'Amended')
-                        ->orWhere('contracts.status', 'Terminated')
-                        ->orWhere('contracts.status', 'Pending');
-                })->get();
-        } elseif ($user_role == "Legal Counsel") {
-            $compare_field = "contracts.contract_id";
-            $compare_operator = ">=";
-            $compare_value = 1;
-        } else {
-            $compare_field = 'contracts.created_by';
-            $compare_operator = "=";
-            $compare_value = Auth::user()->id;
-        }
-        $contracts = DB::table('contracts')
-            ->select(
-                DB::raw('contracts.*'),
-                DB::raw('contracts.status AS contract_status'),
-                DB::raw('parties.*'),
-                DB::raw('users.name'),
-                DB::raw('users.id'),
-                DB::raw('users_details.*'),
-                DB::raw('contracts.created_at AS created_date'),
-                DB::raw('contracts.stage AS contract_stage'),
-                DB::raw('users_organizations.*'),
-                DB::raw('contract_drafts.*'),
-                DB::raw('draft_stages.*')
-            )
-
-            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
-            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
-            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
-            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
-            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
-            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
-            ->orderBy('contracts.contract_id', 'desc')
-            ->where([
-                [$compare_field, $compare_operator, $compare_value]
-            ])
-            ->get();
-
-        return view('contracts.index')->with([
-            'contracts' => $contracts,
-        ]);
-    }
+  }
 
     public function workonContract(request $request)
     {

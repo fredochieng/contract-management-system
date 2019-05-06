@@ -122,6 +122,7 @@
                 <?php echo $__env->yieldContent('content'); ?>
 
             </section>
+
             <!-- /.content -->
             <?php if(config('adminlte.layout') == 'top-nav'): ?>
             </div>
@@ -129,6 +130,7 @@
             <?php endif; ?>
         </div>
         <!-- /.content-wrapper -->
+        
 
     </div>
     <!-- ./wrapper -->

@@ -44,7 +44,6 @@ class UserCreatedNotification extends Notification
         return (new MailMessage)
             ->greeting($this->details['greeting'])
             ->line($this->details['body'])
-            ->line($this->details['password'])
             ->action($this->details['actionText'], $this->details['actionURL'])
             ->line($this->details['thanks']);
     }

@@ -333,7 +333,6 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- PAGE FOOTER -->
-@include('page.footer')
 @stop
 
 @section('css')

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Notifications\UserCreatedNotification;
 use Notification;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RegisterController extends Controller
 {
@@ -85,7 +86,7 @@ class RegisterController extends Controller
     public function create(array $data)
     {
         $user = User::create([
-            'name' => $data['name'],
+            'name' => strtoupper($data['name']),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
@@ -112,5 +113,8 @@ class RegisterController extends Controller
         Notification::send($user, new UserCreatedNotification($details));
 
         return $user;
+
+        Alert::success('Work on Contract', 'Good');
+
     }
 }

@@ -348,7 +348,6 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- PAGE FOOTER -->
-<?php echo $__env->make('page.footer', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('css'); ?>

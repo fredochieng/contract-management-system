@@ -310,7 +310,6 @@
 </div>
 @endif @endif
 @stop
-@include('page.footer')
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
 <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
