@@ -1,17 +1,18 @@
 @extends('adminlte::page')
-@section('title', 'New Contract')
+@section('title', 'Wananchi Legal | New Contract Request')
 @section('content_header')
-<h1>Contracts<small> Create contract</small></h1>
+<h1>Contracts<small> New contract request</small></h1>
 @stop
 @section('content')
-<div class="box box-success" style="font-size:10px;">
+<div class="box box-success">
     <div class="box-header with-border">
-        <h3 class="box-title">Create New Contract</h3>
+        <h3 class="box-title">New Contract Request</h3>
     </div>
     <div class="box-body">
         <div class="col-md-12">
 
-            {!! Form::open(['action'=>'ContractController@store','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
+            {!!
+            Form::open(['action'=>'ContractController@store','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
             !!}
             <div class="row">
 
@@ -24,7 +25,8 @@
 
                     </div>
                     <p>If you are not able to find the Contract Party Name/Supplier.
-                        <a href="/party?new=true" target="_blank"><strong>Click here to capture the details</strong></a></p>
+                        <a href="/party?new=true" target="_blank"><strong>Click here to capture the details</strong></a>
+                    </p>
                 </div>
                 <div class="col-md-6">
 
@@ -37,18 +39,31 @@
                 </div>
             </div>
             <div class="row">
-
-                <div class="col-md-6">
-
-                    {{Form::label('effective_date', 'Effective Date* ')}}
+                <div class="col-md-4">
                     <div class="form-group">
-
-                        {{Form::text('effective_date', '',['class'=>'form-control issued_date','placeholder'=>'Effective Date','autocomplete'=>'off', 'readonly'])}}
-
+                        <label>Contract Term</label>
+                        <select class="form-control select2" name="term_id" required style="width: 100%;" tabindex="-1"
+                            aria-hidden="true">
+                            <option selected="selected">Please select contract term</option>
+                            @foreach ( $terms as $row )
+                            <option value="{{ $row->id }}">{{ $row->term }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Contract Renewal Type</label>
+                        <select class="form-control select2" name="renewal_id" required style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <option selected="selected">Please select contract renewal type</option>
+                            @foreach ($renewal_types as $row )
+                            <option value="{{ $row->id }}">{{ $row->renewal_type }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     {{Form::label('contract_document', 'Upload Contract Document *')}}
                     <div class="form-group">
                         {{Form::file('contract_document',['class'=>'form-control', 'required', 'accept'=>'.doc , .docx , .pdf'])}}
@@ -62,7 +77,8 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Create New Contract</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Create
+                        Request</button>
                 </div>
                 {!! Form::close() !!}
             </div>
@@ -76,10 +92,11 @@
 @stop
 @section('js')
 <script src="/js/bootstrap-datepicker.min.js"></script>
+<script src="/js/select2.full.min.js"></script>
 <script>
     $(function () {
     //Initialize Select2 Elements
-
+$(".select2").select2();
 	$("#party_name").select2({
   ajax: {
     url: "/party/get_party",

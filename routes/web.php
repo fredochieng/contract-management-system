@@ -28,10 +28,19 @@ Route::group(['middleware' => 'verified'], function () {
     Route::any('/party/get_party', 'PartyController@get_party');
     Route::any('contract-party/{id}/view-contract-party', 'PartyController@contractParty');
     Route::resource('contract', 'ContractController');
+    Route::any('pending-contracts', 'ContractController@pendingContracts');
+    Route::any('share-reviewed-contract', 'ContractController@shareReviewedContract');
+    Route::any('comment-reviewed-contract', 'ContractController@commentReviewedContract');
+    Route::any('share-final-draft', 'ContractController@shareFinalDraft');
+    Route::any('comment-final-draft', 'ContractController@commentFinalDraft');
+    Route::any('share-execution-contract', 'ContractController@shareFinalExecution');
+    Route::any('upload-caf-document', 'ContractController@uploadCAF');
+    Route::any('reviewed-contracts', 'ContractController@reviewedContracts');
+
+
     Route::any('my-contracts', 'ContractController@mycontracts');
     Route::any('created-contracts', 'ContractController@createdContracts');
     Route::any('delete-contract/{contract}', 'ContractController@deleteCreatedContract');
-    Route::any('pending-contracts', 'ContractController@pendingContracts');
     Route::any('my-assigned-contracts', 'ContractController@myAssignedContracts');
     Route::any('approved-contracts', 'ContractController@approvedContracts');
     Route::any('amended-contracts', 'ContractController@ammendedContracts');

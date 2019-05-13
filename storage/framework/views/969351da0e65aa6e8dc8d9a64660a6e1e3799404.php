@@ -1,11 +1,11 @@
-<?php $__env->startSection('title', 'New Contract'); ?>
+<?php $__env->startSection('title', 'Wananchi Legal | New Contract Request'); ?>
 <?php $__env->startSection('content_header'); ?>
-<h1>Contracts<small> Create contract</small></h1>
+<h1>Contracts<small> New contract request</small></h1>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
-<div class="box box-success" style="font-size:10px;">
+<div class="box box-success">
     <div class="box-header with-border">
-        <h3 class="box-title">Create New Contract</h3>
+        <h3 class="box-title">New Contract Request</h3>
     </div>
     <div class="box-body">
         <div class="col-md-12">
@@ -24,7 +24,8 @@
 
                     </div>
                     <p>If you are not able to find the Contract Party Name/Supplier.
-                        <a href="/party?new=true" target="_blank"><strong>Click here to capture the details</strong></a></p>
+                        <a href="/party?new=true" target="_blank"><strong>Click here to capture the details</strong></a>
+                    </p>
                 </div>
                 <div class="col-md-6">
 
@@ -39,20 +40,31 @@
                 </div>
             </div>
             <div class="row">
-
-                <div class="col-md-6">
-
-                    <?php echo e(Form::label('effective_date', 'Effective Date* ')); ?>
-
+                <div class="col-md-4">
                     <div class="form-group">
-
-                        <?php echo e(Form::text('effective_date', '',['class'=>'form-control issued_date','placeholder'=>'Effective Date','autocomplete'=>'off', 'readonly'])); ?>
-
-
+                        <label>Contract Term</label>
+                        <select class="form-control select2" name="term_id" required style="width: 100%;" tabindex="-1"
+                            aria-hidden="true">
+                            <option selected="selected">Please select contract term</option>
+                            <?php $__currentLoopData = $terms; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($row->id); ?>"><?php echo e($row->term); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Contract Renewal Type</label>
+                        <select class="form-control select2" name="renewal_id" required style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <option selected="selected">Please select contract renewal type</option>
+                            <?php $__currentLoopData = $renewal_types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($row->id); ?>"><?php echo e($row->renewal_type); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <?php echo e(Form::label('contract_document', 'Upload Contract Document *')); ?>
 
                     <div class="form-group">
@@ -70,7 +82,8 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Create New Contract</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Create
+                        Request</button>
                 </div>
                 <?php echo Form::close(); ?>
 
@@ -85,10 +98,11 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('js'); ?>
 <script src="/js/bootstrap-datepicker.min.js"></script>
+<script src="/js/select2.full.min.js"></script>
 <script>
     $(function () {
     //Initialize Select2 Elements
-
+$(".select2").select2();
 	$("#party_name").select2({
   ajax: {
     url: "/party/get_party",

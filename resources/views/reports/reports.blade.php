@@ -182,7 +182,6 @@
 @section('js')
 
 <script src="/js/bootstrap-datepicker.min.js"></script>
-<script src="/js/bootbox.min.js"></script>
 <script>
     $(function () {
         $(".select2").select2();

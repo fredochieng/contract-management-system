@@ -144,7 +144,13 @@
                                                     </td>
                                                     <td><a href="/contract/{{$closed_contract->contract_id}}/view">{{$closed_contract->contract_title}}</a></td>
                                                     <td>{{date("d-m-Y",strtotime($closed_contract->effective_date))}}</td>
-                                                    <td>{{date("d-m-Y",strtotime($closed_contract->expiry_date))}}</td>
+
+                                                    @if($closed_contract->expiry_date == '')
+                                                        <td>N/A</td>
+                                                        @else
+                                                        <td>{{date("d-m-Y",strtotime($closed_contract->expiry_date))}}
+                                                        </td>
+                                                        @endif
                                                     </td>
                                                     {!! Form::close() !!}
                                                 </tr>
@@ -182,7 +188,13 @@
                                                     </td>
                                                     <td><a href="/contract/{{$ammended_contract->contract_id}}/view">{{$ammended_contract->contract_title}}</a></td>
                                                     <td>{{date("d-m-Y",strtotime($ammended_contract->effective_date))}}</td>
-                                                    <td>{{date("d-m-Y",strtotime($ammended_contract->expiry_date))}}</td>
+
+                                                    @if($ammended_contract->expiry_date == '')
+                                                        <td>N/A</td>
+                                                        @else
+                                                        <td>{{date("d-m-Y",strtotime($ammended_contract->expiry_date))}}
+                                                        </td>
+                                                        @endif
                                                     </td>
                                                     {!! Form::close() !!}
                                                 </tr>
@@ -220,8 +232,13 @@
                                                     <td><a href="/contract/{{$terminated_contract->contract_id}}/view">{{$terminated_contract->contract_code}}</a>
                                                     </td>
                                                     <td><a href="/contract/{{$terminated_contract->contract_id}}/view">{{$terminated_contract->contract_title}}</a></td>
-                                                    <td>{{date("d-m-Y",strtotime($terminated_contract->effective_date))}}</td>
-                                                    <td>{{date("d-m-Y",strtotime($terminated_contract->expiry_date))}}</td>
+
+                                                 @if($terminated_contract->expiry_date == '')
+                                                    <td>N/A</td>
+                                                    @else
+                                                    <td>{{date("d-m-Y",strtotime($terminated_contract->expiry_date))}}
+                                                    </td>
+                                                    @endif
                                                     </td>
                                                     {!! Form::close() !!}
                                                 </tr>

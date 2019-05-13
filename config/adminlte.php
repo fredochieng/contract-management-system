@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'CMS',
+    'title' => 'Wananchi Legal',
 
     'title_prefix' => '',
 
@@ -32,7 +32,7 @@ return [
     |
     */
 
-    'logo' => '<img src="' . $logo_url . '"> CMS',
+    'logo' =>' Wananchi Legal',
 
     'logo_mini' => '<img src="' . $logo_url . '">',
 
@@ -147,6 +147,11 @@ return [
                     'icon'        => 'angle-double-right',
                     'url'  => 'created-contracts',
                 ],
+                 [
+                    'text' => 'Reviewed Contracts',
+                    'icon'        => 'angle-double-right',
+                    'url'  => 'reviewed-contracts',
+                ],
 
                 [
                     'text' => 'Pending Contracts',
@@ -246,5 +251,12 @@ return [
         'datatables' => true,
         'select2'    => true,
         'chartjs'    => true,
+        'pace'       => true,
     ],
+
+    'pace' => [
+        'color' => 'white',
+        'type' => 'minimal',
+    ],
+
 ];

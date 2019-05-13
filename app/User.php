@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Users_Details;
 use App\Notifications\UserCreatedNotification;
+use DB;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -32,12 +33,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isAdmin()
     {
         return $this->hasRole('Admin');
-        foreach ($this->roles()->get() as $role) {
-            if ($role->id == 6) {
-                return true;
-            }
-        }
-        return false;
     }
     public function isUser()
     {
@@ -51,6 +46,17 @@ class User extends Authenticatable implements MustVerifyEmail
     public function verifyUser()
     {
         return $this->hasOne('App\VerifyAddedUser');
+    }
+
+    public static function getLegalUsers(){
+          $legal_users = DB::table('users')->select(DB::raw('users.*'), DB::raw('model_has_roles.*'),DB::raw('roles.name AS role_name'))
+            ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Legal Counsel')
+            ->inRandomOrder()
+            ->take(1)
+            ->get();
+        return $legal_users;
     }
 
     /**

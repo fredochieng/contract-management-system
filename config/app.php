@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Yoeunes\Toastr\ToastrServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        Laravel\RoundRobin\RoundRobinServiceProvider::class,
 
 
         /*
@@ -233,6 +234,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Carbon' => 'Carbon\Carbon',
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+        'RoundRobin' => Laravel\RoundRobin\RoundRobinFacade::class,
 
     ],
 
