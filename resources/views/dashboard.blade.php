@@ -4,62 +4,10 @@
 <h1>Dashboard</h1>
 @stop
 @section('content')
-{{-- <div class="row">
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-yellow">
-            <div class="inner">
-                <h3>{{ $published_contract_count }}</h3>
-<p>Pending Contracts</p>
-</div>
-<div class="icon">
-    <i class="fa fa-desktop"></i>
-</div>
-<a href="pending-contracts" class="small-box-footer">View Contracts <i class="fa fa-arrow-circle-right"></i></a>
-</div>
-</div>
-<div class="col-lg-3 col-xs-6">
-    <div class="small-box bg-blue">
-        <div class="inner">
-            <h3>{{ $ammended_contract_count }}</h3>
-            <p>Amended Contracts</p>
-        </div>
-        <div class="icon">
-            <i class="fa fa-certificate"></i>
-        </div>
-        <a href="amended-contracts" class="small-box-footer">View Contracts <i class="fa fa-arrow-circle-right"></i></a>
-    </div>
-</div>
-<div class="col-lg-3 col-xs-6">
-    <div class="small-box bg-aqua">
-        <div class="inner">
-            <h3>{{ $closed_contract_count }}</h3>
-            <p>Closed Contracts</p>
-        </div>
-        <div class="icon">
-            <i class="fa fa-briefcase"></i>
-        </div>
-        <a href="closed-contracts" class="small-box-footer">View Contracts <i class="fa fa-arrow-circle-right"></i></a>
-    </div>
-</div>
-<div class="col-lg-3 col-xs-6">
-    <div class="small-box bg-red">
-        <div class="inner">
-            <h3>{{ $terminated_contract_count }}</h3>
-            <p>Terminated Contracts</p>
-        </div>
-        <div class="icon">
-            <i class="fa fa-rocket"></i>
-        </div>
-        <a href="terminated-contracts" class="small-box-footer">View Contracts <i
-                class="fa fa-arrow-circle-right"></i></a>
-    </div>
-</div>
-<!-- ./col -->
-</div> --}}
 <div class="row">
     <a href="pending-contracts">
         <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box bg-aqua">
+            <div class="info-box bg-yellow">
                 <span class="info-box-icon"><i class="fa fa-bookmark-o"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"><b>Pending</b></span>
@@ -77,9 +25,9 @@
             <!-- /.info-box -->
         </div>
     </a>
-    <a href="pending-contracts">
+    <a href="closed-contracts">
         <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box bg-red">
+            <div class="info-box bg-blue">
                 <span class="info-box-icon"><i class="fa fa-comments-o"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"><b>Closed</b></span>
@@ -97,7 +45,7 @@
         </div>
     </a>
     <!-- /.col -->
-    <a href="pending-contracts">
+    <a href="approved-contracts">
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box bg-green">
                 <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
@@ -117,9 +65,9 @@
         </div>
     </a>
     <!-- /.col -->
-    <a href="pending-contracts">
+    <a href="reviewed-contracts">
         <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box bg-yellow">
+            <div class="info-box bg-aqua">
                 <span class="info-box-icon"><i class="fa fa-calendar"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"><b>Reviewed</b></span>

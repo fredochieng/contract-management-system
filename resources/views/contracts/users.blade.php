@@ -1,6 +1,6 @@
 
 @extends('adminlte::page')
-@section('title', 'CMS | Users')
+@section('title', 'Wananchi Legal | Users')
 @section('content_header')
 <h1 class="pull-left">Users<small>Manage Users</small></h1>
 <div style="clear:both"></div>

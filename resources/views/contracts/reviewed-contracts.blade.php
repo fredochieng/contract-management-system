@@ -20,7 +20,6 @@
                 <li class="active"><a href="#reviewed-contracts" data-toggle="tab">Reviewed Contracts</a></li>
                 <li><a href="#draft_sent_for_review" data-toggle="tab">Draft Review Received</a></li>
                 <li><a href="#final_draft_sent" data-toggle="tab">Final Drafts Received</a></li>
-                <li><a href="#final_execution_sent" data-toggle="tab">Final Execution Version Received</a></li>
                 <li><a href="#uploaded_caf" data-toggle="tab">CAF Uploaded (Signed Off)</a></li>
                 @endif
                 <div class="btn-group pull-right" style="padding:6px;">
@@ -166,63 +165,6 @@
                                             </thead>
                                             <tbody>
                                                 @foreach($final_draft_sent as $key=>$reviewed_contract)
-                                                <tr>
-                                                    <td>{{ $key+1}}</td>
-                                                    <td><a
-                                                            href="/contract/{{$reviewed_contract->contract_id}}/view">{{$reviewed_contract->contract_code}}</a>
-                                                    </td>
-                                                    <td><a
-                                                            href="/contract/{{$reviewed_contract->contract_id}}/view">{{$reviewed_contract->contract_title}}</a>
-                                                    </td>
-                                                    <td><a href="/contract-party/{{$reviewed_contract->party_id}}/view-contract-party"
-                                                            target="_blank">
-                                                            <span class="label"
-                                                                style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
-                                                                <i class="fa fa-briefcase fa-fw"></i>
-                                                                {{$reviewed_contract->party_name}} </a></span>
-                                                    </td>
-                                                    <td><span class="pull-right-container">
-                                                            <small
-                                                                class="badge bg-yellow">{{$reviewed_contract->status_name}}</small></span>
-                                                    </td>
-                                                    <td>
-                                                        <div class="btn-group">
-                                                            <a class="btn btn-info btn-block btn-sm btn-flat"
-                                                                href="/contract/{{$reviewed_contract->contract_id}}/view"><i
-                                                                    class="fa fa-eye"></i> View</a>
-                                                        </div>
-                                                    </td>
-                                                    {!! Form::close() !!}
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="tab-pane" id="final_execution_sent">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="box box-success">
-                                <div class="box-body">
-                                    <div class="table-responsive">
-                                        <table id="example1" class="table no-margin">
-                                            <thead>
-                                                <tr>
-                                                    <th>S/N</th>
-                                                    <th>Ticket #</th>
-                                                    <th>Contract Title</th>
-                                                    <th>Party Name</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($final_execution_sent as $key=>$reviewed_contract)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
                                                     <td><a

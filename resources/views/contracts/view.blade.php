@@ -14,8 +14,6 @@
                 <li class="active"><a href="#tab-details" data-toggle="tab">Contract Details</a></li>
                 <li><a href="#tab-description" data-toggle="tab">Contract Description</a></li>
                 <li><a href="#tab-history" data-toggle="tab">Contract History</a></li>
-                <li class=""><a href="tab-details" data-toggle="tab">Request CAF</a></li>
-                <li class=""><a href="tab-details" data-toggle="tab">Request Further Info</a></li>
                 {{-- @if($contract->assigned_user_id == Auth::user()->id) --}}
                     @if(auth()->check())
                            @if(!auth()->user()->isUser() && ($contract->stage=='1') &&($contract->assigned=='0'))
@@ -86,15 +84,12 @@
                                                         @elseif($contract->contract_status == '2')
                                                         <small
                                                             class="badge bg-blue">{{$contract->status_name}}</small></span>
-                                                        @elseif($contract->contract_status == 'Closed')
+                                                        @elseif($contract->contract_status == '3')
                                                         <small
-                                                            class="badge bg-aqua">{{$contract->contract_status}}</small></span>
-                                                        @elseif($contract->contract_status == 'Amended')
+                                                            class="badge bg-green">{{$contract->status_name}}</small></span>
+                                                        @elseif($contract->contract_status == '4')
                                                         <small
-                                                            class="badge bg-blue">{{$contract->contract_status}}</small></span>
-                                                        @elseif($contract->contract_status == 'Terminated')
-                                                        <small
-                                                            class="badge bg-red">{{$contract->contract_status}}</small></span>
+                                                            class="badge bg-blue">{{$contract->status_name}}</small></span>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -183,34 +178,95 @@
                                 </div>
                                 <div class="box-body">
                                     <div class="table-responsive">
+                                        @if(!auth()->user()->isUser())
                                         <table id="clientTable" class="table no-margin">
                                             <tr>
-                                                <td><b>Created</b></td>
-                                                <td>{{ $contract->created_date }}</td>
+                                                <td><b>Draft Created</b></td>
+                                                <td>{{ $draft_created_date->date }}</td>
 
-                                                <td><b>Submitted</b></td>
-                                                @if(empty($date_submitted->date))
+                                                <td><b>Draft Sent</b></td>
+                                                @if(empty($draft_review_sent_date->date))
                                                 <td>N/A</td>
                                                 @else
-                                                <td>{{ $date_submitted->date }}</td>
+                                                <td>{{ $draft_review_sent_date->date }}</td>
+                                                @endif
+                                            </tr>
+                                            <tr>
+                                                <td><b>Final Draft</b></td>
+                                                @if (empty($final_draft_sent->date))
+                                                <td>N/A</td>
+                                                @else
+                                                <td>{{ $final_draft_sent->date }}</td>
+                                                @endif
+
+                                                <td><b>CAF Uploaded</b></td>
+                                                @if(empty($caf_uploaded_date->date))
+                                                <td>N/A</td>
+                                                @else
+                                                <td>{{ $caf_uploaded_date->date}}</td>
                                                 @endif
                                             </tr>
                                             <tr>
                                                 <td><b>Approved</b></td>
-                                                @if (empty($date_approved->date))
+                                                @if (empty($caf_approved_date->date))
                                                 <td>N/A</td>
                                                 @else
-                                                <td>{{ $date_approved->date }}</td>
+                                                <td>{{ $caf_approved_date->date }}</td>
                                                 @endif
 
                                                 <td><b>Closed</b></td>
-                                                @if(empty($date_closed->date))
+                                                @if(empty($contract_closed_date->date))
                                                 <td>N/A</td>
                                                 @else
-                                                <td>{{ $date_closed->date}}</td>
+                                                <td>{{ $contract_closed_date->date}}</td>
                                                 @endif
                                             </tr>
                                         </table>
+                                        @else
+                                        <table id="clientTable" class="table no-margin">
+                                            <tr>
+                                                <td><b>Draft Created</b></td>
+                                                <td>{{ $draft_created_date->date }}</td>
+
+                                                <td><b>Draft Received</b></td>
+                                                @if(empty($draft_review_sent_date->date))
+                                                <td>N/A</td>
+                                                @else
+                                                <td>{{ $draft_review_sent_date->date }}</td>
+                                                @endif
+                                            </tr>
+                                            <tr>
+                                                <td><b>Final Draft</b></td>
+                                                @if (empty($final_draft_sent->date))
+                                                <td>N/A</td>
+                                                @else
+                                                <td>{{ $final_draft_sent->date }}</td>
+                                                @endif
+
+                                                <td><b>CAF Uploaded</b></td>
+                                                @if(empty($caf_uploaded_date->date))
+                                                <td>N/A</td>
+                                                @else
+                                                <td>{{ $caf_uploaded_date->date}}</td>
+                                                @endif
+                                            </tr>
+                                            <tr>
+                                                <td><b>Approved</b></td>
+                                                @if (empty($caf_approved_date->date))
+                                                <td>N/A</td>
+                                                @else
+                                                <td>{{ $caf_approved_date->date }}</td>
+                                                @endif
+
+                                                <td><b>Closed</b></td>
+                                                @if(empty($contract_closed_date->date))
+                                                <td>N/A</td>
+                                                @else
+                                                <td>{{ $contract_closed_date->date}}</td>
+                                                @endif
+                                            </tr>
+                                        </table>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -234,14 +290,12 @@
                                                              Contract Draft
                                                     @elseif($contract->stage =='2')
                                                              Reviewed Contract
-                                                    @elseif($contract->stage =='3')
+                                                    @elseif($contract->stage =='3' || '4')
                                                              Final Draft
-                                                    @elseif($contract->stage =='4' || '5')
-                                                    Final Execution
                                                     @endif
                                                 </a>
 
-                                                @if($contract->stage =='5')
+                                                @if($contract->stage =='4')
                                                 <a href="/{{$caf_form->crf_form}}" class="btn btn-primary" style="margin-right:128px"
                                                     target="_blank"><i class="fa fa-fw fa-download"></i>CAF Document
                                                 </a>
@@ -250,9 +304,7 @@
                                                   @if(auth()->check())
                                                          @if(auth()->user()->isUser() && ($contract->stage=='2') && ($contract->user_comments ==''))
                                                              <a href="" data-toggle="modal" data-target="#modal_user_comment">Comment on the reviewed draft</a>
-                                                         @elseif(auth()->user()->isUser() && ($contract->stage=='3') && ($contract->user_comments ==''))
-                                                             <a href="" data-toggle="modal" data-target="#modal_user_comment_final">Comment on the final draft</a>
-                                                         @elseif(auth()->user()->isUser() && ($contract->stage=='4'))
+                                                         @elseif(auth()->user()->isUser() && ($contract->stage=='3'))
                                                              <a href="" data-toggle="modal" data-target="#modal_upload_caf">Upload CAF Document</a>
 
 
@@ -284,12 +336,12 @@
                                 @if(!auth()->user()->isUser() && ($contract->stage=='1') && ($contract->assigned_user_id == Auth::user()->id))
                                      <a href="#" data-target="#modal_share_reviewed_contract" data-toggle="modal" class="btn btn-primary">
                                      <i class="fa fa-check"></i> Share Reviewed Contract </a>
-                                @elseif(!auth()->user()->isUser() && ($contract->stage=='2'))
+                                @elseif(!auth()->user()->isUser() && ($contract->stage=='2') && ($contract->assigned_user_id == Auth::user()->id))
                                       <a href="#" data-target="#modal_share_final_draft" data-toggle="modal" class="btn btn-primary">
                                       <i class="fa fa-check"></i> Share Final Draft </a>
-                                @elseif(!auth()->user()->isUser() && ($contract->stage=='3'))
-                                <a href="#" data-target="#modal_share_final_execution" data-toggle="modal" class="btn btn-primary">
-                                    <i class="fa fa-check"></i> Share Final Execution Version </a>
+                                @elseif(!auth()->user()->isUser() && ($contract->stage=='4') && ($contract->assigned_user_id == Auth::user()->id))
+                                      <a href="#" data-target="#modal_approve_caf" data-toggle="modal" class="btn btn-primary">
+                                      <i class="fa fa-check"></i> Approve CAF </a>
                                 @endif
                             @endif
 
@@ -378,7 +430,7 @@
                                                     <th>User</th>
                                                     <th>Date</th>
                                                     <th>Contract Draft</th>
-                                                    <th style="width:120px">CRF Document</th>
+
                                                     <th>
                                                         <center>Stage</center>
                                                     </th>
@@ -394,13 +446,7 @@
                                                     <td style="width:120px"> <a href="/{{$contracts->draft_file}}"
                                                             target="_blank"><i class="fa fa-fw fa-download"></i>
                                                             Download</a></td>
-                                                    @if($contracts->crf_form =='')
-                                                    <td style="width:120px"> <a href="#"> No CRF Document</a></td>
-                                                    @else
-                                                    <td style="width:120px"> <a href="/{{$contracts->crf_form}}"
-                                                            target="_blank"><i class="fa fa-fw fa-download"></i>
-                                                            Download</a></td>
-                                                    @endif
+
                                                     <td>
                                                         <center><span class="pull-right-container">
                                                            @if($contracts->stage_id== '1')
@@ -415,9 +461,11 @@
                                                             @elseif ($contracts->stage_id== '4')
                                                             <small
                                                                 class="badge bg-purple">{{$contracts->stage_name}}</small></span>
-                                                            @elseif($contracts->contract_drafts_status== 'Terminated')
+                                                            @elseif($contracts->stage_id== '5')
                                                             <small
-                                                                class="badge bg-red">{{ $contracts->contract_drafts_status}}</small></span>
+                                                                class="badge bg-green">{{ $contracts->stage_name}}</small></span>
+                                                            @elseif($contracts->stage_id== '6')
+                                                                <small class="badge bg-grey">{{ $contracts->stage_name}}</small></span>
                                                         </center>
                                                     </td>
                                                     @endif
@@ -482,8 +530,8 @@
     @include('contracts.modals.modal_share_final_draft')
     @include('contracts.modals.modal_user_comment_final')
     {{-- @include('contracts.modals.modal_view_user_comment') --}}
-    @include('contracts.modals.modal_share_final_execution')
     @include('contracts.modals.modal_upload_caf')
+    @include('contracts.modals.modal_approve_caf')
 
 
 

@@ -33,8 +33,8 @@ Route::group(['middleware' => 'verified'], function () {
     Route::any('comment-reviewed-contract', 'ContractController@commentReviewedContract');
     Route::any('share-final-draft', 'ContractController@shareFinalDraft');
     Route::any('comment-final-draft', 'ContractController@commentFinalDraft');
-    Route::any('share-execution-contract', 'ContractController@shareFinalExecution');
     Route::any('upload-caf-document', 'ContractController@uploadCAF');
+    Route::any('approve-caf', 'ContractController@approveCAF');
     Route::any('reviewed-contracts', 'ContractController@reviewedContracts');
 
 

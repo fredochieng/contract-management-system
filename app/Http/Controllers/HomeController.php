@@ -65,35 +65,28 @@ class HomeController extends Controller
                 ->where('contracts.assigned_user_id', '=', Auth::user()->id)
                 ->count();
 
-            $data['draft_execution_count'] = \DB::table('contracts')
+            $data['sign_off_count'] = \DB::table('contracts')
                 ->where($compare_field, $compare_operator, $compare_value)
                 ->where('contracts.stage', '=', '4')
                 ->where('contracts.status', '=', '2')
                 ->where('contracts.assigned_user_id', '=', Auth::user()->id)
                 ->count();
 
-            $data['sign_off_count'] = \DB::table('contracts')
-                ->where($compare_field, $compare_operator, $compare_value)
-                ->where('contracts.stage', '=', '5')
-                ->where('contracts.status', '=', '2')
-                ->where('contracts.assigned_user_id', '=', Auth::user()->id)
-                ->count();
-
             $data['approved_contract_count'] = \DB::table('contracts')
                 ->where($compare_field, $compare_operator, $compare_value)
-                ->where('contracts.stage', '=', '6')
+                ->where('contracts.stage', '=', '5')
                 ->where('contracts.status', '=', '3')
                 ->where('contracts.assigned_user_id', '=', Auth::user()->id)
                 ->count();
 
             $data['closed_contract_count'] = \DB::table('contracts')
                 ->where($compare_field, $compare_operator, $compare_value)
-                ->where('contracts.stage', '=', '7')
+                ->where('contracts.stage', '=', '6')
                 ->where('contracts.status', '=', '4')
                 ->where('contracts.assigned_user_id', '=', Auth::user()->id)
                 ->count();
 
-            $data['total_contracts_count'] =  $data['draft_review_count'] + $data['final_draft_count'] + $data['draft_execution_count'] +
+            $data['total_contracts_count'] =  $data['draft_review_count'] + $data['final_draft_count']  +
                 $data['sign_off_count'] + $data['approved_contract_count'] + $data['closed_contract_count'];
         } else {
             $data['total_contracts_count'] = contract::where($compare_field, $compare_operator, $compare_value)
@@ -116,30 +109,23 @@ class HomeController extends Controller
                 ->where('contracts.assigned_user_id', '=', Auth::user()->id)
                 ->count();
 
-            $data['draft_execution_count'] = \DB::table('contracts')
+            $data['sign_off_count'] = \DB::table('contracts')
                 ->where($compare_field, $compare_operator, $compare_value)
                 ->where('contracts.stage', '=', '4')
                 ->where('contracts.status', '=', '2')
                 ->where('contracts.assigned_user_id', '=', Auth::user()->id)
                 ->count();
 
-            $data['sign_off_count'] = \DB::table('contracts')
-                ->where($compare_field, $compare_operator, $compare_value)
-                ->where('contracts.stage', '=', '5')
-                ->where('contracts.status', '=', '2')
-                ->where('contracts.assigned_user_id', '=', Auth::user()->id)
-                ->count();
-
             $data['approved_contract_count'] = \DB::table('contracts')
                 ->where($compare_field, $compare_operator, $compare_value)
-                ->where('contracts.stage', '=', '6')
+                ->where('contracts.stage', '=', '5')
                 ->where('contracts.status', '=', '3')
                 ->where('contracts.assigned_user_id', '=', Auth::user()->id)
                 ->count();
 
             $data['closed_contract_count'] = \DB::table('contracts')
                 ->where($compare_field, $compare_operator, $compare_value)
-                ->where('contracts.stage', '=', '7')
+                ->where('contracts.stage', '=', '6')
                 ->where('contracts.status', '=', '4')
                 ->where('contracts.assigned_user_id', '=', Auth::user()->id)
                 ->count();
@@ -156,27 +142,21 @@ class HomeController extends Controller
                 ->where('contracts.status', '=', '2')
                 ->count();
 
-            $data['draft_execution_count'] = \DB::table('contracts')
+            $data['sign_off_count'] = \DB::table('contracts')
                 ->where($compare_field, $compare_operator, $compare_value)
                 ->where('contracts.stage', '=', '4')
                 ->where('contracts.status', '=', '2')
                 ->count();
 
-            $data['sign_off_count'] = \DB::table('contracts')
-                ->where($compare_field, $compare_operator, $compare_value)
-                ->where('contracts.stage', '=', '5')
-                ->where('contracts.status', '=', '2')
-                ->count();
-
             $data['approved_contract_count'] = \DB::table('contracts')
                 ->where($compare_field, $compare_operator, $compare_value)
-                ->where('contracts.stage', '=', '6')
+                ->where('contracts.stage', '=', '5')
                 ->where('contracts.status', '=', '3')
                 ->count();
 
             $data['closed_contract_count'] = \DB::table('contracts')
                 ->where($compare_field, $compare_operator, $compare_value)
-                ->where('contracts.stage', '=', '7')
+                ->where('contracts.stage', '=', '6')
                 ->where('contracts.status', '=', '4')
                 ->count();
         }
@@ -191,7 +171,6 @@ class HomeController extends Controller
             $data['draft_created_per'] = 0;
             $data['draft_review_per'] = 0;
             $data['final_draft_per'] = 0;
-            $data['final_exec_per'] = 0;
             $data['sign_off_per'] = 0;
             $data['approved_per'] = 0;
             $data['closed_per'] = 0;
@@ -200,7 +179,6 @@ class HomeController extends Controller
             $data['draft_review_per'] = ($data['draft_review_count']  * 100) / $data['total_contracts_count'];
             $data['draft_created_per'] = ($data['draft_created_count']  * 100) / $data['total_contracts_count'];
             $data['final_draft_per'] = ($data['final_draft_count']  * 100) / $data['total_contracts_count'];
-            $data['final_exec_per'] = ($data['draft_execution_count']  * 100) / $data['total_contracts_count'];
             $data['sign_off_per'] = ($data['sign_off_count']  * 100) / $data['total_contracts_count'];
             $data['approved_per'] = ($data['approved_contract_count']  * 100) / $data['total_contracts_count'];
             $data['closed_per'] = ($data['closed_contract_count']  * 100) / $data['total_contracts_count'];
@@ -225,7 +203,7 @@ class HomeController extends Controller
             $contract_assigned = '';
             $contract_assigned1 = 1;
         } elseif (auth()->user()->isUser()) {
-            $contract_stage = '6';
+            $contract_stage = '5';
             $contract_status = '3';
 
             $contract_stage1 = '2';
