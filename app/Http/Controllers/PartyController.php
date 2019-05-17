@@ -17,7 +17,6 @@ class PartyController extends Controller
      */
     public function index()
     {
-        // ->orderBy ('contracts.contract_id', 'desc')
         $parties = party::all();
         return view('contracts.parties')->with([
             'parties' => $parties
@@ -48,17 +47,17 @@ class PartyController extends Controller
 
         $party = new party;
 
-        $party->party_name = strtoupper($request->input('party_name'));
-        $party->contact_person = strtoupper($request->input('contact_person'));
+        $party->party_name = ucwords($request->input('party_name'));
+        $party->contact_person = ucwords($request->input('contact_person'));
         $party->telephone = $request->input('telephone');
         $party->email = $request->input('email');
-        $party->physical_address = strtoupper($request->input('physical_address'));
+        $party->physical_address = ucwords($request->input('physical_address'));
         $party->postal_address = $request->input('postal_address');
         $party->created_by = Auth::user()->id;
         $party->updated_by = Auth::user()->id;
 
         $party->save();
-        Alert::success('Contract Party Creation', 'Contract party successfully added');
+        Alert::success('Contract Party Creation', 'Contract party successfully created');
 
         return redirect('party');
     }
@@ -104,11 +103,11 @@ class PartyController extends Controller
         ]);
 
 
-        $party->party_name = strtoupper($request->input('party_name'));
-        $party->contact_person = strtoupper($request->input('contact_person'));
+        $party->party_name = ucwords($request->input('party_name'));
+        $party->contact_person = ucwords($request->input('contact_person'));
         $party->telephone = $request->input('telephone');
         $party->email = $request->input('email');
-        $party->physical_address = strtoupper($request->input('physical_address'));
+        $party->physical_address = ucwords($request->input('physical_address'));
         $party->postal_address = $request->input('postal_address');
         $party->updated_by = Auth::user()->id;
 
@@ -143,7 +142,7 @@ class PartyController extends Controller
 
     public function contractParty($party_id = null)
     {
-        $party = DB::table('parties')
+        $data['party'] = DB::table('parties')
             ->select(
                 DB::raw('parties.*'),
                 DB::raw('contracts.*')
@@ -152,38 +151,46 @@ class PartyController extends Controller
             ->where('parties.party_id', '=', $party_id)
             ->first();
 
-        $total_contracts = \DB::table('contracts')
+        $data['total_contracts'] = \DB::table('contracts')
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '!=', 'Created')
             ->count();
 
-        $total_pending_contracts = \DB::table('contracts')
+        $data['total_pending_contracts'] = \DB::table('contracts')
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '=', 'Pending')
+            ->where('contracts.stage', '=', 1)
+            ->where('contracts.status', '=', 1)
             ->count();
 
-        $total_approved_contracts = \DB::table('contracts')
+        $data['total_approved_contracts'] = \DB::table('contracts')
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '=', 'Approved')
+            ->where('contracts.stage', '=', 5)
+            ->where('contracts.status', '=', 3)
             ->count();
 
-        $total_closed_contracts = \DB::table('contracts')
+        $data['total_closed_contracts'] = \DB::table('contracts')
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '=', 'Closed')
+            ->where('contracts.stage', '=', 6)
+            ->where('contracts.status', '=', 4)
             ->count();
 
-        $total_ammended_contracts = \DB::table('contracts')
+        $data['total_reviewed_contracts'] = \DB::table('contracts')
+            ->where('contracts.party_name_id', '=', $party_id)
+            ->where('contracts.stage', '=', 2)
+            ->where('contracts.status', '=', 2)
+            ->count();
+
+        $data['total_ammended_contracts'] = \DB::table('contracts')
             ->where('contracts.party_name_id', '=', $party_id)
             ->where('contracts.status', '=', 'Amended')
             ->count();
 
-        $total_terminated_contracts = \DB::table('contracts')
+        $data['total_terminated_contracts'] = \DB::table('contracts')
             ->where('contracts.party_name_id', '=', $party_id)
             ->where('contracts.status', '=', 'Terminated')
             ->count();
 
         // Contract party approved contracts
-        $approved_contracts = DB::table('contracts')
+        $data['approved_contracts'] = DB::table('contracts')
             ->select(
                 DB::raw('contracts.*'),
                 DB::raw('parties.*'),
@@ -209,11 +216,12 @@ class PartyController extends Controller
             ->leftJoin('contract_types', 'contracts.contract_type', '=', 'contract_types.contract_type_id')
             ->orderBy('contracts.contract_id', 'desc')->take(2)
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '=', 'Approved')
+            ->where('contracts.stage', '=', 5)
+            ->where('contracts.status', '=', 3)
             ->get();
 
         // Contract party approved contracts
-        $closed_contracts = DB::table('contracts')
+        $data['closed_contracts'] = DB::table('contracts')
             ->select(
                 DB::raw('contracts.*'),
                 DB::raw('parties.*'),
@@ -239,12 +247,43 @@ class PartyController extends Controller
             ->leftJoin('contract_types', 'contracts.contract_type', '=', 'contract_types.contract_type_id')
             ->orderBy('contracts.contract_id', 'desc')->take(2)
             ->where('contracts.party_name_id', '=', $party_id)
-            ->where('contracts.status', '=', 'Closed')
+            ->where('contracts.stage', '=', 6)
+            ->where('contracts.status', '=', 4)
+            ->get();
+        // Contract party approved contracts
+        $data['reviewed_contracts'] = DB::table('contracts')
+            ->select(
+                DB::raw('contracts.*'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('contracts.created_at AS created_date'),
+                DB::raw('contracts.updated_at AS contract_updated_date'),
+                DB::raw('contracts.status AS contract_status'),
+                DB::raw('contracts.stage AS contract_stage'),
+                DB::raw('draft_stages.task AS draft_stages_task'),
+                DB::raw('users_organizations.*'),
+                DB::raw('contract_drafts.*'),
+                DB::raw('draft_stages.*'),
+                DB::raw('contract_types.*')
+            )
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contract_drafts.stage_id', '=', 'draft_stages.draft_stage_id')
+            ->leftJoin('contract_types', 'contracts.contract_type', '=', 'contract_types.contract_type_id')
+            ->orderBy('contracts.contract_id', 'desc')->take(2)
+            ->where('contracts.party_name_id', '=', $party_id)
+            ->where('contracts.stage', '=', 2)
+            ->where('contracts.status', '=', 2)
             ->get();
 
 
         // Contract party ammended contracts
-        $ammended_contracts = DB::table('contracts')
+        $data['ammended_contracts'] = DB::table('contracts')
             ->select(
                 DB::raw('contracts.*'),
                 DB::raw('parties.*'),
@@ -274,7 +313,7 @@ class PartyController extends Controller
             ->get();
 
         // Contract party terminated contracts
-        $terminated_contracts = DB::table('contracts')
+        $data['terminated_contracts'] = DB::table('contracts')
             ->select(
                 DB::raw('contracts.*'),
                 DB::raw('parties.*'),
@@ -303,19 +342,7 @@ class PartyController extends Controller
             ->where('contracts.status', '=', 'Terminated')
             ->get();
 
-        return view('contracts.view-contract-party')->with([
-            'party' => $party,
-            'total_contracts' => $total_contracts,
-            'total_pending_contracts' => $total_pending_contracts,
-            'total_approved_contracts' => $total_approved_contracts,
-            'total_closed_contracts' => $total_closed_contracts,
-            'total_ammended_contracts' => $total_ammended_contracts,
-            'total_terminated_contracts' => $total_terminated_contracts,
-            'closed_contracts' => $closed_contracts,
-            'approved_contracts' => $approved_contracts,
-            'ammended_contracts' => $ammended_contracts,
-            'terminated_contracts' => $terminated_contracts
-        ]);
+        return view('contracts.view-contract-party')->with($data);
     }
 
     public function destroy(party $party)

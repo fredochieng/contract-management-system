@@ -8,7 +8,7 @@
     <a href="pending-contracts">
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box bg-yellow">
-                <span class="info-box-icon"><i class="fa fa-bookmark-o"></i></span>
+                <span class="info-box-icon"><i class="fa fa-desktop"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"><b>Pending</b></span>
                     <span class="info-box-number">{{ $draft_created_count }}</span>
@@ -28,7 +28,7 @@
     <a href="closed-contracts">
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box bg-blue">
-                <span class="info-box-icon"><i class="fa fa-comments-o"></i></span>
+                <span class="info-box-icon"><i class="fa fa-briefcase"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"><b>Closed</b></span>
                     <span class="info-box-number">{{ $closed_contract_count }}</span>
@@ -68,7 +68,7 @@
     <a href="reviewed-contracts">
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box bg-aqua">
-                <span class="info-box-icon"><i class="fa fa-calendar"></i></span>
+                <span class="info-box-icon"><i class="fa fa-certificate"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"><b>Reviewed</b></span>
                     <span class="info-box-number">{{ $draft_review_count }}</span>
@@ -105,7 +105,7 @@
             <!-- /.box-header -->
             <div class="box-body" style="">
                 <div class="table-responsive">
-                    <table class="table no-margin">
+                    <table id="example1" class="table no-margin">
                         <thead>
                             <tr>
                                 <th>S/N</th>

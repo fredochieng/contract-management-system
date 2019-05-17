@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'Contract Parties')
+@section('title', 'Wananchi Legal | Contract Parties')
 @section('content_header')
 <h1 class="pull-left">Contract Parties<small>Manage Contract Parties</small></h1>
 

@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use BeyondCode\Mailbox\Facades\Mailbox;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,6 +17,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        Mailbox::from('fredrick.owuor2014@gmail.com', function (InboundEmail $email) {
+            // Handle the incoming email
+        });
+
     }
 
     /**

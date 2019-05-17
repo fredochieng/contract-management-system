@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'CMA | Contract Party')
+@section('title', 'Wananchi Legal | Contract Party')
 @section('content_header')
 <h1>Contract Party: {{ $party->party_name }}</h1>
 @stop
@@ -31,7 +31,7 @@
                         <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-xs-12 ">
                             <div class="info-box ">
-                                <span class="info-box-icon bg-aqua "><i class="fa fa-briefcase "></i></span>
+                                <span class="info-box-icon bg-blue "><i class="fa fa-briefcase "></i></span>
                                 <div class="info-box-content ">
                                     <span class="info-box-text "><h6>Closed Contracts</h6></span>
                                     <span class="info-box-number " style="font-size:42px ">{{ $total_closed_contracts }}</span>
@@ -46,10 +46,10 @@
                         <div class="clearfix visible-sm-block "></div>
                         <div class="col-md-3 col-sm-6 col-xs-12 ">
                             <div class="info-box ">
-                                <span class="info-box-icon bg-blue "><i class="fa fa-certificate "></i></span>
+                                <span class="info-box-icon bg-green "><i class="fa fa-thumbs-up "></i></span>
                                 <div class="info-box-content ">
-                                    <span class="info-box-text "><h6>Amended Contracts</h6></span>
-                                    <span class="info-box-number " style="font-size:42px ">{{ $total_ammended_contracts }}</span>
+                                    <span class="info-box-text "><h6>Approved Contracts</h6></span>
+                                    <span class="info-box-number " style="font-size:42px ">{{ $total_approved_contracts }}</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -58,10 +58,10 @@
                         <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-xs-12 ">
                             <div class="info-box ">
-                                <span class="info-box-icon bg-red "><i class="fa fa-rocket "></i></span>
+                                <span class="info-box-icon bg-aqua "><i class="fa fa-certificate "></i></span>
                                 <div class="info-box-content ">
-                                    <span class="info-box-text "><h6>Terminated Contracts</h6></span>
-                                    <span class="info-box-number " style="font-size:42px ">{{ $total_terminated_contracts }}</span>
+                                    <span class="info-box-text "><h6>Reviewed Contracts</h6></span>
+                                    <span class="info-box-number " style="font-size:42px ">{{ $total_reviewed_contracts }}</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -85,6 +85,11 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td><b>Entity Type</b></td>
+                                                    <td>{{ $party->legal_entity_type }}</td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td><b>Contact Person</b></td>
                                                     <td>{{ $party->contact_person }}</td>
                                                 </tr>
@@ -103,6 +108,10 @@
                                                 <tr>
                                                     <td><b>Postal Address</b></td>
                                                     <td>{{ $party->postal_address }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Date Registered</b></td>
+                                                    <td>{{ $party->created_at }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Total Contracts</b></td>
@@ -132,8 +141,7 @@
                                                     <th>S/N</th>
                                                     <th>Ticket #</th>
                                                     <th>Contract Title</th>
-                                                    <th>Effective Date</th>
-                                                    <th>Expiry Date</th>
+                                                    <th>Date Created</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -143,15 +151,7 @@
                                                     <td><a href="/contract/{{$closed_contract->contract_id}}/view">{{$closed_contract->contract_code}}</a>
                                                     </td>
                                                     <td><a href="/contract/{{$closed_contract->contract_id}}/view">{{$closed_contract->contract_title}}</a></td>
-                                                    <td>{{date("d-m-Y",strtotime($closed_contract->effective_date))}}</td>
-
-                                                    @if($closed_contract->expiry_date == '')
-                                                        <td>N/A</td>
-                                                        @else
-                                                        <td>{{date("d-m-Y",strtotime($closed_contract->expiry_date))}}
-                                                        </td>
-                                                        @endif
-                                                    </td>
+                                                  <td>{{ $closed_contract->created_at }}</td>
                                                     {!! Form::close() !!}
                                                 </tr>
                                                 @endforeach
@@ -162,7 +162,7 @@
                             </div>
                             <div class="box box-success ">
                                 <div class="box-header ">
-                                    <h3 class="box-title ">Latest Amended Contracts</h3>
+                                    <h3 class="box-title ">Latest Approved Contracts</h3>
                                     <div class="pull-right box-tools ">
                                         <button type="button " class="btn btn-default btn-sm btn-flat " data-widget="collapse
                                     " data-toggle="tooltip " title="Collapse "><i class="fa fa-minus "></i></button>
@@ -176,26 +176,17 @@
                                                     <th>S/N</th>
                                                     <th>Ticket #</th>
                                                     <th>Contract Title</th>
-                                                    <th>Effective Date</th>
-                                                    <th>Expiry Date</th>
+                                                    <th>Date Created</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($ammended_contracts as $key=>$ammended_contract)
+                                                @foreach($approved_contracts as $key=>$row)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
-                                                    <td><a href="/contract/{{$ammended_contract->contract_id}}/view">{{$ammended_contract->contract_code}}</a>
+                                                    <td><a href="/contract/{{$row->contract_id}}/view">{{$row->contract_code}}</a>
                                                     </td>
-                                                    <td><a href="/contract/{{$ammended_contract->contract_id}}/view">{{$ammended_contract->contract_title}}</a></td>
-                                                    <td>{{date("d-m-Y",strtotime($ammended_contract->effective_date))}}</td>
-
-                                                    @if($ammended_contract->expiry_date == '')
-                                                        <td>N/A</td>
-                                                        @else
-                                                        <td>{{date("d-m-Y",strtotime($ammended_contract->expiry_date))}}
-                                                        </td>
-                                                        @endif
-                                                    </td>
+                                                    <td><a href="/contract/{{$row->contract_id}}/view">{{$row->contract_title}}</a></td>
+                                                    <td>{{ $row->created_at }}</td>
                                                     {!! Form::close() !!}
                                                 </tr>
                                                 @endforeach
@@ -207,7 +198,7 @@
 
                             <div class="box box-success ">
                                 <div class="box-header ">
-                                    <h3 class="box-title ">Latest Terminated Contracts</h3>
+                                    <h3 class="box-title ">Latest Reviewed Contracts</h3>
                                     <div class="pull-right box-tools ">
                                         <button type="button " class="btn btn-default btn-sm btn-flat " data-widget="collapse
                                     " data-toggle="tooltip " title="Collapse "><i class="fa fa-minus "></i></button>
@@ -221,25 +212,18 @@
                                                     <th>S/N</th>
                                                     <th>Ticket #</th>
                                                     <th>Contract Title</th>
-                                                    <th>Effective Date</th>
-                                                    <th>Expiry Date</th>
+                                                    <th>Date Created</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($terminated_contracts as $key=>$terminated_contract)
+                                                @foreach($reviewed_contracts as $key=> $row)
                                                 <tr>
                                                     <td>{{ $key+1}}</td>
-                                                    <td><a href="/contract/{{$terminated_contract->contract_id}}/view">{{$terminated_contract->contract_code}}</a>
+                                                    <td><a href="/contract/{{$row->contract_id}}/view">{{$row->contract_code}}</a>
                                                     </td>
-                                                    <td><a href="/contract/{{$terminated_contract->contract_id}}/view">{{$terminated_contract->contract_title}}</a></td>
-
-                                                 @if($terminated_contract->expiry_date == '')
-                                                    <td>N/A</td>
-                                                    @else
-                                                    <td>{{date("d-m-Y",strtotime($terminated_contract->expiry_date))}}
+                                                    <td><a href="/contract/{{$row->contract_id}}/view">{{$row->contract_title}}</a></td>
                                                     </td>
-                                                    @endif
-                                                    </td>
+                                                    <td>{{ $row->created_at }}</td>
                                                     {!! Form::close() !!}
                                                 </tr>
                                                 @endforeach

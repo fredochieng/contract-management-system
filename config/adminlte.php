@@ -207,11 +207,11 @@ return [
         ],
 
 
-        'ACCOUNT SETTINGS',
+        'SYSTEM SETTINGS',
         [
-            'text' => 'Profile',
-            'url'  => 'profile',
-            'icon' => 'user',
+            'text' => 'System',
+            'url'  => 'system/settings',
+            'icon' => 'cogs',
         ],
     ],
 

@@ -36,6 +36,9 @@ Route::group(['middleware' => 'verified'], function () {
     Route::any('upload-caf-document', 'ContractController@uploadCAF');
     Route::any('approve-caf', 'ContractController@approveCAF');
     Route::any('reviewed-contracts', 'ContractController@reviewedContracts');
+    Route::resource('system/settings', 'SystemController');
+    Route::any('add-entity', 'SystemController@storeEntities');
+
 
 
     Route::any('my-contracts', 'ContractController@mycontracts');
