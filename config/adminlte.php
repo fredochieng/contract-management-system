@@ -142,37 +142,33 @@ return [
                     'text' => 'Create New Contract',
                     'icon'        => 'angle-double-right',
                     'url'  => 'contract/create',
-                ], [
-                    'text' => 'Created Contracts',
+                ],[
+                    'text' => 'Pending Contracts',
                     'icon'        => 'angle-double-right',
-                    'url'  => 'created-contracts',
+                    'url'  => 'pending-contracts',
                 ],
+
                  [
                     'text' => 'Reviewed Contracts',
                     'icon'        => 'angle-double-right',
                     'url'  => 'reviewed-contracts',
                 ],
-
-                [
-                    'text' => 'Pending Contracts',
-                    'icon'        => 'angle-double-right',
-                    'url'  => 'pending-contracts',
-                ],
-                [
-                    'text' => 'Ammended Contracts',
-                    'icon'        => 'angle-double-right',
-                    'url'  => 'amended-contracts',
-                ],
+                // [
+                //     'text' => 'Ammended Contracts',
+                //     'icon'        => 'angle-double-right',
+                //     'url'  => 'amended-contracts',
+                // ],
                 [
                     'text' => 'Approved Contracts',
                     'icon'        => 'angle-double-right',
                     'url'  => 'approved-contracts',
                 ],
+                // [
+                //     'text' => 'Terminated Contracts',
+                //     'icon'        => 'angle-double-right',
+                //     'url'  => 'terminated-contracts',
+                // ],
                 [
-                    'text' => 'Terminated Contracts',
-                    'icon'        => 'angle-double-right',
-                    'url'  => 'terminated-contracts',
-                ], [
                     'text' => 'Closed Contracts',
                     'icon'        => 'angle-double-right',
                     'url'  => 'closed-contracts',

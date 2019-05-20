@@ -35,9 +35,11 @@ Route::group(['middleware' => 'verified'], function () {
     Route::any('comment-final-draft', 'ContractController@commentFinalDraft');
     Route::any('upload-caf-document', 'ContractController@uploadCAF');
     Route::any('approve-caf', 'ContractController@approveCAF');
+    Route::any('close-contract', 'ContractController@closeContract');
     Route::any('reviewed-contracts', 'ContractController@reviewedContracts');
     Route::resource('system/settings', 'SystemController');
     Route::any('add-entity', 'SystemController@storeEntities');
+    Route::any('profile', 'UserController@getUserProfile');
 
 
 
@@ -62,7 +64,6 @@ Route::group(['middleware' => 'verified'], function () {
     Route::any('contract/{id}/view', 'ContractController@viewcontract');
     Route::resource('/system-users/users', 'UserController');
     Route::any('delete-user', 'UserController@deleteUser');
-    Route::any('profile', 'UserController@getUserProfile');
     Route::any('update-profile/{user}', 'UserController@updateUserProfile');
     Route::resource('/reports', 'ReportController');
     Route::get('reports/{type}/view', 'ReportController@show');

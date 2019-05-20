@@ -55,7 +55,7 @@
         }
 
 
-        @media only screen and (max-width:640px) {
+        @media  only screen and (max-width:640px) {
             body {
                 width: auto !important;
             }
@@ -85,7 +85,7 @@
 
         }
 
-        @media only screen and (max-width:479px) {
+        @media  only screen and (max-width:479px) {
             body {
                 width: auto !important;
             }
@@ -161,8 +161,8 @@
                                                         class="full">
                                                         <tr>
                                                             <td align="center" valign="middle">
-                                                                {{--  <a href="#"><img src="images/logo.png" width="105" height="40" alt="" /></a>  --}}
-                                                                Wananchi Legal
+                                                                
+                                                                        Wananchi Legal
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -176,7 +176,7 @@
                                                         <tr>
                                                             <td align="center" valign="top"
                                                                 style="font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#000000; font-weight:bold;">
-                                                                </td>
+                                                        Hi,<?php echo e($demo->name); ?></td>
                                                         </tr>
                                                     </table>
 
@@ -210,11 +210,11 @@
                                                     style="font-size:60px; line-height:60px;">&nbsp;</td>
                                             </tr>
 
-                                            <!--<tr>
+                                            <tr>
                                                 <td align="center" valign="top"
                                                     style="font-family:'Open Sans', sans-serif, Verdana; font-size:18px; color:#4c4c4c; font-weight:bold; line-height:24px;">
-                                                    Ticket <b>#{{ $email->contract_code }}</b> Created </td>
-                                            </tr>-->
+                                                    Ticket # (<?php echo e($demo->contract_code); ?>)</td>
+                                            </tr>
 
                                             <tr>
                                                 <td height="10" align="center" valign="top"
@@ -223,13 +223,19 @@
                                             <tr>
                                                 <td align="center" valign="top"
                                                     style="font-family:'Open Sans', sans-serif, Verdana; font-size:15px; color:#4c4c4c; font-weight:bold; line-height:24px;">
-                                                    A new contract request has been created</td>
+                                            <?php echo e($demo->subject); ?></td>
                                             </tr>
 
                                             <tr>
                                                 <td align="center" valign="top">
                                                     <table width="100%" border="0" align="center" cellpadding="0"
                                                         cellspacing="0">
+
+                                                        <tr>
+                                                            <td align="center" valign="top"
+                                                                style="font-family:Arial, Helvetica, sans-serif; font-size:48px; color:#4c4c4c; font-weight:normal;">
+                                                        <?php echo e($demo->success); ?></td>
+                                                        </tr>
 
                                                         <tr>
                                                             <td height="20" align="center" valign="top"
@@ -240,9 +246,7 @@
                                                         <tr>
                                                             <td align="center" valign="top"
                                                                 style="font-family:'Open Sans', sans-serif, Verdana; font-size:15px; color:#4c4c4c; font-weight:normal; line-height:24px; padding:0px 25px;">
-                                                                Ticket ID: <b>#{{ $email->contract_code }}</b></br/><br/>
-                                                                Contract Title: {{ $email->title }}
-                                                            </td>
+                                                        <?php echo e($demo->message); ?></td>
                                                         </tr>
 
                                                         <tr>
@@ -308,6 +312,12 @@
                                             <tr>
                                                 <td height="35" align="center" valign="top"
                                                     style="font-size:35px; line-height:35px;">&nbsp;</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td align="center" valign="top"
+                                                    style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#FFF; font-weight:normal; line-height:28px;">
+                                                    Copyright &copy; 2019 legal.wananchi.com</td>
                                             </tr>
                                             <tr>
                                                 <td align="center" valign="top"

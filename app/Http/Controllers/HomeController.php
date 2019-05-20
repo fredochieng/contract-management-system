@@ -72,6 +72,12 @@ class HomeController extends Controller
                 ->where('contracts.assigned_user_id', '=', Auth::user()->id)
                 ->count();
 
+            $data['tot_reviewed_count'] = \DB::table('contracts')
+                ->where($compare_field, $compare_operator, $compare_value)
+                ->where('contracts.status', '=', '2')
+                ->where('contracts.assigned_user_id', '=', Auth::user()->id)
+                ->count();
+
             $data['approved_contract_count'] = \DB::table('contracts')
                 ->where($compare_field, $compare_operator, $compare_value)
                 ->where('contracts.stage', '=', '5')
@@ -116,6 +122,12 @@ class HomeController extends Controller
                 ->where('contracts.assigned_user_id', '=', Auth::user()->id)
                 ->count();
 
+            $data['tot_reviewed_count'] = \DB::table('contracts')
+                ->where($compare_field, $compare_operator, $compare_value)
+                ->where('contracts.status', '=', '2')
+                ->where('contracts.assigned_user_id', '=', Auth::user()->id)
+                ->count();
+
             $data['approved_contract_count'] = \DB::table('contracts')
                 ->where($compare_field, $compare_operator, $compare_value)
                 ->where('contracts.stage', '=', '5')
@@ -148,6 +160,11 @@ class HomeController extends Controller
                 ->where('contracts.status', '=', '2')
                 ->count();
 
+            $data['tot_reviewed_count'] = \DB::table('contracts')
+                ->where($compare_field, $compare_operator, $compare_value)
+                ->where('contracts.status', '=', '2')
+                ->count();
+
             $data['approved_contract_count'] = \DB::table('contracts')
                 ->where($compare_field, $compare_operator, $compare_value)
                 ->where('contracts.stage', '=', '5')
@@ -172,6 +189,7 @@ class HomeController extends Controller
             $data['draft_review_per'] = 0;
             $data['final_draft_per'] = 0;
             $data['sign_off_per'] = 0;
+            $data['reviewed_per'] = 0;
             $data['approved_per'] = 0;
             $data['closed_per'] = 0;
         } else {
@@ -180,6 +198,7 @@ class HomeController extends Controller
             $data['draft_created_per'] = ($data['draft_created_count']  * 100) / $data['total_contracts_count'];
             $data['final_draft_per'] = ($data['final_draft_count']  * 100) / $data['total_contracts_count'];
             $data['sign_off_per'] = ($data['sign_off_count']  * 100) / $data['total_contracts_count'];
+            $data['reviewed_per'] = ($data['tot_reviewed_count']  * 100) / $data['total_contracts_count'];
             $data['approved_per'] = ($data['approved_contract_count']  * 100) / $data['total_contracts_count'];
             $data['closed_per'] = ($data['closed_contract_count']  * 100) / $data['total_contracts_count'];
         }

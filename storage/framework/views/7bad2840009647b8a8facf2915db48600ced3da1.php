@@ -1,11 +1,10 @@
-@extends('adminlte::page')
-@section('title', 'Wananchi Legal | Contract Details')
-@section('content_header')
+<?php $__env->startSection('title', 'Wananchi Legal | Contract Details'); ?>
+<?php $__env->startSection('content_header'); ?>
 <h1 class="pull-left">Contracts<small><span
-            style="font-weight:bold">{{$contract->contract_title}}({{$contract->contract_code}})</span></small></h1>
+            style="font-weight:bold"><?php echo e($contract->contract_title); ?>(<?php echo e($contract->contract_code); ?>)</span></small></h1>
 <div style="clear:both"></div>
-@stop
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col-md-12">
         <!-- Custom Tabs (Pulled to the right) -->
@@ -14,19 +13,19 @@
                 <li class="active"><a href="#tab-details" data-toggle="tab">Contract Details</a></li>
                 <li><a href="#tab-description" data-toggle="tab">Contract Description</a></li>
                 <li><a href="#tab-history" data-toggle="tab">Contract History</a></li>
-                {{-- @if($contract->assigned_user_id == Auth::user()->id) --}}
-                    @if(auth()->check())
-                           @if(!auth()->user()->isUser() && ($contract->stage=='1') &&($contract->assigned=='0'))
+                
+                    <?php if(auth()->check()): ?>
+                           <?php if(!auth()->user()->isUser() && ($contract->stage=='1') &&($contract->assigned=='0')): ?>
                                  <div class="btn-group pull-right" style="padding:6px;">
                                       <a href="" class="btn btn-primary btn-sm btn-flat" data-toggle="modal" data-target="#modal_work_on_contract">Assign to me</a>
                                   </div>
-                            @elseif (auth()->user()->isAdmin() && ($contract->contract_status=='Approved'))
+                            <?php elseif(auth()->user()->isAdmin() && ($contract->contract_status=='Approved')): ?>
                                   <div class="btn-group pull-right" style="padding:6px;">
                                     <a href="#" class="btn btn-primary btn-sm btn-flat" data-toggle="modal" data-target="#modal_request_caf">Request CAF</a>
                                 </div>
-                            @endif
-                    @endif
-                {{-- @endif --}}
+                            <?php endif; ?>
+                    <?php endif; ?>
+                
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab-details">
@@ -48,83 +47,83 @@
                                                 <tr>
                                                     <td><b>Ticket No</b></td>
                                                     <td><span
-                                                            style="font-weight:bold">{{ $contract->contract_code }}</span>
+                                                            style="font-weight:bold"><?php echo e($contract->contract_code); ?></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Contract Title</b></td>
                                                     <td><span
-                                                            style="font-weight:bold">{{ $contract->contract_title }}</span>
+                                                            style="font-weight:bold"><?php echo e($contract->contract_title); ?></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Contract Type</b></td>
-                                                    @if($contract->contract_type_name=='')
+                                                    <?php if($contract->contract_type_name==''): ?>
                                                     <td>N/A</td>
-                                                    @else
+                                                    <?php else: ?>
                                                     <td><small
-                                                            class="badge bg-green">{{$contract->contract_type_name}}</small>
+                                                            class="badge bg-green"><?php echo e($contract->contract_type_name); ?></small>
                                                     </td>
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Contract Term</b></td>
-                                                    <td>{{ $contract->term }} Months</td>
+                                                    <td><?php echo e($contract->term); ?> Months</td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Contract Expiry</b></td>
-                                                    <td>{{ $contract->expiry_date }} </td>
+                                                    <td><?php echo e($contract->expiry_date); ?> </td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Contract Renewal Type</b></td>
-                                                    <td>{{ $contract->renewal_type }}</td>
+                                                    <td><?php echo e($contract->renewal_type); ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Contract Status</b></td>
                                                     <td>
-                                                        @if($contract->contract_status == '1')
+                                                        <?php if($contract->contract_status == '1'): ?>
                                                         <small
-                                                            class="badge bg-yellow">{{$contract->status_name}}</small></span>
-                                                        @elseif($contract->contract_status == '2')
+                                                            class="badge bg-yellow"><?php echo e($contract->status_name); ?></small></span>
+                                                        <?php elseif($contract->contract_status == '2'): ?>
                                                         <small
-                                                            class="badge bg-blue">{{$contract->status_name}}</small></span>
-                                                        @elseif($contract->contract_status == '3')
+                                                            class="badge bg-blue"><?php echo e($contract->status_name); ?></small></span>
+                                                        <?php elseif($contract->contract_status == '3'): ?>
                                                         <small
-                                                            class="badge bg-green">{{$contract->status_name}}</small></span>
-                                                        @elseif($contract->contract_status == '4')
+                                                            class="badge bg-green"><?php echo e($contract->status_name); ?></small></span>
+                                                        <?php elseif($contract->contract_status == '4'): ?>
                                                         <small
-                                                            class="badge bg-blue">{{$contract->status_name}}</small></span>
-                                                        @endif
+                                                            class="badge bg-blue"><?php echo e($contract->status_name); ?></small></span>
+                                                        <?php endif; ?>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Contract Party</b></td>
-                                                    <td><a href="/contract-party/{{$contract->party_id}}/view-contract-party"
-                                                            target="_blank">{{ $contract->party_name }}</a></td>
+                                                    <td><a href="/contract-party/<?php echo e($contract->party_id); ?>/view-contract-party"
+                                                            target="_blank"><?php echo e($contract->party_name); ?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Legal Nature of Entity</b></td>
-                                                    <td>{{ $contract->legal_entity_type }}</td>
+                                                    <td><?php echo e($contract->legal_entity_type); ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Postal Address</b></td>
-                                                    <td>{{ $contract->physical_address }}</td>
+                                                    <td><?php echo e($contract->physical_address); ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Physical Address</b></td>
-                                                    <td>{{ $contract->postal_address }}</td>
+                                                    <td><?php echo e($contract->postal_address); ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Contact Person</b></td>
-                                                    <td>{{ $contract->contact_person }}</td>
+                                                    <td><?php echo e($contract->contact_person); ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Email Address</b></td>
-                                                    <td>{{ $contract->email }}</td>
+                                                    <td><?php echo e($contract->email); ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Phone Number</b></td>
-                                                    <td>{{ $contract->telephone }}</td>
+                                                    <td><?php echo e($contract->telephone); ?></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -148,25 +147,25 @@
                                         <table id="clientTable" class="table no-margin">
                                             <tr>
                                                 <td><b>Assignee</b></td>
-                                                @if($contract->assigned=='')
+                                                <?php if($contract->assigned==''): ?>
                                                 <td>Not assigned</td>
-                                                @elseif($contract->assigned_user_id==Auth::user()->id)
+                                                <?php elseif($contract->assigned_user_id==Auth::user()->id): ?>
                                                 <td>Me</td>
-                                                @else
-                                                <td>{{ $contract->name }}</td>
-                                                @endif
-                                                @if(auth()->check()) @if(!auth()->user()->isUser())
+                                                <?php else: ?>
+                                                <td><?php echo e($contract->name); ?></td>
+                                                <?php endif; ?>
+                                                <?php if(auth()->check()): ?> <?php if(!auth()->user()->isUser()): ?>
                                                 <td><a href="" data-toggle="modal"
                                                         data-target="#modal_assign_contract">Assign someone else</a>
                                                 </td>
-                                                @endif @endif
+                                                <?php endif; ?> <?php endif; ?>
                                             </tr>
-                                            @if(auth()->check()) @if(!auth()->user()->isUser())
+                                            <?php if(auth()->check()): ?> <?php if(!auth()->user()->isUser()): ?>
                                             <tr>
                                                 <td><b>Creator</b></td>
-                                                <td>{{$created_user->name}}</td>
+                                                <td><?php echo e($created_user->name); ?></td>
                                             </tr>
-                                            @endif @endif
+                                            <?php endif; ?> <?php endif; ?>
                                         </table>
                                     </div>
                                 </div>
@@ -182,95 +181,95 @@
                                 </div>
                                 <div class="box-body">
                                     <div class="table-responsive">
-                                        @if(!auth()->user()->isUser())
+                                        <?php if(!auth()->user()->isUser()): ?>
                                         <table id="clientTable" class="table no-margin">
                                             <tr>
                                                 <td><b>Draft Created</b></td>
-                                                <td>{{ $draft_created_date->date }}</td>
+                                                <td><?php echo e($draft_created_date->date); ?></td>
 
                                                 <td><b>Draft Sent</b></td>
-                                                @if(empty($draft_review_sent_date->date))
+                                                <?php if(empty($draft_review_sent_date->date)): ?>
                                                 <td>N/A</td>
-                                                @else
-                                                <td>{{ $draft_review_sent_date->date }}</td>
-                                                @endif
+                                                <?php else: ?>
+                                                <td><?php echo e($draft_review_sent_date->date); ?></td>
+                                                <?php endif; ?>
                                             </tr>
                                             <tr>
                                                 <td><b>Final Draft</b></td>
-                                                @if (empty($final_draft_sent->date))
+                                                <?php if(empty($final_draft_sent->date)): ?>
                                                 <td>N/A</td>
-                                                @else
-                                                <td>{{ $final_draft_sent->date }}</td>
-                                                @endif
+                                                <?php else: ?>
+                                                <td><?php echo e($final_draft_sent->date); ?></td>
+                                                <?php endif; ?>
 
                                                 <td><b>CAF Uploaded</b></td>
-                                                @if(empty($caf_uploaded_date->date))
+                                                <?php if(empty($caf_uploaded_date->date)): ?>
                                                 <td>N/A</td>
-                                                @else
-                                                <td>{{ $caf_uploaded_date->date}}</td>
-                                                @endif
+                                                <?php else: ?>
+                                                <td><?php echo e($caf_uploaded_date->date); ?></td>
+                                                <?php endif; ?>
                                             </tr>
                                             <tr>
                                                 <td><b>Approved</b></td>
-                                                @if (empty($caf_approved_date->date))
+                                                <?php if(empty($caf_approved_date->date)): ?>
                                                 <td>N/A</td>
-                                                @else
-                                                <td>{{ $caf_approved_date->date }}</td>
-                                                @endif
+                                                <?php else: ?>
+                                                <td><?php echo e($caf_approved_date->date); ?></td>
+                                                <?php endif; ?>
 
                                                 <td><b>Closed</b></td>
-                                                @if(empty($contract_closed_date->date))
+                                                <?php if(empty($contract_closed_date->date)): ?>
                                                 <td>N/A</td>
-                                                @else
-                                                <td>{{ $contract_closed_date->date}}</td>
-                                                @endif
+                                                <?php else: ?>
+                                                <td><?php echo e($contract_closed_date->date); ?></td>
+                                                <?php endif; ?>
                                             </tr>
                                         </table>
-                                        @else
+                                        <?php else: ?>
                                         <table id="clientTable" class="table no-margin">
                                             <tr>
                                                 <td><b>Draft Created</b></td>
-                                                <td>{{ $draft_created_date->date }}</td>
+                                                <td><?php echo e($draft_created_date->date); ?></td>
 
                                                 <td><b>Draft Received</b></td>
-                                                @if(empty($draft_review_sent_date->date))
+                                                <?php if(empty($draft_review_sent_date->date)): ?>
                                                 <td>N/A</td>
-                                                @else
-                                                <td>{{ $draft_review_sent_date->date }}</td>
-                                                @endif
+                                                <?php else: ?>
+                                                <td><?php echo e($draft_review_sent_date->date); ?></td>
+                                                <?php endif; ?>
                                             </tr>
                                             <tr>
                                                 <td><b>Final Draft</b></td>
-                                                @if (empty($final_draft_sent->date))
+                                                <?php if(empty($final_draft_sent->date)): ?>
                                                 <td>N/A</td>
-                                                @else
-                                                <td>{{ $final_draft_sent->date }}</td>
-                                                @endif
+                                                <?php else: ?>
+                                                <td><?php echo e($final_draft_sent->date); ?></td>
+                                                <?php endif; ?>
 
                                                 <td><b>CAF Uploaded</b></td>
-                                                @if(empty($caf_uploaded_date->date))
+                                                <?php if(empty($caf_uploaded_date->date)): ?>
                                                 <td>N/A</td>
-                                                @else
-                                                <td>{{ $caf_uploaded_date->date}}</td>
-                                                @endif
+                                                <?php else: ?>
+                                                <td><?php echo e($caf_uploaded_date->date); ?></td>
+                                                <?php endif; ?>
                                             </tr>
                                             <tr>
                                                 <td><b>Approved</b></td>
-                                                @if (empty($caf_approved_date->date))
+                                                <?php if(empty($caf_approved_date->date)): ?>
                                                 <td>N/A</td>
-                                                @else
-                                                <td>{{ $caf_approved_date->date }}</td>
-                                                @endif
+                                                <?php else: ?>
+                                                <td><?php echo e($caf_approved_date->date); ?></td>
+                                                <?php endif; ?>
 
                                                 <td><b>Closed</b></td>
-                                                @if(empty($contract_closed_date->date))
+                                                <?php if(empty($contract_closed_date->date)): ?>
                                                 <td>N/A</td>
-                                                @else
-                                                <td>{{ $contract_closed_date->date}}</td>
-                                                @endif
+                                                <?php else: ?>
+                                                <td><?php echo e($contract_closed_date->date); ?></td>
+                                                <?php endif; ?>
                                             </tr>
                                         </table>
-                                        @endif
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -288,45 +287,40 @@
                                     <div class="table-responsive">
                                         <table id="clientTable" class="table no-margin">
                                             <tr>
-                                                <a href="/{{$last_draft_contract_section->draft_file}}" class="btn btn-primary" style="margin-right:78px"
+                                                <a href="/<?php echo e($last_draft_contract_section->draft_file); ?>" class="btn btn-primary" style="margin-right:78px"
                                                     target="_blank"><i class="fa fa-fw fa-download"></i>
-                                                    @if($contract->stage =='1')
+                                                    <?php if($contract->stage =='1'): ?>
                                                              Contract Draft
-                                                    @elseif($contract->stage =='2')
+                                                    <?php elseif($contract->stage =='2'): ?>
                                                              Reviewed Contract
-                                                    @elseif($contract->stage =='3' || '4')
+                                                    <?php elseif($contract->stage =='3' || '4'): ?>
                                                              Final Draft
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </a>
 
-                                                @if($contract->stage =='4' || '5')
-                                                <a href="/{{$caf_form->crf_form}}" class="btn btn-primary" style="margin-right:128px"
+                                                <?php if($contract->stage =='4' || '5'): ?>
+                                                <a href="/<?php echo e($caf_form->crf_form); ?>" class="btn btn-primary" style="margin-right:128px"
                                                     target="_blank"><i class="fa fa-fw fa-download"></i>CAF Document
                                                 </a>
-                                                @endif
+                                                <?php endif; ?>
 
-                                                  @if(auth()->check())
-                                                         @if(auth()->user()->isUser() && ($contract->stage=='2') && ($contract->user_comments ==''))
+                                                  <?php if(auth()->check()): ?>
+                                                         <?php if(auth()->user()->isUser() && ($contract->stage=='2') && ($contract->user_comments =='')): ?>
                                                              <a href="" data-toggle="modal" data-target="#modal_user_comment">Comment on the reviewed draft</a>
-                                                         @elseif(auth()->user()->isUser() || (auth()->user()->isAdmin()) && ($contract->stage=='3'))
+                                                         <?php elseif(auth()->user()->isUser() || (auth()->user()->isAdmin()) && ($contract->stage=='3')): ?>
                                                              <a href="" data-toggle="modal" data-target="#modal_upload_caf">Upload CAF Document</a>
 
 
-                                                         @elseif(!auth()->user()->isUser() && ($contract->contract_status=='2') && ($contract->user_comments !=''))
+                                                         <?php elseif(!auth()->user()->isUser() && ($contract->contract_status=='2') && ($contract->user_comments !='')): ?>
                                                              <a href="" data-toggle="modal" data-target="#modal_view_user_comment">View user comments</a>
-                                                         @elseif(!auth()->user()->isUser() && ($contract->contract_status=='3') && ($contract->user_comments !=''))
+                                                         <?php elseif(!auth()->user()->isUser() && ($contract->contract_status=='3') && ($contract->user_comments !='')): ?>
                                                              <a href="" data-toggle="modal" data-target="#modal_view_user_comment">View user comments</a>
-                                                        @endif
-                                                   @endif
+                                                        <?php endif; ?>
+                                                   <?php endif; ?>
 
                                             </tr>
 
-                                            {{-- <tr>
-                                                @if($last_draft_contract_section->crf_form =='') @else
-                                                <a href="/{{$last_draft_contract_section->crf_form}}"
-                                                    class="btn btn-primary" target="_blank"><i
-                                                        class="fa fa-fw fa-download"></i> CAF Document</a> @endif
-                                            </tr> --}}
+                                            
                                         </table>
                                     </div>
                                 </div>
@@ -336,21 +330,21 @@
 
                     <div class="row no-print">
                         <div class="col-xs-12">
-                            @if(auth()->check())
-                                @if(!auth()->user()->isUser() && ($contract->stage=='1') && ($contract->assigned_user_id == Auth::user()->id))
+                            <?php if(auth()->check()): ?>
+                                <?php if(!auth()->user()->isUser() && ($contract->stage=='1') && ($contract->assigned_user_id == Auth::user()->id)): ?>
                                      <a href="#" data-target="#modal_share_reviewed_contract" data-toggle="modal" class="btn btn-primary">
                                      <i class="fa fa-check"></i> Share Reviewed Contract </a>
-                                @elseif(!auth()->user()->isUser() && ($contract->stage=='2') && ($contract->assigned_user_id == Auth::user()->id))
+                                <?php elseif(!auth()->user()->isUser() && ($contract->stage=='2') && ($contract->assigned_user_id == Auth::user()->id)): ?>
                                       <a href="#" data-target="#modal_share_final_draft" data-toggle="modal" class="btn btn-primary">
                                       <i class="fa fa-check"></i> Share Final Draft </a>
-                                @elseif(!auth()->user()->isUser() && ($contract->stage=='4') && ($contract->assigned_user_id == Auth::user()->id))
+                                <?php elseif(!auth()->user()->isUser() && ($contract->stage=='4') && ($contract->assigned_user_id == Auth::user()->id)): ?>
                                       <a href="#" data-target="#modal_approve_caf" data-toggle="modal" class="btn btn-primary">
                                       <i class="fa fa-check"></i> Approve CAF </a>
-                                @elseif(!auth()->user()->isUser() && ($contract->stage=='5') && ($contract->assigned_user_id == Auth::user()->id))
+                                <?php elseif(!auth()->user()->isUser() && ($contract->stage=='5') && ($contract->assigned_user_id == Auth::user()->id)): ?>
                                       <a href="#" data-target="#modal_close_contract" data-toggle="modal" class="btn btn-primary">
                                       <i class="fa fa-check"></i> Close Contract </a>
-                                @endif
-                            @endif
+                                <?php endif; ?>
+                            <?php endif; ?>
 
 
 
@@ -362,12 +356,12 @@
 
 
 
-                            @if(auth()->check())
-                            @if(auth()->user()->isUser() && ($contract->contract_status=='Created'))
+                            <?php if(auth()->check()): ?>
+                            <?php if(auth()->user()->isUser() && ($contract->contract_status=='Created')): ?>
                             <a href="#" data-target="#modal_submit_contract" data-toggle="modal" class="btn btn-primary">
                                 <i class="fa fa-check"></i> Submit Contract </a>
-                            @elseif(auth()->user()->isLegal() && ($contract->contract_status=='Pending') &&
-                            ($contract->assigned_user_id== Auth::user()->id))
+                            <?php elseif(auth()->user()->isLegal() && ($contract->contract_status=='Pending') &&
+                            ($contract->assigned_user_id== Auth::user()->id)): ?>
                             <a href="#modal_approve_contract" data-toggle="modal" data-target="#modal_approve_contract"
                                 class="btn btn-primary"><i class="fa fa-check"></i> Approve Contract</a>
                             <a href="#modal_ammend_contract" data-toggle="modal" data-target="#modal_ammend_contract"
@@ -375,7 +369,7 @@
                             <a href="#modal_terminate_contract" data-toggle="modal"
                                 data-target="#modal_terminate_contract" class="btn btn-danger"><i
                                     class="fa fa-close"></i> Terminate Contract</a>
-                            @elseif(auth()->user()->isAdmin() && ($contract->contract_status=='Pending'))
+                            <?php elseif(auth()->user()->isAdmin() && ($contract->contract_status=='Pending')): ?>
                             <a href="#modal_approve_contract" data-toggle="modal" data-target="#modal_approve_contract"
                                 class="btn btn-primary"><i class="fa fa-check"></i> Approve Contract</a>
                             <a href="#modal_ammend_contract" data-toggle="modal" data-target="#modal_ammend_contract"
@@ -383,26 +377,26 @@
                             <a href="#modal_terminate_contract" data-toggle="modal"
                                 data-target="#modal_terminate_contract" class="btn btn-danger">
                                 <i class="fa fa-close"></i> Terminate Contract</a>
-                            @elseif(auth()->user()->isUser() && ($contract->contract_status=='Pending'))
+                            <?php elseif(auth()->user()->isUser() && ($contract->contract_status=='Pending')): ?>
                             <p class="col-md-6 text-blue well well-sm no-shadow" style="margin-top: 10px;">
                                 Contract submitted awaiting action by the legal department</p>
-                            @elseif(auth()->user()->isUser() && ($contract->contract_status=='Approved'))
+                            <?php elseif(auth()->user()->isUser() && ($contract->contract_status=='Approved')): ?>
                             <a href="#" data-toggle="modal" data-target="#modal_upload_signed_contract"
                                 class="btn btn-primary"><i class="fa fa-check"></i> Upload Signed Contract</a>
-                            @elseif(!auth()->user()->isUser() && ($contract->contract_status=='Approved'))
+                            <?php elseif(!auth()->user()->isUser() && ($contract->contract_status=='Approved')): ?>
                             <p class="col-md-6 text-blue well well-sm no-shadow" style="margin-top: 10px;">
                                 Contract approved for signature awaiting action by the user</p>
-                            @elseif(!auth()->user()->isUser() && ($contract->contract_status=='Closed') &&
-                            ($contract->signed_contract_file == ''))
+                            <?php elseif(!auth()->user()->isUser() && ($contract->contract_status=='Closed') &&
+                            ($contract->signed_contract_file == '')): ?>
                             <a href="" data-backdrop="static" data-toggle="modal" data-target="#modal_archive_contract"
                                 class="btn btn-primary"><i class="fa fa-file-archive-o"></i> Archive Contract</a>
-                            @elseif(auth()->user()->isUser() && ($contract->contract_status=='Closed') &&
-                            ($contract->signed_contract_file == ''))
+                            <?php elseif(auth()->user()->isUser() && ($contract->contract_status=='Closed') &&
+                            ($contract->signed_contract_file == '')): ?>
                             <p class="col-md-6 text-blue well well-sm no-shadow" style="margin-top: 10px;">
                                 Contract closed
                             </p>
-                            @endif
-                            @endif
+                            <?php endif; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -413,9 +407,11 @@
                             <div class="box box-success">
                                 <div class="box-body">
                                     <div class="col-md-12">
-                                        {{Form::label('description', 'Contract Description')}}
+                                        <?php echo e(Form::label('description', 'Contract Description')); ?>
+
                                         <div class="form-group">
-                                            {{Form::textarea('description', $contract->description,['class'=>'form-control description','placeholder'=>'Contract description'])}}
+                                            <?php echo e(Form::textarea('description', $contract->description,['class'=>'form-control description','placeholder'=>'Contract description'])); ?>
+
                                         </div>
                                     </div>
                                 </div>
@@ -445,49 +441,50 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($contract_drafts as $key=> $contracts)
+                                                <?php $__currentLoopData = $contract_drafts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $contracts): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
-                                                    <td>{{ $key + 1}}</td>
-                                                    <td>{{ $contracts->name }}</td>
-                                                    <td>{{ $contracts->contract_drafts_created_at }}</td>
-                                                    <td style="width:120px"> <a href="/{{$contracts->draft_file}}"
+                                                    <td><?php echo e($key + 1); ?></td>
+                                                    <td><?php echo e($contracts->name); ?></td>
+                                                    <td><?php echo e($contracts->contract_drafts_created_at); ?></td>
+                                                    <td style="width:120px"> <a href="/<?php echo e($contracts->draft_file); ?>"
                                                             target="_blank"><i class="fa fa-fw fa-download"></i>
                                                             Download</a></td>
 
                                                     <td>
                                                         <center><span class="pull-right-container">
-                                                           @if($contracts->stage_id== '1')
+                                                           <?php if($contracts->stage_id== '1'): ?>
                                                             <small
-                                                                class="badge bg-yellow">{{$contracts->stage_name}}</small></span>
-                                                            @elseif($contracts->stage_id== '2')
+                                                                class="badge bg-yellow"><?php echo e($contracts->stage_name); ?></small></span>
+                                                            <?php elseif($contracts->stage_id== '2'): ?>
                                                             <small
-                                                                class="badge bg-blue">{{ $contracts->stage_name}}</small></span>
-                                                            @elseif($contracts->stage_id== '3')
+                                                                class="badge bg-blue"><?php echo e($contracts->stage_name); ?></small></span>
+                                                            <?php elseif($contracts->stage_id== '3'): ?>
                                                             <small
-                                                                class="badge bg-aqua">{{ $contracts->stage_name}}</small></span>
-                                                            @elseif ($contracts->stage_id== '4')
+                                                                class="badge bg-aqua"><?php echo e($contracts->stage_name); ?></small></span>
+                                                            <?php elseif($contracts->stage_id== '4'): ?>
                                                             <small
-                                                                class="badge bg-purple">{{$contracts->stage_name}}</small></span>
-                                                            @elseif($contracts->stage_id== '5')
+                                                                class="badge bg-purple"><?php echo e($contracts->stage_name); ?></small></span>
+                                                            <?php elseif($contracts->stage_id== '5'): ?>
                                                             <small
-                                                                class="badge bg-green">{{ $contracts->stage_name}}</small></span>
-                                                            @elseif($contracts->stage_id== '6')
-                                                                <small class="badge bg-grey">{{ $contracts->stage_name}}</small></span>
+                                                                class="badge bg-green"><?php echo e($contracts->stage_name); ?></small></span>
+                                                            <?php elseif($contracts->stage_id== '6'): ?>
+                                                                <small class="badge bg-grey"><?php echo e($contracts->stage_name); ?></small></span>
                                                         </center>
                                                     </td>
-                                                    @endif
+                                                    <?php endif; ?>
                                                     <td><a href="#modal_show_action_comments" data-toggle="modal"
-                                                            data-target="#modal_show_action_comments_{{ $contracts->contract_draft_id  }}"><strong>
+                                                            data-target="#modal_show_action_comments_<?php echo e($contracts->contract_draft_id); ?>"><strong>
                                                                 <center>View</center>
                                                             </strong></a></p>
                                                     </td>
                                                 </tr>
                                                 <!-- Modal to show comments for an approved contract -->
                                                 <div class="modal fade"
-                                                    id="modal_show_action_comments_{{ $contracts->contract_draft_id }}">
+                                                    id="modal_show_action_comments_<?php echo e($contracts->contract_draft_id); ?>">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
-                                                            {!! Form::open(['class'=>'form']) !!}
+                                                            <?php echo Form::open(['class'=>'form']); ?>
+
                                                             <div class="modal-header">
                                                                 <button type="button" class="close" data-dismiss="modal"
                                                                     aria-label="Close">
@@ -498,26 +495,28 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         <div class="form-group">
-                                                                            {{Form::text('contract_id',$contracts->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])}}
-                                                                            @if($contracts->comments == '')
+                                                                            <?php echo e(Form::text('contract_id',$contracts->contract_id,['class'=>'form-control hidden','placeholder'=>'The contract Title'])); ?>
+
+                                                                            <?php if($contracts->comments == ''): ?>
                                                                             <p>No comments left for this action...</p>
-                                                                            @else
-                                                                            <p>{{$contracts->comments}}</p>
-                                                                            @endif
+                                                                            <?php else: ?>
+                                                                            <p><?php echo e($contracts->comments); ?></p>
+                                                                            <?php endif; ?>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
                                                             </div>
-                                                            {!! Form::close() !!}
+                                                            <?php echo Form::close(); ?>
+
                                                         </div>
                                                         <!-- /.modal-content -->
                                                     </div>
                                                     <!-- /.modal-dialog -->
                                                 </div>
                                                 <!-- End modal show comments for an approved contract -->
-                                                @endforeach
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -531,34 +530,34 @@
         </div>
         <!-- /.col -->
     </div>
-    @include('contracts.modals.modal_share_reviewed_contract')
-    @include('contracts.modals.modal_user_comment')
-    {{-- @include('contracts.modals.modal_view_user_comment') --}}
-    @include('contracts.modals.modal_share_final_draft')
-    @include('contracts.modals.modal_user_comment_final')
-    {{-- @include('contracts.modals.modal_view_user_comment') --}}
-    @include('contracts.modals.modal_upload_caf')
-    @include('contracts.modals.modal_approve_caf')
-    @include('contracts.modals.modal_close_contract')
+    <?php echo $__env->make('contracts.modals.modal_share_reviewed_contract', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('contracts.modals.modal_user_comment', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    
+    <?php echo $__env->make('contracts.modals.modal_share_final_draft', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('contracts.modals.modal_user_comment_final', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    
+    <?php echo $__env->make('contracts.modals.modal_upload_caf', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('contracts.modals.modal_approve_caf', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('contracts.modals.modal_close_contract', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
 
 
 
 
 
-    @include('contracts.modals.modal_submit_contract')
-    @include('contracts.modals.modal_assign_contract')
-    @include('contracts.modals.modal_work_on_contract')
-    @include('contracts.modals.modal_approve_contract')
-    @include('contracts.modals.modal_request_caf')
-    @include('contracts.modals.modal_upload_signed_contract')
-    @stop
-    @section('css')
+    <?php echo $__env->make('contracts.modals.modal_submit_contract', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('contracts.modals.modal_assign_contract', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('contracts.modals.modal_work_on_contract', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('contracts.modals.modal_approve_contract', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('contracts.modals.modal_request_caf', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('contracts.modals.modal_upload_signed_contract', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php $__env->stopSection(); ?>
+    <?php $__env->startSection('css'); ?>
     <link rel="stylesheet" href="/css/admin_custom.css">
     <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="/iCheck/all.css">
-    @stop
-    @section('js')
+    <?php $__env->stopSection(); ?>
+    <?php $__env->startSection('js'); ?>
     <script src="/js/bootstrap-datepicker.min.js"></script>
     <script src="/iCheck/icheck.min.js"></script>
     <script>
@@ -572,4 +571,6 @@
             })
          })
     </script>
-    @stop
+    <?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('adminlte::page', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

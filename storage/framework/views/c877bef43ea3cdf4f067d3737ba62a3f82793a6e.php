@@ -55,7 +55,7 @@
         }
 
 
-        @media only screen and (max-width:640px) {
+        @media  only screen and (max-width:640px) {
             body {
                 width: auto !important;
             }
@@ -85,7 +85,7 @@
 
         }
 
-        @media only screen and (max-width:479px) {
+        @media  only screen and (max-width:479px) {
             body {
                 width: auto !important;
             }
@@ -161,7 +161,7 @@
                                                         class="full">
                                                         <tr>
                                                             <td align="center" valign="middle">
-                                                                {{--  <a href="#"><img src="images/logo.png" width="105" height="40" alt="" /></a>  --}}
+                                                                
                                                                 Wananchi Legal
                                                             </td>
                                                         </tr>
@@ -213,7 +213,7 @@
                                             <!--<tr>
                                                 <td align="center" valign="top"
                                                     style="font-family:'Open Sans', sans-serif, Verdana; font-size:18px; color:#4c4c4c; font-weight:bold; line-height:24px;">
-                                                    Ticket <b>#{{ $email->contract_code }}</b> Created </td>
+                                                    Ticket <b>#<?php echo e($email->contract_code); ?></b> Created </td>
                                             </tr>-->
 
                                             <tr>
@@ -240,8 +240,9 @@
                                                         <tr>
                                                             <td align="center" valign="top"
                                                                 style="font-family:'Open Sans', sans-serif, Verdana; font-size:15px; color:#4c4c4c; font-weight:normal; line-height:24px; padding:0px 25px;">
-                                                                Ticket ID: <b>#{{ $email->contract_code }}</b></br/><br/>
-                                                                Contract Title: {{ $email->title }}
+                                                                Ticket ID: <b>#<?php echo e($email->contract_code); ?></b></br/><br/>
+                                                                Contract Title: <?php echo e($email->title); ?>
+
                                                             </td>
                                                         </tr>
 

@@ -238,6 +238,43 @@ class ContractController extends Controller
             ->where('contracts.stage', '=', 5)
             ->where('contracts.status', '=', 3)
             ->get();
+
+        $data['approved_contracts']->map(function ($item) {
+            $expiry_date = date('Y-m-d', strtotime(Carbon::parse($item->expiry_date)));
+            $current_time = date('Y-m-d', strtotime(Carbon::now('Africa/Nairobi')));
+            $date_send_notification = date('Y-m-d', strtotime(Carbon::parse($item->expiry_date)->subMonths(3)));
+            $item->notification_duration = $date_send_notification;
+            // $item->expired = 1;
+            // echo "Current Time: " . $current_time;
+            // echo "<br/>";
+            // echo "Expiry Date: " . $expiry_date;
+            // echo "<br/>";
+            // echo "Date to send notification: " . $date_send_notification;
+            // echo "<br/>";
+            // if (Carbon::now()->EqualTo($date_send_notification)) {
+            //     echo "Notification Date is today";
+            //     echo "<br/>";
+            //     echo "<br/>";
+            // } else {
+            //     echo "Notification date is still ahead";
+            // }
+            if(Carbon::now('Africa/Nairobi')->greaterThan(Carbon::parse($item->expiry_date))){
+                $item->expired = 1;
+                // echo "Contract Expired";
+                //  echo "<br/>";
+                //   echo "<br/>";
+            }else{
+                $item->expired = 0;
+                // echo "Contract Not Expired"; 
+                //  echo "<br/>";
+                // echo "<br/>";
+            }
+            // echo "<br/>";
+            return $item;
+            // echo "<br/>";
+
+            // exit;
+        });
         // Contracts Approved By Me
         $data['approved_by_me_contracts'] = DB::table('contracts')
             ->select(
@@ -267,6 +304,7 @@ class ContractController extends Controller
             ->where('contracts.status', '=', 3)
             ->where('contracts.assigned_user_id', '=', Auth::user()->id)
             ->get();
+
         return view('contracts.approved-contracts')->with($data);
     }
     // Closed Contracts
@@ -618,7 +656,7 @@ class ContractController extends Controller
             $contract->contract_title = ucwords($request->input('title'));
             $contract->party_name_id = $request->input('party_name');
             $contract->contract_type = 2;
-            $contract->term_id = $request->term_id;
+            $contract->term = $request->term_id;
             $contract->renewal_id = $request->renewal_id;
             $contract->description = $request->input('description');
             $contract->stage = 1;
@@ -656,6 +694,7 @@ class ContractController extends Controller
             $action_dates_data = array(
                 'contract_id' => $just_saved_contract_id,
                 'contract_stage_id' => 1,
+                'status_id' => 1,
                 'date' => $draft_created_date
             );
             $default_contract_storage_data = array(
@@ -670,13 +709,17 @@ class ContractController extends Controller
             $user = \Auth::user();
             $objDemo = new \stdClass();
             $objDemo->contract_code = $ticket;
+            $objDemo->title = $contract_title;
             $objDemo->name = $user->name;
             $objDemo->subject = "Contract Request Sent";
             $objDemo->success = "Successfully";
             $objDemo->message = "We will notify you if we need some further information from you. Thank you";
             Mail::to($user->email)->send(new ContractRequestCreation($objDemo));
-            $data['legal_team'] = User::role("Legal Counsel")->get();
-            foreach ($data['legal_team'] as $legal) {
+            $data['legal_members'] = User::getLegalMembers();
+            // echo"<pre>";
+            // print_r($data['legal_members']);
+            // exit;
+            foreach ($data['legal_members'] as $legal) {
                 Mail::to($legal->email)->send(new ContractCreatedMail($objDemo));
             }
             Alert::success('Contract Request Creation', 'Contract request uccessfully created');
@@ -703,7 +746,7 @@ class ContractController extends Controller
                 DB::raw('draft_stages.*'),
                 DB::raw('contract_status.*'),
                 DB::raw('contract_types.*'),
-                DB::raw('contract_duration.*'),
+                // DB::raw('contract_duration.*'),
                 DB::raw('contracts_renewal_types.*'),
                 DB::raw('contracts_action_dates.*'),
                 DB::raw('contracts.contract_id AS contract_id')
@@ -718,7 +761,7 @@ class ContractController extends Controller
             ->leftJoin('contract_status', 'contracts.status', '=', 'contract_status.status_id')
             ->leftJoin('contract_types', 'contracts.contract_type', '=', 'contract_types.contract_type_id')
             ->leftJoin('contracts_action_dates', 'contracts.contract_id', '=', 'contracts_action_dates.contract_id')
-            ->leftJoin('contract_duration', 'contracts.term_id', '=', 'contract_duration.id')
+            // ->leftJoin('contract_duration', 'contracts.term_id', '=', 'contract_duration.id')
             ->leftJoin('contracts_renewal_types', 'contracts.renewal_id', '=', 'contracts_renewal_types.id')
             ->leftJoin('users', 'contracts.assigned_user_id', '=', 'users.id')
             ->orderBy('contracts.contract_id', 'desc')
@@ -978,6 +1021,7 @@ class ContractController extends Controller
             $item->escalation_duration = $duration;
             return $item;
         });
+
         return view('contracts.pending-contracts')->with([
             'pending_contracts' => $pending_contracts,
             'overdue_pending_contracts' => $overdue_pending_contracts,
@@ -1154,6 +1198,7 @@ class ContractController extends Controller
         $action_dates_data = array(
             'contract_id' => $reviewed_contract_id,
             'contract_stage_id' => $stage,
+            'status_id' => 2,
             'date' => $reviewed_date
         );
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
@@ -1262,6 +1307,7 @@ class ContractController extends Controller
         $action_dates_data = array(
             'contract_id' => $final_draft_id,
             'contract_stage_id' => $stage,
+            'status_id' => 2,
             'date' => $final_draft_date
         );
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
@@ -1372,6 +1418,7 @@ class ContractController extends Controller
         $action_dates_data = array(
             'contract_id' => $final_draft_id,
             'contract_stage_id' => $stage,
+            'status_id' => 2,
             'date' => $upload_caf_date
         );
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
@@ -1413,10 +1460,12 @@ class ContractController extends Controller
         $created_by = $approved_caf->created_by;
         // $action_id = Auth::user()->id;
         $approved_date = Carbon::now('Africa/Nairobi');
+        $contract_term = $approved_caf->term;
+        $expiry_date = Carbon::now()->addMonths($contract_term);
         DB::table('contracts')->where('contract_id', $approved_contract_id)->update(
             [
                 'status' => $status, 'stage' => $stage,
-                'updated_by' => Auth::user()->id
+                'expiry_date' => $expiry_date, 'updated_by' => Auth::user()->id
             ]
         );
         $contract_draft_data = array(
@@ -1431,6 +1480,7 @@ class ContractController extends Controller
         $action_dates_data = array(
             'contract_id' => $approved_contract_id,
             'contract_stage_id' => $stage,
+            'status_id' => 3,
             'date' => $approved_date
         );
         $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
@@ -1586,6 +1636,68 @@ class ContractController extends Controller
             ->get();;
         return view('contracts.reviewed-contracts')->with($data);
     }
+
+    public function closeContract(request $request)
+    {
+        $closed_contract = DB::table('contracts')
+            ->select(
+                DB::raw('contracts.*'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('contracts.created_at AS created_date'),
+                DB::raw('users_organizations.*'),
+                DB::raw('contract_drafts.*'),
+                DB::raw('draft_stages.*')
+            )
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+            ->orderBy('contracts.contract_id', 'desc')
+            ->where('contracts.contract_id', '=', $request->contract_id)
+            ->first();
+        $approved_contract_file = '';
+        $closed_string = "Closed";
+        $approved_contract_file = $closed_contract->draft_file;
+        $stage = 6;
+        $status = 4;
+        $closed_contract_id = $request->contract_id;
+        $approved_contract_file = $closed_contract->draft_file;
+        $crf_form = $closed_contract->crf_form;
+        $created_by = $closed_contract->created_by;
+        // $action_id = Auth::user()->id;
+        $closed_date = Carbon::now('Africa/Nairobi');
+        DB::table('contracts')->where('contract_id', $closed_contract_id)->update(
+            [
+                'status' => $status, 'stage' => $stage,
+                'updated_by' => Auth::user()->id
+            ]
+        );
+        $contract_draft_data = array(
+            'contract_id' => $closed_contract_id,
+            'stage_id' => 6,
+            'draft_file' => $approved_contract_file,
+            'crf_form' => $crf_form,
+            'status' => 4,
+            'created_by' => $created_by,
+            'updated_by' => Auth::user()->id,
+        );
+        $action_dates_data = array(
+            'contract_id' => $closed_contract_id,
+            'contract_stage_id' => $stage,
+            'status_id' => 4,
+            'date' => $closed_date
+        );
+        $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
+        $action_dates_data = DB::table('contracts_action_dates')->insertGetId($action_dates_data);
+        DB::table('contracts')->where('contract_id', $closed_contract_id)->update(array('last_draft_id' => $last_draft_id));
+        Alert::success('Close Contract', 'Contract successfully closed');
+        return redirect('contract/' . $request->input('contract_id') . '/view');
+    }
     /**
      * Display the specified resource.
      *
@@ -1625,7 +1737,7 @@ class ContractController extends Controller
         }
         $contract->description = $request->input('description');
         $contract->stage = 1;
-        $contract->status = 'Created';
+        $contract->status = 1;
         $contract->updated_by = Auth::user()->id;
         $contract->last_action_by = Auth::user()->id;
         $contract->save();
@@ -1643,7 +1755,7 @@ class ContractController extends Controller
             'contract_id' => $just_saved_contract_id,
             'stage_id' => 1,
             'draft_file' => $contract_file,
-            'status' => 'Created',
+            'status' => '1',
             'updated_by' => Auth::user()->id,
         );
         $last_draft_id = DB::table('contract_drafts')->where('contract_draft_id', $contract->last_draft_id)->update($contract_draft_data);
@@ -1692,7 +1804,7 @@ class ContractController extends Controller
             'contract_id' => $published_contract_id,
             'stage_id' => 2,
             'draft_file' => $published_contract_draft,
-            'status' => 'Pending',
+            'status' => '2',
             'created_by' => $created_by,
             'updated_by' => Auth::user()->id,
         );

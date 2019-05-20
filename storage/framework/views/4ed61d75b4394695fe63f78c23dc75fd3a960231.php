@@ -1,10 +1,9 @@
-@extends('adminlte::page')
-@section('title', 'Wananchi Legal | Manage Reports')
-@section('content_header')
+<?php $__env->startSection('title', 'Wananchi Legal | Manage Reports'); ?>
+<?php $__env->startSection('content_header'); ?>
 <h1 class="pull-left">Reports<small>Manage Reports</small></h1>
 <div style="clear:both"></div>
-@stop
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <div class="row" style="font-size:12px;">
     <div class="col-md-12">
         <!-- Custom Tabs (Pulled to the right) -->
@@ -29,11 +28,10 @@
                         $report_type2 = 'contract_party';
                         $report_type3 = 'contract_expiry';
                         ?>
-                                {!!
-                                Form::open(['action'=>['ReportController@show' , $report_type ],
+                                <?php echo Form::open(['action'=>['ReportController@show' , $report_type ],
                                 'method'=>'GET','class'=>'form','enctype'=>'multipart/form-data',
-                                'target'=>'_blank'])
-                                !!}
+                                'target'=>'_blank']); ?>
+
                                 <div class="box-body">
                                     <p>Generate a report based on the status in the selected period.</p>
                                     <div class="form-group">
@@ -41,23 +39,27 @@
                                         <select class="form-control select2" name="status_id" style="width: 100%;"
                                             tabindex="-1" aria-hidden="true">
                                             <option selected="selected">Please select contract status</option>
-                                            @foreach ( $status as $row )
-                                            <option value="{{ $row->status_id }}">{{ $row->status_name }}</option>
-                                            @endforeach
+                                            <?php $__currentLoopData = $status; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($row->status_id); ?>"><?php echo e($row->status_name); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
 
-                                    {{Form::label('Start Date* ')}}
+                                    <?php echo e(Form::label('Start Date* ')); ?>
+
                                     <div class="form-group">
-                                        {{Form::text('start_date', '',['class'=>'form-control start_date',
+                                        <?php echo e(Form::text('start_date', '',['class'=>'form-control start_date',
                                     'placeholder'=>'Start Date','autocomplete'=>'off']
-                                     )}}
+                                     )); ?>
+
                                     </div>
-                                    {{Form::label('End Date* ')}}
+                                    <?php echo e(Form::label('End Date* ')); ?>
+
                                     <div class="form-group">
-                                        {{Form::text('end_date', '',['class'=>'form-control start_date',
+                                        <?php echo e(Form::text('end_date', '',['class'=>'form-control start_date',
                                                         'placeholder'=>'End Date','autocomplete'=>'off']
-                                                         )}}
+                                                         )); ?>
+
                                     </div>
                                 </div>
                                 <input type="hidden" name="report" value="status">
@@ -65,7 +67,8 @@
                                 <div class="box-footer"><button type="submit" class="btn btn-primary btn-flat">Generate
                                         Report</button>
                                 </div>
-                                {!! Form::close() !!}
+                                <?php echo Form::close(); ?>
+
                             </div>
                         </div>
 
@@ -79,11 +82,10 @@
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Contract Type Report</h3>
                                 </div><!-- /.box-header -->
-                                {!!
-                                Form::open(['action'=>['ReportController@show' , $report_type1],
+                                <?php echo Form::open(['action'=>['ReportController@show' , $report_type1],
                                 'method'=>'GET','class'=>'form','enctype'=>'multipart/form-data',
-                                'target'=>'_blank'])
-                                !!}
+                                'target'=>'_blank']); ?>
+
                                 <div class="box-body">
                                     <p>Generate a report of contract types.</p>
                                     <div class="form-group">
@@ -91,10 +93,11 @@
                                         <select class="form-control select2" name="contract_type_id" style="width: 100%;" tabindex="-1"
                                             aria-hidden="true">
                                             <option selected="selected">Please select contract type</option>
-                                            @foreach ( $contract_types as $row )
-                                            <option value="{{ $row->contract_type_id }}">{{ $row->contract_type_name }}
+                                            <?php $__currentLoopData = $contract_types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($row->contract_type_id); ?>"><?php echo e($row->contract_type_name); ?>
+
                                             </option>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
                                 </div>
@@ -103,7 +106,8 @@
                                 <div class="box-footer"><button type="submit" class="btn btn-primary btn-flat">Generate
                                         Report</button>
                                 </div>
-                                {!! Form::close() !!}
+                                <?php echo Form::close(); ?>
+
                             </div>
                             </div>
                         </div>
@@ -115,11 +119,10 @@
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Contracting Party Report</h3>
                                 </div><!-- /.box-header -->
-                                {!!
-                                Form::open(['action'=>['ReportController@show' , $report_type2 ],
+                                <?php echo Form::open(['action'=>['ReportController@show' , $report_type2 ],
                                 'method'=>'GET','class'=>'form','enctype'=>'multipart/form-data',
-                                'target'=>'_blank'])
-                                !!}
+                                'target'=>'_blank']); ?>
+
                                 <div class="box-body">
                                     <p>Generate a report of contracting parties.</p>
                                     <div class="form-group">
@@ -127,9 +130,9 @@
                                         <select class="form-control select2" name="contract_party_id" style="width: 100%;"
                                             tabindex="-1" aria-hidden="true">
                                             <option selected="selected">Please select contract type</option>
-                                            @foreach ( $parties as $row )
-                                            <option value="{{ $row->party_id }}">{{ $row->party_name }}</option>
-                                            @endforeach
+                                            <?php $__currentLoopData = $parties; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($row->party_id); ?>"><?php echo e($row->party_name); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
                                 </div>
@@ -138,7 +141,8 @@
                                 <div class="box-footer"><button type="submit" class="btn btn-primary btn-flat">Generate
                                         Report</button>
                                 </div>
-                                {!! Form::close() !!}
+                                <?php echo Form::close(); ?>
+
                             </div>
                         </div>
                     </div>
@@ -151,11 +155,10 @@
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Contract Expiry Report</h3>
                                 </div><!-- /.box-header -->
-                                {!!
-                                Form::open(['action'=>['ReportController@show' , $report_type3],
+                                <?php echo Form::open(['action'=>['ReportController@show' , $report_type3],
                                 'method'=>'GET','class'=>'form','enctype'=>'multipart/form-data',
-                                'target'=>'_blank'])
-                                !!}
+                                'target'=>'_blank']); ?>
+
                                 <div class="box-body">
                                     <p>Generate a reports of contract expiry.</p>
                                     <div class="form-group">
@@ -163,17 +166,19 @@
                                         <select class="form-control select2" name="expiry_id" style="width: 100%;" tabindex="-1"
                                             aria-hidden="true">
                                             <option selected="selected">Please select contract expiry alert</option>
-                                            @foreach ($contract_expiry_alert as $row )
-                                            <option value="{{ $row->expiry_id }}">{{ $row->expiry_alert }}
+                                            <?php $__currentLoopData = $contract_expiry_alert; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($row->expiry_id); ?>"><?php echo e($row->expiry_alert); ?>
+
                                             </option>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="box-footer"><button type="submit" class="btn btn-primary btn-flat">Generate
                                         Report</button>
                                 </div>
-                                {!! Form::close() !!}
+                                <?php echo Form::close(); ?>
+
                             </div>
                         </div>
                     </div>
@@ -185,15 +190,15 @@
     </div>
 </div>
 
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('css')
+<?php $__env->startSection('css'); ?>
 <link rel="stylesheet" href="/css/admin_custom.css">
 <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
 
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('js')
+<?php $__env->startSection('js'); ?>
 
 <script src="/js/bootstrap-datepicker.min.js"></script>
 <script>
@@ -215,4 +220,6 @@
         $('#example4').DataTable()
     });
 </script>
-@stop
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('adminlte::page', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

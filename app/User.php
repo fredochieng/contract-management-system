@@ -59,6 +59,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $legal_users;
     }
 
+    public static function getLegalMembers(){
+        $legal_members = DB::table('users')->select(DB::raw('users.*'), DB::raw('model_has_roles.*'), DB::raw('roles.name AS role_name'))
+            ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', '!=', 'Standard User')
+            ->get();
+        return $legal_members;
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *
