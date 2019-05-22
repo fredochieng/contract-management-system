@@ -2,11 +2,7 @@
 @section('title', 'Wananchi Legal | Approved Contracts')
 @section('content_header')
 <h1 class="pull-left">Contracts<small>Approved Contracts</small></h1>
-@if(auth()->check()) @if(auth()->user()->isUser())
-<div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a></div>
-@endif @endif
 <div style="clear:both"></div>
-
 @stop
 @section('content')
 <style>
@@ -27,9 +23,6 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#approved-contracts" data-toggle="tab">Approved Contracts</a></li>
                 <li><a href="#approved-by-me-contracts" data-toggle="tab">Approved By Me</a></li>
-                <div class="btn-group pull-right" style="padding:6px;">
-                    <a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New Contract</a>
-                </div>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="approved-contracts">
@@ -45,9 +38,7 @@
                                                     <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
-                                                    <th>Expiry Date</th>
                                                     <th>Status</th>
-                                                    <th>Expiry Alert</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -62,19 +53,10 @@
                                                        <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
                                                        <i class="fa fa-briefcase fa-fw"></i> {{$approved_contract->party_name}}	</a></span>
                                                     </td>
-                                                    <td>{{ $approved_contract->expiry_date}}</td>
                                                    <td><span class="pull-right-container">
                                                         <small class="badge bg-green">{{$approved_contract->status_name}}</small></span>
                                                 </td>
-                                                @if($approved_contract->expired==1)
-                                               <td><span class="pull-right-container"><small class="badge bg-red">Expired</small></span>                </td>
-                                                    </td>
-                                                    @else
-                                                    <td><span class="pull-right-container">
-                                                            <small class="badge bg-aqua">Active</small></span>
-                                                    </td>
-                                                    @endif
-                                                    <td>
+                                                 <td>
                                                         <div class="btn-group">
                                                             <a class="btn btn-info btn-block btn-sm btn-flat" href="/contract/{{$approved_contract->contract_id}}/view"><i class="fa fa-eye"></i> View</a>
                                                         </div>
@@ -105,7 +87,6 @@
                                                     <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
-                                                    <th>Expiry Date</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -121,7 +102,6 @@
                                                                                                    <span class="label" style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
                                                                                                    <i class="fa fa-briefcase fa-fw"></i> {{$approved_by_me_contract->party_name}}	</a></span>
                                                     </td>
-                                                    <td>{{ $approved_by_me_contract->expiry_date}}</td>
                                                     <td><span class="pull-right-container">
                                                             <small class="badge bg-green">{{$approved_by_me_contract->status_name}}</small></span>
                                                     </td>

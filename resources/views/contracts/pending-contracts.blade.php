@@ -2,10 +2,6 @@
 @section('title', 'Wananchi Legal | Pending Contracts')
 @section('content_header')
 <h1 class="pull-left">Contracts<small>Pending Contracts</small></h1>
-@if(auth()->check()) @if(auth()->user()->isUser())
-<div class="pull-right"><a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i>
-        New Contract</a></div>
-@endif @endif
 <div style="clear:both"></div>
 @stop
 @section('content')
@@ -24,10 +20,6 @@
                 <li><a href="#overdue-contracts" data-toggle="tab">Overdue Contracts</a></li>
                 <li><a href="#open-contracts" data-toggle="tab">Open Contracts</a></li>
                 <li><a href="#assigned-contracts" data-toggle="tab">Assigned Contracts</a></li>
-                <div class="btn-group pull-right" style="padding:6px;">
-                    <a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New
-                        Contract</a>
-                </div>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="pending-contracts">

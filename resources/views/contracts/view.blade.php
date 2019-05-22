@@ -13,19 +13,23 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab-details" data-toggle="tab">Contract Details</a></li>
                 <li><a href="#tab-description" data-toggle="tab">Contract Description</a></li>
+                <li><a href="#tab-other-docs" data-toggle="tab">Suporting Documents</a></li>
                 <li><a href="#tab-history" data-toggle="tab">Contract History</a></li>
                 {{-- @if($contract->assigned_user_id == Auth::user()->id) --}}
-                    @if(auth()->check())
-                           @if(!auth()->user()->isUser() && ($contract->stage=='1') &&($contract->assigned=='0'))
-                                 <div class="btn-group pull-right" style="padding:6px;">
-                                      <a href="" class="btn btn-primary btn-sm btn-flat" data-toggle="modal" data-target="#modal_work_on_contract">Assign to me</a>
-                                  </div>
-                            @elseif (auth()->user()->isAdmin() && ($contract->contract_status=='Approved'))
-                                  <div class="btn-group pull-right" style="padding:6px;">
-                                    <a href="#" class="btn btn-primary btn-sm btn-flat" data-toggle="modal" data-target="#modal_request_caf">Request CAF</a>
-                                </div>
-                            @endif
-                    @endif
+                @if(auth()->check())
+                @if(!auth()->user()->isUser() && ($contract->stage=='1') &&($contract->assigned=='0'))
+                <div class="btn-group pull-right" style="padding:6px;">
+                    <a href="" class="btn btn-primary btn-sm btn-flat" data-toggle="modal"
+                        data-target="#modal_work_on_contract">Assign to me</a>
+                </div>
+                @elseif (!auth()->user()->isUser() && ($contract->contract_stage=='1'&& ($contract->contract_type=='')
+                ))
+                <div class="btn-group pull-right" style="padding:6px;">
+                    <a href="#" class="btn btn-primary btn-sm btn-flat" data-toggle="modal"
+                        data-target="#modal_classify_contract">Classify Contract</a>
+                </div>
+                @endif
+                @endif
                 {{-- @endif --}}
             </ul>
             <div class="tab-content">
@@ -73,7 +77,11 @@
                                                 </tr>
                                                 <tr>
                                                     <td><b>Contract Expiry</b></td>
+                                                    @if($contract->expiry_date=='')
+                                                    <td>N/A</td>
+                                                    @else
                                                     <td>{{ $contract->expiry_date }} </td>
+                                                    @endif
                                                 </tr>
                                                 <tr>
                                                     <td><b>Contract Renewal Type</b></td>
@@ -155,7 +163,8 @@
                                                 @else
                                                 <td>{{ $contract->name }}</td>
                                                 @endif
-                                                @if(auth()->check()) @if(!auth()->user()->isUser())
+                                                @if(auth()->check())
+                                                @if(!auth()->user()->isUser() && ($contract->stage !=6))
                                                 <td><a href="" data-toggle="modal"
                                                         data-target="#modal_assign_contract">Assign someone else</a>
                                                 </td>
@@ -288,44 +297,93 @@
                                     <div class="table-responsive">
                                         <table id="clientTable" class="table no-margin">
                                             <tr>
-                                                <a href="/{{$last_draft_contract_section->draft_file}}" class="btn btn-primary" style="margin-right:78px"
-                                                    target="_blank"><i class="fa fa-fw fa-download"></i>
-                                                    @if($contract->stage =='1')
-                                                             Contract Draft
+                                                <a href="/{{$last_draft_contract_section->draft_file}}"
+                                                    class="btn btn-primary" style="margin-right:10px" target="_blank"><i
+                                                        class="fa fa-fw fa-download"></i>
+                                                    @if($contract->stage ==1 && $contract->contract_type=='')
+                                                    Contract Draft/Signed Contract
+                                                    @elseif($contract->stage ==1 && $contract->contract_type==1)
+                                                    Signed Contract
+                                                    @elseif($contract->stage ==1 && $contract->contract_type==2)
+                                                    Contract Draft
                                                     @elseif($contract->stage =='2')
-                                                             Reviewed Contract
-                                                    @elseif($contract->stage =='3' || '4')
-                                                             Final Draft
+                                                    Reviewed Contract
+                                                    @elseif($contract->stage =='3')
+                                                    Final Draft
+                                                    @elseif($contract->stage =='4')
+                                                    Final Draft
+                                                    @elseif($contract->stage =='5' && $contract->contract_type==2)
+                                                    Final Draft
+                                                    @elseif($contract->stage =='5' && $contract->contract_type==1)
+                                                    Signed Contract
+                                                    @elseif($contract->stage =='6')
+                                                    Signed Contract
                                                     @endif
                                                 </a>
 
-                                                @if($contract->stage =='4' || '5')
-                                                <a href="/{{$caf_form->crf_form}}" class="btn btn-primary" style="margin-right:128px"
-                                                    target="_blank"><i class="fa fa-fw fa-download"></i>CAF Document
+
+                                                @if($contract->stage =='4' && ($contract->contract_type==2))
+                                                <a href="/{{$caf_form->crf_form}}" class="btn btn-primary"
+                                                    style="margin-right:128px" target="_blank"><i
+                                                        class="fa fa-fw fa-download"></i>CAF Document </a>
+                                                @elseif($contract->stage =='1' && ($caf_form_standard1->crf_form !=''))
+                                                <a href="/{{$caf_form_standard1->crf_form}}" class="btn btn-primary"
+                                                    style="margin-right:128px" target="_blank"><i
+                                                        class="fa fa-fw fa-download"></i>CAF Document </a>
+                                                @elseif($contract->stage =='1' && ($contract->contract_type==1))
+                                                <a href="/{{$caf_form_standard1->crf_form}}" class="btn btn-primary"
+                                                    style="margin-right:128px" target="_blank"><i
+                                                        class="fa fa-fw fa-download"></i>CAF Document </a>
+                                                @elseif($contract->stage =='5' && ($contract->contract_type==1))
+                                                <a href="/{{$caf_form_standard5->crf_form}}" class="btn btn-primary"
+                                                    style="margin-right:128px" target="_blank"><i
+                                                        class="fa fa-fw fa-download"></i>Approved CAF</a>
+                                                @elseif($contract->stage =='6' && ($contract->contract_type==1))
+                                                <a href="/{{$caf_form_standard6->crf_form}}" class="btn btn-primary"
+                                                    style="margin-right:128px" target="_blank"><i
+                                                        class="fa fa-fw fa-download"></i>CAF Document </a>
+                                                @elseif($contract->stage =='5' && ($contract->contract_type==2))
+                                                <a href="/{{$caf_form->crf_form}}" class="btn btn-primary"
+                                                    style="margin-right:48px" target="_blank"><i
+                                                        class="fa fa-fw fa-download"></i>CAF Document
+                                                </a>
+                                                @elseif($contract->stage =='6' && ($contract->contract_type==2))
+                                                <a href="/{{$caf_form->crf_form}}" class="btn btn-primary"
+                                                    style="margin-right:48px" target="_blank"><i
+                                                        class="fa fa-fw fa-download"></i>CAF Document
                                                 </a>
                                                 @endif
 
-                                                  @if(auth()->check())
-                                                         @if(auth()->user()->isUser() && ($contract->stage=='2') && ($contract->user_comments ==''))
-                                                             <a href="" data-toggle="modal" data-target="#modal_user_comment">Comment on the reviewed draft</a>
-                                                         @elseif(auth()->user()->isUser() || (auth()->user()->isAdmin()) && ($contract->stage=='3'))
-                                                             <a href="" data-toggle="modal" data-target="#modal_upload_caf">Upload CAF Document</a>
-
-
-                                                         @elseif(!auth()->user()->isUser() && ($contract->contract_status=='2') && ($contract->user_comments !=''))
-                                                             <a href="" data-toggle="modal" data-target="#modal_view_user_comment">View user comments</a>
-                                                         @elseif(!auth()->user()->isUser() && ($contract->contract_status=='3') && ($contract->user_comments !=''))
-                                                             <a href="" data-toggle="modal" data-target="#modal_view_user_comment">View user comments</a>
-                                                        @endif
-                                                   @endif
+                                                @if(auth()->check())
+                                                @if(auth()->user()->isUser() && ($contract->stage=='2') &&
+                                                ($contract->user_comments ==''))
+                                                <a href="" data-toggle="modal" data-target="#modal_user_comment">Comment
+                                                    on the reviewed draft</a>
+                                                @elseif(auth()->user()->isUser() && ($contract->stage=='3'))
+                                                <a href="" data-toggle="modal" data-target="#modal_upload_caf">Upload
+                                                    CAF Document</a>
+                                                @elseif(auth()->user()->isUser() && ($contract->stage=='5' &&($contract->contract_type==2)))
+                                                <a href="" data-toggle="modal"
+                                                    data-target="#modal_upload_signed_contract">Upload
+                                                    Signed Contract</a>
+                                                @elseif(!auth()->user()->isUser() && ($contract->contract_status=='2')
+                                                && ($contract->user_comments !=''))
+                                                <a href="" data-toggle="modal"
+                                                    data-target="#modal_view_user_comment">View user comments</a>
+                                                @elseif(!auth()->user()->isUser() && ($contract->contract_status=='3')
+                                                && ($contract->user_comments !=''))
+                                                <a href="" data-toggle="modal"
+                                                    data-target="#modal_view_user_comment">View user comments</a>
+                                                @endif
+                                                @endif
 
                                             </tr>
 
                                             {{-- <tr>
                                                 @if($last_draft_contract_section->crf_form =='') @else
                                                 <a href="/{{$last_draft_contract_section->crf_form}}"
-                                                    class="btn btn-primary" target="_blank"><i
-                                                        class="fa fa-fw fa-download"></i> CAF Document</a> @endif
+                                            class="btn btn-primary" target="_blank"><i class="fa fa-fw fa-download"></i>
+                                            CAF Document</a> @endif
                                             </tr> --}}
                                         </table>
                                     </div>
@@ -337,19 +395,31 @@
                     <div class="row no-print">
                         <div class="col-xs-12">
                             @if(auth()->check())
-                                @if(!auth()->user()->isUser() && ($contract->stage=='1') && ($contract->assigned_user_id == Auth::user()->id))
-                                     <a href="#" data-target="#modal_share_reviewed_contract" data-toggle="modal" class="btn btn-primary">
-                                     <i class="fa fa-check"></i> Share Reviewed Contract </a>
-                                @elseif(!auth()->user()->isUser() && ($contract->stage=='2') && ($contract->assigned_user_id == Auth::user()->id))
-                                      <a href="#" data-target="#modal_share_final_draft" data-toggle="modal" class="btn btn-primary">
-                                      <i class="fa fa-check"></i> Share Final Draft </a>
-                                @elseif(!auth()->user()->isUser() && ($contract->stage=='4') && ($contract->assigned_user_id == Auth::user()->id))
-                                      <a href="#" data-target="#modal_approve_caf" data-toggle="modal" class="btn btn-primary">
-                                      <i class="fa fa-check"></i> Approve CAF </a>
-                                @elseif(!auth()->user()->isUser() && ($contract->stage=='5') && ($contract->assigned_user_id == Auth::user()->id))
-                                      <a href="#" data-target="#modal_close_contract" data-toggle="modal" class="btn btn-primary">
-                                      <i class="fa fa-check"></i> Close Contract </a>
-                                @endif
+                            @if(!auth()->user()->isUser() && ($contract->stage=='1') &&($contract->contract_type==2) && ($contract->assigned_user_id == Auth::user()->id))
+                            <a href="#" data-target="#modal_share_reviewed_contract" data-toggle="modal"
+                                class="btn btn-primary">
+                                <i class="fa fa-check"></i> Share Reviewed Contract </a>
+                            @elseif(!auth()->user()->isUser() && ($contract->stage=='1') &&($contract->contract_type==1) && ($contract->assigned_user_id == Auth::user()->id))
+                            <a href="#" data-target="#modal_approve_caf" data-toggle="modal"
+                                class="btn btn-primary">
+                                <i class="fa fa-check"></i> Approve CAF</a>
+                            @elseif(!auth()->user()->isUser() && ($contract->stage==2) && ($contract->contract_type==2) && ($contract->assigned_user_id
+                            == Auth::user()->id))
+                            <a href="#" data-target="#modal_share_final_draft" data-toggle="modal"
+                                class="btn btn-primary">
+                                <i class="fa fa-check"></i> Share Final Draft </a>
+                            @elseif(!auth()->user()->isUser() && ($contract->stage=='4') && ($contract->assigned_user_id
+                            == Auth::user()->id))
+                            <a href="#" data-target="#modal_approve_caf" data-toggle="modal" class="btn btn-primary">
+                                <i class="fa fa-check"></i> Approve CAF </a>
+                            @elseif(!auth()->user()->isUser() && ($contract->stage==5) && ($contract->contract_type==1) &&($contract->assigned_user_id == Auth::user()->id))
+                            <a href="#" data-target="#modal_upload_approved_caf" data-toggle="modal" class="btn btn-primary">
+                                <i class="fa fa-check"></i> Share Approved CAF </a>
+                            {{--  @elseif(!auth()->user()->isUser() && ($contract->stage=='5') && ($contract->assigned_user_id
+                            == Auth::user()->id))
+                            <a href="#" data-target="#modal_close_contract" data-toggle="modal" class="btn btn-primary">
+                                <i class="fa fa-check"></i> Close Contract </a>  --}}
+                            @endif
                             @endif
 
 
@@ -364,7 +434,8 @@
 
                             @if(auth()->check())
                             @if(auth()->user()->isUser() && ($contract->contract_status=='Created'))
-                            <a href="#" data-target="#modal_submit_contract" data-toggle="modal" class="btn btn-primary">
+                            <a href="#" data-target="#modal_submit_contract" data-toggle="modal"
+                                class="btn btn-primary">
                                 <i class="fa fa-check"></i> Submit Contract </a>
                             @elseif(auth()->user()->isLegal() && ($contract->contract_status=='Pending') &&
                             ($contract->assigned_user_id== Auth::user()->id))
@@ -407,7 +478,8 @@
                     </div>
                 </div>
                 <!-- /.tab-pane -->
-                <div class="tab-pane " id="tab-description">
+
+                <div class="tab-pane" id="tab-description">
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="box box-success">
@@ -424,7 +496,43 @@
                     </div>
 
                 </div>
-                <div class="tab-pane " id="tab-history">
+
+                <div class="tab-pane" id="tab-other-docs">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="box box-success">
+                                <div class="box-header">
+                                    <h3 class="box-title">Supporting Documents </h3>
+                                    <div class="pull-right box-tools">
+                                        <button type="button" class="btn btn-default btn-sm btn-flat"
+                                            data-widget="collapse" data-toggle="tooltip" title="Collapse"><i
+                                                class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <div class="table-responsive">
+                                        <table id="clientTable" class="table no-margin">
+                                            <tbody>
+                                                <ul class="nav nav-stacked">
+                                                    @foreach ($docs as $count=> $file)
+                                                    <li><a href="/uploads/other_documents/{{$file}}"
+                                                            target="_blank"><span class="text-blue">{{$file}}</span> <i
+                                                                class="fa fa-fw fa-download"></i></a></li>
+                                                    @endforeach
+                                                </ul>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.tab-pane -->
+
+
+
+                <div class="tab-pane" id="tab-history">
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="box box-success">
@@ -455,25 +563,26 @@
                                                             Download</a></td>
 
                                                     <td>
-                                                        <center><span class="pull-right-container">
-                                                           @if($contracts->stage_id== '1')
+                                                        <span class="pull-right-container">
+                                                            @if($contracts->stage_id== '1')
                                                             <small
                                                                 class="badge bg-yellow">{{$contracts->stage_name}}</small></span>
-                                                            @elseif($contracts->stage_id== '2')
-                                                            <small
-                                                                class="badge bg-blue">{{ $contracts->stage_name}}</small></span>
-                                                            @elseif($contracts->stage_id== '3')
-                                                            <small
-                                                                class="badge bg-aqua">{{ $contracts->stage_name}}</small></span>
-                                                            @elseif ($contracts->stage_id== '4')
-                                                            <small
-                                                                class="badge bg-purple">{{$contracts->stage_name}}</small></span>
-                                                            @elseif($contracts->stage_id== '5')
-                                                            <small
-                                                                class="badge bg-green">{{ $contracts->stage_name}}</small></span>
-                                                            @elseif($contracts->stage_id== '6')
-                                                                <small class="badge bg-grey">{{ $contracts->stage_name}}</small></span>
-                                                        </center>
+                                                        @elseif($contracts->stage_id== '2')
+                                                        <small
+                                                            class="badge bg-blue">{{ $contracts->stage_name}}</small></span>
+                                                        @elseif($contracts->stage_id== '3')
+                                                        <small
+                                                            class="badge bg-aqua">{{ $contracts->stage_name}}</small></span>
+                                                        @elseif ($contracts->stage_id== '4')
+                                                        <small
+                                                            class="badge bg-purple">{{$contracts->stage_name}}</small></span>
+                                                        @elseif($contracts->stage_id== '5')
+                                                        <small
+                                                            class="badge bg-green">{{ $contracts->stage_name}}</small></span>
+                                                        @elseif($contracts->stage_id== '6')
+                                                        <small
+                                                            class="badge bg-grey">{{ $contracts->stage_name}}</small></span>
+
                                                     </td>
                                                     @endif
                                                     <td><a href="#modal_show_action_comments" data-toggle="modal"
@@ -524,45 +633,47 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <!-- /.tab-content -->
                 </div>
-                <!-- /.tab-content -->
+                <!-- nav-tabs-custom -->
             </div>
-            <!-- nav-tabs-custom -->
+            <!-- /.col -->
         </div>
-        <!-- /.col -->
-    </div>
-    @include('contracts.modals.modal_share_reviewed_contract')
-    @include('contracts.modals.modal_user_comment')
-    {{-- @include('contracts.modals.modal_view_user_comment') --}}
-    @include('contracts.modals.modal_share_final_draft')
-    @include('contracts.modals.modal_user_comment_final')
-    {{-- @include('contracts.modals.modal_view_user_comment') --}}
-    @include('contracts.modals.modal_upload_caf')
-    @include('contracts.modals.modal_approve_caf')
-    @include('contracts.modals.modal_close_contract')
+        @include('contracts.modals.modal_classify_contract')
+        @include('contracts.modals.modal_share_reviewed_contract')
+        @include('contracts.modals.modal_user_comment')
+        {{-- @include('contracts.modals.modal_view_user_comment') --}}
+        @include('contracts.modals.modal_share_final_draft')
+        @include('contracts.modals.modal_user_comment_final')
+        {{-- @include('contracts.modals.modal_view_user_comment') --}}
+        @include('contracts.modals.modal_upload_caf')
+        @include('contracts.modals.modal_upload_approved_caf')
+        @include('contracts.modals.modal_approve_caf')
+        @include('contracts.modals.modal_close_contract')
 
 
 
 
 
 
-    @include('contracts.modals.modal_submit_contract')
-    @include('contracts.modals.modal_assign_contract')
-    @include('contracts.modals.modal_work_on_contract')
-    @include('contracts.modals.modal_approve_contract')
-    @include('contracts.modals.modal_request_caf')
-    @include('contracts.modals.modal_upload_signed_contract')
-    @stop
-    @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-    <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="/iCheck/all.css">
-    @stop
-    @section('js')
-    <script src="/js/bootstrap-datepicker.min.js"></script>
-    <script src="/iCheck/icheck.min.js"></script>
-    <script>
-        $(function () {
+        @include('contracts.modals.modal_submit_contract')
+        @include('contracts.modals.modal_assign_contract')
+        @include('contracts.modals.modal_work_on_contract')
+        @include('contracts.modals.modal_approve_contract')
+        @include('contracts.modals.modal_request_caf')
+        @include('contracts.modals.modal_upload_signed_contract')
+        @stop
+        @section('css')
+        <link rel="stylesheet" href="/css/admin_custom.css">
+        <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+        <link rel="stylesheet" href="/iCheck/all.css">
+        @stop
+        @section('js')
+        <script src="/js/bootstrap-datepicker.min.js"></script>
+        <script src="/iCheck/icheck.min.js"></script>
+        <script>
+            $(function () {
             $(".select2").select2();
             $('#example1').DataTable()
             //iCheck for checkbox and radio inputs
@@ -571,5 +682,5 @@
             radioClass   : 'iradio_flat-green'
             })
          })
-    </script>
-    @stop
+        </script>
+        @stop

@@ -123,7 +123,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Users',
-                    'icon'        => 'angle-double-right',
+                    'icon'        => 'user',
                     'url'  => '/system-users/users',
                 ], [
                     'text' => 'Roles',
@@ -140,17 +140,17 @@ return [
             'submenu' => [
                 [
                     'text' => 'Create New Contract',
-                    'icon'        => 'angle-double-right',
+                    'icon'        => 'plus-circle',
                     'url'  => 'contract/create',
                 ],[
                     'text' => 'Pending Contracts',
-                    'icon'        => 'angle-double-right',
+                    'icon'        => 'exclamation',
                     'url'  => 'pending-contracts',
                 ],
 
                  [
                     'text' => 'Reviewed Contracts',
-                    'icon'        => 'angle-double-right',
+                    'icon'        => 'list',
                     'url'  => 'reviewed-contracts',
                 ],
                 // [
@@ -160,7 +160,7 @@ return [
                 // ],
                 [
                     'text' => 'Approved Contracts',
-                    'icon'        => 'angle-double-right',
+                    'icon'        => 'thumbs-o-up',
                     'url'  => 'approved-contracts',
                 ],
                 // [
@@ -170,7 +170,7 @@ return [
                 // ],
                 [
                     'text' => 'Closed Contracts',
-                    'icon'        => 'angle-double-right',
+                    'icon'        => 'briefcase',
                     'url'  => 'closed-contracts',
                 ],
             ],
@@ -208,6 +208,7 @@ return [
             'text' => 'System',
             'url'  => 'system/settings',
             'icon' => 'cogs',
+            'can'  => 'system.manage',
         ],
     ],
 

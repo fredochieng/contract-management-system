@@ -132,7 +132,7 @@
                                             style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
                                             <i class="fa fa-briefcase fa-fw"></i> <?php echo e($contract->party_name); ?> </a></span>
                                 </td>
-                                <td><?php echo e($contract->created_at); ?></td>
+                                <td><?php echo e($contract->created_date); ?></td>
                                 </td>
                                 <?php if(auth()->check()): ?> <?php if(auth()->user()->isAdmin() || auth()->user()->isLegal()): ?>
                                 <td>
@@ -195,7 +195,7 @@
                                 <th>Ticket #</th>
                                 <th>Contract Title</th>
                                 <th>Party Name</th>
-                                <th>Date Created</th>
+                                <th>Date Reviewed</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -324,11 +324,21 @@
                             class="progress-number"><b><?php echo e($draft_created_count); ?></b>/<?php echo e($total_contracts_count); ?></span>
 
                         <div class="progress sm">
-                            <div class="progress-bar progress-bar-yellow" style="width: <?php echo e($draft_review_per); ?>%">
+                            <div class="progress-bar progress-bar-yellow" style="width: <?php echo e($draft_created_per); ?>%">
                             </div>
                         </div>
                     </div>
                     <?php else: ?> <?php endif; ?> <?php endif; ?>
+                     <div class="progress-group">
+                        <span class="progress-text">Reviewed Contracts</span>
+                        <span
+                            class="progress-number"><b><?php echo e($tot_reviewed_count); ?></b>/<?php echo e($total_contracts_count); ?></span>
+
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-aqua" style="width: <?php echo e($reviewed_per); ?>%">
+                            </div>
+                        </div>
+                    </div>
                     <div class="progress-group">
                         <span class="progress-text">Approved Contracts</span>
                         <span
@@ -345,7 +355,7 @@
                             class="progress-number"><b><?php echo e($closed_contract_count); ?></b>/<?php echo e($total_contracts_count); ?></span>
 
                         <div class="progress sm">
-                            <div class="progress-bar progress-bar-grey" style="width: <?php echo e($closed_per); ?>%"></div>
+                            <div class="progress-bar progress-bar-blue" style="width: <?php echo e($closed_per); ?>%"></div>
                         </div>
                     </div>
                     <!-- /.progress-group -->
@@ -445,7 +455,7 @@
                     class="progress-number"><b><?php echo e($closed_contract_count); ?></b>/<?php echo e($total_contracts_count); ?></span>
 
                 <div class="progress sm">
-                    <div class="progress-bar progress-bar-red" style="width: <?php echo e($closed_per); ?>%">
+                    <div class="progress-bar progress-bar-blue" style="width: <?php echo e($closed_per); ?>%">
                     </div>
                 </div>
             </div>

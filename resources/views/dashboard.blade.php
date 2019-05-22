@@ -133,7 +133,7 @@
                                             style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
                                             <i class="fa fa-briefcase fa-fw"></i> {{$contract->party_name}} </a></span>
                                 </td>
-                                <td>{{$contract->created_at}}</td>
+                                <td>{{$contract->created_date}}</td>
                                 </td>
                                 @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
                                 <td>
@@ -195,7 +195,7 @@
                                 <th>Ticket #</th>
                                 <th>Contract Title</th>
                                 <th>Party Name</th>
-                                <th>Date Created</th>
+                                <th>Date Reviewed</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -322,11 +322,21 @@
                             class="progress-number"><b>{{ $draft_created_count }}</b>/{{ $total_contracts_count }}</span>
 
                         <div class="progress sm">
-                            <div class="progress-bar progress-bar-yellow" style="width: {{ $draft_review_per }}%">
+                            <div class="progress-bar progress-bar-yellow" style="width: {{ $draft_created_per }}%">
                             </div>
                         </div>
                     </div>
                     @else @endif @endif
+                     <div class="progress-group">
+                        <span class="progress-text">Reviewed Contracts</span>
+                        <span
+                            class="progress-number"><b>{{ $tot_reviewed_count }}</b>/{{ $total_contracts_count }}</span>
+
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-aqua" style="width: {{ $reviewed_per }}%">
+                            </div>
+                        </div>
+                    </div>
                     <div class="progress-group">
                         <span class="progress-text">Approved Contracts</span>
                         <span
@@ -343,7 +353,7 @@
                             class="progress-number"><b>{{ $closed_contract_count }}</b>/{{ $total_contracts_count }}</span>
 
                         <div class="progress sm">
-                            <div class="progress-bar progress-bar-grey" style="width: {{ $closed_per}}%"></div>
+                            <div class="progress-bar progress-bar-blue" style="width: {{ $closed_per}}%"></div>
                         </div>
                     </div>
                     <!-- /.progress-group -->
@@ -460,7 +470,7 @@
                     class="progress-number"><b>{{ $closed_contract_count }}</b>/{{ $total_contracts_count }}</span>
 
                 <div class="progress sm">
-                    <div class="progress-bar progress-bar-red" style="width: {{ $closed_per }}%">
+                    <div class="progress-bar progress-bar-blue" style="width: {{ $closed_per }}%">
                     </div>
                 </div>
             </div>

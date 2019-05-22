@@ -41,7 +41,7 @@
             </div>
             <div class="row">
                 
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="warranty_months">Contract Term</label>
                         <div class="input-group">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label>Contract Renewal Type</label>
                         <select class="form-control select2" name="renewal_id" required style="width: 100%;" tabindex="-1" aria-hidden="true">
@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <?php echo e(Form::label('contract_document', 'Upload Contract Document *')); ?>
+                    <?php echo e(Form::label('contract_document', 'Upload Draft Contract/Signed Contract *')); ?>
 
                     <div class="form-group">
                         <?php echo e(Form::file('contract_document',['class'=>'form-control', 'required', 'accept'=>'.doc , .docx , .pdf'])); ?>
@@ -71,11 +71,39 @@
                     </div>
                 </div>
 
+                <div class="col-md-4">
+                    <?php echo e(Form::label('contract_document', 'Upload CAF Document (Standard Contract)')); ?>
+
+                    <div class="form-group">
+                        <?php echo e(Form::file('caf_document',['class'=>'form-control', 'accept'=>'.doc , .docx , .pdf'])); ?>
+
+                    </div>
+                </div>
+
+ <div class="col-md-4">
+   <?php echo e(Form::label('Upload Supporting Documents')); ?>
+
+             <div class="input-group control-group increment" >
+          <input type="file" name="filename[]" required class="form-control">
+          <div class="input-group-btn">
+            <button class="btn btn-success" type="button"><i class="glyphicon glyphicon-plus"></i>Add</button>
+          </div>
+        </div>
+        <div class="clone hide">
+          <div class="control-group input-group" style="margin-top:10px">
+            <input type="file" name="filename[]" class="form-control">
+            <div class="input-group-btn">
+              <button class="btn btn-danger" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button>
+            </div>
+          </div>
+        </div>
+        </div>
+
                 <div class="col-md-12">
                     <?php echo e(Form::label('description', 'Description')); ?>
 
                     <div class="form-group">
-                        <?php echo e(Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Contract description'])); ?>
+                        <?php echo e(Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Brief description of the contract (services)'])); ?>
 
                     </div>
                 </div>
@@ -99,6 +127,14 @@
 <script src="/js/select2.full.min.js"></script>
 <script>
     $(function () {
+        $(".btn-success").click(function(){
+          var html = $(".clone").html();
+          $(".increment").after(html);
+      });
+
+      $("body").on("click",".btn-danger",function(){
+          $(this).parents(".control-group").remove();
+      });
     //Initialize Select2 Elements
 $(".select2").select2();
 	$("#party_name").select2({

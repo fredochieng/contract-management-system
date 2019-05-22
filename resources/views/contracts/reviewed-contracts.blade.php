@@ -22,10 +22,6 @@
                 <li><a href="#final_draft_sent" data-toggle="tab">Final Drafts Received</a></li>
                 <li><a href="#uploaded_caf" data-toggle="tab">CAF Uploaded (Signed Off)</a></li>
                 @endif
-                <div class="btn-group pull-right" style="padding:6px;">
-                    <a class="btn btn-primary btn-sm btn-flat" href="/contract/create"><i class="fa fa-plus"></i> New
-                        Contract</a>
-                </div>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="reviewed-contracts">

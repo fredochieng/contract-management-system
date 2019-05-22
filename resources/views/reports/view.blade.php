@@ -44,9 +44,9 @@
                                 <th>Party Name</th>
                                 <th>Reviewer</th>
                                 <th>Date Created</th>
-                                @if($status==3)
-                                <th>Date Approved</th>
-                                @elseif($status==4)
+                                 {{--  @if($status==3)
+                                <th>Date Approved</th>  --}}
+                                @if($status==4)
                                 <th>Date Closed</th>
                                 @endif
                                 <th>Status</th>
@@ -84,21 +84,14 @@
                                 @else
                                 <td>{{$collection->name}}</td>
                                 @endif
+                                
                                 @if($status=='Closed')
                                 <td>{{$collection->contract_type_name}}</td>
                                 @endif
-                                @if($status ==1)
-                                @elseif($status==2)
-                                @elseif($status==5)
-                                @else
-                                <td>{{date("Y-m-d H:m:s",strtotime($collection->created_date))}}
+                             
+                                 <td>{{date("Y-m-d H:m:s",strtotime($collection->created_date))}}
                                 </td>
-                                @endif
-                                @if($status==5)
-                                <td>{{date("Y-m-d H:m:s",strtotime($collection->created_date1))}}</td>
-                                @else
-<td>{{date("Y-m-d H:m:s",strtotime($collection->created_at))}}</td>
-@endif
+
 <td><span class="pull-right-container">
         <small class="badge bg-{{ $collection->label_color }}">{{$collection->status_name}}</small></span>
 </td>
@@ -229,7 +222,6 @@
                     <table id="example1" class="table no-margin">
                         <thead>
                             <tr>
-                                <th>S/N</th>
                                 <th>Ticket #</th>
                                 <th>Contract Title</th>
                                 <th>Party Name</th>
@@ -248,7 +240,6 @@
                             @endif
 
                             <tr>
-                                <td>{{ $key+1}}</td>
                                 <td><a
                                         href="/contract/{{$collection1->contract_id}}/view">{{$collection1->contract_code}}</a>
                                 </td>
@@ -269,7 +260,7 @@
                                 @endif
                                 <td>{{date("Y-m-d H:m:s",strtotime($collection1->created_date))}}
                                 </td>
-                               
+
                                 <td><span class="pull-right-container">
                                         <small
                                             class="badge bg-{{ $collection1->label_color }}">{{$collection1->status_name}}</small></span>
@@ -284,7 +275,7 @@
                                 @endif
                                 {!! Form::close() !!}
                             </tr>
-                   
+
                             @endforeach
                         </tbody>
                     </table>

@@ -29,12 +29,14 @@ Route::group(['middleware' => 'verified'], function () {
     Route::any('contract-party/{id}/view-contract-party', 'PartyController@contractParty');
     Route::resource('contract', 'ContractController');
     Route::any('pending-contracts', 'ContractController@pendingContracts');
+    Route::any('classify-contract', 'ContractController@classifyContract');
     Route::any('share-reviewed-contract', 'ContractController@shareReviewedContract');
     Route::any('comment-reviewed-contract', 'ContractController@commentReviewedContract');
     Route::any('share-final-draft', 'ContractController@shareFinalDraft');
     Route::any('comment-final-draft', 'ContractController@commentFinalDraft');
     Route::any('upload-caf-document', 'ContractController@uploadCAF');
     Route::any('approve-caf', 'ContractController@approveCAF');
+    Route::any('upload-approved-caf', 'ContractController@uploadApprovedCAF');
     Route::any('close-contract', 'ContractController@closeContract');
     Route::any('reviewed-contracts', 'ContractController@reviewedContracts');
     Route::resource('system/settings', 'SystemController');
