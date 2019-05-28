@@ -73,14 +73,14 @@
                 </div>
 
                 <div class="col-md-4">
-                    {{Form::label('contract_document', 'Upload Draft Contract/Signed Contract *')}}
+                    {{Form::label('contract_document', 'Upload Contract/Service Order Form(SOF)*')}}
                     <div class="form-group">
                         {{Form::file('contract_document',['class'=>'form-control', 'required', 'accept'=>'.doc , .docx , .pdf'])}}
                     </div>
                 </div>
 
                 <div class="col-md-4">
-                    {{Form::label('contract_document', 'Upload CAF Document (Standard Contract)')}}
+                    {{Form::label('contract_document', 'Upload CAF Document')}}
                     <div class="form-group">
                         {{Form::file('caf_document',['class'=>'form-control', 'accept'=>'.doc , .docx , .pdf'])}}
                     </div>
@@ -107,7 +107,8 @@
                 <div class="col-md-12">
                     {{Form::label('description', 'Description')}}
                     <div class="form-group">
-                        {{Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Brief description of the contract (services)'])}}
+                        {{Form::textarea('description', '',['class'=>'form-control description',
+                        'placeholder'=>'Summary of the contract, contract terms, nature of the services, payment terms, commencement dates, terminations'])}}
                     </div>
                 </div>
                 <div class="col-md-12">

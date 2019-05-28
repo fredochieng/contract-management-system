@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <?php echo e(Form::label('contract_document', 'Upload Draft Contract/Signed Contract *')); ?>
+                    <?php echo e(Form::label('contract_document', 'Upload Contract/Service Order Form(SOF)*')); ?>
 
                     <div class="form-group">
                         <?php echo e(Form::file('contract_document',['class'=>'form-control', 'required', 'accept'=>'.doc , .docx , .pdf'])); ?>
@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <?php echo e(Form::label('contract_document', 'Upload CAF Document (Standard Contract)')); ?>
+                    <?php echo e(Form::label('contract_document', 'Upload CAF Document')); ?>
 
                     <div class="form-group">
                         <?php echo e(Form::file('caf_document',['class'=>'form-control', 'accept'=>'.doc , .docx , .pdf'])); ?>
@@ -103,7 +103,8 @@
                     <?php echo e(Form::label('description', 'Description')); ?>
 
                     <div class="form-group">
-                        <?php echo e(Form::textarea('description', '',['class'=>'form-control description','placeholder'=>'Brief description of the contract (services)'])); ?>
+                        <?php echo e(Form::textarea('description', '',['class'=>'form-control description',
+                        'placeholder'=>'Summary of the contract, contract terms, nature of the services, payment terms, commencement dates, terminations'])); ?>
 
                     </div>
                 </div>

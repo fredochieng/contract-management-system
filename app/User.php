@@ -55,7 +55,7 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where('roles.name', 'Legal Counsel')
             ->inRandomOrder()
             ->take(1)
-            ->get();
+            ->first();
         return $legal_users;
     }
 

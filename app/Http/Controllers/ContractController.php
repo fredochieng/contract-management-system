@@ -18,6 +18,7 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Mail;
 use App\Mail\ContractRequestCreation;
 use App\Mail\ContractCreatedMail;
 use App\Mail\ContractAcknowledgement;
@@ -27,7 +28,6 @@ use App\Mail\DraftReviewShared;
 use App\Mail\FinalDraftShared;
 use App\Mail\CAFUploaded;
 use App\Mail\ContractExpiryAlert;
-use Illuminate\Support\Facades\Mail;
 use Laravel\RoundRobin\RoundRobin;
 use function GuzzleHttp\json_decode;
 
@@ -778,6 +778,7 @@ class ContractController extends Controller
     {
         $data['terms'] = ContractTerm::getContractTerm();
         $data['renewal_types'] = RenewalType::getRenewalTypes();
+
         return view('contracts.create')->with($data);
     }
     /**
@@ -814,6 +815,8 @@ class ContractController extends Controller
             return back();
         } else {
             $contract = new contract;
+            $data['random_legal_user'] = User::getLegalUsers();
+            $legal_id = $data['random_legal_user']->id;
             $contract->contract_title = ucwords($request->input('title'));
             $contract->party_name_id = $request->input('party_name');
             // $contract->contract_type = 2;
@@ -822,6 +825,8 @@ class ContractController extends Controller
             $contract->description = $request->input('description');
             $contract->stage = 1;
             $contract->status = 1;
+            $contract->assigned = 1;
+            $contract->assigned_user_id = $legal_id;
             $contract->created_by = Auth::user()->id;
             $contract->updated_by = Auth::user()->id;
             $contract->last_action_by = Auth::user()->id;
@@ -1356,7 +1361,7 @@ class ContractController extends Controller
         Alert::success('Work on Contract', $message);
         return redirect('contract/' . $assigned_contract_id . '/view');
     }
-    // Admin assign contract to legal counsel member
+    // Admin assign ticket to helpdesk team
     public function assignContract(request $request)
     {
         $validator = Validator::make($request->all(), [
