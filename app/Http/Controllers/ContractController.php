@@ -404,7 +404,22 @@ class ContractController extends Controller
             ->where('contracts.status', '=', 4)
             ->get();
 
+        // echo "<pre>";
+        // print_r($data['approved_contracts']);
+        // exit;
+
         $data['approved_contracts']->map(function ($item) {
+
+            // $data['latest'] = contract_drafts::where('contract_draft_id', $item->last_draft_id)
+            //     ->latest('created_at')
+            //     ->get();
+
+            // $data['latest_draft'] = json_decode(json_encode($data['latest']));
+
+            // echo "<pre>";
+            // print_r($data[ 'latest_draft']);
+            // exit;
+
             $expiry_date = date('Y-m-d', strtotime(Carbon::parse($item->expiry_date)));
             $current_time = date('Y-m-d', strtotime(Carbon::now('Africa/Nairobi')));
             $contract_id = $item->contract_id;
@@ -415,14 +430,7 @@ class ContractController extends Controller
             $contract_title = $item->contract_title;
             $item->notification_duration = $date_send_notification;
             $item->expired = 1;
-            // echo "Current Time: " . $current_time;
-            // echo "<br/>";
-            // echo "Contract ID: " . $contract_id;
-            // echo "<br/>";
-            // echo "Expiry Date: " . $expiry_date;
-            // echo "<br/>";
-            // echo "Date to send notification: " . $date_send_notification;
-            // echo "<br/>";
+
             if (Carbon::now()->toDateString() == $date_send_notification) {
                 $objDemo = new \stdClass();
                 $objDemo->user_name = $user_name;
@@ -435,35 +443,19 @@ class ContractController extends Controller
                 $objDemo->subject = 'Contract ' . '#' . $contract_code . ' Expiry Alert';
                 $objDemo->expiry_date = $expiry_date;
                 Mail::to($user_email)->send(new ContractExpiryAlert($objDemo));
-                // echo $user_email;
-                // echo "<br/>";
-                // echo "<br/>";
-
-                // foreach ($data['legal_members'] as $legal) {
-                //     Mail::to($legal->email)->send(new ContractCreatedMail($objDemo));
-                // }
-            } else {
-                // echo "Notification date is still ahead";
-                // echo "<br/>";
-                // echo "<br/>";
-            }
+            } else { }
             if (Carbon::now('Africa/Nairobi')->greaterThan(Carbon::parse($item->expiry_date))) {
                 $item->expired = 1;
-                // echo "Contract Expired";
-                //  echo "<br/>";
-                //   echo "<br/>";
             } else {
                 $item->expired = 0;
-                // echo "Contract Not Expired";
-                //  echo "<br/>";
-                // echo "<br/>";
             }
-            // echo "<br/>";
-            return $item;
-            // echo "<br/>";
 
-            //  exit;
+            return $item;
         });
+
+        // $data['latest'] = contract_drafts::where('contract_draft_id', $data['approved_contracts']->last_draft_id)
+        //     ->latest('created_at')
+        //     ->first();
         // Contracts Approved By Me
         // $data['approved_by_me_contracts'] = DB::table('contracts')
         //     ->select(
@@ -524,6 +516,10 @@ class ContractController extends Controller
             ->where('contracts.status', '=', 4)
             ->where('contracts.assigned_user_id', '=', Auth::user()->id)
             ->get();
+
+        // $data['latest'] = contract_drafts::where('contract_draft_id', $data['approved_by_me_contracts']->last_draft_id)
+        //     ->latest('created_at')
+        //     ->first();
 
         $data['approved_by_me_contracts']->map(function ($item) {
             $expiry_date = date('Y-m-d', strtotime(Carbon::parse($item->expiry_date)));
@@ -778,6 +774,9 @@ class ContractController extends Controller
     {
         $data['terms'] = ContractTerm::getContractTerm();
         $data['renewal_types'] = RenewalType::getRenewalTypes();
+        $data['assigned'] = User:: getAssigned();
+        // echo $data['assigned']->id;
+        // exit;
 
         return view('contracts.create')->with($data);
     }
@@ -815,18 +814,22 @@ class ContractController extends Controller
             return back();
         } else {
             $contract = new contract;
-            $data['random_legal_user'] = User::getLegalUsers();
-            $legal_id = $data['random_legal_user']->id;
+            $assigned = User::getAssigned();
+            $assigned_user_id = $assigned->id;
             $contract->contract_title = ucwords($request->input('title'));
             $contract->party_name_id = $request->input('party_name');
             // $contract->contract_type = 2;
-            $contract->term = $request->term_id;
             $contract->renewal_id = $request->renewal_id;
             $contract->description = $request->input('description');
             $contract->stage = 1;
             $contract->status = 1;
             $contract->assigned = 1;
-            $contract->assigned_user_id = $legal_id;
+            $contract->start_date = date('Y-m-d', strtotime($request->input('start_date')));
+            $start_date = Carbon::parse($contract->start_date);
+            $contract->term = $request->term_id;
+            $contract->expiry_date =  $start_date->addMonths($contract->term);
+            $contract->assigned_user_id = $assigned_user_id;
+
             $contract->created_by = Auth::user()->id;
             $contract->updated_by = Auth::user()->id;
             $contract->last_action_by = Auth::user()->id;
@@ -900,6 +903,8 @@ class ContractController extends Controller
             $default_contract_storage_data = array(
                 'contract_id' => $just_saved_contract_id
             );
+            $current_time = Carbon::now();
+            DB::table('users')->where('id', $assigned_user_id)->update(['last_assigned_date' => $current_time]);
             $resp = DB::table('contracts')->where('contract_id', $just_saved_contract_id)->update($save_contract_code);
             $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
             $action_dates_data = DB::table('contracts_action_dates')->insertGetId($action_dates_data);
@@ -995,6 +1000,7 @@ class ContractController extends Controller
         $data['latest'] = contract_drafts::where('contract_draft_id', $data['contract']->last_draft_id)
             ->latest('created_at')
             ->first();
+
         $data['caf_form'] = contract_drafts::where([
             ['contract_id', '=', $data['contract']->contract_id],
             ['contract_drafts.stage_id', '=', 4]
@@ -1509,7 +1515,7 @@ class ContractController extends Controller
         $objDemo = new \stdClass();
         $objDemo->contract_code = $reviewed_contract->contract_code;
         $objDemo->title = $reviewed_contract->contract_title;
-        $objDemo->subject = 'Draft Review ' . '('. '#' . $reviewed_contract->contract_code.')' . ' Shared';
+        $objDemo->subject = 'Draft Review ' . '(' . '#' . $reviewed_contract->contract_code . ')' . ' Shared';
         $company = "Wananchi Group Ltd";
         $objDemo->company = $company;
 
@@ -1544,7 +1550,7 @@ class ContractController extends Controller
             $objDemo2->subject = 'Draft Review ' . ('#' . $reviewed_contract->contract_code) . ' Shared';
             $company = "Wananchi Group Ltd";
             $objDemo2->company = $company;
-            $objDemo2->message =  $user->name. " has uploaded a draft review for Contract:";
+            $objDemo2->message =  $user->name . " has uploaded a draft review for Contract:";
             Mail::to($legal_admin->email)->send(new DraftReviewShared($objDemo2));
         }
 
@@ -1841,8 +1847,8 @@ class ContractController extends Controller
             ->leftJoin('users', 'contracts.assigned_user_id', '=', 'users.id')
             ->first();
 
-            echo $assigned_user->legal_email;
-            exit;
+        echo $assigned_user->legal_email;
+        exit;
 
         $objDemo1 = new \stdClass();
         $objDemo1->contract_code = $upload_caf->contract_code;
@@ -1853,7 +1859,7 @@ class ContractController extends Controller
         $objDemo1->name = $assigned_user->legal_name;
         $objDemo1->message = " CAF for contract " . $upload_caf->contract_code . " has uploaded CAF pending approval from you:";
 
-        Mail::to( $assigned_user->legal_email)->send(new CAFUploaded($objDemo1));
+        Mail::to($assigned_user->legal_email)->send(new CAFUploaded($objDemo1));
 
         $data['legal_admin'] = User::getLegalAdmin();
         foreach ($data['legal_admin'] as $legal_admin) {
@@ -1864,7 +1870,7 @@ class ContractController extends Controller
             $objDemo2->subject = 'CAF ' . ('#' . $upload_caf->contract_code) . ' Uploaded';
             $company = "Wananchi Group Ltd";
             $objDemo2->company = $company;
-            $objDemo2->message = " CAF for contract" .$upload_caf->contract_code ."  has uploaded CAF pending approval from the legal department:";
+            $objDemo2->message = " CAF for contract" . $upload_caf->contract_code . "  has uploaded CAF pending approval from the legal department:";
             Mail::to($legal_admin->email)->send(new CAFUploaded($objDemo2));
         }
 
@@ -2308,13 +2314,14 @@ class ContractController extends Controller
         $upload_signed_action_id = Auth::user()->id;
         $created_by = $signed_contract->created_by;
         $closed_date = Carbon::now('Africa/Nairobi');
-        $contract_term = $signed_contract->term;
-        $expiry_date = Carbon::now()->addMonths($contract_term);
+        // $contract_term = $signed_contract->term;
+        // $expiry_date = Carbon::now()->addMonths($contract_term);
         DB::table('contracts')->where('contract_id', $signed_contract_id)
             ->update([
                 'status' => $status, 'stage' => $stage,
                 // 'legal_upload_signed_id' => $upload_signed_action_id,
-                'expiry_date' => $expiry_date, 'updated_by' => Auth::user()->id
+                // 'expiry_date' => $expiry_date,
+                'updated_by' => Auth::user()->id
             ]);
         $contract_draft_data = array(
             'contract_id' => $signed_contract_id,
@@ -2367,6 +2374,10 @@ class ContractController extends Controller
         $draft_file = $approved_caf->draft_file;
         $contract_title = $approved_caf->contract_title;
         $approved_string = "Approved CAF";
+        $contract_type = $approved_caf->contract_type;
+
+        // echo $contract_type;
+        // exit;
 
         // $initiated_crf_form = '';
         if ($request->hasFile('approved_caf') && $request->file('approved_caf')->isValid()) {
@@ -2375,41 +2386,51 @@ class ContractController extends Controller
             $file->move('uploads/caf_documents', $file_name);
             $approved_caf_file = 'uploads/caf_documents/' . $file_name;
         }
-        $stage = 6;
-        $status = 4;
+
+        if ($contract_type == 2) {
+            $stage = 5;
+            $status = 3;
+        } else {
+            $stage = 6;
+            $status = 4;
+        }
         $approved_caf_id = $request->contract_id;
         $created_by = $approved_caf->created_by;
         $closed_date = Carbon::now('Africa/Nairobi');
-        $contract_term = $approved_caf->term;
-        $expiry_date = Carbon::now()->addMonths($contract_term);
+        // $contract_term = $approved_caf->term;
+        // $expiry_date = Carbon::now()->addMonths($contract_term);
         DB::table('contracts')->where('contract_id', $approved_caf_id)
             ->update([
                 'status' => $status, 'stage' => $stage,
                 // 'legal_upload_signed_id' => $upload_signed_action_id,
-                'expiry_date' => $expiry_date, 'updated_by' => Auth::user()->id
+                // 'expiry_date' => $expiry_date,
+                'updated_by' => Auth::user()->id
             ]);
-        $contract_draft_data = array(
-            'contract_id' => $approved_caf_id,
-            'stage_id' => 6,
-            'draft_file' => $draft_file,
-            'crf_form' => $approved_caf_file,
-            'status' => 4,
-            'created_by' => $created_by,
-            'updated_by' => Auth::user()->id,
-        );
-        $action_dates_data = array(
-            'contract_id' => $approved_caf_id,
-            'contract_stage_id' => 6,
-            'status_id' => 4,
-            'date' => $closed_date
-        );
+        if ($contract_type == 1) {
+            $contract_draft_data = array(
+                'contract_id' => $approved_caf_id,
+                'stage_id' => $stage,
+                'draft_file' => $draft_file,
+                'crf_form' => $approved_caf_file,
+                'status' => $status,
+                'created_by' => $created_by,
+                'updated_by' => Auth::user()->id,
+            );
+            $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
+            DB::table('contracts')->where('contract_id', $approved_caf_id)->update(array('last_draft_id' => $last_draft_id));
 
-        // echo "<pre>";
-        // print_r($contract_draft_data);
-        // exit;
-        $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
-        $action_dates_data = DB::table('contracts_action_dates')->insertGetId($action_dates_data);
-        DB::table('contracts')->where('contract_id', $approved_caf_id)->update(array('last_draft_id' => $last_draft_id));
+            $action_dates_data = array(
+                'contract_id' => $approved_caf_id,
+                'contract_stage_id' => 6,
+                'status_id' => 4,
+                'date' => $closed_date
+            );
+            $action_dates_data = DB::table('contracts_action_dates')->insertGetId($action_dates_data);
+        } elseif ($contract_type == 2) {
+            DB::table('contract_drafts')->where('contract_id', $approved_caf_id)->where('stage_id', '=', '5')
+                ->update(['crf_form' => $approved_caf_file ]);
+        }
+
         Alert::success('Upload Signed Contract', 'Signed Contract successfully uploaded...');
         return redirect('contract/' . $approved_caf_id . '/view');
         // ->with('success', 'Contract successfully ammended awaiting action by the contract party');

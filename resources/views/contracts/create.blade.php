@@ -39,19 +39,7 @@
                 </div>
             </div>
             <div class="row">
-                {{--  <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Contract Term</label>
-                        <select class="form-control select2" name="term_id" required style="width: 100%;" tabindex="-1"
-                            aria-hidden="true">
-                            <option selected="selected">Please select contract term</option>
-                            @foreach ( $terms as $row )
-                            <option value="{{ $row->id }}">{{ $row->term }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>  --}}
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="warranty_months">Contract Term</label>
                         <div class="input-group">
@@ -60,15 +48,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>Contract Renewal Type</label>
-                        <select class="form-control select2" name="renewal_id" required style="width: 100%;" tabindex="-1" aria-hidden="true">
+                        <select class="form-control select2" name="renewal_id" required style="width: 100%;"
+                            tabindex="-1" aria-hidden="true">
                             <option selected="selected">Please select contract renewal type</option>
                             @foreach ($renewal_types as $row )
                             <option value="{{ $row->id }}">{{ $row->renewal_type }}</option>
                             @endforeach
                         </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {!! Form::label('Start Date *') !!}
+                        {{Form::text('start_date', null, ['class' => 'form-control start_date', 'id' => 'start_date', 'required' ])}}
+
                     </div>
                 </div>
 
@@ -86,23 +82,25 @@
                     </div>
                 </div>
 
- <div class="col-md-4">
-   {{Form::label('Upload Supporting Documents')}}
-             <div class="input-group control-group increment" >
-          <input type="file" name="filename[]" required class="form-control">
-          <div class="input-group-btn">
-            <button class="btn btn-success" type="button"><i class="glyphicon glyphicon-plus"></i>Add</button>
-          </div>
-        </div>
-        <div class="clone hide">
-          <div class="control-group input-group" style="margin-top:10px">
-            <input type="file" name="filename[]" class="form-control">
-            <div class="input-group-btn">
-              <button class="btn btn-danger" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button>
-            </div>
-          </div>
-        </div>
-        </div>
+                <div class="col-md-4">
+                    {{Form::label('Upload Supporting Documents')}}
+                    <div class="input-group control-group increment">
+                        <input type="file" name="filename[]" required class="form-control">
+                        <div class="input-group-btn">
+                            <button class="btn btn-success" type="button"><i
+                                    class="glyphicon glyphicon-plus"></i>Add</button>
+                        </div>
+                    </div>
+                    <div class="clone hide">
+                        <div class="control-group input-group" style="margin-top:10px">
+                            <input type="file" name="filename[]" class="form-control">
+                            <div class="input-group-btn">
+                                <button class="btn btn-danger" type="button"><i class="glyphicon glyphicon-remove"></i>
+                                    Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-md-12">
                     {{Form::label('description', 'Description')}}
@@ -194,7 +192,7 @@ function formatRepo (repo) {
 function formatRepoSelection (repo) {
   return repo.text ;
 }
-	 $('.issued_date').datepicker( {
+	 $('.start_date').datepicker( {
 	 	format: 'dd-mm-yyyy',
 		orientation: "bottom",
 		autoclose: true,

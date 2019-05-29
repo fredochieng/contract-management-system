@@ -202,8 +202,6 @@ return [
             'can'  => 'reports.manage',
         ],
 
-
-        'SYSTEM SETTINGS',
         [
             'text' => 'System',
             'url'  => 'system/settings',

@@ -336,7 +336,11 @@
                                                         class="fa fa-fw fa-download"></i>CAF Document </a>
                                                 @elseif($contract->stage =='5' && ($contract->contract_type==1))
                                                 <a href="/{{$caf_form_standard5->crf_form}}" class="btn btn-primary"
-                                                    style="margin-right:128px" target="_blank"><i
+                                                    style="margin-right:108px" target="_blank"><i
+                                                        class="fa fa-fw fa-download"></i>Approved CAF</a>
+                                                @elseif($contract->stage =='5' && ($contract->contract_type==2))
+                                                <a href="/{{$caf_form_standard5->crf_form}}" class="btn btn-primary"
+                                                    style="margin-right:108px" target="_blank"><i
                                                         class="fa fa-fw fa-download"></i>Approved CAF</a>
                                                 @elseif($contract->stage =='6' && ($contract->contract_type==1))
                                                 <a href="/{{$caf_form_standard6->crf_form}}" class="btn btn-primary"
@@ -359,10 +363,10 @@
                                                 ($contract->user_comments ==''))
                                                 <a href="" data-toggle="modal" data-target="#modal_user_comment">Comment
                                                     on the reviewed draft</a>
-                                                @elseif(auth()->user()->isUser() && ($contract->stage=='3'))
+                                                @elseif(auth()->user()->isAdmin() && ($contract->stage=='3'))
                                                 <a href="" data-toggle="modal" data-target="#modal_upload_caf">Upload
                                                     CAF Document</a>
-                                                @elseif(auth()->user()->isUser() && ($contract->stage=='5' &&($contract->contract_type==2)))
+                                                @elseif(auth()->user()->isAdmin() && ($contract->stage=='5' &&($contract->contract_type==2)))
                                                 <a href="" data-toggle="modal"
                                                     data-target="#modal_upload_signed_contract">Upload
                                                     Signed Contract</a>
@@ -408,10 +412,12 @@
                             <a href="#" data-target="#modal_share_final_draft" data-toggle="modal"
                                 class="btn btn-primary">
                                 <i class="fa fa-check"></i> Share Final Draft </a>
-                            @elseif(!auth()->user()->isUser() && ($contract->stage=='4') && ($contract->assigned_user_id
-                            == Auth::user()->id))
+                            @elseif(!auth()->user()->isUser() && ($contract->stage=='4') && ($contract->assigned_user_id == Auth::user()->id))
                             <a href="#" data-target="#modal_approve_caf" data-toggle="modal" class="btn btn-primary">
                                 <i class="fa fa-check"></i> Approve CAF </a>
+                            @elseif(!auth()->user()->isUser() && ($contract->stage==5) && ($contract->contract_type==2) &&($contract->assigned_user_id == Auth::user()->id))
+                            <a href="#" data-target="#modal_upload_approved_caf" data-toggle="modal" class="btn btn-primary">
+                                <i class="fa fa-check"></i> Share Approved CAF </a>
                             @elseif(!auth()->user()->isUser() && ($contract->stage==5) && ($contract->contract_type==1) &&($contract->assigned_user_id == Auth::user()->id))
                             <a href="#" data-target="#modal_upload_approved_caf" data-toggle="modal" class="btn btn-primary">
                                 <i class="fa fa-check"></i> Share Approved CAF </a>
@@ -514,9 +520,9 @@
                                         <table id="clientTable" class="table no-margin">
                                             <tbody>
                                                 <ul class="nav nav-stacked">
-                                                    @foreach ($docs as $count=> $file)
-                                                    <li><a href="/uploads/other_documents/{{$file}}"
-                                                            target="_blank"><span class="text-blue">{{$file}}</span> <i
+                                                    @foreach ($docs as $count=> $files)
+                                                    <li><a href="/uploads/other_documents/{{$files}}"
+                                                            target="_blank"><span class="text-blue">{{$files}}</span> <i
                                                                 class="fa fa-fw fa-download"></i></a></li>
                                                     @endforeach
                                                 </ul>

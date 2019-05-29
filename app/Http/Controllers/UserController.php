@@ -20,6 +20,7 @@ use App\VerifyAddedUser;
 use App\Mail\VerifyMail;
 use Notification;
 use Carbon\Carbon;
+use PhpParser\Node\Expr\Empty_;
 
 class UserController extends Controller
 {
@@ -110,14 +111,44 @@ class UserController extends Controller
         ]);
 
         $user = new user;
+        if ($request->input('role_id') == 2) {
+
+            $user_date = User::where('last_assigned_date', '!=', '')->orderBy('last_assigned_date', 'asc')->first();
+
+            if (empty($user_date)) {
+                $user->last_assigned_date = Carbon::now();
+            } else {
+
+                $user->last_assigned_date = Carbon::parse($user_date->last_assigned_date)->subSeconds(10)->format('Y-m-d H:i:s');
+            }
+
+
+        }
+        // echo $user;
+        // exit;
+
         $password_string = str_random(6);
         $user->name = ucwords($request->input('name'));
         $user->email = $request->input('email');
-        $user = User::create([
-            'name' =>  $user->name,
-            'email' => $user->email,
-            'password' => Hash::make($password_string)
-        ]);
+
+        if ($request->input('role_id') == 2) {
+            $user = User::create([
+                'name' =>  $user->name,
+                'email' => $user->email,
+                'last_assigned_date' => $user->last_assigned_date,
+                'password' => Hash::make($password_string)
+            ]);
+        } else {
+            $user = User::create([
+                'name' =>  $user->name,
+                'email' => $user->email,
+                'password' => Hash::make($password_string)
+            ]);
+        }
+
+
+        // echo $current_time;
+        // exit;
 
         $saved_user_id = $user->id;
 

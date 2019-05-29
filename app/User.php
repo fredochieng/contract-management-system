@@ -20,7 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'last_assigned_date', 'password',
     ];
 
     public function users_details()
@@ -84,6 +84,16 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where('roles.name', '=', 'Admin')
             ->get();
         return $legal_members;
+    }
+
+    public static function getAssigned(){
+        $assigned_legal_users = DB::table('users')->select(DB::raw('users.*'), DB::raw('model_has_roles.*'), DB::raw('roles.name AS role_name'))
+            ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Legal Counsel')
+            ->orderBy('last_assigned_date', 'asc')
+            ->first();
+        return $assigned_legal_users;
     }
 
     /**

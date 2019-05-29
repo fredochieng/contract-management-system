@@ -69,12 +69,12 @@ class ReportController extends Controller
         // echo $status;
         // exit;
 
-            $partyid = $request->contract_party_id;
-            $data['party'] =  DB::table('parties')
-                            ->where('party_id', '=' , $partyid )
-                            ->first();
+        $partyid = $request->contract_party_id;
+        $data['party'] =  DB::table('parties')
+            ->where('party_id', '=', $partyid)
+            ->first();
 
-        if($data['status'] == 5){
+        if ($data['status'] == 5) {
 
             $data['contracts'] = DB::table('contracts')
                 ->select(
@@ -112,7 +112,7 @@ class ReportController extends Controller
                 ->orderBy('contracts.contract_id', 'desc')
                 ->whereBetween('contract_drafts.created_at', array($data['from'], $data['to']))
                 ->get();
-        }elseif($data['status']==2){
+        } elseif ($data['status'] == 2) {
             $data['contracts'] = DB::table('contracts')
                 ->select(
                     DB::raw('contracts.*'),
@@ -153,9 +153,7 @@ class ReportController extends Controller
                 // ->where('contracts_action_dates.contract_stage_id', '=',2)
                 ->whereBetween('contracts_action_dates.date', array($data['from'], $data['to']))
                 ->get();
-        }
-
-        else{
+        } else {
 
             $data['contracts'] = DB::table('contracts')
                 ->select(
@@ -194,13 +192,6 @@ class ReportController extends Controller
                 ->whereBetween('contracts_action_dates.date', array($data['from'], $data['to']))
                 ->get();
         }
-
-
-            // echo"<pre>";
-            // print_r($contracts);
-            // exit;
-
-
 
         $data['contract_type'] = $request->contract_type_id;
         $contract_status = 'Closed';
@@ -335,7 +326,7 @@ class ReportController extends Controller
         // echo "<pre>";
         // print_r($data['contract_expiry_report']);
         // exit;
-            return view('reports.view')
+        return view('reports.view')
             ->with($data);
     }
 

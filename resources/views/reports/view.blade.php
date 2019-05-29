@@ -84,14 +84,15 @@
                                 @else
                                 <td>{{$collection->name}}</td>
                                 @endif
-                                
+
                                 @if($status=='Closed')
                                 <td>{{$collection->contract_type_name}}</td>
                                 @endif
-                             
-                                 <td>{{date("Y-m-d H:m:s",strtotime($collection->created_date))}}
-                                </td>
 
+                                <td>{{date("Y-m-d H:m:s",strtotime($collection->created_date))}}
+                               </td>
+                                <td>{{date("Y-m-d H:m:s",strtotime($collection->date))}}
+                               </td>
 <td><span class="pull-right-container">
         <small class="badge bg-{{ $collection->label_color }}">{{$collection->status_name}}</small></span>
 </td>

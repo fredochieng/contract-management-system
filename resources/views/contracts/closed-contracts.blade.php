@@ -38,6 +38,7 @@
                                                     <th>Ticket #</th>
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
+                                                    <th>Signed Contract</th>
                                                     <th>Expiry Date</th>
                                                     <th>Status</th>
                                                      <th>Expiry Alert</th>
@@ -59,7 +60,10 @@
                                                                 <i class="fa fa-briefcase fa-fw"></i>
                                                                 {{$approved_contract->party_name}} </a></span>
                                                     </td>
-                                               <td>{{ $approved_contract->expiry_date}}</td>
+                                               <td>
+                                                <a href="/{{$approved_contract->draft_file}}" style="margin-right:128px" target="_blank"><i
+                                                        class="fa fa-fw fa-download"></i>Download </a> </td>
+                                               <td>{{ date('Y-m-d', strtotime($approved_contract->expiry_date))}}</td>
                                                    <td><span class="pull-right-container">
                                                         <small class="badge bg-blue">{{$approved_contract->status_name}}</small></span>
                                                 </td>

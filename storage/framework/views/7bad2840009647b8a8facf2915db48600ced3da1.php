@@ -335,7 +335,11 @@
                                                         class="fa fa-fw fa-download"></i>CAF Document </a>
                                                 <?php elseif($contract->stage =='5' && ($contract->contract_type==1)): ?>
                                                 <a href="/<?php echo e($caf_form_standard5->crf_form); ?>" class="btn btn-primary"
-                                                    style="margin-right:128px" target="_blank"><i
+                                                    style="margin-right:108px" target="_blank"><i
+                                                        class="fa fa-fw fa-download"></i>Approved CAF</a>
+                                                <?php elseif($contract->stage =='5' && ($contract->contract_type==2)): ?>
+                                                <a href="/<?php echo e($caf_form_standard5->crf_form); ?>" class="btn btn-primary"
+                                                    style="margin-right:108px" target="_blank"><i
                                                         class="fa fa-fw fa-download"></i>Approved CAF</a>
                                                 <?php elseif($contract->stage =='6' && ($contract->contract_type==1)): ?>
                                                 <a href="/<?php echo e($caf_form_standard6->crf_form); ?>" class="btn btn-primary"
@@ -358,10 +362,10 @@
                                                 ($contract->user_comments =='')): ?>
                                                 <a href="" data-toggle="modal" data-target="#modal_user_comment">Comment
                                                     on the reviewed draft</a>
-                                                <?php elseif(auth()->user()->isUser() && ($contract->stage=='3')): ?>
+                                                <?php elseif(auth()->user()->isAdmin() && ($contract->stage=='3')): ?>
                                                 <a href="" data-toggle="modal" data-target="#modal_upload_caf">Upload
                                                     CAF Document</a>
-                                                <?php elseif(auth()->user()->isUser() && ($contract->stage=='5' &&($contract->contract_type==2))): ?>
+                                                <?php elseif(auth()->user()->isAdmin() && ($contract->stage=='5' &&($contract->contract_type==2))): ?>
                                                 <a href="" data-toggle="modal"
                                                     data-target="#modal_upload_signed_contract">Upload
                                                     Signed Contract</a>
@@ -402,10 +406,12 @@
                             <a href="#" data-target="#modal_share_final_draft" data-toggle="modal"
                                 class="btn btn-primary">
                                 <i class="fa fa-check"></i> Share Final Draft </a>
-                            <?php elseif(!auth()->user()->isUser() && ($contract->stage=='4') && ($contract->assigned_user_id
-                            == Auth::user()->id)): ?>
+                            <?php elseif(!auth()->user()->isUser() && ($contract->stage=='4') && ($contract->assigned_user_id == Auth::user()->id)): ?>
                             <a href="#" data-target="#modal_approve_caf" data-toggle="modal" class="btn btn-primary">
                                 <i class="fa fa-check"></i> Approve CAF </a>
+                            <?php elseif(!auth()->user()->isUser() && ($contract->stage==5) && ($contract->contract_type==2) &&($contract->assigned_user_id == Auth::user()->id)): ?>
+                            <a href="#" data-target="#modal_upload_approved_caf" data-toggle="modal" class="btn btn-primary">
+                                <i class="fa fa-check"></i> Share Approved CAF </a>
                             <?php elseif(!auth()->user()->isUser() && ($contract->stage==5) && ($contract->contract_type==1) &&($contract->assigned_user_id == Auth::user()->id)): ?>
                             <a href="#" data-target="#modal_upload_approved_caf" data-toggle="modal" class="btn btn-primary">
                                 <i class="fa fa-check"></i> Share Approved CAF </a>
@@ -507,9 +513,9 @@
                                         <table id="clientTable" class="table no-margin">
                                             <tbody>
                                                 <ul class="nav nav-stacked">
-                                                    <?php $__currentLoopData = $docs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $count=> $file): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <li><a href="/uploads/other_documents/<?php echo e($file); ?>"
-                                                            target="_blank"><span class="text-blue"><?php echo e($file); ?></span> <i
+                                                    <?php $__currentLoopData = $docs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $count=> $files): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <li><a href="/uploads/other_documents/<?php echo e($files); ?>"
+                                                            target="_blank"><span class="text-blue"><?php echo e($files); ?></span> <i
                                                                 class="fa fa-fw fa-download"></i></a></li>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </ul>
