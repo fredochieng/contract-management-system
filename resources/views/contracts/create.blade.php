@@ -28,7 +28,9 @@
                         <a href="/party?new=true" target="_blank"><strong>Click here to capture the details</strong></a>
                     </p>
                 </div>
-                <div class="col-md-6">
+
+
+                <div class="col-md-3">
 
                     {{Form::label('title', 'Contract Title* ')}}
                     <div class="form-group">
@@ -36,6 +38,18 @@
                         {{Form::text('title', '',['class'=>'form-control', 'required','placeholder'=>'The Contract Title'])}}
 
                     </div>
+                </div>
+                <div class="col-md-3">
+                <div class="form-group">
+                                        <label>Contract Status</label>
+                                        <select class="form-control select2" name="entity_id" style="width: 100%;"
+                                            tabindex="-1" aria-hidden="true">
+                                            <option selected="selected">Please select contract status</option>
+                                            @foreach ( $organizations as $row )
+                                            <option value="{{ $row->organization_id }}">{{ $row->organization_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                 </div>
             </div>
             <div class="row">
@@ -103,7 +117,7 @@
                 </div>
 
                 <div class="col-md-12">
-                    {{Form::label('description', 'Description')}}
+                    {{Form::label('description', 'Description(Summary of the contract, contract terms, nature of the services, payment terms, commencement dates, terminations)')}}
                     <div class="form-group">
                         {{Form::textarea('description', '',['class'=>'form-control description',
                         'placeholder'=>'Summary of the contract, contract terms, nature of the services, payment terms, commencement dates, terminations'])}}

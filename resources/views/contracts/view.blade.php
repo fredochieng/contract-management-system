@@ -22,7 +22,7 @@
                     <a href="" class="btn btn-primary btn-sm btn-flat" data-toggle="modal"
                         data-target="#modal_work_on_contract">Assign to me</a>
                 </div>
-                @elseif (!auth()->user()->isUser() && ($contract->contract_stage=='1'&& ($contract->contract_type=='')
+                @elseif (!auth()->user()->isUser() && ($contract->assigned_user_id==Auth::user()->id) && ($contract->contract_stage=='1'&& ($contract->contract_type=='')
                 ))
                 <div class="btn-group pull-right" style="padding:6px;">
                     <a href="#" class="btn btn-primary btn-sm btn-flat" data-toggle="modal"
@@ -62,6 +62,12 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td><b>Entity Name</b></td>
+                                                    <td><span
+                                                            style="font-weight:bold">{{ $contract->organization_name }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td><b>Contract Type</b></td>
                                                     @if($contract->contract_type_name=='')
                                                     <td>N/A</td>
@@ -80,7 +86,7 @@
                                                     @if($contract->expiry_date=='')
                                                     <td>N/A</td>
                                                     @else
-                                                    <td>{{ $contract->expiry_date }} </td>
+                                                    <td>{{ date('Y-m-d', strtotime($contract->expiry_date)) }} </td>
                                                     @endif
                                                 </tr>
                                                 <tr>
@@ -109,10 +115,6 @@
                                                     <td><b>Contract Party</b></td>
                                                     <td><a href="/contract-party/{{$contract->party_id}}/view-contract-party"
                                                             target="_blank">{{ $contract->party_name }}</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><b>Legal Nature of Entity</b></td>
-                                                    <td>{{ $contract->legal_entity_type }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Postal Address</b></td>
@@ -164,7 +166,7 @@
                                                 <td>{{ $contract->name }}</td>
                                                 @endif
                                                 @if(auth()->check())
-                                                @if(!auth()->user()->isUser() && ($contract->stage !=6))
+                                                @if(auth()->user()->isAdmin() && ($contract->stage !=6))
                                                 <td><a href="" data-toggle="modal"
                                                         data-target="#modal_assign_contract">Assign someone else</a>
                                                 </td>
@@ -338,7 +340,7 @@
                                                 <a href="/{{$caf_form_standard5->crf_form}}" class="btn btn-primary"
                                                     style="margin-right:108px" target="_blank"><i
                                                         class="fa fa-fw fa-download"></i>Approved CAF</a>
-                                                @elseif($contract->stage =='5' && ($contract->contract_type==2))
+                                                @elseif(($contract->stage =='5') && ($contract->contract_type==2) && ($caf_form_standard5->crf_form !=''))
                                                 <a href="/{{$caf_form_standard5->crf_form}}" class="btn btn-primary"
                                                     style="margin-right:108px" target="_blank"><i
                                                         class="fa fa-fw fa-download"></i>Approved CAF</a>
@@ -363,10 +365,10 @@
                                                 ($contract->user_comments ==''))
                                                 <a href="" data-toggle="modal" data-target="#modal_user_comment">Comment
                                                     on the reviewed draft</a>
-                                                @elseif(auth()->user()->isAdmin() && ($contract->stage=='3'))
+                                                @elseif(auth()->user()->isUser() && ($contract->stage=='3'))
                                                 <a href="" data-toggle="modal" data-target="#modal_upload_caf">Upload
                                                     CAF Document</a>
-                                                @elseif(auth()->user()->isAdmin() && ($contract->stage=='5' &&($contract->contract_type==2)))
+                                                @elseif(auth()->user()->isUser() && ($contract->stage=='5' &&($contract->contract_type==2)))
                                                 <a href="" data-toggle="modal"
                                                     data-target="#modal_upload_signed_contract">Upload
                                                     Signed Contract</a>

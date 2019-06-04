@@ -8,7 +8,7 @@
 <div style="clear:both"></div>
 @stop
 @section('content')
-<div class="box box-success" style="font-size:10px;">
+<div class="box box-success">
     <div class="box-body">
         <div class="table-responsive">
             <table id="example1" class="table no-margin">

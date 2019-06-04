@@ -20,7 +20,6 @@ use App\VerifyAddedUser;
 use App\Mail\VerifyMail;
 use Notification;
 use Carbon\Carbon;
-use PhpParser\Node\Expr\Empty_;
 
 class UserController extends Controller
 {
@@ -124,8 +123,6 @@ class UserController extends Controller
 
 
         }
-        // echo $user;
-        // exit;
 
         $password_string = str_random(6);
         $user->name = ucwords($request->input('name'));

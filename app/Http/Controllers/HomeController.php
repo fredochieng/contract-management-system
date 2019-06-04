@@ -216,30 +216,30 @@ class HomeController extends Controller
             $contract_stage = '1';
             $contract_status = '1';
 
-            $contract_stage1 = '2';
-            $contract_status1 = '2';
+            $contract_stage1 = '6';
+            $contract_status1 = '4';
 
-            $contract_assigned = '';
-            $contract_assigned1 = 1;
+            // $contract_assigned = '';
+            // $contract_assigned1 = 1;
         } elseif (auth()->user()->isUser()) {
             $contract_stage = '5';
             $contract_status = '3';
 
-            $contract_stage1 = '2';
-            $contract_status1 = '2';
+            $contract_stage1 = '6';
+            $contract_status1 = '4';
 
-            $contract_assigned = '';
-            $contract_assigned1 = 1;
+            // $contract_assigned = '';
+            // $contract_assigned1 = 1;
         }
         if (auth()->user()->isLegal()) {
             $contract_stage = '1';
             $contract_status = '1';
 
-            $contract_stage2= '2';
-            $contract_status2 = '2';
+            $contract_stage2= '6';
+            $contract_status2 = '4';
 
-            $contract_assigned = '';
-            $contract_assigned1 = 1;
+            // $contract_assigned = '';
+            // $contract_assigned1 = 1;
         }
         $data['contracts'] = DB::table('contracts')
             ->select(
@@ -266,8 +266,7 @@ class HomeController extends Controller
             ->where([
                 [$compare_field, $compare_operator, $compare_value],
                 ['contracts.stage', '=', $contract_stage],
-                ['contracts.status', '=', $contract_status],
-                ['contracts.assigned', '=', $contract_assigned]
+                ['contracts.status', '=', $contract_status]
             ])
             ->get();
 
@@ -309,7 +308,7 @@ class HomeController extends Controller
                 ->orderBy('contracts.updated_at', 'desc')->take(4)
                 ->where([
                     [$compare_field, $compare_operator, $compare_value],
-                    ['contracts.status', '=', $contract_stage1],
+                    ['contracts.stage', '=', $contract_stage1],
                     ['contracts.status', '=', $contract_status1]
                 ])
                 ->get();
@@ -339,7 +338,7 @@ class HomeController extends Controller
                 ->orderBy('contracts.contract_id', 'desc')
                 ->where([
                     [$compare_field, $compare_operator, $compare_value],
-                    ['contracts.status', '=', $contract_stage2],
+                    ['contracts.stage', '=', $contract_stage2],
                     ['contracts.status', '=', $contract_status2],
                     ['contracts.assigned_user_id', '=', Auth::user()->id]
                 ])

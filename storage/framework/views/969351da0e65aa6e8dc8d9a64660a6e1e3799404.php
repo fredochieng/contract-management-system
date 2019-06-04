@@ -27,7 +27,9 @@
                         <a href="/party?new=true" target="_blank"><strong>Click here to capture the details</strong></a>
                     </p>
                 </div>
-                <div class="col-md-6">
+
+
+                <div class="col-md-3">
 
                     <?php echo e(Form::label('title', 'Contract Title* ')); ?>
 
@@ -37,6 +39,18 @@
 
 
                     </div>
+                </div>
+                <div class="col-md-3">
+                <div class="form-group">
+                                        <label>Contract Status</label>
+                                        <select class="form-control select2" name="entity_id" style="width: 100%;"
+                                            tabindex="-1" aria-hidden="true">
+                                            <option selected="selected">Please select contract status</option>
+                                            <?php $__currentLoopData = $organizations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($row->organization_id); ?>"><?php echo e($row->organization_name); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </select>
+                                    </div>
                 </div>
             </div>
             <div class="row">
@@ -111,7 +125,7 @@
                 </div>
 
                 <div class="col-md-12">
-                    <?php echo e(Form::label('description', 'Description')); ?>
+                    <?php echo e(Form::label('description', 'Description(Summary of the contract, contract terms, nature of the services, payment terms, commencement dates, terminations)')); ?>
 
                     <div class="form-group">
                         <?php echo e(Form::textarea('description', '',['class'=>'form-control description',

@@ -6,6 +6,7 @@ use App\contract;
 use App\party;
 use App\contract_drafts;
 use App\ContractTerm;
+use App\Entity;
 use App\RenewalType;
 use App\SupportingDocuments;
 use Illuminate\Http\Request;
@@ -90,6 +91,7 @@ class ContractController extends Controller
     // Created Contracts
     public function createdContracts()
     {
+
         $user = Auth::user();
         ~$user_role = $user->getRoleNames()->first();
         if ($user_role == "Admin") {
@@ -256,25 +258,18 @@ class ContractController extends Controller
             ->get();
 
         $data['approved_contracts']->map(function ($item) {
-            $expiry_date = date('Y-m-d', strtotime(Carbon::parse($item->expiry_date)));
-            $current_time = date('Y-m-d', strtotime(Carbon::now('Africa/Nairobi')));
+            $expiry_date = Carbon::parse($item->expiry_date);
+            $current_time = Carbon::now('Africa/Nairobi');
             $contract_id = $item->contract_id;
-            $date_send_notification = date('Y-m-d', strtotime(Carbon::parse($item->expiry_date)->subMonths(3)));
+            $date_send_notification = Carbon::parse($item->expiry_date)->subMonths(3);
             $user_email = $item->user_email;
             $user_name = $item->user_name;
             $contract_code = $item->contract_code;
             $contract_title = $item->contract_title;
             $item->notification_duration = $date_send_notification;
             $item->expired = 1;
-            // echo "Current Time: " . $current_time;
-            // echo "<br/>";
-            // echo "Contract ID: " . $contract_id;
-            // echo "<br/>";
-            // echo "Expiry Date: " . $expiry_date;
-            // echo "<br/>";
-            // echo "Date to send notification: " . $date_send_notification;
-            // echo "<br/>";
-            if (Carbon::now()->toDateString() == $date_send_notification) {
+
+            if (Carbon::now() == $date_send_notification) {
                 $objDemo = new \stdClass();
                 $objDemo->user_name = $user_name;
                 $objDemo->contract_code = $contract_code;
@@ -286,34 +281,14 @@ class ContractController extends Controller
                 $objDemo->subject = 'Contract ' . '#' . $contract_code . ' Expiry Alert';
                 $objDemo->expiry_date = $expiry_date;
                 Mail::to($user_email)->send(new ContractExpiryAlert($objDemo));
-                // echo $user_email;
-                // echo "<br/>";
-                // echo "<br/>";
-
-                // foreach ($data['legal_members'] as $legal) {
-                //     Mail::to($legal->email)->send(new ContractCreatedMail($objDemo));
-                // }
-            } else {
-                // echo "Notification date is still ahead";
-                // echo "<br/>";
-                // echo "<br/>";
-            }
+            } else { }
             if (Carbon::now('Africa/Nairobi')->greaterThan(Carbon::parse($item->expiry_date))) {
                 $item->expired = 1;
-                // echo "Contract Expired";
-                //  echo "<br/>";
-                //   echo "<br/>";
             } else {
                 $item->expired = 0;
-                // echo "Contract Not Expired";
-                //  echo "<br/>";
-                // echo "<br/>";
             }
-            // echo "<br/>";
-            return $item;
-            // echo "<br/>";
 
-            //  exit;
+            return $item;
         });
         // Contracts Approved By Me
         $data['approved_by_me_contracts'] = DB::table('contracts')
@@ -772,9 +747,10 @@ class ContractController extends Controller
      */
     public function create()
     {
+        $data['organizations'] =Entity::getEntities();
         $data['terms'] = ContractTerm::getContractTerm();
         $data['renewal_types'] = RenewalType::getRenewalTypes();
-        $data['assigned'] = User:: getAssigned();
+        $data['assigned'] = User::getAssigned();
         // echo $data['assigned']->id;
         // exit;
 
@@ -818,6 +794,7 @@ class ContractController extends Controller
             $assigned_user_id = $assigned->id;
             $contract->contract_title = ucwords($request->input('title'));
             $contract->party_name_id = $request->input('party_name');
+            $contract->entity_id = $request->input('entity_id');
             // $contract->contract_type = 2;
             $contract->renewal_id = $request->renewal_id;
             $contract->description = $request->input('description');
@@ -919,15 +896,35 @@ class ContractController extends Controller
             $objDemo->company = "Wananchi Group Ltd";
             $objDemo->name = $user->name;
             $objDemo->subject = 'Contract Request ' . '#' . $ticket . ' Sent';
-            // $objDemo->success = "Successfully";
-            Mail::to($user->email)->send(new ContractRequestCreation($objDemo));
-            $data['legal_members'] = User::getLegalMembers();
-            // echo"<pre>";
-            // print_r($data['legal_members']);
-            // exit;
-            foreach ($data['legal_members'] as $legal) {
-                Mail::to($legal->email)->send(new ContractCreatedMail($objDemo));
+
+            // if(!empty($user->email)){
+// echo $user->email;
+// exit;
+                $legal_members = User::getLegalMembers();
+
+                // echo "<pre>";
+                // print_r($assigned->email);
+                // exit;
+
+                // foreach ($legal_members as $key => $value) {
+                    // if(!empty($legal->email)){]
+                        // $legal_members = $value;
+                        // echo "<pre>";
+                        // print_r($legal_members);
+                        // exit;
+                    Mail::to($assigned->email)->send(new ContractCreatedMail($objDemo));
+                    // }
+                // }
+
+            try {
+                Mail::to('fredrick.ochieng@ke.wananchi.com')->send(new ContractRequestCreation($objDemo));
+            } catch (Swift_TransportException $e) {
+                \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
             }
+            //}
+
+
+
             Alert::success('Contract Request Creation', 'Contract request uccessfully created');
             return redirect('pending-contracts');
         }
@@ -953,6 +950,7 @@ class ContractController extends Controller
                 DB::raw('draft_stages.*'),
                 DB::raw('contract_status.*'),
                 DB::raw('contract_types.*'),
+                DB::raw('users_organizations.*'),
                 // DB::raw('contract_duration.*'),
                 DB::raw('contracts_renewal_types.*'),
                 DB::raw('contracts_action_dates.*'),
@@ -961,7 +959,7 @@ class ContractController extends Controller
             ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
             // ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
             ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
-            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('users_organizations', 'contracts.entity_id', '=', 'users_organizations.organization_id')
             ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
             ->leftjoin('contracts_storage', 'contracts.contract_id', '=', 'contracts_storage.contract_id')
             ->leftJoin('draft_stages', 'contract_drafts.stage_id', '=', 'draft_stages.draft_stage_id')
@@ -1273,6 +1271,65 @@ class ContractController extends Controller
             'overdue_pending_contracts' => $overdue_pending_contracts,
             'assigned_pending_contracts' => $assigned_pending_contracts,
             'my_pending_contracts' => $my_pending_contracts
+        ]);
+    }
+    // Deleted Contracts
+    public function deletedContracts()
+    {
+        $user = Auth::user();
+        ~$user_role = $user->getRoleNames()->first();
+        if ($user_role == "Admin") {
+            $compare_field = "contracts.contract_id";
+            $compare_operator = ">=";
+            $compare_value = 1;
+            $contract_status_query = contract::where($compare_field, $compare_operator, $compare_value)
+                ->where(function ($query) {
+                    $query->where('contracts.status', 'Approved')
+                        ->orWhere('contracts.status', 'Submitted')
+                        ->orWhere('contracts.status', 'Amended')
+                        ->orWhere('contracts.status', 'Terminated')
+                        ->orWhere('contracts.status', 1);
+                })->get();
+        } elseif ($user_role == "Legal Counsel") {
+            $compare_field = "contracts.contract_id";
+            $compare_operator = ">=";
+            $compare_value = 1;
+        } else {
+            $compare_field = 'contracts.created_by';
+            $compare_operator = "=";
+            $compare_value = Auth::user()->id;
+        }
+        $pending_contracts = DB::table('contracts')
+            ->select(
+                DB::raw('contracts.*'),
+                DB::raw('contracts.status AS contract_status'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('contracts.created_at AS created_date'),
+                DB::raw('contracts.updated_at AS contract_updated_at'),
+                DB::raw('contracts.stage AS contract_stage'),
+                DB::raw('contracts.published_time AS contract_published_time'),
+                DB::raw('users_organizations.*'),
+                DB::raw('contract_drafts.*'),
+                DB::raw('contract_status.*'),
+                DB::raw('draft_stages.*')
+            )
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+            ->leftJoin('contract_status', 'contracts.status', '=', 'contract_status.status_id')
+            ->orderBy('contracts.contract_id', 'desc')
+            ->where($compare_field, $compare_operator, $compare_value)
+            ->where('contracts.status', '=', 6)
+            ->get();
+
+        return view('contracts.deleted-contracts')->with([
+            'pending_contracts' => $pending_contracts
         ]);
     }
 
@@ -2428,10 +2485,10 @@ class ContractController extends Controller
             $action_dates_data = DB::table('contracts_action_dates')->insertGetId($action_dates_data);
         } elseif ($contract_type == 2) {
             DB::table('contract_drafts')->where('contract_id', $approved_caf_id)->where('stage_id', '=', '5')
-                ->update(['crf_form' => $approved_caf_file ]);
+                ->update(['crf_form' => $approved_caf_file]);
         }
 
-        Alert::success('Upload Signed Contract', 'Signed Contract successfully uploaded...');
+        Alert::success('Upload Approved CAF', 'Approved CAF successfully uploaded...');
         return redirect('contract/' . $approved_caf_id . '/view');
         // ->with('success', 'Contract successfully ammended awaiting action by the contract party');
     }
@@ -2686,11 +2743,69 @@ class ContractController extends Controller
      */
     public function destroy(contract $contract)
     { }
-    public function deleteCreatedContract($contract)
+    public function deleteCreatedContract(request $request)
     {
-        $resp = DB::table('contracts')->where('contract_id', $contract)->delete();
-        Alert::success('Delete Contract', 'Contract successfully deleted');
-        return back()->with('success', 'Contract successfully deleted');
-        // ->with('success', 'Contract Successfully Deleted');
+        $approved_caf = DB::table('contracts')
+            ->select(
+                DB::raw('contracts.*'),
+                DB::raw('parties.*'),
+                DB::raw('users.name'),
+                DB::raw('users.id'),
+                DB::raw('users_details.*'),
+                DB::raw('contracts.created_at AS created_date'),
+                DB::raw('users_organizations.*'),
+                DB::raw('contract_drafts.*'),
+                DB::raw('draft_stages.*')
+            )
+            ->leftJoin('parties', 'contracts.party_name_id', '=', 'parties.party_id')
+            ->leftJoin('users', 'contracts.last_action_by', '=', 'users.id')
+            ->leftJoin('users_details', 'contracts.last_action_by', '=', 'users_details.user_id')
+            ->leftJoin('users_organizations', 'users_details.organization_id', '=', 'users_organizations.organization_id')
+            ->leftJoin('contract_drafts', 'contracts.last_draft_id', '=', 'contract_drafts.contract_draft_id')
+            ->leftJoin('draft_stages', 'contracts.stage', '=', 'draft_stages.draft_stage_id')
+            ->orderBy('contracts.contract_id', 'desc')
+            ->where('contracts.contract_id', '=', $request->contract_id)
+            ->first();
+
+            // echo "<pre>";
+            // print_r($request->contract_id);
+            // exit;
+        $approved_contract_file = '';
+        $approved_contract_file = $approved_caf->draft_file;
+        $stage = 7;
+        $status = 6;
+        $approved_contract_id = $request->contract_id;
+        $approved_contract_file = $approved_caf->draft_file;
+        $crf_form = $approved_caf->crf_form;
+        $created_by = $approved_caf->created_by;
+
+        $approved_date = Carbon::now('Africa/Nairobi');
+
+        DB::table('contracts')->where('contract_id', $approved_contract_id)->update(
+            [
+                'status' => $status, 'stage' => $stage,
+                'updated_by' => Auth::user()->id
+            ]
+        );
+        $contract_draft_data = array(
+            'contract_id' => $approved_contract_id,
+            'stage_id' => 7,
+            'draft_file' => $approved_contract_file,
+            'crf_form' => $crf_form,
+            'status' => 6,
+            'created_by' => $created_by,
+            'updated_by' => Auth::user()->id,
+        );
+        $action_dates_data = array(
+            'contract_id' => $approved_contract_id,
+            'contract_stage_id' => $stage,
+            'status_id' => 6,
+            'date' => $approved_date
+        );
+        $last_draft_id = DB::table('contract_drafts')->insertGetId($contract_draft_data);
+        $action_dates_data = DB::table('contracts_action_dates')->insertGetId($action_dates_data);
+        DB::table('contracts')->where('contract_id', $approved_contract_id)->update(array('last_draft_id' => $last_draft_id));
+        Alert::success('Delete Contract', 'Contract deleted successfully');
+        return back();
     }
 }

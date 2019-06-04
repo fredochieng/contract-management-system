@@ -142,6 +142,7 @@ return [
                     'text' => 'Create New Contract',
                     'icon'        => 'plus-circle',
                     'url'  => 'contract/create',
+                    'can' => 'contract.create'
                 ],[
                     'text' => 'Pending Contracts',
                     'icon'        => 'exclamation',

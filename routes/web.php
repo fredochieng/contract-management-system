@@ -29,6 +29,7 @@ Route::group(['middleware' => 'verified'], function () {
     Route::any('contract-party/{id}/view-contract-party', 'PartyController@contractParty');
     Route::resource('contract', 'ContractController');
     Route::any('pending-contracts', 'ContractController@pendingContracts');
+    Route::any('deleted-contracts', 'ContractController@deletedContracts');
     Route::any('classify-contract', 'ContractController@classifyContract');
     Route::any('share-reviewed-contract', 'ContractController@shareReviewedContract');
     Route::any('comment-reviewed-contract', 'ContractController@commentReviewedContract');

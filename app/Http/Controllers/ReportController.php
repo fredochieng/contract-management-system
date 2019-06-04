@@ -110,6 +110,7 @@ class ReportController extends Controller
                 ->leftJoin('contract_status', 'contracts.status', '=', 'contract_status.status_id')
                 ->leftJoin('contract_types', 'contracts.contract_type', '=', 'contract_types.contract_type_id')
                 ->orderBy('contracts.contract_id', 'desc')
+                ->where('contracts.stage', '!=', '7')
                 ->whereBetween('contract_drafts.created_at', array($data['from'], $data['to']))
                 ->get();
         } elseif ($data['status'] == 2) {

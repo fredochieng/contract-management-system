@@ -21,7 +21,7 @@
                     <a href="" class="btn btn-primary btn-sm btn-flat" data-toggle="modal"
                         data-target="#modal_work_on_contract">Assign to me</a>
                 </div>
-                <?php elseif(!auth()->user()->isUser() && ($contract->contract_stage=='1'&& ($contract->contract_type=='')
+                <?php elseif(!auth()->user()->isUser() && ($contract->assigned_user_id==Auth::user()->id) && ($contract->contract_stage=='1'&& ($contract->contract_type=='')
                 )): ?>
                 <div class="btn-group pull-right" style="padding:6px;">
                     <a href="#" class="btn btn-primary btn-sm btn-flat" data-toggle="modal"
@@ -61,6 +61,12 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td><b>Entity Name</b></td>
+                                                    <td><span
+                                                            style="font-weight:bold"><?php echo e($contract->organization_name); ?></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td><b>Contract Type</b></td>
                                                     <?php if($contract->contract_type_name==''): ?>
                                                     <td>N/A</td>
@@ -79,7 +85,7 @@
                                                     <?php if($contract->expiry_date==''): ?>
                                                     <td>N/A</td>
                                                     <?php else: ?>
-                                                    <td><?php echo e($contract->expiry_date); ?> </td>
+                                                    <td><?php echo e(date('Y-m-d', strtotime($contract->expiry_date))); ?> </td>
                                                     <?php endif; ?>
                                                 </tr>
                                                 <tr>
@@ -108,10 +114,6 @@
                                                     <td><b>Contract Party</b></td>
                                                     <td><a href="/contract-party/<?php echo e($contract->party_id); ?>/view-contract-party"
                                                             target="_blank"><?php echo e($contract->party_name); ?></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><b>Legal Nature of Entity</b></td>
-                                                    <td><?php echo e($contract->legal_entity_type); ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Postal Address</b></td>
@@ -163,7 +165,7 @@
                                                 <td><?php echo e($contract->name); ?></td>
                                                 <?php endif; ?>
                                                 <?php if(auth()->check()): ?>
-                                                <?php if(!auth()->user()->isUser() && ($contract->stage !=6)): ?>
+                                                <?php if(auth()->user()->isAdmin() && ($contract->stage !=6)): ?>
                                                 <td><a href="" data-toggle="modal"
                                                         data-target="#modal_assign_contract">Assign someone else</a>
                                                 </td>
@@ -337,7 +339,7 @@
                                                 <a href="/<?php echo e($caf_form_standard5->crf_form); ?>" class="btn btn-primary"
                                                     style="margin-right:108px" target="_blank"><i
                                                         class="fa fa-fw fa-download"></i>Approved CAF</a>
-                                                <?php elseif($contract->stage =='5' && ($contract->contract_type==2)): ?>
+                                                <?php elseif(($contract->stage =='5') && ($contract->contract_type==2) && ($caf_form_standard5->crf_form !='')): ?>
                                                 <a href="/<?php echo e($caf_form_standard5->crf_form); ?>" class="btn btn-primary"
                                                     style="margin-right:108px" target="_blank"><i
                                                         class="fa fa-fw fa-download"></i>Approved CAF</a>
@@ -362,10 +364,10 @@
                                                 ($contract->user_comments =='')): ?>
                                                 <a href="" data-toggle="modal" data-target="#modal_user_comment">Comment
                                                     on the reviewed draft</a>
-                                                <?php elseif(auth()->user()->isAdmin() && ($contract->stage=='3')): ?>
+                                                <?php elseif(auth()->user()->isUser() && ($contract->stage=='3')): ?>
                                                 <a href="" data-toggle="modal" data-target="#modal_upload_caf">Upload
                                                     CAF Document</a>
-                                                <?php elseif(auth()->user()->isAdmin() && ($contract->stage=='5' &&($contract->contract_type==2))): ?>
+                                                <?php elseif(auth()->user()->isUser() && ($contract->stage=='5' &&($contract->contract_type==2))): ?>
                                                 <a href="" data-toggle="modal"
                                                     data-target="#modal_upload_signed_contract">Upload
                                                     Signed Contract</a>

@@ -92,7 +92,7 @@
         <div class="box box-success">
             <div class="box-header with-border">
                 @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
-                <h3 class="box-title">Latest Pending Contracts (Unassigned)</h3>
+                <h3 class="box-title">Latest Pending Contracts</h3>
                 @elseif(auth()->user()->isUser())
                 <h3 class="box-title">Latest Approved Contracts</h3>
                 @endif @endif
@@ -160,7 +160,7 @@
                 </div>
                 @else
                 <div class="box-footer text-center">
-                    <a href="pending-contracts" class="uppercase">View All Approved Contracts</a>
+                    <a href="approved-contracts" class="uppercase">View All Approved Contracts</a>
                 </div>
                 @endif @endif
                 <!-- /.table-responsive -->
@@ -175,9 +175,9 @@
         <div class="box box-success">
             <div class="box-header with-border">
                 @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
-                <h3 class="box-title">Latest Reviewed Contracts</h3>
+                <h3 class="box-title">Latest Closed Contracts</h3>
                 @elseif(auth()->user()->isUser())
-                <h3 class="box-title">Latest Reviewed Contracts</h3>
+                <h3 class="box-title">Latest Closed Contracts</h3>
                 @endif @endif
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -195,7 +195,8 @@
                                 <th>Ticket #</th>
                                 <th>Contract Title</th>
                                 <th>Party Name</th>
-                                <th>Date Reviewed</th>
+                                {{--  <th>Date Reviewed</th>  --}}
+                                <th>Expiry Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -214,7 +215,7 @@
                                             style="background-color:#FFF;color:#0073b7;border:1px solid #0073b7;">
                                             <i class="fa fa-briefcase fa-fw"></i> {{$contract1->party_name}} </a></span>
                                 </td>
-                                <td>{{$contract1->created_at}}</td>
+                                <td>{{ date('Y-m-d', strtotime($contract1->expiry_date))}}</td>
                                 <td><span class="pull-right-container">
                                         @if($contract1->contract_status == 'Created')
                                         <small class="badge bg-purple">{{$contract1->contract_status}}</small></span>
@@ -241,10 +242,10 @@
                 <div class="box-footer text-center">
                     <a href="closed-contracts" class="uppercase">View All Closed Contracts</a>
                 </div>
-                @else
+                {{--  @else
                 <div class="box-footer text-center">
                     <a href="approved-contracts" class="uppercase">View All Amended Contracts</a>
-                </div>
+                </div>  --}}
                 @endif @endif
                 <!-- /.table-responsive -->
             </div>
@@ -382,7 +383,7 @@
             <a href="approved-contracts" class="uppercase"></a>
         </div>
         <div class="box-footer text-center">
-            <a href="approved-contracts" class="uppercase">View All Contracts</a>
+            {{--  <a href="approved-contracts" class="uppercase">View All Contracts</a>  --}}
         </div>
     </div>
     <!-- /.box-body -->
@@ -479,7 +480,7 @@
             <a href="approved-contracts" class="uppercase"></a>
         </div>
         <div class="box-footer text-center">
-            <a href="approved-contracts" class="uppercase">View All Contracts</a>
+            {{--  <a href="approved-contracts" class="uppercase">View All Contracts</a>  --}}
         </div>
     </div>
     <!-- /.box-body -->

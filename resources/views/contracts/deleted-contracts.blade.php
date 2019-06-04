@@ -1,7 +1,7 @@
 @extends('adminlte::page')
-@section('title', 'Wananchi Legal | Pending Contracts')
+@section('title', 'Wananchi Legal | Deleted Contracts')
 @section('content_header')
-<h1 class="pull-left">Contracts<small>Pending Contracts</small></h1>
+<h1 class="pull-left">Contracts<small>Deleted Contracts</small></h1>
 <div style="clear:both"></div>
 @stop
 @section('content')
@@ -16,7 +16,7 @@
         <!-- Custom Tabs (Pulled to the right) -->
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#pending-contracts" data-toggle="tab">Pending Contracts</a></li>
+                <li class="active"><a href="#pending-contracts" data-toggle="tab">Deleted Contracts</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="pending-contracts">
@@ -33,11 +33,7 @@
                                                     <th>Contract Title</th>
                                                     <th>Party Name</th>
                                                     <th>Status</th>
-                                                    @if(auth()->check()) @if (auth()->user()->isAdmin() ||
-                                                    auth()->user()->isLegal())
-                                                    <th>Alert</th>
-                                                    @endif @endif
-                                                    <th>Action</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -58,38 +54,9 @@
                                                                 {{$pending_contract->party_name}} </a></span>
                                                     </td>
                                                   <td><span class="pull-right-container">
-                                                        <small class="badge bg-yellow">{{$pending_contract->status_name}}</small></span>
-                                                </td>
-                                                    @if(auth()->check()) @if (auth()->user()->isAdmin() ||
-                                                    auth()->user()->isLegal())
-                                                    <td>
-                                                        @if ($pending_contract->assigned =='' && $pending_contract->escalation_duration >=1)
-                                                        <span class="label"
-                                                            style="background-color:#FFF;color:#ff0000;border:1px solid #ff0000">Overdue</span>
-                                                        @elseif($pending_contract->assigned=='' &&
-                                                        $pending_contract->escalation_duration
-                                                        <1) <span class="label"
-                                                            style="background-color:#FFF;color:#1e3fda;border:1px solid #1e3fda">
-                                                            Open</span>
-                                                            @else
-                                                            <span class="label"
-                                                                style="background-color:#FFF;color:#058e29;border:1px solid #058e29">Assigned</span>
-                                                            @endif
-                                                    </td>
-                                                    @endif @endif
-                                                    <td>
-                                                            <a class="btn btn-info btn-sm btn-flat"
-                                                                href="/contract/{{$pending_contract->contract_id}}/view"><i
-                                                                    class="fa fa-eye"></i> View</a>
-
-                                                                    @if(auth()->check()) @if(auth()->user()->isAdmin())
-                                                                    <a href="#modal_delete_contract" data-backdrop="static" data-keyboard="false" data-toggle="modal"
-                                            data-target="#modal_delete_contract_{{$pending_contract->contract_id}}" class="btn btn-danger btn-sm btn-flat"><i class="glyphicon glyphicon-trash"></i> Delete</a>
-                                            @endif @endif
-                                                    </td>
+                                                        <small class="badge bg-red">{{$pending_contract->status_name}}</small></span>
                                                     {!! Form::close() !!}
                                                 </tr>
-                                                @include('contracts.modals.modal_delete_contract')
                                                 @endforeach
                                             </tbody>
                                         </table>
@@ -120,10 +87,6 @@
                         <th>Contract Title</th>
                         <th>Party Name</th>
                         <th>Status</th>
-                        @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
-                        <th>Alert</th>
-                        @endif @endif
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -144,33 +107,7 @@
                         </td>
 
                         <td><span class="pull-right-container">
-                                <small class="badge bg-yellow">{{$pending_contract->status_name}}</small></span>
-                        </td>
-                         @if(auth()->check()) @if (auth()->user()->isAdmin() || auth()->user()->isLegal())
-                        <td>
-                            @if ($pending_contract->assigned=='' && $pending_contract->escalation_duration >=10)
-                            <span class="label"
-                                style="background-color:#FFF;color:#ff0000;border:1px solid #ff0000">Overdue</span>
-                            @elseif ($pending_contract->assigned=='' && $pending_contract->escalation_duration
-                            <10) <span class="label"
-                                style="background-color:#FFF;color:#1e3fda;border:1px solid #1e3fda">Open</span>
-                                @else
-                                <span class="label"
-                                    style="background-color:#FFF;color:#058e29;border:1px solid #058e29">Assigned</span>
-                                @endif
-                        </td>
-                        @endif @endif
-                        <td>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown"
-                                    aria-expanded="true">Actions<span class="caret"></span><span class="sr-only">Toggle
-                                        Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                    <li><a href="/contract/{{$pending_contract->contract_id}}/view"
-                                            class="view-contract"><i class="fa fa-eye"></i> View</a></li>
-                                </ul>
-                            </div>
+                                <small class="badge bg-red">{{$pending_contract->status_name}}</small></span>
                         </td>
                         {!! Form::close() !!}
                     </tr>
