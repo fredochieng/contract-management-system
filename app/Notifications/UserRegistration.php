@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserCreatedNotification extends Notification
+class UserRegistration extends Notification
 {
     use Queueable;
     private $details;
@@ -44,6 +44,7 @@ class UserCreatedNotification extends Notification
         return (new MailMessage)
             ->greeting($this->details['greeting'])
             ->line($this->details['body'])
+            ->line($this->details['password'])
             // ->action($this->details['actionText'], $this->details['actionURL'])
             ->line($this->details['thanks']);
     }

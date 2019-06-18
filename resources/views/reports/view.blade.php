@@ -42,23 +42,7 @@
                                 <th>Party Name</th>
                                 <th>Reviewer</th>
                                 <th>Date Created</th>
-                                {{-- @if($status==3)
-                                <th>Date Approved</th>  --}}
-                                @if($status==4)
-                                <th>Date Closed</th>
-                                @endif
                                 <th>Status</th>
-                                {{-- @if($status=='Closed')
-                                <th>Type of Contract</th>
-                                @endif
-                                <th>Date Created</th>
-                                @if($status==2)
-                                <th>Draft Sent Date</th>
-                                @elseif($status==3)
-                                <th>Date Approved</th>
-                                @elseif($status==4)
-                                <th>Date Closed</th>
-                                @endif  --}}
                             </tr>
                         </thead>
                         <tbody>

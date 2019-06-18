@@ -107,14 +107,13 @@ class RegisterController extends Controller
             'greeting' => 'Hi' . ' ' . $data['name'],
             'body' => 'Thank you for registering to Wananchi Group Contracts Management System',
             'thanks' => 'Welcome aboard!',
-            'actionText' => 'Click here to login',
-            'actionURL' => url('/')
-        ];
+            // 'actionText' => 'Click here to login',
+        //     'actionURL' => url('/')
+         ];
         Notification::send($user, new UserCreatedNotification($details));
 
         return $user;
 
-        Alert::success('Work on Contract', 'Good');
 
     }
 }

@@ -16,6 +16,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Notifications\UserCreatedNotification;
+use App\Notifications\UserRegistration;
 use App\VerifyAddedUser;
 use App\Mail\VerifyMail;
 use Notification;
@@ -121,10 +122,10 @@ class UserController extends Controller
                 $user->last_assigned_date = Carbon::parse($user_date->last_assigned_date)->subSeconds(10)->format('Y-m-d H:i:s');
             }
 
-
         }
 
-        $password_string = str_random(6);
+        // $password_string = str_random(6);
+        $password_string = "Abcd.1234";
         $user->name = ucwords($request->input('name'));
         $user->email = $request->input('email');
 
@@ -142,10 +143,6 @@ class UserController extends Controller
                 'password' => Hash::make($password_string)
             ]);
         }
-
-
-        // echo $current_time;
-        // exit;
 
         $saved_user_id = $user->id;
 
@@ -166,18 +163,19 @@ class UserController extends Controller
         $details = [
             'greeting' => 'Hi' . ' ' . $request['name'],
             'body' => 'You have been registered to Wananchi Group Legal Management System',
-            'thanks' => 'Welcome aboard!',
-            'password' => 'Your password is ' . ' ' . $password_string,
+            'thanks' => 'Welcome!',
+            'password' => 'Your password is ' . ' ' .$password_string . ' You can login after verification and change the password',
             'actionText' => 'Click here to login',
             'actionURL' => url('/login')
         ];
 
-        Notification::send($user, new UserCreatedNotification($details));
+         Notification::send($user, new UserRegistration($details));
 
         $verifyUser = VerifyAddedUser::create([
             'user_id' => $user->id,
             'token' => sha1(time())
         ]);
+
         \Mail::to($user->email)->send(new VerifyMail($user));
         Alert::success('Create User', 'User successfully created');
         return redirect('system-users/users');

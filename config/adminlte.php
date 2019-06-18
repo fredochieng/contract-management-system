@@ -125,10 +125,6 @@ return [
                     'text' => 'Users',
                     'icon'        => 'user',
                     'url'  => '/system-users/users',
-                ], [
-                    'text' => 'Roles',
-                    'icon'        => 'angle-double-right',
-                    'url'  => '#',
                 ],
             ],
             'can'  => 'users.manage',
@@ -163,6 +159,11 @@ return [
                     'text' => 'Approved Contracts',
                     'icon'        => 'thumbs-o-up',
                     'url'  => 'approved-contracts',
+                ],
+                [
+                    'text' => 'Deleted Contracts',
+                    'icon'        => 'trash',
+                    'url'  => 'deleted-contracts',
                 ],
                 // [
                 //     'text' => 'Terminated Contracts',

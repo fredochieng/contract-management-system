@@ -62,18 +62,17 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                     <span class="hidden-xs">
                                         <img src="/images/no-user.png" class="user-image" alt="User Image">
-                                        <?php $user = \Auth::user();
-                                                            			print_r($user->name);
-                                                            		?></span>
+                                        <?php $user = \Auth::user();                  			print_r($user->name);
+                                                                                        ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
                                         <img src="/images/no-user.png" class="img-circle" alt="User Image">
                                         <p><?php $user = \Auth::user();
-                                         print_r($user->name);?>
+                                                             print_r($user->name);?>
                                             <small><?php $user = \Auth::user();
-                                            print_r($user->email);?></small>
+                                                                print_r($user->email);?></small>
                                         </p>
                                     </li>
                                     <!-- Menu Footer-->
@@ -145,7 +144,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <?php echo $__env->yieldContent('content_header'); ?>
-             <?php echo $__env->make('sweetalert::alert', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php echo $__env->make('sweetalert::alert', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </section>
 
             <!-- Main content -->
@@ -162,7 +161,7 @@
         <?php endif; ?>
     </div>
     <!-- /.content-wrapper -->
-   <footer class="main-footer">
+    <footer class="main-footer">
         <div class="pull-right hidden-xs">
             
         </div>

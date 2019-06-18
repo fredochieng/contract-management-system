@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserCreatedNotification extends Notification
+class UserRegistration extends Notification
 {
     use Queueable;
     private $details;
