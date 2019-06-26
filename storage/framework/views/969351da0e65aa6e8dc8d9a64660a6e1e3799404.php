@@ -1,9 +1,8 @@
-@extends('adminlte::page')
-@section('title', 'Wananchi Legal | New Contract Request')
-@section('content_header')
+<?php $__env->startSection('title', 'Wananchi Legal | New Contract Request'); ?>
+<?php $__env->startSection('content_header'); ?>
 <h1>Contracts<small> New contract request</small></h1>
-@stop
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <div class="box box-success">
     <div class="box-header with-border">
         <h3 class="box-title">New Contract Request</h3>
@@ -11,14 +10,14 @@
     <div class="box-body">
         <div class="col-md-12">
 
-            {!!
-            Form::open(['action'=>'ContractController@store','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data'])
-            !!}
+            <?php echo Form::open(['action'=>'ContractController@store','method'=>'POST','class'=>'form','enctype'=>'multipart/form-data']); ?>
+
             <div class="row">
 
                 <div class="col-md-6">
 
-                    {{Form::label('party_name', 'Party Name* ')}}
+                    <?php echo e(Form::label('party_name', 'Party Name* ')); ?>
+
                     <div class="form-group">
 
                         <select id="party_name" class=" col-md-12 " required name="party_name"> </select>
@@ -32,10 +31,12 @@
 
                 <div class="col-md-3">
 
-                    {{Form::label('title', 'Contract Title* ')}}
+                    <?php echo e(Form::label('title', 'Contract Title* ')); ?>
+
                     <div class="form-group">
 
-                        {{Form::text('title', '',['class'=>'form-control', 'required','placeholder'=>'The Contract Title'])}}
+                        <?php echo e(Form::text('title', '',['class'=>'form-control', 'required','placeholder'=>'The Contract Title'])); ?>
+
 
                     </div>
                 </div>
@@ -45,10 +46,10 @@
                         <select class="form-control select2" id="entity_id" name="entity_id" required
                             style="width: 100%;" tabindex="-1" aria-hidden="true">
                             <option value="">Please select entity</option>
-                            @foreach ( $organizations as $row )
-                            <option value="{{ $row->organization_id }}">
-                                {{ $row->organization_name }}</option>
-                            @endforeach
+                            <?php $__currentLoopData = $organizations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($row->organization_id); ?>">
+                                <?php echo e($row->organization_name); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </div>
                 </div>
@@ -70,36 +71,43 @@
                         <select class="form-control select2" name="renewal_id" required style="width: 100%;"
                             tabindex="-1" aria-hidden="true">
                             <option value="">Please select contract renewal type</option>
-                            @foreach ($renewal_types as $row )
-                            <option value="{{ $row->id }}">{{ $row->renewal_type }}</option>
-                            @endforeach
+                            <?php $__currentLoopData = $renewal_types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($row->id); ?>"><?php echo e($row->renewal_type); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        {!! Form::label('Start Date *') !!}
-                        {{Form::text('start_date', null, ['class' => 'form-control start_date', 'id' => 'start_date', 'required' ])}}
+                        <?php echo Form::label('Start Date *'); ?>
+
+                        <?php echo e(Form::text('start_date', null, ['class' => 'form-control start_date', 'id' => 'start_date', 'required' ])); ?>
+
 
                     </div>
                 </div>
 
                 <div class="col-md-4">
-                    {{Form::label('contract_document', 'Upload Contract/Service Order Form(SOF)*')}}
+                    <?php echo e(Form::label('contract_document', 'Upload Contract/Service Order Form(SOF)*')); ?>
+
                     <div class="form-group">
-                        {{Form::file('contract_document',['class'=>'form-control', 'required', 'accept'=>'.doc , .docx , .pdf'])}}
+                        <?php echo e(Form::file('contract_document',['class'=>'form-control', 'required', 'accept'=>'.doc , .docx , .pdf'])); ?>
+
                     </div>
                 </div>
 
                 <div class="col-md-4">
-                    {{Form::label('contract_document', 'Upload CAF Document')}}
+                    <?php echo e(Form::label('contract_document', 'Upload CAF Document')); ?>
+
                     <div class="form-group">
-                        {{Form::file('caf_document',['class'=>'form-control', 'accept'=>'.doc , .docx , .pdf'])}}
+                        <?php echo e(Form::file('caf_document',['class'=>'form-control', 'accept'=>'.doc , .docx , .pdf'])); ?>
+
                     </div>
                 </div>
 
                 <div class="col-md-4">
-                    {{Form::label('Upload Supporting Documents')}}
+                    <?php echo e(Form::label('Upload Supporting Documents')); ?>
+
                     <div class="input-group control-group increment">
                         <input type="file" name="filename[]" required class="form-control">
                         <div class="input-group-btn">
@@ -119,27 +127,30 @@
                 </div>
 
                 <div class="col-md-12">
-                    {{Form::label('description', 'Description(Summary of the contract, contract terms, nature of the services, payment terms, commencement dates, terminations)')}}
+                    <?php echo e(Form::label('description', 'Description(Summary of the contract, contract terms, nature of the services, payment terms, commencement dates, terminations)')); ?>
+
                     <div class="form-group">
-                        {{Form::textarea('description', '',['class'=>'form-control description',
-                        'placeholder'=>'Summary of the contract, contract terms, nature of the services, payment terms, commencement dates, terminations'])}}
+                        <?php echo e(Form::textarea('description', '',['class'=>'form-control description',
+                        'placeholder'=>'Summary of the contract, contract terms, nature of the services, payment terms, commencement dates, terminations'])); ?>
+
                     </div>
                 </div>
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Create
                         Request</button>
                 </div>
-                {!! Form::close() !!}
+                <?php echo Form::close(); ?>
+
             </div>
         </div>
     </div>
 </div>
-@stop
-@section('css')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
 <link rel="stylesheet" href="/css/admin_custom.css">
 <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
-@stop
-@section('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 <script src="/js/select2.full.min.js"></script>
 <script>
@@ -216,10 +227,13 @@ function formatRepoSelection (repo) {
          showDropdowns: true,
          todayHighlight: true,
          toggleActive: true,
+         startDate: new Date(),
          clearBtn: true,
 
 	 })
  });
 
 </script>
-@stop
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('adminlte::page', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -747,11 +747,11 @@ class ContractController extends Controller
      */
     public function create()
     {
-        $data['organizations'] =Entity::getEntities();
+        $data['organizations'] = Entity::getEntities();
         $data['terms'] = ContractTerm::getContractTerm();
         $data['renewal_types'] = RenewalType::getRenewalTypes();
         $data['assigned'] = User::getAssigned();
-        // echo $data['assigned']->id;
+        // echo $data['organizations'];
         // exit;
 
         return view('contracts.create')->with($data);
@@ -795,7 +795,6 @@ class ContractController extends Controller
             $contract->contract_title = ucwords($request->input('title'));
             $contract->party_name_id = $request->input('party_name');
             $contract->entity_id = $request->input('entity_id');
-            // $contract->contract_type = 2;
             $contract->renewal_id = $request->renewal_id;
             $contract->description = $request->input('description');
             $contract->stage = 1;
@@ -810,6 +809,13 @@ class ContractController extends Controller
             $contract->created_by = Auth::user()->id;
             $contract->updated_by = Auth::user()->id;
             $contract->last_action_by = Auth::user()->id;
+
+            $entity_initials = Entity::getEntities()->where('organization_id', '=', $contract->entity_id)->first();
+            // echo "<pre>";
+            // print_r($data['entity_initials']->initials);
+            // exit;
+
+
             DB::beginTransaction();
             $contract->save();
             $just_saved_contract_id = $contract->contract_id;
@@ -843,10 +849,10 @@ class ContractController extends Controller
                 }
             }
             // Save Multiple Files Related To The Contract
-            //  $contract->filename=json_encode($data);
             $documents = json_encode($data);
             $cont_code = strtoupper($cont_party_name);
-            $default_contract_string = "WGT";
+
+            $default_contract_string =  $entity_initials->initials;
             $ticket = $cont_code . '-' . $default_contract_string . '-' . $number1;
 
             $save_contract_code = array(
@@ -897,33 +903,18 @@ class ContractController extends Controller
             $objDemo->name = $user->name;
             $objDemo->subject = 'Contract Request ' . '#' . $ticket . ' Sent';
 
-            // if(!empty($user->email)){
-// echo $user->email;
-// exit;
-                $legal_members = User::getLegalMembers();
 
-                // echo "<pre>";
-                // print_r($assigned->email);
-                // exit;
+            $legal_members = User::getLegalMembers();
 
-                // foreach ($legal_members as $key => $value) {
-                    // if(!empty($legal->email)){]
-                        // $legal_members = $value;
-                        // echo "<pre>";
-                        // print_r($legal_members);
-                        // exit;
-                    Mail::to($assigned->email)->send(new ContractCreatedMail($objDemo));
-                    // }
-                // }
+
+            Mail::to($assigned->email)->send(new ContractCreatedMail($objDemo));
+
 
             try {
-                Mail::to('fredrick.ochieng@ke.wananchi.com')->send(new ContractRequestCreation($objDemo));
+                Mail::to($user->email)->send(new ContractRequestCreation($objDemo));
             } catch (Swift_TransportException $e) {
                 \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
             }
-            //}
-
-
 
             Alert::success('Contract Request Creation', 'Contract request uccessfully created');
             return redirect('pending-contracts');
@@ -1011,7 +1002,10 @@ class ContractController extends Controller
         $data['caf_form_standard5'] = contract_drafts::where([
             ['contract_id', '=', $data['contract']->contract_id],
             ['contract_drafts.stage_id', '=', 5]
-        ])->first();
+        ])
+            ->orderBy('contract_drafts.contract_draft_id', 'DESC')
+            ->limit(1)
+            ->first();
 
         $data['caf_form_standard6'] = contract_drafts::where([
             ['contract_id', '=', $data['contract']->contract_id],
@@ -1904,9 +1898,6 @@ class ContractController extends Controller
             ->leftJoin('users', 'contracts.assigned_user_id', '=', 'users.id')
             ->first();
 
-        echo $assigned_user->legal_email;
-        exit;
-
         $objDemo1 = new \stdClass();
         $objDemo1->contract_code = $upload_caf->contract_code;
         $objDemo1->title = $upload_caf->contract_title;
@@ -2448,8 +2439,8 @@ class ContractController extends Controller
             $stage = 5;
             $status = 3;
         } else {
-            $stage = 6;
-            $status = 4;
+            $stage = 5;
+            $status = 3;
         }
         $approved_caf_id = $request->contract_id;
         $created_by = $approved_caf->created_by;
@@ -2470,6 +2461,7 @@ class ContractController extends Controller
                 'draft_file' => $draft_file,
                 'crf_form' => $approved_caf_file,
                 'status' => $status,
+                'approved_caf' => 1,
                 'created_by' => $created_by,
                 'updated_by' => Auth::user()->id,
             );
@@ -2478,8 +2470,8 @@ class ContractController extends Controller
 
             $action_dates_data = array(
                 'contract_id' => $approved_caf_id,
-                'contract_stage_id' => 6,
-                'status_id' => 4,
+                'contract_stage_id' => 5,
+                'status_id' => 3,
                 'date' => $closed_date
             );
             $action_dates_data = DB::table('contracts_action_dates')->insertGetId($action_dates_data);
@@ -2767,9 +2759,9 @@ class ContractController extends Controller
             ->where('contracts.contract_id', '=', $request->contract_id)
             ->first();
 
-            // echo "<pre>";
-            // print_r($request->contract_id);
-            // exit;
+        // echo "<pre>";
+        // print_r($request->contract_id);
+        // exit;
         $approved_contract_file = '';
         $approved_contract_file = $approved_caf->draft_file;
         $stage = 7;
